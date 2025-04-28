@@ -1,0 +1,117 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --menu-color: #fdfdfd;
+  --button-color: #ffb443;
+  --button-color-hover: #ffab2e;
+  --button-padding: "px-5";
+  --mg: "ml-25";
+}
+
+/* @theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+} */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: #f4f4f4;
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  position: relative;
+  /* overflow: hidden; */
+}
+
+.alignAllContent {
+  @apply md:w-[95%] md:ml-25;
+}
+
+.basicStyle {
+  @apply my-3 bg-white rounded-lg;
+}
+
+.navContainer {
+  @apply bg-[var(--menu-color)] h-14 flex items-center justify-end fixed transition-all ease-in-out duration-500;
+}
+
+.sidemenu {
+  @apply fixed h-full left-0 shadow-lg flex flex-col justify-between items-center bg-[var(--menu-color)] w-[80%] z-10 max-w-[240px] sm:w-[40vw] lg:w-16 hover:w-60 lg:items-center lg:max-w-[340px] overflow-hidden transition-all ease-in-out duration-500;
+}
+
+.sidemenu-item {
+  @apply w-[90%] py-3 px-4 rounded-lg font-medium hover:bg-[var(--button-color)];
+}
+
+.sidemenu-link {
+  @apply flex gap-2 text-gray-700 items-center group-hover/lihover:text-white;
+}
+
+.sidemenu-innerText {
+  @apply whitespace-nowrap lg:overflow-hidden lg:w-0 group-hover/sidemenu:opacity-100 transition-opacity ease-in-out duration-500 group-hover/sidemenu:w-full;
+}
+
+.part-2 li:nth-child(2) {
+  @apply bg-[var(--button-color)];
+}
+
+.activeButton {
+  @apply w-[90%] p-3 rounded-lg bg-[var(--button-color)] font-medium hover:bg-[var(--button-color-hover)];
+}
+
+.isOpen {
+  @apply translate-x-0 lg:translate-x-[0%];
+}
+
+.isClose {
+  @apply translate-x-[-100%] lg:translate-x-0;
+}
+
+.basicStyle {
+  @apply my-4 bg-white rounded-lg;
+}
+
+/* Elementos */
+
+.neutralButton {
+  @apply text-gray-700 p-2 px-4 rounded-lg hover:bg-slate-100;
+}
+
+.buttonStyle {
+  @apply text-gray-700 bg-[var(--button-color)] p-2 px-4 rounded-lg hover:text-white;
+}
+
+.buttonHover {
+  @apply hover:bg-[var(--button-color-hover)];
+}
+
+/* Transform classes */
+
+.isOpen {
+  @apply translate-x-0 lg:translate-x-[0%] transition-all ease-in-out duration-500;
+}
+
+.isClose {
+  @apply translate-x-[-100%] lg:translate-x-0 transition-all ease-in-out duration-500;
+}
+
+.cardIsOpen {
+  @apply translate-x-0 lg:translate-x-[0%] transition-all ease-in-out duration-500;
+}
+
+.cardIsClose {
+  @apply translate-x-[100%] lg:translate-x-[100%] transition-all ease-in-out duration-500;
+}
+
+.animate {
+  @apply transition-all ease-in-out duration-500;
+}
