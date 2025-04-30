@@ -6,7 +6,7 @@ import { GiNoodles, GiCow, GiChopsticks } from "react-icons/gi";
 import { MdOutlineAllInclusive } from "react-icons/md";
 
 const categories = [
-    { label: "All", icon: MdOutlineAllInclusive },
+    { label: "Todos", icon: MdOutlineAllInclusive },
     { label: "Burger", icon: FaHamburger },
     { label: "Pizza", icon: FaPizzaSlice },
     { label: "Pasta", icon: GiNoodles },

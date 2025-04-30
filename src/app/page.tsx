@@ -1,7 +1,8 @@
 import SlideShow from "@/components/carrosel";
 import { DivContainer } from "@/components/divContainer";
 import { CategorySelector } from "./components/categorySelector";
-import { RestaurantCard } from "./components/restaurantCard";
+import { DishesContainer } from "./components/dishesContainer";
+import { Suspense } from "react";
 
 
 
@@ -11,14 +12,9 @@ export default function Home() {
       <SlideShow />
       <h1 className="text-2xl my-3">Escolha uma categoria</h1>
       <CategorySelector />
-      <div className="grid gap-3 md:grid-cols-5 p-3 basicStyle">
-        <RestaurantCard name="Bolo" />
-        <RestaurantCard name="Bolo" />
-        <RestaurantCard name="Bolo" />
-        <RestaurantCard name="Bolo" />
-        <RestaurantCard name="Bolo" />
-        <RestaurantCard name="Bolo" />
-      </div>
+      <Suspense fallback={<p>Carregando</p>}>
+        <DishesContainer />
+      </Suspense>
       <p>
         Lorem ipsum dolor sit amet consectetur, adipisicing elit. Molestiae nisi itaque aliquam accusantium. Possimus magnam consequatur ipsa placeat provident, odio nisi corrupti impedit deserunt fugiat? Neque nihil ea vero impedit?
         Eius voluptate, rerum cupiditate molestiae repellendus sed exercitationem omnis tenetur quia sapiente veritatis obcaecati incidunt harum, provident reprehenderit, deleniti aliquam fugit voluptatem fugiat illo magnam. Magni, libero? Laborum, ipsum sunt.

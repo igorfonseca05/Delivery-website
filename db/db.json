@@ -5,7 +5,7 @@
       "category": "cardapio do dia",
       "name": "Strogonoff de Frango - Mini",
       "description": "Delicado strogonoff de frango, servido com arroz soltinho, feijão caseiro, batata frita crocante e batata palha.",
-      "price": "18.00",
+      "price": 18.0,
       "image": "1.jpg",
       "quantity": 1
     },
@@ -14,7 +14,7 @@
       "category": "cardapio do dia",
       "name": "Strogonoff de Frango - Médio",
       "description": "Strogonoff de frango preparado com maestria, acompanhado de arroz branco, feijão saboroso, batata frita dourada e batata palha.",
-      "price": "20.00",
+      "price": 20.0,
       "image": "2.jpg",
       "quantity": 1
     },
@@ -23,7 +23,7 @@
       "category": "cardapio do dia",
       "name": "Bife à Milanesa - Médio",
       "description": "Clássico bife à milanesa servido com arroz, macarrão ao dente, batata frita e uma salada fresca.",
-      "price": "20.00",
+      "price": 20.0,
       "image": "3.jpg",
       "quantity": 1
     },
@@ -32,7 +32,7 @@
       "category": "cardapio do dia",
       "name": "Filé de Frango Crocante com Ovo Frito - Médio",
       "description": "Filé de frango empanado crocante, acompanhado de arroz, feijão temperado, batata frita e uma salada variada.",
-      "price": "23.00",
+      "price": 23.0,
       "image": "4.jpg",
       "quantity": 1
     },
@@ -41,7 +41,7 @@
       "category": "cardapio do dia",
       "name": "Bife à Milanesa - Mini",
       "description": "Bife à milanesa suculento, servido com arroz, macarrão, batata frita e salada fresca.",
-      "price": "18.00",
+      "price": 18.0,
       "image": "5.jpg",
       "quantity": 1
     },
@@ -50,7 +50,7 @@
       "category": "combos",
       "name": "Frango Empanado ao Molho de Catupiry com Bacon e Queijo",
       "description": "Frango empanado crocante ao molho cremoso de catupiry, enriquecido com queijo derretido e pedaços de bacon, acompanhado de arroz e batata frita separados.",
-      "price": "55.00",
+      "price": 55.0,
       "image": "1.jpg",
       "quantity": 1
     },
@@ -59,7 +59,7 @@
       "category": "combos",
       "name": "Parmegiana de Carne",
       "description": "Parmegiana de carne caseira, preparada com carinho, servida com arroz e batata frita para duas pessoas.",
-      "price": "65.00",
+      "price": 65.0,
       "image": "4.jpg",
       "quantity": 1
     },
@@ -68,7 +68,7 @@
       "category": "especialidade da casa",
       "name": "Parmegiana de Frango - Média",
       "description": "Parmegiana de frango caseira, com sabor incomparável, servida com arroz e batata frita crocante.",
-      "price": "24.00",
+      "price": 24.0,
       "image": "5.jpg",
       "quantity": 1
     },
@@ -77,7 +77,7 @@
       "category": "especialidade da casa",
       "name": "Parmegiana de Frango - Pequena",
       "description": "Versão reduzida da deliciosa parmegiana de frango caseira, acompanhada de arroz e batata frita.",
-      "price": "22.00",
+      "price": 22.0,
       "image": "1.jpg",
       "quantity": 1
     },
@@ -86,7 +86,7 @@
       "category": "combos coca cola",
       "name": "Parmegiana de Frango - Médio + Coca-Cola Lata 350ml",
       "description": "Parmegiana de frango caseira com sabor irresistível, acompanhada de arroz e batata frita crocante. Inclui uma lata de Coca-Cola de 350ml para complementar a refeição.",
-      "price": "30.00",
+      "price": 30.0,
       "image": "3.jpg",
       "quantity": 1
     },
@@ -95,7 +95,7 @@
       "category": "combos coca cola",
       "name": "Parmegiana de Carne - Médio + Coca-Cola Lata 350ml",
       "description": "Deliciosa parmegiana de carne caseira, servida com arroz soltinho e batata frita dourada. Acompanha uma Coca-Cola de 350ml.",
-      "price": "34.00",
+      "price": 34.0,
       "image": "5.jpg",
       "quantity": 1
     },
@@ -104,7 +104,7 @@
       "category": "bebidas",
       "name": "P4 Lemon",
       "description": "Bebida refrescante com sabor de limão e zero açúcar, perfeita para acompanhar suas refeições.",
-      "price": "4.00",
+      "price": 4.0,
       "image": "3.jpg",
       "quantity": 1
     },
@@ -113,7 +113,7 @@
       "category": "bebidas",
       "name": "Guaraná Cibal 2L",
       "description": "Tradicional guaraná de 2 litros, ideal para compartilhar em família ou entre amigos.",
-      "price": "10.00",
+      "price": 10.0,
       "image": "4.jpg",
       "quantity": 1
     },
@@ -122,7 +122,7 @@
       "category": "bebidas",
       "name": "Coca-Cola 2L",
       "description": "A clássica Coca-Cola de 2 litros, refrescante e ideal para qualquer ocasião.",
-      "price": "13.00",
+      "price": 13.0,
       "image": "1.jpg",
       "quantity": 1
     },
@@ -131,7 +131,7 @@
       "category": "bebidas",
       "name": "Coca-Cola Lata",
       "description": "A tradicional Coca-Cola de 350ml, na medida perfeita para uma refeição individual.",
-      "price": "6.00",
+      "price": 6.0,
       "image": "5.jpg",
       "quantity": 1
     },
@@ -140,7 +140,7 @@
       "category": "bebidas",
       "name": "Coca-Cola Lata Zero",
       "description": "A mesma Coca-Cola, agora sem açúcar, para quem deseja uma opção mais leve, sem abrir mão do sabor.",
-      "price": "6.00",
+      "price": 6.0,
       "image": "2.jpg",
       "quantity": 1
     },
@@ -149,7 +149,7 @@
       "category": "porções",
       "name": "Porção de Peixe Panga Sem Espinhos (700g)",
       "description": "Suculenta porção de 700g de filé de peixe panga sem espinhos, acompanhada de limão para realçar o sabor. Ideal para compartilhar.",
-      "price": "65.00",
+      "price": 65.0,
       "image": "4.jpg",
       "quantity": 1
     },
@@ -158,7 +158,7 @@
       "category": "porções",
       "name": "Porção de Peixe Panga (570g)",
       "description": "Porção de 570g de filé de peixe panga sem espinhos, servida com limão fresco. Perfeita para uma refeição leve e saborosa.",
-      "price": "40.00",
+      "price": 40.0,
       "image": "3.jpg",
       "quantity": 1
     },
@@ -167,7 +167,7 @@
       "category": "porções",
       "name": "Porção de Coxinha de Frango",
       "description": "Crocantes coxinhas de frango empanadas com farinha panko, acompanhadas de molho barbecue para uma explosão de sabor.",
-      "price": "50.00",
+      "price": 50.0,
       "image": "4.jpg",
       "quantity": 1
     },
@@ -176,7 +176,7 @@
       "category": "porções",
       "name": "Porção de Batata Frita com Cheddar e Bacon",
       "description": "Batata frita dourada e crocante, coberta com queijo cheddar cremoso e pedaços de bacon crocante. Um verdadeiro deleite!",
-      "price": "45.00",
+      "price": 45.0,
       "image": "2.jpg",
       "quantity": 1
     },
@@ -185,7 +185,7 @@
       "category": "sobremesas",
       "name": "Copo Paraíso Misto",
       "description": "Essa sobremesa é especialidade da casa, rica em sabor. Copo paraíso de creme de ninho com bolo fofinho com brigadeiro gourmet de panela.",
-      "price": "10.00",
+      "price": 10.0,
       "image": "1.jpg",
       "quantity": 1
     },
@@ -194,7 +194,7 @@
       "category": "sobremesas",
       "name": "Copo Paraíso de Geleia de Morango",
       "description": "Essa sobremesa é especialidade da casa, rica em sabor. Copo paraíso de ninho com morango, pedaços de bolo e geleia de morango caseira.",
-      "price": "10.00",
+      "price": 10.0,
       "image": "5.jpg",
       "quantity": 1
     },
@@ -203,7 +203,7 @@
       "category": "sobremesas",
       "name": "Mini Churros",
       "description": "Essa deliciosa sobremesa de mini churros é uma porção com 10 mini churros deliciosos passados no açúcar e canela, prontos para acompanhar um doce de leite cremoso.",
-      "price": "20.00",
+      "price": 20.0,
       "image": "2.jpg",
       "quantity": 1
     },
@@ -211,7 +211,7 @@
       "id": 24,
       "name": "Nhoque à Bolonhesa",
       "description": "Marmitex somente de nhoque à bolonhesa.",
-      "price": "30.00",
+      "price": 30.0,
       "category": "massas",
       "image": "2.jpg",
       "quantity": 1
@@ -220,7 +220,7 @@
       "id": 25,
       "name": "Nhoque com Queijo",
       "description": "Marmitex somente de nhoque com queijo ao molho vermelho.",
-      "price": "28.00",
+      "price": 28.0,
       "category": "massas",
       "image": "2.jpg",
       "quantity": 1
@@ -229,7 +229,7 @@
       "id": 26,
       "name": "Macarrão Recheado",
       "description": ".jpg",
-      "price": "28.00",
+      "price": 28.0,
       "category": "massas",
       "image": "5.jpg",
       "quantity": 1
@@ -238,7 +238,7 @@
       "id": 27,
       "name": "Nhoque com Queijo e Bacon - Copia",
       "description": "Marmitex de nhoque com queijo e bacon ao molho vermelho.",
-      "price": "30.00",
+      "price": 30.0,
       "category": "massas",
       "image": "3.jpg",
       "quantity": 1
@@ -247,7 +247,7 @@
       "id": 28,
       "name": "Macarrão ao Molho Branco com Bacon - Médio",
       "description": "Marmitex de macarrão ao molho branco com toque de catupiry com queijo e bacon.",
-      "price": "25.00",
+      "price": 25.0,
       "category": "massas",
       "image": "1.jpg",
       "quantity": 1
@@ -256,7 +256,7 @@
       "id": 29,
       "name": "Macarrão ao Molho Branco com Bacon - Mini",
       "description": "Marmitex de macarrão ao molho branco com toque de catupiry com queijo e bacon.",
-      "price": "23.00",
+      "price": 23.0,
       "category": "massas",
       "image": "4.jpg",
       "quantity": 1
