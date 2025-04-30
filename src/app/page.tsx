@@ -2,7 +2,10 @@ import SlideShow from "@/components/carrosel";
 import { DivContainer } from "@/components/divContainer";
 import { CategorySelector } from "./components/categorySelector";
 import { DishesContainer } from "./components/dishesContainer";
+import { GifLoading } from "./components/gif";
 import { Suspense } from "react";
+
+import Image from "next/image";
 
 
 
@@ -12,10 +15,10 @@ export default function Home() {
       <SlideShow />
       <h1 className="text-2xl my-3">Escolha uma categoria</h1>
       <CategorySelector />
-      <Suspense fallback={<p>Carregando</p>}>
+      <Suspense fallback={<GifLoading />}>
         <DishesContainer />
       </Suspense>
-      <p>
+      {/* <p>
         Lorem ipsum dolor sit amet consectetur, adipisicing elit. Molestiae nisi itaque aliquam accusantium. Possimus magnam consequatur ipsa placeat provident, odio nisi corrupti impedit deserunt fugiat? Neque nihil ea vero impedit?
         Eius voluptate, rerum cupiditate molestiae repellendus sed exercitationem omnis tenetur quia sapiente veritatis obcaecati incidunt harum, provident reprehenderit, deleniti aliquam fugit voluptatem fugiat illo magnam. Magni, libero? Laborum, ipsum sunt.
         Reiciendis inventore vero obcaecati, aliquid harum rerum error, dolorum id suscipit tenetur, mollitia libero maxime enim a. Sed labore dolorum qui repudiandae similique tempora iure earum recusandae voluptatum quod. Possimus!
@@ -26,7 +29,7 @@ export default function Home() {
         Vero non numquam nulla excepturi adipisci quam eos assumenda natus cum aperiam? Architecto sapiente impedit placeat similique? Sapiente accusamus ipsa nobis culpa. Sunt totam enim laudantium aperiam ullam, dolor veritatis!
         In corporis incidunt, aliquam, nemo ipsa eveniet consequuntur eligendi nulla fuga deserunt eum magnam iste harum veritatis ipsam est vel architecto corrupti reprehenderit tempore adipisci! Temporibus incidunt nobis dolores assumenda.
         Accusantium quibusdam aspernatur minus repellat doloremque laboriosam. Vitae, repellendus mollitia doloribus distinctio, corporis natus doloremque neque provident numquam nisi quaerat quasi! Vel non labore, laboriosam beatae nam mollitia numquam omnis!
-      </p>
+      </p> */}
     </DivContainer>
   );
 }

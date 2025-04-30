@@ -20,7 +20,7 @@ export function CategorySelector() {
     const [selected, setSelected] = useState("All");
 
     return (
-        <div className="basicStyle">
+        <div className="basicStyle shadow-sm">
             <div className="flex flex-wrap gap-3 my-3">
                 {categories.map((category) => {
                     const Icon = category.icon;
