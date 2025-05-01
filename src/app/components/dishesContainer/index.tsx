@@ -2,20 +2,10 @@
 import { Suspense } from "react"
 import FoodCard from "../FoodCard"
 
-interface DishesProps {
-    id: number
-    category: string
-    name: string
-    description: string
-    price: number
-    image: string
-    quantity: number
-}
+import { DishesProps } from "../../../../utils/types/types"
 
 async function getDishes() {
     try {
-
-        // await new Promise((resolve, reject) => setTimeout(() => resolve('resolvida'), 10000))
         const res = await fetch('http://localhost:5000/cardapio')
 
         if (!res.ok) throw new Error('Error ao obter dados')
@@ -35,10 +25,10 @@ export async function DishesContainer() {
     // console.log(dishes)
 
     return (
-        <div className="grid gap-3 md:grid-cols-5 p-3 basicStyle shadow-sm">
+        <div className="flex flex-wrap p-2 gap-5 relative">
             {
                 dishes.map(item => (
-                    <FoodCard key={item.id} name={item.name} price={item.price} imageUrl={item.image} />
+                    <FoodCard key={item.id} name={item.name} imageUrl={item.image} sizes={item.sizes} />
                 ))
             }
 

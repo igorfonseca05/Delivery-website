@@ -1,13 +1,5 @@
 "use client"
 
-import Link from "next/link"
-import { MenuLinks } from "./Links"
-import Image from "next/image"
-import { useState } from "react"
-
-import { FaHome, FaUsers, FaMapMarkerAlt, FaClock, FaCog, FaSignInAlt, FaUserPlus } from 'react-icons/fa'
-import { MdSearch } from 'react-icons/md'
-
 import { useMenuContext } from "@/context/MenuContext"
 
 import icon from '../../../public/logoIcon.svg'

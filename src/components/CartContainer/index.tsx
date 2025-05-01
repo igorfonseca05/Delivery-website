@@ -12,8 +12,6 @@ export function CartContainer() {
 
     const { cartIsOpen } = useCartContext()
 
-    console.log(cartIsOpen)
-
     return (
         <div className={`fixed right-0 p-4 py-3 h-full z-2 w-75 bg-white ${cartIsOpen ? 'cardIsOpen' : 'cardIsClose'}`}>
             <div className="flex flex-col h-full  justify-between">

@@ -94,6 +94,12 @@ body {
   @apply hover:bg-[var(--button-color-hover)];
 }
 
+/* FoodCard Component */
+
+.foodCardStyle {
+  @apply bg-white p-3 grow min-w-50 rounded-lg hover:shadow-sm w-50 relative hover:scale-101 transition-all ease-in-out duration-200;
+}
+
 /* Transform classes */
 
 .isOpen {
