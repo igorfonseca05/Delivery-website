@@ -4,7 +4,7 @@ import Image from "next/image"
 import { useState } from "react";
 import { FaTrashAlt } from "react-icons/fa";
 
-import food from '../../../../public/1.jpg'
+import food from '../../../../../public/1.jpg'
 
 export function CardItem() {
 

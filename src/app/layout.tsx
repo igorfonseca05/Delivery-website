@@ -9,7 +9,7 @@ import { Navbar } from "@/components/navbar";
 import { SideMenu } from "@/components/sideMenu";
 
 import { MenuContextProvider } from "@/context/MenuContext";
-import { CartContainer } from "@/components/CartContainer";
+import { CartContainer } from "@/components/homeComponents/CartContainer";
 import { CartContextProvider } from "@/context/cartContext";
 
 

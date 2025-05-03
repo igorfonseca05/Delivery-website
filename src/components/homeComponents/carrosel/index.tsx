@@ -6,7 +6,7 @@ import { Autoplay } from 'swiper/modules';
 
 import Image from 'next/image';
 
-import banner from '../../../public/banner-1024.png'
+import banner from '../../../../public/banner-1024.png'
 
 export default function SlideShow() {
     return (

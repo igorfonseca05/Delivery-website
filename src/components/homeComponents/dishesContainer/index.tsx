@@ -1,6 +1,6 @@
 
 import { Suspense } from "react"
-import FoodCard from "../FoodCard"
+import FoodCard from "../dishesContainer/FoodCard"
 
 import { DishesProps } from "../../../../utils/types/types"
 
