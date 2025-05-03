@@ -3,7 +3,7 @@
 import React from "react";
 import { useCartContext } from "@/context/cartContext";
 
-export function DivContainer({ children }: { children: React.ReactNode }) {
+export function ContentContainer({ children }: { children: React.ReactNode }) {
 
     const { cartIsOpen } = useCartContext()
 

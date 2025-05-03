@@ -1,15 +1,15 @@
 import SlideShow from "@/components/homeComponents/carrosel";
-import { DivContainer } from "@/components/homeComponents/divContainer";
+import { ContentContainer } from "@/components/homeComponents/contentContainer";
 import { CategorySelector } from "../components/homeComponents/categorySelector";
-import { DishesContainer } from "../components/homeComponents/divContainer/dishesContainer";
-import { GifLoading } from "../components/homeComponents/divContainer/dishesContainer/loading_gif";
+import { DishesContainer } from "../components/homeComponents/contentContainer/Food_Card_Container";
+import { GifLoading } from "../components/homeComponents/contentContainer/Food_Card_Container/loading_gif";
 import { Suspense } from "react";
 
 import Image from "next/image";
 
 export default function Home() {
   return (
-    <DivContainer>
+    <ContentContainer>
       <SlideShow />
       <h1 className="text-2xl my-3">Escolha uma categoria</h1>
       <CategorySelector />
@@ -28,6 +28,6 @@ export default function Home() {
         In corporis incidunt, aliquam, nemo ipsa eveniet consequuntur eligendi nulla fuga deserunt eum magnam iste harum veritatis ipsam est vel architecto corrupti reprehenderit tempore adipisci! Temporibus incidunt nobis dolores assumenda.
         Accusantium quibusdam aspernatur minus repellat doloremque laboriosam. Vitae, repellendus mollitia doloribus distinctio, corporis natus doloremque neque provident numquam nisi quaerat quasi! Vel non labore, laboriosam beatae nam mollitia numquam omnis!
       </p> */}
-    </DivContainer>
+    </ContentContainer>
   );
 }

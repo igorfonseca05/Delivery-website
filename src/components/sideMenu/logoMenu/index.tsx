@@ -20,7 +20,7 @@ export function LogoMenu() {
                 priority
                 width={50}
                 height={50}
-                className="hidden h-10 lg:block size-10 m-auto group-hover/sidemenu:hidden"
+                className="hidden h-10 md:block size-10 m-auto group-hover/sidemenu:hidden"
             />
             <Image
                 src='logo.svg'
@@ -28,7 +28,7 @@ export function LogoMenu() {
                 priority
                 width={50}
                 height={50}
-                className="hidden size-25 h-10 mx-auto lg:group-hover/sidemenu:block"
+                className="hidden size-25 h-10 mx-auto md:group-hover/sidemenu:block"
             />
         </div>
     )

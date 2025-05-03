@@ -28,10 +28,10 @@ export function Navbar() {
 
                         {/* Menu icon to close menu */}
                         <li className='flex items-center sm:block lg:hidden'>
-                            <span><MdMenu className='text-xl text-gray-500 cursor-pointer' onClick={() => setIsOpen(!isOpen)} /></span>
+                            <span><MdMenu className='text-xl text-gray-500 cursor-pointer lg:hidden' onClick={() => setIsOpen(!isOpen)} /></span>
                         </li>
 
-                        <li className='hidden md:block'>
+                        <li className='hidden lg:block'>
                             <p>Aberto</p>
                         </li>
 
@@ -46,7 +46,7 @@ export function Navbar() {
                         </li>
 
                         {/* Search input */}
-                        <li className='hidden lg:flex relative max-w-100'>
+                        <li className='hidden md:flex relative max-w-100'>
                             <span
                                 className='absolute top-1 left-0.2 px-2 block'
                                 onClick={() => setSearchBarIsOpen(!searchBarIsOpen)}>
@@ -55,7 +55,7 @@ export function Navbar() {
                             <input
                                 type="text"
                                 placeholder="Buscar prato"
-                                className={`pl-9 p-1 rounded-4xl w-1 bg-gray-100 md:w-[30vw] ${searchBarIsOpen && 'bg-gray-100 w-50'} transition-all ease-in-out duration-500`}
+                                className={`pl-9 p-1 rounded-4xl w-1 bg-gray-100 md:w-[40vw] ${searchBarIsOpen && 'bg-gray-100 w-50'} transition-all ease-in-out duration-500`}
                             />
                         </li>
 

@@ -25,7 +25,7 @@ export async function DishesContainer() {
     // console.log(dishes)
 
     return (
-        <div className="flex flex-wrap gap-5 m-auto relative">
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4 m-auto relative">
             {
                 dishes.map(item => (
                     <FoodCard key={item.id} name={item.name} imageUrl={item.image} sizes={item.sizes} />

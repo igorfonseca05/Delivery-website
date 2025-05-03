@@ -33,7 +33,7 @@ body {
 }
 
 .alignAllContent {
-  @apply md:w-[95%] md:ml-25;
+  @apply md:w-[95%] lg:ml-25;
 }
 
 .basicStyle {
@@ -97,7 +97,7 @@ body {
 /* FoodCard Component */
 
 .foodCardStyle {
-  @apply bg-white p-3 grow min-w-50 rounded-lg hover:shadow-sm w-50 relative hover:scale-101 transition-all ease-in-out duration-200;
+  @apply bg-white p-3 min-w-20 rounded-lg hover:shadow-sm w-full relative hover:scale-101 transition-all ease-in-out duration-200;
 }
 
 /* Transform classes */
