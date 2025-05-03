@@ -1,8 +1,8 @@
 import SlideShow from "@/components/homeComponents/carrosel";
 import { DivContainer } from "@/components/homeComponents/divContainer";
 import { CategorySelector } from "../components/homeComponents/categorySelector";
-import { DishesContainer } from "../components/homeComponents/dishesContainer";
-import { GifLoading } from "../components/homeComponents/dishesContainer/FoodCard/loading_gif";
+import { DishesContainer } from "../components/homeComponents/divContainer/dishesContainer";
+import { GifLoading } from "../components/homeComponents/divContainer/dishesContainer/loading_gif";
 import { Suspense } from "react";
 
 import Image from "next/image";

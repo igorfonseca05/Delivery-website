@@ -23,7 +23,7 @@ export function Navbar() {
     return (
         <>
             <header className="navContainer bg-white w-full z-2">
-                <nav className='w-full m-auto max-w-300 alignAllContent px-2'>
+                <nav className='w-full m-auto max-w-300 alignAllContent px-3 md:px-2'>
                     <ul className='flex justify-between items-center'>
 
                         {/* Menu icon to close menu */}
@@ -31,7 +31,7 @@ export function Navbar() {
                             <span><MdMenu className='text-xl text-gray-500 cursor-pointer' onClick={() => setIsOpen(!isOpen)} /></span>
                         </li>
 
-                        <li>
+                        <li className='hidden md:block'>
                             <p>Aberto</p>
                         </li>
 
