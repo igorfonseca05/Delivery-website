@@ -77,7 +77,7 @@ body {
 }
 
 .basicStyle {
-  @apply my-4 bg-white rounded-lg;
+  @apply bg-white rounded-lg my-4;
 }
 
 /* Elementos */

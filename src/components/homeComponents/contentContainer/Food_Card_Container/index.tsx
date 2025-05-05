@@ -1,5 +1,4 @@
 
-import { Suspense } from "react"
 import FoodCard from "./FoodCard"
 
 import { DishesProps } from "../../../../../utils/types/types"
@@ -22,10 +21,8 @@ export async function DishesContainer() {
 
     const dishes: DishesProps[] = await getDishes()
 
-    // console.log(dishes)
-
     return (
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4 m-auto relative">
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-8 mb-10 m-auto relative">
             {
                 dishes.map(item => (
                     <FoodCard key={item.id} name={item.name} imageUrl={item.image} sizes={item.sizes} />

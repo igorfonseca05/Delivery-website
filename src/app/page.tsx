@@ -8,10 +8,12 @@ import { Suspense } from "react";
 import Image from "next/image";
 
 export default function Home() {
+
+
   return (
     <ContentContainer>
       <SlideShow />
-      <h1 className="text-2xl my-3">Escolha uma categoria</h1>
+      <h1 className="text-2xl mt-5">Escolha uma categoria</h1>
       <CategorySelector />
       <Suspense fallback={<GifLoading />}>
         <DishesContainer />

@@ -11,6 +11,10 @@ import { SideMenu } from "@/components/sideMenu";
 import { MenuContextProvider } from "@/context/MenuContext";
 import { CartContainer } from "@/components/navbar/cart_Container";
 import { CartContextProvider } from "@/context/cartContext";
+import { Footer } from "@/components/footer/footer";
+
+import SessionWrapper from "@/components/SessionWrapper.tsx";
+
 
 
 const roboto = Roboto({
@@ -34,14 +38,17 @@ export default function RootLayout({
       <body
         className={`${roboto.className} antialiased`}
       >
-        <CartContextProvider>
-          <MenuContextProvider>
-            <SideMenu />
-            <Navbar />
-            <CartContainer />
-            {children}
-          </MenuContextProvider>
-        </CartContextProvider>
+        <SessionWrapper>
+          <CartContextProvider>
+            <MenuContextProvider>
+              <SideMenu />
+              <Navbar />
+              <CartContainer />
+              {children}
+              <Footer />
+            </MenuContextProvider>
+          </CartContextProvider>
+        </SessionWrapper>
       </body>
     </html>
   );

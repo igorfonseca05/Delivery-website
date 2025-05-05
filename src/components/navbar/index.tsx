@@ -1,8 +1,9 @@
 'use client'
 
 import { MdSearch, MdMenu, MdClose, MdShoppingCart } from 'react-icons/md'
-import { FaInstagram, FaShoppingCart } from 'react-icons/fa'
-import { useState } from 'react'
+import { FaInstagram, FaShoppingCart, FaGoogle } from 'react-icons/fa'
+import { FcGoogle } from 'react-icons/fc'
+import { useEffect, useState } from 'react'
 
 import Link from 'next/link'
 import Image from 'next/image'
@@ -13,12 +14,38 @@ import logoIcon from '../../../public/logoIcon.svg'
 import { useMenuContext } from '@/context/MenuContext'
 import { useCartContext } from '@/context/cartContext'
 
+interface PositionPros {
+    coords: {
+        accuracy: number,
+        latitude: number,
+        longitude: number,
+        altitude: null,
+        altitudeAccuracy: null,
+        heading: null,
+        speed: null
+    }
+}
+
 export function Navbar() {
 
     const { setIsOpen, isOpen } = useMenuContext()
     const { cartIsOpen, setCartIsOpen } = useCartContext()
 
     const [searchBarIsOpen, setSearchBarIsOpen] = useState<boolean>(false)
+    const [position, setPositon] = useState<GeolocationPosition>()
+
+    // useEffect(() => {
+    //     navigator.geolocation.getCurrentPosition(position => { setPositon(position) },
+    //         (error) => {
+    //             console.error('Erro ao obter localização:', error);
+    //         },
+    //         {
+    //             enableHighAccuracy: true, // <= isso pede precisão máxima (GPS se possível)
+    //             timeout: 10000,
+    //             maximumAge: 0
+    //         }
+    //     )
+    // }, [])
 
     return (
         <>
@@ -62,12 +89,13 @@ export function Navbar() {
                         {/* Buttons */}
                         <div className="hidden md:flex gap-x-5 items-center">
                             <li className='flex items-center'>
-                                <Link href={'/signin'} className='neutralButton mr-4'>
-                                    Entrar
+                                <Link href={'/signin'} className='shadow-sm neutralButton mr-4 flex items-center gap-x-2'>
+                                    <p>Entrar</p>
+                                    <FcGoogle size={24} />
                                 </Link>
-                                <Link href={'/cadastrar'} className='buttonStyle buttonHover'>
+                                {/* <Link href={'/cadastrar'} className='buttonStyle buttonHover'>
                                     Cadastre-se
-                                </Link>
+                                </Link> */}
                             </li>
                             <li className='cursor-pointer neutralButton' onClick={() => setCartIsOpen(!cartIsOpen)}>
                                 <MdShoppingCart className='text-gray-700 text-xl' />

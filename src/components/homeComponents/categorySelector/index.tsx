@@ -21,7 +21,7 @@ export function CategorySelector() {
 
     return (
         <div className="basicStyle shadow-sm">
-            <div className="flex flex-wrap gap-3 my-3">
+            <div className="flex flex-wrap gap-3">
                 {categories.map((category) => {
                     const Icon = category.icon;
                     const isSelected = selected === category.label;
@@ -29,7 +29,7 @@ export function CategorySelector() {
                         <button
                             key={category.label}
                             onClick={() => setSelected(category.label)}
-                            className={`flex items-center gap-1 px-3 py-2 grow-2 justify-center rounded-lg text-sm font-medium
+                            className={`flex items-center gap-1 px-3 py-3 grow-2 justify-center rounded-lg text-sm font-medium
                   ${isSelected ? "bg-[#ffb443]" : "bg-white text-gray-700"}
                   hover:bg-[#ffb443] hover:text-white transition`}
                         >
