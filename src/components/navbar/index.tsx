@@ -14,17 +14,11 @@ import logoIcon from '../../../public/logoIcon.svg'
 import { useMenuContext } from '@/context/MenuContext'
 import { useCartContext } from '@/context/cartContext'
 
-interface PositionPros {
-    coords: {
-        accuracy: number,
-        latitude: number,
-        longitude: number,
-        altitude: null,
-        altitudeAccuracy: null,
-        heading: null,
-        speed: null
-    }
-}
+import { usePathname } from 'next/navigation'
+
+
+import { useSession, signIn, signOut } from 'next-auth/react'
+
 
 export function Navbar() {
 
@@ -34,25 +28,13 @@ export function Navbar() {
     const [searchBarIsOpen, setSearchBarIsOpen] = useState<boolean>(false)
     const [position, setPositon] = useState<GeolocationPosition>()
 
-    // useEffect(() => {
-    //     navigator.geolocation.getCurrentPosition(position => { setPositon(position) },
-    //         (error) => {
-    //             console.error('Erro ao obter localização:', error);
-    //         },
-    //         {
-    //             enableHighAccuracy: true, // <= isso pede precisão máxima (GPS se possível)
-    //             timeout: 10000,
-    //             maximumAge: 0
-    //         }
-    //     )
-    // }, [])
+    const path = usePathname()
 
     return (
-        <>
-            <header className="navContainer bg-white w-full z-2">
+        <div className={`${path === '/login' && 'hidden'}`}>
+            <header className={`navContainer bg-white w-full z-2`}>
                 <nav className='w-full m-auto max-w-300 alignAllContent px-3 md:px-2'>
                     <ul className='flex justify-between items-center'>
-
                         {/* Menu icon to close menu */}
                         <li className='flex items-center sm:block lg:hidden'>
                             <span><MdMenu className='text-xl text-gray-500 cursor-pointer lg:hidden' onClick={() => setIsOpen(!isOpen)} /></span>
@@ -89,9 +71,9 @@ export function Navbar() {
                         {/* Buttons */}
                         <div className="hidden md:flex gap-x-5 items-center">
                             <li className='flex items-center'>
-                                <Link href={'/signin'} className='shadow-sm neutralButton mr-4 flex items-center gap-x-2'>
+                                <Link href='/login' className='shadow-sm border-slate-200 border-1 neutralButton mr-4 flex items-center gap-x-2'>
                                     <p>Entrar</p>
-                                    <FcGoogle size={24} />
+                                    {/* <FcGoogle size={24} /> */}
                                 </Link>
                                 {/* <Link href={'/cadastrar'} className='buttonStyle buttonHover'>
                                     Cadastre-se
@@ -108,7 +90,7 @@ export function Navbar() {
 
                 </nav >
             </header >
-        </>
+        </div>
 
     )
 }

@@ -38,17 +38,17 @@ export default function RootLayout({
       <body
         className={`${roboto.className} antialiased`}
       >
-        <SessionWrapper>
-          <CartContextProvider>
-            <MenuContextProvider>
-              <SideMenu />
-              <Navbar />
-              <CartContainer />
-              {children}
-              <Footer />
-            </MenuContextProvider>
-          </CartContextProvider>
-        </SessionWrapper>
+
+        <CartContextProvider>
+          <MenuContextProvider>
+            <SideMenu />
+            <Navbar />
+            <CartContainer />
+            {children}
+            <Footer />
+          </MenuContextProvider>
+        </CartContextProvider>
+
       </body>
     </html>
   );

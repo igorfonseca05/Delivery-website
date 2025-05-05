@@ -11,14 +11,14 @@ import banner from '../../../../public/banner-1024.png'
 export default function SlideShow() {
     return (
         <Swiper
-            modules={[Autoplay]}
+            // modules={[Autoplay]}
             spaceBetween={30}
             slidesPerView={1}
             loop={true}
-            autoplay={{
-                delay: 5000,
-                disableOnInteraction: false
-            }}
+            // autoplay={{
+            //     delay: 5000,
+            //     disableOnInteraction: false
+            // }}
             className='rounded-lg h-[250px]'
         >
             <SwiperSlide><Image src={banner} alt='doce' fill /></SwiperSlide>
