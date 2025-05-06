@@ -1,6 +1,6 @@
 'use client'
 
-import { ContentContainer } from "@/components/homeComponents/contentContainer";
+import { ContentContainer } from "@/components/homeComponents/Container";
 
 import Image from "next/image";
 import { FcGoogle } from "react-icons/fc";
