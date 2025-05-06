@@ -3,9 +3,8 @@
 import { useMenuContext } from "@/context/MenuContext"
 
 import icon from '../../../public/logoIcon.svg'
-import { LogoMenu } from "./logoMenu"
-import { Middle_Icons } from "./middle_Icons"
-import { End_Icons } from "./end_Icons"
+import { LogoMenu } from "./IconContainer"
+import { Middle_Icons } from "./links_Side_Menu"
 
 
 export function SideMenu() {
@@ -14,11 +13,10 @@ export function SideMenu() {
 
     return (
         <div className={`group/sidemenu overflow-hidden sidemenu py-3 ${isOpen ? 'isOpen' : 'isClose'} relative`}>
-            <div className="flex flex-col w-full gap-y-5">
+            <div className="flex flex-col w-full grow justify-between">
                 <LogoMenu />
                 <Middle_Icons />
             </div>
-            <End_Icons />
         </div>
     )
 }

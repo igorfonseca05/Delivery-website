@@ -18,6 +18,7 @@ import { usePathname } from 'next/navigation'
 
 
 import { useSession, signIn, signOut } from 'next-auth/react'
+import { LoginButton } from './loginButton/loginButton'
 
 
 export function Navbar() {
@@ -31,7 +32,7 @@ export function Navbar() {
     const path = usePathname()
 
     return (
-        <div className={`${path === '/login' && 'hidden'}`}>
+        <div>
             <header className={`navContainer bg-white w-full z-2`}>
                 <nav className='w-full m-auto max-w-300 alignAllContent px-3 md:px-2'>
                     <ul className='flex justify-between items-center'>
@@ -69,23 +70,14 @@ export function Navbar() {
                         </li>
 
                         {/* Buttons */}
-                        <div className="hidden md:flex gap-x-5 items-center">
-                            <li className='flex items-center'>
-                                <Link href='/login' className='shadow-sm border-slate-200 border-1 neutralButton mr-4 flex items-center gap-x-2'>
-                                    <p>Entrar</p>
-                                    {/* <FcGoogle size={24} /> */}
-                                </Link>
-                                {/* <Link href={'/cadastrar'} className='buttonStyle buttonHover'>
-                                    Cadastre-se
-                                </Link> */}
+                        <div className="flex gap-x-8 items-center">
+                            <li className='hidden md:flex items-center order-2'>
+                                <LoginButton style={'shadow-sm w-30 text-center hover:bg-[#ffab2e] hover:text-white p-2 rounded-lg bg-[#ffb443]'} />
                             </li>
                             <li className='cursor-pointer neutralButton' onClick={() => setCartIsOpen(!cartIsOpen)}>
                                 <MdShoppingCart className='text-gray-700 text-xl' />
                             </li>
                         </div>
-                        <li className='cursor-pointer md:hidden'>
-                            <MdShoppingCart className='text-gray-700 text-xl' onClick={() => setCartIsOpen(!cartIsOpen)} />
-                        </li>
                     </ul>
 
                 </nav >

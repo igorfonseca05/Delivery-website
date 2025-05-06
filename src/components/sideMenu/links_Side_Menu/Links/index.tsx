@@ -11,9 +11,14 @@ interface LinkProps {
 
 import { SearchBar } from "../input"
 
+import { useMenuContext } from "@/context/MenuContext"
+
 export function MenuLinks({ href, innerText, icon: Icon }: LinkProps) {
+
+    const { setIsOpen } = useMenuContext()
+
     return (
-        <li className="group/lihover sidemenu-item">
+        <li onClick={() => setIsOpen(false)} className="group/lihover sidemenu-item">
             <Link href={`${href}`} className="sidemenu-link">
                 {Icon && <Icon className="min-w-5" />}
                 <p className="sidemenu-innerText">{innerText}</p>

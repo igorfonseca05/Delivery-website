@@ -12,7 +12,7 @@ export function LogoMenu() {
 
 
     return (
-        <div className={`mt-1.5 mx-auto flex flex-col w-full`}>
+        <div className={`mt-1.5 grow-0 mx-auto flex flex-col w-full`}>
             <span><MdMenu className='text-xl text-gray-500 cursor-pointer lg:hidden mx-4' onClick={() => setIsOpen(!isOpen)} /></span>
             <Image
                 src='logoIcon.svg'

@@ -60,7 +60,7 @@ body {
   @apply whitespace-nowrap lg:overflow-hidden lg:w-0 group-hover/sidemenu:opacity-100 transition-opacity ease-in-out duration-500 group-hover/sidemenu:w-full;
 }
 
-.part-2 li:nth-child(2) {
+.part-1 li:nth-child(2) {
   @apply bg-[var(--button-color)];
 }
 
@@ -83,7 +83,7 @@ body {
 /* Elementos */
 
 .neutralButton {
-  @apply text-gray-700 p-2 px-4 rounded-lg hover:bg-slate-100;
+  @apply text-gray-700 rounded-lg hover:bg-slate-100;
 }
 
 .buttonStyle {
@@ -120,4 +120,10 @@ body {
 
 .animate {
   @apply transition-all ease-in-out duration-500;
+}
+
+.blockFromScroll {
+  @apply:: -webkit-scrollbar {
+    display: none;
+  }
 }

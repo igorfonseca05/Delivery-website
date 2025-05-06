@@ -8,7 +8,7 @@ import { useState } from "react"
 import { useCartContext } from "@/context/cartContext"
 import { CardItem } from "./itemsCard"
 
-export function CartContainer() {
+export function CartSideBar() {
 
     const { cartIsOpen } = useCartContext()
 
