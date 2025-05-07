@@ -5,7 +5,7 @@ import "./globals.css";
 
 // Components
 
-import { Navbar } from "@/components/navbar";
+import { Navbar } from "@/components/navbar/navBar";
 import { SideMenu } from "@/components/sideMenu/SideMenuContainer";
 
 import { MenuContextProvider } from "@/context/MenuContext";
@@ -14,6 +14,7 @@ import { CartContextProvider } from "@/context/cartContext";
 import { Footer } from "@/components/footer/footer";
 
 import SessionWrapper from "@/components/SessionWrapper.tsx";
+import { LoadingPage } from "@/components/fallbackContainer";
 
 
 const roboto = Roboto({
@@ -33,21 +34,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
 
-
   return (
     <html lang="pt-BR">
-      <body
-        className={`${roboto.className} antialiased'}`}
-      >
-        <CartContextProvider>
-          <MenuContextProvider>
-            <SideMenu />
-            <Navbar />
-            <CartSideBar />
-            {children}
-            <Footer />
-          </MenuContextProvider>
-        </CartContextProvider>
+      <body className={`${roboto.className} antialiased'}`}>
+        <SessionWrapper>
+          <LoadingPage>
+            <CartContextProvider>
+              <MenuContextProvider>
+                <SideMenu />
+                <Navbar />
+                <CartSideBar />
+                {children}
+                <Footer />
+              </MenuContextProvider>
+            </CartContextProvider>
+          </LoadingPage>
+        </SessionWrapper>
       </body>
     </html>
   );

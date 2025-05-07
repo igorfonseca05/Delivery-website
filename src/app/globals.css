@@ -25,7 +25,7 @@
 }
 
 body {
-  background: #f8f8f8;
+  background: #f3f4f6;
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
   position: relative;
@@ -40,10 +40,12 @@ body {
   @apply my-3 bg-white rounded-lg;
 }
 
+/* Navbar */
 .navContainer {
   @apply bg-[var(--menu-color)] h-14 flex items-center justify-end fixed transition-all ease-in-out duration-500;
 }
 
+/* SideMenu */
 .sidemenu {
   @apply fixed h-full left-0 shadow-lg flex flex-col justify-between items-center bg-[var(--menu-color)] w-[80%] z-10 max-w-[240px] sm:w-[40vw] lg:w-16 hover:w-60 lg:items-center lg:max-w-[340px] overflow-hidden transition-all ease-in-out duration-500;
 }
@@ -60,24 +62,12 @@ body {
   @apply whitespace-nowrap lg:overflow-hidden lg:w-0 group-hover/sidemenu:opacity-100 transition-opacity ease-in-out duration-500 group-hover/sidemenu:w-full;
 }
 
-.part-1 li:nth-child(2) {
+.sidebar li:nth-child(2) {
   @apply bg-[var(--button-color)];
 }
 
 .activeButton {
   @apply w-[90%] p-3 rounded-lg bg-[var(--button-color)] font-medium hover:bg-[var(--button-color-hover)];
-}
-
-.isOpen {
-  @apply translate-x-0 lg:translate-x-[0%];
-}
-
-.isClose {
-  @apply translate-x-[-100%] lg:translate-x-0;
-}
-
-.basicStyle {
-  @apply bg-white rounded-lg my-4;
 }
 
 /* Elementos */
@@ -92,6 +82,10 @@ body {
 
 .buttonHover {
   @apply hover:bg-[var(--button-color-hover)];
+}
+
+.input {
+  @apply w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500;
 }
 
 /* FoodCard Component */
@@ -120,10 +114,4 @@ body {
 
 .animate {
   @apply transition-all ease-in-out duration-500;
-}
-
-.blockFromScroll {
-  @apply:: -webkit-scrollbar {
-    display: none;
-  }
 }

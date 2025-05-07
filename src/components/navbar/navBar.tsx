@@ -16,9 +16,9 @@ import { useCartContext } from '@/context/cartContext'
 
 import { usePathname } from 'next/navigation'
 
-
 import { useSession, signIn, signOut } from 'next-auth/react'
 import { LoginButton } from './loginButton/loginButton'
+import UserDropdown from './useDropDown/userDropdown'
 
 
 export function Navbar() {
@@ -29,7 +29,8 @@ export function Navbar() {
     const [searchBarIsOpen, setSearchBarIsOpen] = useState<boolean>(false)
     const [position, setPositon] = useState<GeolocationPosition>()
 
-    const path = usePathname()
+    const { data: session } = useSession()
+
 
     return (
         <div>
@@ -71,9 +72,12 @@ export function Navbar() {
 
                         {/* Buttons */}
                         <div className="flex gap-x-8 items-center">
-                            <li className='hidden md:flex items-center order-2'>
-                                <LoginButton style={'shadow-sm w-30 text-center hover:bg-[#ffab2e] hover:text-white p-2 rounded-lg bg-[#ffb443]'} />
-                            </li>
+                            {!session && (
+                                <li className='hidden md:flex items-center order-2'>
+                                    <LoginButton innerText='Entrar' style={'shadow-sm w-30 text-center hover:bg-[#ffab2e] hover:text-white p-2 rounded-lg bg-[#ffb443]'} />
+                                </li>)
+                            }
+                            <UserDropdown />
                             <li className='cursor-pointer neutralButton' onClick={() => setCartIsOpen(!cartIsOpen)}>
                                 <MdShoppingCart className='text-gray-700 text-xl' />
                             </li>
