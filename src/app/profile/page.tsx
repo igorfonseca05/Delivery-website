@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import UserSidebar from "./userSidebar"
-import { ContentContainer } from "@/components/homeComponents/Container"
+import { ContentContainer } from "@/components/home/Container"
 
 import { useSession } from "next-auth/react"
 import { redirect } from "next/navigation"

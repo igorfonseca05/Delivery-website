@@ -4,7 +4,7 @@ import Image from "next/image"
 
 import { MdMenu } from "react-icons/md"
 
-import { useMenuContext } from "@/context/MenuContext"
+import { useMenuContext } from "../../../../../context/MenuContext"
 
 export function LogoMenu() {
 

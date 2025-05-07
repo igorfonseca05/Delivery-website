@@ -1,12 +1,12 @@
 'use client'
 
 import { MdClose } from "react-icons/md"
-import { PricesCart } from "./pricesCart"
+import { PricesCart } from "./cartFooterTotal"
 import { HeaderCart } from "./cardHeader"
 
 import { useState } from "react"
-import { useCartContext } from "@/context/cartContext"
-import { CardItem } from "./itemsCard"
+import { useCartContext } from "../../../../../context/cartContext"
+import { CardItem } from "./card_sidebar/card_SideBar"
 
 export function CartSideBar() {
 
@@ -21,7 +21,7 @@ export function CartSideBar() {
                 </div>
                 <div className="flex flex-col items-center gap-y-2">
                     <PricesCart />
-                    <button className="buttonStyle w-full mt-2">
+                    <button className="button_primary_medium w-full mt-2">
                         Finalizar pedido
                     </button>
                 </div>

@@ -3,7 +3,7 @@
 // Components
 import { MenuLinks } from "./Links"
 import { SearchBar } from "./input"
-import { LoginButton } from "@/components/navbar/loginButton/loginButton"
+import { LoginButton } from "@/components/layout/navbar/loginButton/loginButton"
 
 // Icons
 import { FaHome, FaUsers, FaMapMarkerAlt, FaClock, FaHeart, FaShoppingCart } from 'react-icons/fa'

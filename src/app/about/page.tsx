@@ -1,5 +1,5 @@
 
-import { ContentContainer } from "@/components/homeComponents/Container"
+import { ContentContainer } from "@/components/home/Container"
 import Image from "next/image"
 
 import capa from '../../../public/aboutUs.jpg'

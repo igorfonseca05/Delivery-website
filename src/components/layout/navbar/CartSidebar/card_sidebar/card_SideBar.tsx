@@ -4,7 +4,7 @@ import Image from "next/image"
 import { useState } from "react";
 import { FaTrashAlt } from "react-icons/fa";
 
-import food from '../../../../../public/1.jpg'
+
 
 export function CardItem() {
 
@@ -21,7 +21,7 @@ export function CardItem() {
     return (
         <div className="flex p-2 gap-x-2">
             <Image
-                src={food}
+                src='/1.jpg'
                 alt="food"
                 width={75}
                 height={75}

@@ -4,8 +4,7 @@ import Image from "next/image";
 
 import { MdAddShoppingCart } from "react-icons/md";
 
-import { Dish_Info } from "./infos/infos";
-import { Counter } from "./counter/counter";
+
 import { useState } from "react";
 
 interface FoodCardProps {
@@ -36,24 +35,24 @@ export default function FoodCard({ name, imageUrl, sizes }: FoodCardProps) {
                 />
             </div>
             <div className="flex flex-col justify-between">
-                <h3 className={`"text-base font-semibold leading-5 break-words mt-2 h-5" ${!infoIsOpen ? " whitespace-nowrap overflow-hidden text-ellipsis" : ''}`}>{name}</h3>
+                <h3 className={`text-lg font-semibold leading-5 break-words mt-2 h-5 ${!infoIsOpen ? " whitespace-nowrap overflow-hidden text-ellipsis" : ''}`}>{name}</h3>
 
                 {sizes.length >= 2 ? (
                     (() => {
                         const mini = sizes.find(item => item.type === 'Mini');
                         return mini ? (
-                            <p key={mini.id} className="text-sm font-bold my-1 text-orange-500">
+                            <p key={mini.id} className="text-sm font-bold my-2 text-orange-500">
                                 R$ {mini.price.toFixed(2)}
                             </p>
                         ) : null;
                     })()
                 ) : (
-                    <p key={sizes[0].id} className="text-sm font-bold my-1 text-orange-500">
+                    <p key={sizes[0].id} className="text-sm font-bold my-2 text-orange-500">
                         R$ {sizes[0].price.toFixed(2)}
                     </p>
                 )}
                 {/* <Dish_Info infoIsOpen={infoIsOpen} setInfoIsOpen={setInfoIsOpen} /> */}
-                <button className={`buttonStyle w-full flex justify-center mt-2 buttonHover`}>
+                <button className={`button_primary_medium w-full flex justify-center mt-2`}>
                     <MdAddShoppingCart />
                 </button>
                 {/* <Counter showCounter={addCount} /> */}

@@ -8,8 +8,8 @@ import { usePathname } from 'next/navigation'
 import { useSession, signIn, signOut } from 'next-auth/react'
 
 // Components
-import { useMenuContext } from '@/context/MenuContext'
-import { useCartContext } from '@/context/cartContext'
+import { useMenuContext } from '../../../../context/MenuContext'
+import { useCartContext } from '../../../../context/cartContext'
 import { LoginButton } from './loginButton/loginButton'
 import UserDropdown from './useDropDown/userDropdown'
 import { SignUpButton } from './signUpButton/signUpButton'
@@ -21,7 +21,7 @@ import { FcGoogle } from 'react-icons/fc'
 
 // Imagens externas
 import logo from '../../../public/logo.svg'
-import logoIcon from '../../../public/logoIcon.svg'
+
 
 
 export function Navbar() {
@@ -51,7 +51,7 @@ export function Navbar() {
                         {/* logo Mobile */}
                         <li className='md:hidden relative w-20 h-10 lg:opacity-0'>
                             <Image
-                                src={logoIcon}
+                                src='logoIco.svg'
                                 alt='logo'
                                 fill
                                 style={{ objectFit: 'contain' }}
@@ -68,7 +68,7 @@ export function Navbar() {
                             <input
                                 type="text"
                                 placeholder="Buscar prato"
-                                className={`pl-9 p-1 rounded-4xl w-1 bg-gray-100 md:w-[40vw] ${searchBarIsOpen && 'bg-gray-100 w-50'} transition-all ease-in-out duration-500`}
+                                className={`pl-9 p-1 rounded-lg w-1 bg-gray-100 md:w-[40vw] ${searchBarIsOpen && 'bg-gray-100 w-50'} transition-all ease-in-out duration-500`}
                             />
                         </li>
 
@@ -78,12 +78,12 @@ export function Navbar() {
                                 <SignUpButton />
                             </li>
                             <li className='hidden md:flex items-center'>
-                                <LoginButton innerText='Entrar' style={'buttonStyle hover:bg-slate-100'} />
+                                <LoginButton innerText='Entrar' style={'button_neutral_medium'} />
                             </li>
                             <UserDropdown />
 
                             {/* Shopping Cart */}
-                            <li className='cursor-pointer neutralButton p-2 ml-2' onClick={() => setCartIsOpen(!cartIsOpen)}>
+                            <li className='cursor-pointer button_neutral_medium p-2 ml-2' onClick={() => setCartIsOpen(!cartIsOpen)}>
                                 <MdShoppingCart className='text-gray-700 text-xl' />
                             </li>
                         </div>

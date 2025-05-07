@@ -47,7 +47,7 @@ body {
 
 /* SideMenu */
 .sidemenu {
-  @apply fixed h-full left-0 shadow-lg flex flex-col justify-between items-center bg-[var(--menu-color)] w-[80%] z-10 max-w-[240px] sm:w-[40vw] lg:w-16 hover:w-60 lg:items-center lg:max-w-[340px] overflow-hidden transition-all ease-in-out duration-500;
+  @apply fixed h-full left-0 hover:shadow-lg flex flex-col justify-between items-center bg-[var(--menu-color)] w-[80%] z-10 max-w-[240px] sm:w-[40vw] lg:w-16 hover:w-60 lg:items-center lg:max-w-[340px] overflow-hidden transition-all ease-in-out duration-500;
 }
 
 .sidemenu-item {
@@ -72,21 +72,25 @@ body {
 
 /* Elementos */
 
-.neutralButton {
-  @apply hover:bg-slate-100;
+.button_primary_large {
+  @apply bg-[var(--button-color)] py-3 px-4 rounded-lg text-white hover:bg-[var(--button-color-hover)]  disabled:bg-[#ffc877];
 }
 
-.buttonStyle_active {
-  @apply bg-[var(--button-color)] py-3 px-4 rounded-lg text-white hover:bg-[var(--button-color-hover)];
+.button_neutral_medium {
+  @apply py-1.5 px-4 rounded-lg hover:bg-slate-100;
 }
 
+.button_primary_medium {
+  @apply bg-[var(--button-color)] py-1.5 px-4 rounded-lg text-white hover:bg-[var(--button-color-hover)];
+}
+/* 
 .buttonStyle {
   @apply text-gray-700 p-1.5 px-4 rounded-lg;
-}
+} */
 
-.buttonHover {
+/* .buttonHover {
   @apply hover:bg-[var(--button-color-hover)];
-}
+} */
 
 .input {
   @apply w-full border border-gray-300 rounded-lg  py-3 px-4 text-sm focus:outline-none focus:ring-1 focus:ring-[var(--button-color)];

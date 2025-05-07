@@ -17,7 +17,7 @@ const categories = [
 ];
 
 export function CategorySelector() {
-    const [selected, setSelected] = useState("All");
+    const [selected, setSelected] = useState("Todos");
 
     return (
         <div className="basicStyle shadow-sm">
@@ -29,7 +29,7 @@ export function CategorySelector() {
                         <button
                             key={category.label}
                             onClick={() => setSelected(category.label)}
-                            className={`flex items-center gap-1 px-3 py-3 grow-2 justify-center rounded-lg text-sm font-medium
+                            className={`flex items-center gap-1 p-3 grow-2 justify-center rounded-lg text-sm font-medium
                   ${isSelected ? "bg-[#ffb443]" : "bg-white text-gray-700"}
                   hover:bg-[#ffb443] hover:text-white transition`}
                         >

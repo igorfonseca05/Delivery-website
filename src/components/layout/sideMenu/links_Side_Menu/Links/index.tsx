@@ -11,7 +11,7 @@ interface LinkProps {
 
 import { SearchBar } from "../input"
 
-import { useMenuContext } from "@/context/MenuContext"
+import { useMenuContext } from "../../../../../../context/MenuContext"
 
 export function MenuLinks({ href, innerText, icon: Icon }: LinkProps) {
 

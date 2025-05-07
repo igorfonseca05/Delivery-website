@@ -5,16 +5,17 @@ import "./globals.css";
 
 // Components
 
-import { Navbar } from "@/components/navbar/navBar";
-import { SideMenu } from "@/components/sideMenu/SideMenuContainer";
+import { Navbar } from "@/components/layout/navbar/navBar";
+import { SideMenu } from "@/components/layout/sideMenu/SideMenuContainer";
 
-import { MenuContextProvider } from "@/context/MenuContext";
-import { CartSideBar } from "@/components/navbar/CartSidebar";
-import { CartContextProvider } from "@/context/cartContext";
-import { Footer } from "@/components/footer/footer";
+import { MenuContextProvider } from "../../context/MenuContext";
+import { CartSideBar } from "@/components/layout/navbar/CartSidebar/cartSideBar";
+import { CartContextProvider } from "../../context/cartContext";
+import { Footer } from "@/components/layout/footer/footer";
 
-import SessionWrapper from "@/components/SessionWrapper.tsx";
-import { LoadingPage } from "@/components/fallbackContainer";
+import SessionWrapper from "@/components/layout/SessionWrapper.tsx";
+import { LoadingPage } from "@/components/layout/fallbackContainer";
+import { ToastContainer } from "react-toastify";
 
 
 const roboto = Roboto({
@@ -39,6 +40,7 @@ export default function RootLayout({
       <body className={`${roboto.className} antialiased'}`}>
         <SessionWrapper>
           <LoadingPage>
+            <ToastContainer />
             <CartContextProvider>
               <MenuContextProvider>
                 <SideMenu />

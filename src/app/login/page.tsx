@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 
 // Components
-import { ContentContainer } from "@/components/homeComponents/Container";
+import { ContentContainer } from "@/components/home/Container";
 
 // Icons
 import { FcGoogle } from "react-icons/fc";
@@ -60,7 +60,7 @@ export default function Login() {
                             <input type="password" placeholder="Senha" className="input" required />
                         </label>
                         <a href="" className="my-2">Esqueceu sua senha?</a>
-                        <button className="buttonStyle_active ">Entrar</button>
+                        <button className="button_primary_large">Entrar</button>
                         <span className="inline-flex items-center">
                             <hr className="w-1/2 text-slate-300" />
                             <p className="mx-1 text-slate-500">ou</p>

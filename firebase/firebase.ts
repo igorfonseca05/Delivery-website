@@ -1,18 +1,23 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
+import { initializeApp } from "firebase/app";
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth"
+
 const firebaseConfig = {
-    apiKey: "AIzaSyD3slU0GVKjUalK7kGi0Q8ew7lSpQA-wvc",
-    authDomain: "autent-faac9.firebaseapp.com",
-    databaseURL: "https://autent-faac9-default-rtdb.firebaseio.com",
-    projectId: "autent-faac9",
-    storageBucket: "autent-faac9.firebasestorage.app",
-    messagingSenderId: "221927790207",
-    appId: "1:221927790207:web:f0e1632d2d642f6f3c514a"
+    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+    authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
+    databaseURL: process.env.NEXT_PUBLIC_DATABASE_URL,
+    projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
+    storageBucket: process.env.NEXT_PUBLIC_STORAGE_BUCKET,
+    messagingSenderId: process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID,
+    appId: process.env.NEXT_PUBLIC_APP_ID,
 };
 
-// Initialize Firebase
+
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app)
+
+export {
+    auth,
+    createUserWithEmailAndPassword,
+    updateProfile
+}
