@@ -1,43 +1,45 @@
 'use client'
 
+// Recursos Next
+import { useEffect, useState } from 'react'
+import Link from 'next/link'
+import Image from 'next/image'
+import { usePathname } from 'next/navigation'
+import { useSession, signIn, signOut } from 'next-auth/react'
+
+// Components
+import { useMenuContext } from '@/context/MenuContext'
+import { useCartContext } from '@/context/cartContext'
+import { LoginButton } from './loginButton/loginButton'
+import UserDropdown from './useDropDown/userDropdown'
+import { SignUpButton } from './signUpButton/signUpButton'
+
+// Icons
 import { MdSearch, MdMenu, MdClose, MdShoppingCart } from 'react-icons/md'
 import { FaInstagram, FaShoppingCart, FaGoogle } from 'react-icons/fa'
 import { FcGoogle } from 'react-icons/fc'
-import { useEffect, useState } from 'react'
 
-import Link from 'next/link'
-import Image from 'next/image'
-
+// Imagens externas
 import logo from '../../../public/logo.svg'
 import logoIcon from '../../../public/logoIcon.svg'
 
-import { useMenuContext } from '@/context/MenuContext'
-import { useCartContext } from '@/context/cartContext'
-
-import { usePathname } from 'next/navigation'
-
-import { useSession, signIn, signOut } from 'next-auth/react'
-import { LoginButton } from './loginButton/loginButton'
-import UserDropdown from './useDropDown/userDropdown'
-
 
 export function Navbar() {
-
     const { setIsOpen, isOpen } = useMenuContext()
     const { cartIsOpen, setCartIsOpen } = useCartContext()
+    const { data: session } = useSession()
+    const path = usePathname()
 
     const [searchBarIsOpen, setSearchBarIsOpen] = useState<boolean>(false)
     const [position, setPositon] = useState<GeolocationPosition>()
 
-    const { data: session } = useSession()
-
-
     return (
-        <div>
+        <div className={`${path === '/login' || path === '/signup' ? 'hidden' : ''}`}>
             <header className={`navContainer bg-white w-full z-2`}>
                 <nav className='w-full m-auto max-w-300 alignAllContent px-3 md:px-2'>
                     <ul className='flex justify-between items-center'>
-                        {/* Menu icon to close menu */}
+
+                        {/* Menu icon to close menu(Mobile) */}
                         <li className='flex items-center sm:block lg:hidden'>
                             <span><MdMenu className='text-xl text-gray-500 cursor-pointer lg:hidden' onClick={() => setIsOpen(!isOpen)} /></span>
                         </li>
@@ -71,19 +73,21 @@ export function Navbar() {
                         </li>
 
                         {/* Buttons */}
-                        <div className="flex gap-x-8 items-center">
-                            {!session && (
-                                <li className='hidden md:flex items-center order-2'>
-                                    <LoginButton innerText='Entrar' style={'shadow-sm w-30 text-center hover:bg-[#ffab2e] hover:text-white p-2 rounded-lg bg-[#ffb443]'} />
-                                </li>)
-                            }
+                        <div className="flex gap-x-3 items-center">
+                            <li className='hidden md:flex items-center'>
+                                <SignUpButton />
+                            </li>
+                            <li className='hidden md:flex items-center'>
+                                <LoginButton innerText='Entrar' style={'buttonStyle hover:bg-slate-100'} />
+                            </li>
                             <UserDropdown />
-                            <li className='cursor-pointer neutralButton' onClick={() => setCartIsOpen(!cartIsOpen)}>
+
+                            {/* Shopping Cart */}
+                            <li className='cursor-pointer neutralButton p-2 ml-2' onClick={() => setCartIsOpen(!cartIsOpen)}>
                                 <MdShoppingCart className='text-gray-700 text-xl' />
                             </li>
                         </div>
                     </ul>
-
                 </nav >
             </header >
         </div>

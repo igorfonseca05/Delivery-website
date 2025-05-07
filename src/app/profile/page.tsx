@@ -5,6 +5,7 @@ import UserSidebar from "./userSidebar"
 import { ContentContainer } from "@/components/homeComponents/Container"
 
 import { useSession } from "next-auth/react"
+import { redirect } from "next/navigation"
 
 export default function ProfilePage() {
     const { data: session } = useSession()
@@ -21,6 +22,8 @@ export default function ProfilePage() {
         deliveryInstructions: "",
     })
 
+
+    !session && redirect('/login')
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         setForm({ ...form, [e.target.name]: e.target.value })
