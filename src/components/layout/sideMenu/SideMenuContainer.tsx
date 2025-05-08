@@ -15,7 +15,7 @@ import UserSidebar from "@/app/profile/userSidebar"
 export function SideMenu() {
 
     const { isOpen } = useMenuContext()
-    const { data: session } = useSession()
+    // const { data: session } = useSession()
     const path = usePathname()
 
     return (

@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import { useSession, signIn, signOut } from 'next-auth/react'
+// import { useSession, signIn, signOut } from 'next-auth/react'
 
 // Components
 import { useMenuContext } from '../../../../context/MenuContext'
@@ -27,7 +27,7 @@ import logo from '../../../public/logo.svg'
 export function Navbar() {
     const { setIsOpen, isOpen } = useMenuContext()
     const { cartIsOpen, setCartIsOpen } = useCartContext()
-    const { data: session } = useSession()
+    // const { data: session } = useSession()
     const path = usePathname()
 
     const [searchBarIsOpen, setSearchBarIsOpen] = useState<boolean>(false)

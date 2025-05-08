@@ -1,7 +1,7 @@
 'use client'
 
 // Recursos next
-import { useSession, signIn, signOut } from "next-auth/react";
+// import { useSession, signIn, signOut } from "next-auth/react";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import Link from "next/link";
@@ -14,11 +14,11 @@ import { FcGoogle } from "react-icons/fc";
 import { FaHome } from "react-icons/fa";
 
 export default function Login() {
-    const { data: session } = useSession();
+    // const { data: session } = useSession();
 
-    if (session) {
-        redirect('/')
-    };
+    // if (session) {
+    //     redirect('/')
+    // };
 
     return (
         <section className="relative h-screen flex items-end overflow-hidden bg-white lg:ml-16 lg:max-w-screen">

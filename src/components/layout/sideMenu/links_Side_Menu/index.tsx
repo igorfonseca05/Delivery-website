@@ -10,7 +10,7 @@ import { FaHome, FaUsers, FaMapMarkerAlt, FaClock, FaHeart, FaShoppingCart } fro
 import { FaCog } from "react-icons/fa"
 
 // Contexts
-import { useSession } from "next-auth/react"
+// import { useSession } from "next-auth/react"
 
 export function Middle_Icons() {
     // const { data: session } = useSession()

@@ -4,11 +4,11 @@ import { useState } from "react"
 import UserSidebar from "./userSidebar"
 import { ContentContainer } from "@/components/home/Container"
 
-import { useSession } from "next-auth/react"
+// import { useSession } from "next-auth/react"
 import { redirect } from "next/navigation"
 
 export default function ProfilePage() {
-    const { data: session } = useSession()
+    // const { data: session } = useSession()
     const [form, setForm] = useState({
         name: "",
         email: "",
@@ -23,7 +23,7 @@ export default function ProfilePage() {
     })
 
 
-    !session && redirect('/login')
+    // !session && redirect('/login')
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         setForm({ ...form, [e.target.name]: e.target.value })
@@ -38,11 +38,11 @@ export default function ProfilePage() {
     return (
         <ContentContainer>
             <div className="p-2 flex flex-col wrap gap-4 md:flex-row">
-                <UserSidebar
+                {/* <UserSidebar
                     name={`${session?.user?.name}`}
                     email={`${session?.user?.email}`}
                     url={`${session?.user?.image}`} // coloque sua imagem aqui
-                />
+                /> */}
                 <div className="flex-1">
                     <div className="max-w-5xl mx-auto bg-white rounded-lg shadow p-6">
                         <h1 className="text-2xl font-bold mb-6">Meu Perfil</h1>

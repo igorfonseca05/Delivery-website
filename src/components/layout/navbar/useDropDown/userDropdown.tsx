@@ -1,6 +1,6 @@
 "use client";
 
-import { useSession, signOut } from "next-auth/react";
+// import { useSession, signOut } from "next-auth/react";
 import { useState } from "react";
 import {
     FiUser,
@@ -12,10 +12,10 @@ import {
 
 
 export default function UserDropdown() {
-    const { data: session } = useSession();
+    // const { data: session } = useSession();
     const [open, setOpen] = useState(false);
 
-    if (!session) return null;
+    // if (!session) return null;
 
     return (
         <div className="relative inline-block text-left order-1">
@@ -27,15 +27,15 @@ export default function UserDropdown() {
                 <div className="flex items-center space-x-3">
                     <div className="text-right hidden md:block">
                         <p className={`"text-md font-medium text-gray-900 capitalize`}>
-                            {session?.user?.name?.slice(0, session?.user?.name?.indexOf(' '))}
+                            {/* {session?.user?.name?.slice(0, session?.user?.name?.indexOf(' '))} */}
                         </p>
                         {/* <p className="text-xs text-gray-500">Admin</p> */}
                     </div>
-                    <img
+                    {/* <img
                         src={session.user?.image ?? "/default-avatar.png"}
                         alt="Avatar"
                         className="w-9 h-9 rounded-full object-cover"
-                    />
+                    /> */}
                     <FiChevronDown className="text-gray-500" />
                 </div>
             </button>

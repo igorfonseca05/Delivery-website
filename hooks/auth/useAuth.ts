@@ -35,6 +35,8 @@ export function useAuth() {
                 displayName: name || 'User'
             })
 
+            console.log(user)
+
             return user
 
         } catch (error: any) {
