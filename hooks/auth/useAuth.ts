@@ -1,7 +1,18 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { auth, createUserWithEmailAndPassword, updateProfile } from '../../firebase/firebase'
+import {
+    auth,
+    createUserWithEmailAndPassword,
+    updateProfile,
+    signOut,
+    signInWithEmailAndPassword
+} from '../../firebase/firebase'
+
+import { FirebaseError } from 'firebase/app'
+
+// Context
+import { useAuthContext } from '../../context/useAuthContext'
 
 
 interface UserProps {
@@ -10,6 +21,10 @@ interface UserProps {
     password: string
 
 }
+
+/** Hook responsável por gerenciar o processo de inscrição do usuário
+ * com estados de loading, error, função de cleanUp. 
+ */
 
 export function useAuth() {
 
@@ -23,6 +38,7 @@ export function useAuth() {
         if (cancelled) return
     }
 
+    // Função de adicioanar usuário
     async function createUser({ name, email, password }: UserProps) {
         checkIfCancelled()
         setLoading(true)
@@ -35,12 +51,11 @@ export function useAuth() {
                 displayName: name || 'User'
             })
 
-            console.log(user)
+            // console.log(user)
 
             return user
 
         } catch (error: any) {
-            setError(error.message)
             const code = error.code;
 
             let expectedError
@@ -60,13 +75,63 @@ export function useAuth() {
         } finally {
             setLoading(false)
         }
-
     }
 
+
+    // Login
+
+    async function signIn({ email, password }: { email: string, password: string }) {
+        checkIfCancelled()
+        setLoading(true)
+        setError('')
+
+        try {
+            const { user } = await signInWithEmailAndPassword(auth, email, password)
+
+            return user
+        } catch (error: any) {
+
+            if (error instanceof FirebaseError) {
+                let errorMessage = "";
+
+                if (error.code === "auth/invalid-email") {
+                    errorMessage = "O e-mail informado é inválido.";
+                } else if (error.code === "auth/user-not-found") {
+                    errorMessage = "Usuário não encontrado. Verifique o e-mail.";
+                } else if (error.code === "auth/wrong-password") {
+                    errorMessage = "Senha incorreta. Tente novamente.";
+                } else if (error.code === "auth/too-many-requests") {
+                    errorMessage = "Muitas tentativas. Tente novamente mais tarde.";
+                } else if (error.code === "auth/network-request-failed") {
+                    errorMessage = "Erro de conexão. Verifique sua internet.";
+                } else {
+                    errorMessage = "Ocorreu um erro desconhecido: " + error.message;
+                }
+
+                setError(errorMessage)
+            }
+
+        } finally {
+            setLoading(false)
+        }
+    }
+
+
+    // SignOut
+    function logout() {
+        checkIfCancelled()
+
+        signOut(auth)
+    }
+
+
+    // Ativador da função de cleanUp
     useEffect(() => {
         return () => setCancelled(true)
     }, [])
 
-    return { createUser, loading, error }
+    return { createUser, loading, error, logout, signIn }
 
 }
+
+

@@ -4,8 +4,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FormEvent, useEffect, useState } from "react";
-import { useAuth } from "../../../hooks/auth/useAuth";
 import { toast } from "react-toastify";
+import { useAuth } from "../../../hooks/auth/useAuth";
+import { useAuthContext } from "../../../context/useAuthContext";
+import { redirect } from "next/navigation";
 
 //Icons
 import { FaHome } from "react-icons/fa";
@@ -17,13 +19,17 @@ export default function SignupForm() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
+    const { user } = useAuthContext()
     const { createUser, loading, error } = useAuth()
+
+    user && redirect('/')
 
     const handleSignUpForm = async (e: FormEvent) => {
         e.preventDefault()
         const user = { name, email, password }
         createUser(user)
     }
+
 
     useEffect(() => {
         if (error) {

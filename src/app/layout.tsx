@@ -3,18 +3,18 @@ import { Geist, Geist_Mono, Open_Sans, Roboto } from "next/font/google";
 import "./globals.css";
 
 
-// Components
-
-import { Navbar } from "@/components/layout/navbar/navBar";
-import { SideMenu } from "@/components/layout/sideMenu/SideMenuContainer";
-
+// Context
 import { MenuContextProvider } from "../../context/MenuContext";
-import { CartSideBar } from "@/components/layout/navbar/CartSidebar/cartSideBar";
 import { CartContextProvider } from "../../context/cartContext";
+import { AuthGlobalContext } from "@/components/authGlobalContext";
+
+// Components
+import { Navbar } from "@/components/layout/navbar/navBar";
+import { CartSideBar } from "@/components/layout/navbar/CartSidebar/cartSideBar";
+import { SideMenu } from "@/components/layout/sideMenu/SideMenuContainer";
 import { Footer } from "@/components/layout/footer/footer";
 
-import SessionWrapper from "@/components/layout/SessionWrapper.tsx";
-import { LoadingPage } from "@/components/layout/fallbackContainer";
+
 import { ToastContainer } from "react-toastify";
 
 
@@ -38,7 +38,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className={`${roboto.className} antialiased'}`}>
-        <LoadingPage>
+        <AuthGlobalContext>
           <ToastContainer />
           <CartContextProvider>
             <MenuContextProvider>
@@ -49,7 +49,7 @@ export default function RootLayout({
               <Footer />
             </MenuContextProvider>
           </CartContextProvider>
-        </LoadingPage>
+        </AuthGlobalContext>
       </body>
     </html>
   );

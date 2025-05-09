@@ -5,10 +5,11 @@ import { DishesContainer } from "../components/home/Container/Food_Card_Containe
 import { GifLoading } from "../components/home/Container/Food_Card_Container/loading_gif";
 import { Suspense } from "react";
 
-import Image from "next/image";
+import { useAuthContext } from "../../context/useAuthContext";
+import { redirect } from "next/navigation";
+
 
 export default function Home() {
-
 
   return (
     <ContentContainer>

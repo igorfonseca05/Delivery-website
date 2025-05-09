@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation"
 // Components
 import { LogoMenu } from "./IconContainer"
 import { Middle_Icons } from "./links_Side_Menu"
-import UserSidebar from "@/app/profile/userSidebar"
+import UserSidebar from "@/app/(private)/profile/userSidebar"
 
 
 

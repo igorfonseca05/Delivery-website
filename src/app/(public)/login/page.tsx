@@ -1,24 +1,34 @@
 'use client'
 
 // Recursos next
-// import { useSession, signIn, signOut } from "next-auth/react";
+
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-
-// Components
-import { ContentContainer } from "@/components/home/Container";
+import { useAuth } from "../../../hooks/auth/useAuth";
 
 // Icons
 import { FcGoogle } from "react-icons/fc";
 import { FaHome } from "react-icons/fa";
+import React, { useState } from "react";
 
 export default function Login() {
-    // const { data: session } = useSession();
+    const { signIn, error, loading } = useAuth()
 
-    // if (session) {
-    //     redirect('/')
-    // };
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+
+
+    function handleLoginForm(e: React.FormEvent) {
+        e.preventDefault()
+
+        const userCredentials = {
+            email,
+            password
+        }
+
+        signIn(userCredentials)
+    }
 
     return (
         <section className="relative h-screen flex items-end overflow-hidden bg-white lg:ml-16 lg:max-w-screen">
@@ -52,22 +62,25 @@ export default function Login() {
 
 
                     {/* Form login */}
-                    <form className="flex flex-col gap-y-3">
+                    <form onSubmit={handleLoginForm} className="flex flex-col gap-y-3">
                         <label>
-                            <input type="text" placeholder="E-mail" className="input" required />
+                            <input onChange={(e) => setEmail(e.target.value)} type="text" placeholder="E-mail" className="input" required />
                         </label>
                         <label>
-                            <input type="password" placeholder="Senha" className="input" required />
+                            <input onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Senha" className="input" required />
                         </label>
                         <a href="" className="my-2">Esqueceu sua senha?</a>
-                        <button className="button_primary_large">Entrar</button>
+
+                        {!loading && <button className="button_primary_large">Entrar</button>}
+                        {loading && <button disabled className="button_primary_large">Entrar</button>}
+
                         <span className="inline-flex items-center">
                             <hr className="w-1/2 text-slate-300" />
                             <p className="mx-1 text-slate-500">ou</p>
                             <hr className="w-1/2 text-slate-300" />
                         </span>
                         {/* Button de login */}
-                        <button onClick={() => signIn('google')} className='flex items-center justify-center gap-x-3 border-slate-200 border-1 w-full bg-white hover:bg-[#4283f1] text-slate-600 hover:text-white font-semibold py-3 px-4 rounded-lg shadow-md transition duration-200'>
+                        <button className='flex items-center justify-center gap-x-3 border-slate-200 border-1 w-full bg-white hover:bg-[#4283f1] text-slate-600 hover:text-white font-semibold py-3 px-4 rounded-lg shadow-md transition duration-200'>
                             <p>Entrar com Google</p>
                             <FcGoogle size={24} />
                         </button>

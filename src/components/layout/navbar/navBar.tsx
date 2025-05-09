@@ -6,6 +6,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 // import { useSession, signIn, signOut } from 'next-auth/react'
+import { useAuthContext } from '../../../../context/useAuthContext'
 
 // Components
 import { useMenuContext } from '../../../../context/MenuContext'
@@ -27,7 +28,7 @@ import logo from '../../../public/logo.svg'
 export function Navbar() {
     const { setIsOpen, isOpen } = useMenuContext()
     const { cartIsOpen, setCartIsOpen } = useCartContext()
-    // const { data: session } = useSession()
+    const { user } = useAuthContext()
     const path = usePathname()
 
     const [searchBarIsOpen, setSearchBarIsOpen] = useState<boolean>(false)
@@ -74,13 +75,15 @@ export function Navbar() {
 
                         {/* Buttons */}
                         <div className="flex gap-x-3 items-center">
-                            <li className='hidden md:flex items-center'>
-                                <SignUpButton />
-                            </li>
-                            <li className='hidden md:flex items-center'>
-                                <LoginButton innerText='Entrar' style={'button_neutral_medium'} />
-                            </li>
-                            <UserDropdown />
+                            {!user && <>
+                                <li className='hidden md:flex items-center'>
+                                    <SignUpButton />
+                                </li>
+                                <li className='hidden md:flex items-center'>
+                                    <LoginButton innerText='Entrar' style={'button_neutral_medium'} />
+                                </li>
+                            </>}
+                            {user && <UserDropdown />}
 
                             {/* Shopping Cart */}
                             <li className='cursor-pointer button_neutral_medium p-2 ml-2' onClick={() => setCartIsOpen(!cartIsOpen)}>

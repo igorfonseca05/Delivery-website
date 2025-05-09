@@ -1,6 +1,12 @@
 
 import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth"
+import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    updateProfile,
+    signOut,
+} from "firebase/auth"
 
 const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -19,5 +25,7 @@ const auth = getAuth(app)
 export {
     auth,
     createUserWithEmailAndPassword,
-    updateProfile
+    signInWithEmailAndPassword,
+    updateProfile,
+    signOut
 }

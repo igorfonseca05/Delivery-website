@@ -1,7 +1,9 @@
 "use client";
 
-// import { useSession, signOut } from "next-auth/react";
+import { useAuthContext } from "../../../../../context/useAuthContext";
 import { useState } from "react";
+import { useAuth } from "../../../../../hooks/auth/useAuth";
+
 import {
     FiUser,
     FiSettings,
@@ -12,8 +14,10 @@ import {
 
 
 export default function UserDropdown() {
-    // const { data: session } = useSession();
+    const { user } = useAuthContext()
     const [open, setOpen] = useState(false);
+
+    const { logout } = useAuth()
 
     // if (!session) return null;
 
@@ -27,15 +31,15 @@ export default function UserDropdown() {
                 <div className="flex items-center space-x-3">
                     <div className="text-right hidden md:block">
                         <p className={`"text-md font-medium text-gray-900 capitalize`}>
-                            {/* {session?.user?.name?.slice(0, session?.user?.name?.indexOf(' '))} */}
+                            {user?.displayName}
                         </p>
                         {/* <p className="text-xs text-gray-500">Admin</p> */}
                     </div>
-                    {/* <img
-                        src={session.user?.image ?? "/default-avatar.png"}
+                    <img
+                        src={user?.photoURL ? `${user.photoURL}` : '/placeholder.png'}
                         alt="Avatar"
                         className="w-9 h-9 rounded-full object-cover"
-                    /> */}
+                    />
                     <FiChevronDown className="text-gray-500" />
                 </div>
             </button>
@@ -56,8 +60,10 @@ export default function UserDropdown() {
                         >
                             <FiSettings className="mr-2" /> Settings
                         </a>
+
+                        {/* logout Button */}
                         <button
-                            onClick={() => signOut()}
+                            onClick={() => logout()}
                             className="w-full text-left flex items-center px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
                         >
                             <FiLogOut className="mr-2" /> Sign out

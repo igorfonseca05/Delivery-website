@@ -2,27 +2,25 @@
 
 import { createContext, ReactNode, useContext, useState } from "react";
 import { FirebaseUser } from "../utils/types/types";
+import { User } from "firebase/auth";
 
 interface AuthContextProps {
-    user: FirebaseUser | null,
-    setUser: (user: FirebaseUser | null) => void
+    user: User | null,
 }
-
 
 export const AuthContext = createContext<AuthContextProps | undefined>(undefined)
 
-export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
 
-    const [user, setUser] = useState<FirebaseUser | null>(null)
+export function AuthContextProvider({ children, value }: { children: ReactNode, value: AuthContextProps }) {
 
     return (
-        <AuthContext.Provider value={{ user, setUser }}>
+        <AuthContext.Provider value={value}>
             {children}
         </AuthContext.Provider>
     )
 }
 
-export function userAuthContext() {
+export function useAuthContext() {
     const context = useContext(AuthContext)
 
     if (!context) {
