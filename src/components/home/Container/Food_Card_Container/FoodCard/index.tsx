@@ -32,6 +32,7 @@ export default function FoodCard({ name, imageUrl, sizes }: FoodCardProps) {
                     alt={name}
                     fill
                     className="rounded-lg object-cover"
+                    priority
                 />
             </div>
             <div className="flex flex-col justify-between">

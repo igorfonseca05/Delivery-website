@@ -5,21 +5,28 @@
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { useAuth } from "../../../hooks/auth/useAuth";
+import { useAuth } from "../../../../hooks/auth/useAuth";
+import { useAuthContext } from "../../../../context/useAuthContext";
+import { useEffect } from "react";
 
 // Icons
 import { FcGoogle } from "react-icons/fc";
 import { FaHome } from "react-icons/fa";
 import React, { useState } from "react";
+import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 
 export default function Login() {
     const { signIn, error, loading } = useAuth()
+    const { user } = useAuthContext()
+
+    // const router = useRouter()
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
 
-    function handleLoginForm(e: React.FormEvent) {
+    async function handleLoginForm(e: React.FormEvent) {
         e.preventDefault()
 
         const userCredentials = {
@@ -27,8 +34,20 @@ export default function Login() {
             password
         }
 
-        signIn(userCredentials)
+        await signIn(userCredentials)
     }
+
+    useEffect(() => {
+        console.log(user)
+    }, [user])
+
+    useEffect(() => {
+        if (error) {
+            toast.error(error)
+        }
+    }, [error])
+
+
 
     return (
         <section className="relative h-screen flex items-end overflow-hidden bg-white lg:ml-16 lg:max-w-screen">
@@ -72,7 +91,7 @@ export default function Login() {
                         <a href="" className="my-2">Esqueceu sua senha?</a>
 
                         {!loading && <button className="button_primary_large">Entrar</button>}
-                        {loading && <button disabled className="button_primary_large">Entrar</button>}
+                        {loading && <button disabled className="button_primary_large cursor-pointer">Aguarde...</button>}
 
                         <span className="inline-flex items-center">
                             <hr className="w-1/2 text-slate-300" />

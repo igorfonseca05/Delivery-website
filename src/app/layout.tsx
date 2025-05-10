@@ -6,7 +6,7 @@ import "./globals.css";
 // Context
 import { MenuContextProvider } from "../../context/MenuContext";
 import { CartContextProvider } from "../../context/cartContext";
-import { AuthGlobalContext } from "@/components/authGlobalContext";
+import { AuthGlobalContext } from "@/components/SessionWrapper/sessionWrapper";
 
 // Components
 import { Navbar } from "@/components/layout/navbar/navBar";
@@ -54,3 +54,4 @@ export default function RootLayout({
     </html>
   );
 }
+

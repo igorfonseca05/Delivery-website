@@ -91,6 +91,9 @@ export function useAuth() {
             return user
         } catch (error: any) {
 
+
+            console.log(error)
+
             if (error instanceof FirebaseError) {
                 let errorMessage = "";
 
@@ -104,6 +107,8 @@ export function useAuth() {
                     errorMessage = "Muitas tentativas. Tente novamente mais tarde.";
                 } else if (error.code === "auth/network-request-failed") {
                     errorMessage = "Erro de conexão. Verifique sua internet.";
+                } else if (error.code === "auth/invalid-credential") {
+                    errorMessage = 'Usuário não cadastrado'
                 } else {
                     errorMessage = "Ocorreu um erro desconhecido: " + error.message;
                 }

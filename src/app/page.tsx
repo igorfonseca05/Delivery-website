@@ -14,7 +14,7 @@ export default function Home() {
   return (
     <ContentContainer>
       <Suspense fallback={<GifLoading />} >
-        <SlideShow />
+        {/* <SlideShow /> */}
         <h1 className="text-2xl mt-5">Escolha uma categoria</h1>
         <CategorySelector />
         <Suspense fallback={<GifLoading />}>

@@ -5,7 +5,7 @@ import { FirebaseUser } from "../utils/types/types";
 import { User } from "firebase/auth";
 
 interface AuthContextProps {
-    user: User | null,
+    user: User | null | undefined,
 }
 
 export const AuthContext = createContext<AuthContextProps | undefined>(undefined)

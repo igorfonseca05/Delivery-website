@@ -3,7 +3,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --menu-color: #fdfdfd;
+  --menu-color: #ffffff;
   --button-color: #ffb443;
   --button-color-hover: #ffab2e;
   --button-padding: "px-5";
@@ -47,7 +47,7 @@ body {
 
 /* SideMenu */
 .sidemenu {
-  @apply fixed h-full left-0 hover:shadow-lg flex flex-col justify-between items-center bg-[var(--menu-color)] w-[80%] z-10 max-w-[240px] sm:w-[40vw] lg:w-16 hover:w-60 lg:items-center lg:max-w-[340px] overflow-hidden transition-all ease-in-out duration-500;
+  @apply fixed h-full left-0 shadow-sm hover:shadow-lg flex flex-col justify-between items-center bg-[var(--menu-color)] w-[80%] z-10 max-w-[240px] sm:w-[40vw] lg:w-16 hover:w-60 lg:items-center lg:max-w-[340px] overflow-hidden transition-all ease-in-out duration-500;
 }
 
 .sidemenu-item {

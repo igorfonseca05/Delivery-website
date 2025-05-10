@@ -5,9 +5,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { FormEvent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { useAuth } from "../../../hooks/auth/useAuth";
-import { useAuthContext } from "../../../context/useAuthContext";
+import { useAuth } from "../../../../hooks/auth/useAuth";
+import { useAuthContext } from "../../../../context/useAuthContext";
 import { redirect } from "next/navigation";
+
+import { useRouter } from "next/compat/router";
 
 //Icons
 import { FaHome } from "react-icons/fa";
@@ -21,8 +23,13 @@ export default function SignupForm() {
 
     const { user } = useAuthContext()
     const { createUser, loading, error } = useAuth()
+    const router = useRouter()
 
-    user && redirect('/')
+    useEffect(() => {
+        if (user) {
+            router?.push('/')
+        }
+    }, [user])
 
     const handleSignUpForm = async (e: FormEvent) => {
         e.preventDefault()
