@@ -1,22 +1,22 @@
 
-import { ContentContainer } from "@/components/home/Container"
+import { ContentContainer } from "@/components/home/Container/container"
 import Image from "next/image"
 
-import capa from '../../../public/aboutUs.jpg'
-import logo from '../../../public/logo.svg'
-import aboutUsImg from '../../../public/aboutus_img.jpg'
+// import capa from '../../../public/aboutUs.jpg'
+// import logo from '../../../public/logo.svg'
+// import aboutUsImg from '../../../public/aboutus_img.jpg'
 
-import gif from '../../../public/gif.gif'
+// import gif from '../../../public/gif.gif'
 
 export default function About() {
     return (
         <ContentContainer>
             <div className="max-w-7xl mx-auto relative">
                 <figure className="relative h-60 rounded-lg overflow-hidden">
-                    <Image src={capa} fill alt="Capa página sobre nós" objectFit="cover" />
+                    <Image src='/aboutUs.jpg' fill alt="Capa página sobre nós" objectFit="cover" />
                     <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                         <Image
-                            src={logo}
+                            src={"/logo.svg"}
                             alt="Logo Paraíso da Gastronomia"
                             width={350}
                             height={350}

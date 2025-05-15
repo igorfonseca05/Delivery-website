@@ -7,12 +7,12 @@ import {
     updateProfile,
     signOut,
     signInWithEmailAndPassword
-} from '../../firebase/firebase'
+} from '../firebase/firebase'
 
 import { FirebaseError } from 'firebase/app'
 
 // Context
-import { useAuthContext } from '../../context/useAuthContext'
+
 
 
 interface UserProps {

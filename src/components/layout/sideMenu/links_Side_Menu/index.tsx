@@ -10,25 +10,27 @@ import { FaHome, FaUsers, FaMapMarkerAlt, FaClock, FaHeart, FaShoppingCart } fro
 import { FaCog } from "react-icons/fa"
 
 // Contexts
-// import { useSession } from "next-auth/react"
+import { useAuthContext } from "../../../../../context/useAuthContext"
 
 export function Middle_Icons() {
-    // const { data: session } = useSession()
+
+    const { user } = useAuthContext()
 
     return (
-        <div className="grow mt-4 flex flex-col justify-between">
+        <div className="grow mt-4 flex flex-col justify-between ">
 
             {/* SideMenu buttons */}
-            <ul className="relative w-full max-h-100 py-4 flex flex-col justify-between items-center gap-y-5 mt-2 sidebar overflow-y-auto scrollbar-thin scrollbar-thumb-gray-100 scrollbar-track-transparent">
+            <ul className="scrollStyle relative w-full  max-h-100 py-4 flex flex-col justify-between items-center gap-y-5 mt-2 sidebar overflow-y-auto">
                 <SearchBar />
                 <MenuLinks href="/" icon={FaHome} innerText="Página inicial" />
-                {/* {session && (
+                {user && (
                     <>
                         <MenuLinks href="/about" icon={FaHeart} innerText="Favoritos" />
                         <MenuLinks href="/about" icon={FaShoppingCart} innerText="Minhas Compras" />
-                        <MenuLinks href="/about" icon={FaClock} innerText="Horários" />
+                        <MenuLinks href="/about" icon={FaClock} innerText="Pedidos" />
+                        {/* <MenuLinks href="/about" icon={FaClock} innerText="Horários" /> */}
                     </>
-                )} */}
+                )}
                 <MenuLinks href="/about" icon={FaUsers} innerText="Sobre nós" />
                 <MenuLinks href="/about" icon={FaMapMarkerAlt} innerText="Área de entrega" />
                 <MenuLinks href="/about" icon={FaClock} innerText="Horários" />

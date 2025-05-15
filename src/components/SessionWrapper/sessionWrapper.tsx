@@ -36,34 +36,31 @@ import { useRouter } from 'next/navigation'
 export function AuthGlobalContext({ children }: { children: React.ReactNode }) {
 
     const [user, setUser] = useState<User | null | undefined>(undefined)
-    const [loading, setLoading] = useState(true)
-    // 
     const router = useRouter()
 
-    const loadingUser = user === undefined
+    const loadingUser = user === undefined // true or false
+
 
     useEffect(() => {
         const unsubscribed = onAuthStateChanged(auth, (user) => {
             setUser(user)
-            // !user && setLoading(true)
         })
         return () => unsubscribed()
-    }, [auth, router])
+    }, [auth])
+
 
     useEffect(() => {
-
         if (user) {
             router?.push('/')
         } else {
             router?.push('/login')
         }
-
     }, [user])
+
 
     if (loadingUser) {
         return <CustomLoadingPage />
     }
-
 
 
     return (

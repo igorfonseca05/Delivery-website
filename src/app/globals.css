@@ -47,7 +47,7 @@ body {
 
 /* SideMenu */
 .sidemenu {
-  @apply fixed h-full left-0 shadow-sm hover:shadow-lg flex flex-col justify-between items-center bg-[var(--menu-color)] w-[80%] z-10 max-w-[240px] sm:w-[40vw] lg:w-16 hover:w-60 lg:items-center lg:max-w-[340px] overflow-hidden transition-all ease-in-out duration-500;
+  @apply fixed h-full left-0 shadow hover:shadow-lg flex flex-col justify-between items-center bg-[var(--menu-color)] w-[80%] z-10 max-w-[240px] sm:w-[40vw] lg:w-16 hover:w-60 lg:items-center lg:max-w-[340px] overflow-hidden transition-all ease-in-out duration-500;
 }
 
 .sidemenu-item {
@@ -65,6 +65,29 @@ body {
 .sidebar li:nth-child(2) {
   @apply bg-[var(--button-color)];
 }
+
+/* Estilo do scrollbar do sideMenu */
+.scrollStyle::-webkit-scrollbar {
+  display: none;
+  width: 5px;
+}
+
+.scrollStyle::-webkit-scrollbar-track {
+  width: 2px;
+  border-radius: 4px;
+  background-color: rgb(245, 245, 245);
+}
+.scrollStyle::-webkit-scrollbar-thumb {
+  background-color: #cfcfcf;
+  border-radius: 4px;
+  border: 2px solid transparent;
+}
+
+.sidemenu:hover .scrollStyle::-webkit-scrollbar {
+  display: block;
+}
+
+/* ---------------------------------------------- */
 
 .activeButton {
   @apply w-[90%] p-3 rounded-lg bg-[var(--button-color)] font-medium hover:bg-[var(--button-color-hover)];

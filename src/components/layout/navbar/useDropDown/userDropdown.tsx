@@ -2,7 +2,8 @@
 
 import { useAuthContext } from "../../../../../context/useAuthContext";
 import { useState } from "react";
-import { useAuth } from "../../../../../hooks/auth/useAuth";
+import { useAuth } from "../../../../../hooks/useAuth";
+import Link from "next/link";
 
 import {
     FiUser,
@@ -18,8 +19,6 @@ export default function UserDropdown() {
     const [open, setOpen] = useState(false);
 
     const { logout } = useAuth()
-
-    // if (!session) return null;
 
     return (
         <div className="relative inline-block text-left order-1">
@@ -48,18 +47,20 @@ export default function UserDropdown() {
             {open && (
                 <div className="absolute right-0 mt-2 w-44 rounded-lg bg-white">
                     <div className="py-1">
-                        <a
+                        <Link
                             href="/profile"
                             className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                            onClick={() => setOpen(!open)}
                         >
                             <FiUser className="mr-2" /> Profile
-                        </a>
-                        <a
+                        </Link>
+                        <Link
                             href="/settings"
                             className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                            onClick={() => setOpen(!open)}
                         >
                             <FiSettings className="mr-2" /> Settings
-                        </a>
+                        </Link>
 
                         {/* logout Button */}
                         <button

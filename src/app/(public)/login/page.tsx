@@ -5,7 +5,7 @@
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { useAuth } from "../../../../hooks/auth/useAuth";
+import { useAuth } from "../../../../hooks/useAuth";
 import { useAuthContext } from "../../../../context/useAuthContext";
 import { useEffect } from "react";
 
@@ -20,11 +20,8 @@ export default function Login() {
     const { signIn, error, loading } = useAuth()
     const { user } = useAuthContext()
 
-    // const router = useRouter()
-
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-
 
     async function handleLoginForm(e: React.FormEvent) {
         e.preventDefault()
@@ -34,19 +31,14 @@ export default function Login() {
             password
         }
 
-        await signIn(userCredentials)
+        signIn(userCredentials)
     }
-
-    useEffect(() => {
-        console.log(user)
-    }, [user])
 
     useEffect(() => {
         if (error) {
             toast.error(error)
         }
     }, [error])
-
 
 
     return (

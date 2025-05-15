@@ -17,6 +17,9 @@ const categories = [
 ];
 
 export function CategorySelector() {
+
+
+
     const [selected, setSelected] = useState("Todos");
 
     return (
