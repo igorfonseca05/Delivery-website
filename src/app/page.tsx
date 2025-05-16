@@ -1,8 +1,8 @@
-import SlideShow from "@/components/home/carrosel";
-import { ContentContainer } from "@/components/home/Container/container";
-import { CategorySelector } from "../components/home/categorySelector";
-import { DishesContainer } from "../components/home/Container/Food_Card_Container/FoodCardContainer";
-import { GifLoading } from "../components/home/Container/Food_Card_Container/loading_gif";
+import SlideShow from "@/components/homeComponents/carrosel";
+import { ContentContainer } from "@/components/homeComponents/Container/container";
+import { CategorySelector } from "../components/homeComponents/categorySelector";
+import { DishesContainer } from "../components/homeComponents/Container/Food_Card_Container/FoodCardContainer";
+import { GifLoading } from "../components/homeComponents/Container/Food_Card_Container/loading_gif";
 import { Suspense } from "react";
 
 import { useAuthContext } from "../../context/useAuthContext";
