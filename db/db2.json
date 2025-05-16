@@ -2,7 +2,7 @@
   "cardapio": [
     {
       "id": 1,
-      "category": "cardapio do dia",
+      "category": "Do dia",
       "name": "Strogonoff de Frango - Mini",
       "description": "Delicado strogonoff de frango, servido com arroz soltinho, feijão caseiro, batata frita crocante e batata palha.",
       "price": 18.0,
@@ -11,7 +11,7 @@
     },
     {
       "id": 2,
-      "category": "cardapio do dia",
+      "category": "Do dia",
       "name": "Strogonoff de Frango - Médio",
       "description": "Strogonoff de frango preparado com maestria, acompanhado de arroz branco, feijão saboroso, batata frita dourada e batata palha.",
       "price": 20.0,
@@ -20,7 +20,7 @@
     },
     {
       "id": 3,
-      "category": "cardapio do dia",
+      "category": "Do dia",
       "name": "Bife à Milanesa - Médio",
       "description": "Clássico bife à milanesa servido com arroz, macarrão ao dente, batata frita e uma salada fresca.",
       "price": 20.0,
@@ -29,7 +29,7 @@
     },
     {
       "id": 4,
-      "category": "cardapio do dia",
+      "category": "Do dia",
       "name": "Filé de Frango Crocante com Ovo Frito - Médio",
       "description": "Filé de frango empanado crocante, acompanhado de arroz, feijão temperado, batata frita e uma salada variada.",
       "price": 23.0,
@@ -38,7 +38,7 @@
     },
     {
       "id": 5,
-      "category": "cardapio do dia",
+      "category": "Do dia",
       "name": "Bife à Milanesa - Mini",
       "description": "Bife à milanesa suculento, servido com arroz, macarrão, batata frita e salada fresca.",
       "price": 18.0,

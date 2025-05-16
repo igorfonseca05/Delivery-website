@@ -10,7 +10,7 @@ export function Footer() {
     const path = usePathname()
 
     return (
-        <footer className={`bg-white text-gray-600 py-3 px-4 mt-2 ${path === '/login' || path === '/signup' ? 'hidden' : ''}`}>
+        <footer className={`bg-white text-gray-600 py-3 px-4  ${path === '/login' || path === '/signup' ? 'hidden' : ''}`}>
             <div className="w-[85%] mx-auto ml:25 grid grid-cols-1 md:grid-cols-3 gap-8">
 
                 {/* Coluna 1: Endereço */}

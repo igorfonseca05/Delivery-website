@@ -13,8 +13,6 @@ import { FirebaseError } from 'firebase/app'
 
 // Context
 
-
-
 interface UserProps {
     name: string,
     email: string,

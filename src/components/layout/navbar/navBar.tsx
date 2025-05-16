@@ -17,12 +17,6 @@ import { SignUpButton } from './signUpButton/signUpButton'
 
 // Icons
 import { MdSearch, MdMenu, MdClose, MdShoppingCart } from 'react-icons/md'
-import { FaInstagram, FaShoppingCart, FaGoogle } from 'react-icons/fa'
-import { FcGoogle } from 'react-icons/fc'
-
-// Imagens externas
-import logo from '../../../public/logo.svg'
-
 
 
 export function Navbar() {
@@ -32,12 +26,13 @@ export function Navbar() {
     const path = usePathname()
 
     const [searchBarIsOpen, setSearchBarIsOpen] = useState<boolean>(false)
-    const [position, setPositon] = useState<GeolocationPosition>()
 
     return (
         <div className={`${path === '/login' || path === '/signup' ? 'hidden' : ''}`}>
             <header className={`navContainer bg-white w-full z-2`}>
+                {/* Menu */}
                 <nav className='w-full m-auto max-w-300 alignAllContent px-3 md:px-2'>
+                    {/* container dos items do menu */}
                     <ul className='flex justify-between items-center'>
 
                         {/* Menu icon to close menu(Mobile) */}

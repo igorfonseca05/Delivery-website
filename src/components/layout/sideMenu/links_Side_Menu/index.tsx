@@ -25,8 +25,8 @@ export function Middle_Icons() {
                 <MenuLinks href="/" icon={FaHome} innerText="Página inicial" />
                 {user && (
                     <>
-                        <MenuLinks href="/about" icon={FaHeart} innerText="Favoritos" />
-                        <MenuLinks href="/about" icon={FaShoppingCart} innerText="Minhas Compras" />
+                        <MenuLinks href="/favorites" icon={FaHeart} innerText="Favoritos" />
+                        <MenuLinks href="/myshop" icon={FaShoppingCart} innerText="Minhas Compras" />
                         <MenuLinks href="/about" icon={FaClock} innerText="Pedidos" />
                         {/* <MenuLinks href="/about" icon={FaClock} innerText="Horários" /> */}
                     </>
