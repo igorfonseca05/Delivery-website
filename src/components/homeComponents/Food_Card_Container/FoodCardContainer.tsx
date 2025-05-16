@@ -3,8 +3,8 @@
 import FoodCard from "./FoodCard/Card"
 import Image from "next/image"
 
-import { DishesProps } from "../../../../../utils/types/types"
-import { NotFoundData } from "@/components/notFoundData/notFound"
+import { DishesProps } from "../../../../utils/types/types"
+import { NotFoundData } from "@/components/globalComponents/notFoundData/notFound"
 
 
 export function DishesContainer({ dishes }: { dishes: DishesProps[] }) {

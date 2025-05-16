@@ -2,8 +2,8 @@
 
 'use client';
 
-import { ContentContainer } from '@/components/homeComponents/Container/container';
-import { NotFoundData } from '@/components/notFoundData/notFound';
+import { ContentContainer } from '@/components/globalComponents/Container/container';
+import { NotFoundData } from '@/components/globalComponents/notFoundData/notFound';
 import Image from 'next/image';
 import { useState } from 'react';
 import { FaHeart } from 'react-icons/fa';

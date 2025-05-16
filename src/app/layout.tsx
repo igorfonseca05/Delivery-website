@@ -9,10 +9,10 @@ import { CartContextProvider } from "../../context/cartContext";
 import { AuthGlobalContext } from "@/components/SessionWrapper/sessionWrapper";
 
 // Components
-import { Navbar } from "@/components/layout/navbar/navBar";
-import { CartSideBar } from "@/components/layout/navbar/CartSidebar/cartSideBar";
-import { SideMenu } from "@/components/layout/sideMenu/SideMenuContainer";
-import { Footer } from "@/components/layout/footer/footer";
+import { Navbar } from "@/components/globalComponents/navbar/navBar";
+import { CartSideBar } from "@/components/globalComponents/navbar/CartSidebar/cartSideBar";
+import { SideMenu } from "@/components/globalComponents/sideMenu/SideMenuContainer";
+import { Footer } from "@/components/globalComponents/footer/footer";
 
 
 import { ToastContainer } from "react-toastify";

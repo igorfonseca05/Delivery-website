@@ -1,13 +1,10 @@
 
 import SlideShow from "@/components/homeComponents/carrosel";
-import { ContentContainer } from "@/components/homeComponents/Container/container";
+import { ContentContainer } from "@/components/globalComponents/Container/container";
 import { CategorySelector } from "@/components/homeComponents/categorySelector/category";
-import { DishesContainer } from "../components/homeComponents/Container/Food_Card_Container/FoodCardContainer";
-import { GifLoading } from "../components/homeComponents/Container/Food_Card_Container/loading_gif";
+import { DishesContainer } from "../components/homeComponents/Food_Card_Container/FoodCardContainer";
+import { GifLoading } from "../components/homeComponents/Food_Card_Container/loading_gif";
 import { Suspense } from "react";
-
-import { useAuthContext } from "../../context/useAuthContext";
-import { redirect } from "next/navigation";
 
 import { useServerFetch } from "../../service/useServerFetch";
 import { DishesProps } from "../../utils/types/types";
