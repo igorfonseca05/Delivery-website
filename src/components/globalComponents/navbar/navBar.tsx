@@ -47,7 +47,7 @@ export function Navbar() {
                         {/* logo Mobile */}
                         <li className='md:hidden relative w-20 h-10 lg:opacity-0'>
                             <Image
-                                src='logoIco.svg'
+                                src='/logoIcon.svg'
                                 alt='logo'
                                 fill
                                 style={{ objectFit: 'contain' }}

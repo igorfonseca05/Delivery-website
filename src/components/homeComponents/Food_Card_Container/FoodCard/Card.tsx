@@ -7,22 +7,11 @@ import { MdAddShoppingCart } from "react-icons/md";
 
 import { useState } from "react";
 
-interface FoodCardProps {
-    name: string;
-    imageUrl: string;
-    sizes: [
-        {
-            type: string,
-            price: number,
-            id: number
-        }
-    ]
-}
+import { FoodCardProps } from "../../../../../utils/types/types";
 
 export default function FoodCard({ name, imageUrl, sizes }: FoodCardProps) {
 
     const [infoIsOpen, setInfoIsOpen] = useState<boolean>(false)
-    const [addCount, setaddCount] = useState<boolean>(false)
 
     return (
         <div className={`foodCardStyle`} onClick={() => setInfoIsOpen(!infoIsOpen)}>

@@ -21,15 +21,15 @@ export default function UserDropdown() {
     const { logout } = useAuth()
 
     return (
-        <div className="relative inline-block text-left order-1">
+        <div className="relative text-left order-1 hidden md:inline-block">
             {/* Botão principal com avatar, nome e seta */}
             <button
                 onClick={() => setOpen(!open)}
                 className="flex items-center"
             >
                 <div className="flex items-center space-x-3">
-                    <div className="text-right hidden md:block">
-                        <p className={`"text-md font-medium text-gray-900 capitalize`}>
+                    <div className="text-right block">
+                        <p className={`text-md font-medium text-gray-900 capitalize`}>
                             {user?.displayName}
                         </p>
                         {/* <p className="text-xs text-gray-500">Admin</p> */}

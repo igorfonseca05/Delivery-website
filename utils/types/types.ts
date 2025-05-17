@@ -1,4 +1,17 @@
 
+export interface FoodCardProps {
+    name: string;
+    imageUrl: string;
+    sizes: [
+        {
+            type: string,
+            price: number,
+            id: number
+        }
+    ]
+}
+
+
 export interface DishesProps {
     id: string
     category: string

@@ -17,6 +17,7 @@ export function useFetchData(url: string) {
             setError(null)
 
             try {
+                // await new Promise(resolve => setTimeout(() => resolve(''), 5000))
 
                 const res = await fetch(url)
 
