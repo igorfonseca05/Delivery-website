@@ -27,6 +27,12 @@ export interface DishesProps {
     ]
 }
 
+export interface Sizes {
+    type?: string
+    price?: number
+    id?: number
+}
+
 
 export interface FirebaseUser {
     uid: string;

@@ -11,10 +11,29 @@ import { FaCog } from "react-icons/fa"
 
 // Contexts
 import { useAuthContext } from "../../../../../context/useAuthContext"
+import { useState } from "react"
 
 export function Middle_Icons() {
 
     const { user } = useAuthContext()
+
+    const [selected, useSelected] = useState('Página inicial')
+    // const [isSelected, setIsSelected] = useState(false)
+    let isSelected = false
+
+    const linksButton = [
+        { href: '/', icon: FaHome, text: 'Página inicial' },
+        ...(user ?
+            [
+                { href: '/favorites', icon: FaHeart, text: 'Favoritos' },
+                { href: '/myshop', icon: FaShoppingCart, text: 'Minhas Compras' },
+                { href: '/about', icon: FaClock, text: 'Pedidos' },
+            ]
+            : []),
+        { href: '/about', icon: FaUsers, text: 'Sobre nós' },
+        { href: '/deliveryArea', icon: FaMapMarkerAlt, text: 'Área de entrega' },
+        { href: '/about', icon: FaClock, text: 'Horários' },
+    ]
 
     return (
         <aside className="grow mt-4 flex flex-col justify-between">
@@ -36,18 +55,19 @@ export function Middle_Icons() {
                 </div>}
                 <SearchBar />
                 <ul className="scrollStyle relative w-full max-h-100 py-4 flex flex-col justify-between items-center gap-y-5 mt-2 sidebar overflow-y-auto">
-                    <MenuLinks href="/" icon={FaHome} innerText="Página inicial" />
-                    {user && (
-                        <>
-                            <MenuLinks href="/favorites" icon={FaHeart} innerText="Favoritos" />
-                            <MenuLinks href="/myshop" icon={FaShoppingCart} innerText="Minhas Compras" />
-                            <MenuLinks href="/about" icon={FaClock} innerText="Pedidos" />
-                            {/* <MenuLinks href="/about" icon={FaClock} innerText="Horários" /> */}
-                        </>
-                    )}
-                    <MenuLinks href="/about" icon={FaUsers} innerText="Sobre nós" />
-                    <MenuLinks href="/about" icon={FaMapMarkerAlt} innerText="Área de entrega" />
-                    <MenuLinks href="/about" icon={FaClock} innerText="Horários" />
+                    {linksButton.map((item, index) => {
+                        isSelected = item.text === selected
+                        return (
+                            <MenuLinks
+                                key={index}
+                                href={item.href}
+                                icon={item.icon}
+                                innerText={item.text}
+                                isSelected={isSelected}
+                                useSelected={useSelected}
+                            />
+                        )
+                    })}
                 </ul>
             </main>
 
@@ -62,7 +82,7 @@ export function Middle_Icons() {
                             <p className="sidemenu-innerText">Cadastrar</p>
                         </Link>
                     </li> */}
-                <MenuLinks href="/config" icon={FaCog} innerText="Configurações" />
+                <MenuLinks href="/config" icon={FaCog} isSelected={isSelected} useSelected={useSelected} innerText="Configurações" />
             </ul>
         </aside>
 

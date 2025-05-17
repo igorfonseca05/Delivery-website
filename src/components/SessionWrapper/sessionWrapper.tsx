@@ -35,12 +35,13 @@ import { useRouter } from 'next/navigation'
 
 export function AuthGlobalContext({ children }: { children: React.ReactNode }) {
 
+    // Variavel que recebe dados do usuário do firebase(tipagem recomendada)
     const [user, setUser] = useState<User | null | undefined>(undefined)
     const router = useRouter()
 
     const loadingUser = user === undefined // true or false
 
-
+    // Ouvindo estado de autenticação usuário
     useEffect(() => {
         const unsubscribed = onAuthStateChanged(auth, (user) => {
             setUser(user)
@@ -49,6 +50,7 @@ export function AuthGlobalContext({ children }: { children: React.ReactNode }) {
     }, [auth])
 
 
+    // Redirecionar usuário
     useEffect(() => {
         if (user) {
             router?.push('/')

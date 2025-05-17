@@ -13,12 +13,8 @@ import { Middle_Icons } from "./links_Side_Menu"
 import UserSidebar from "@/app/(private)/profile/userSidebar"
 
 
-
 export function SideMenu() {
-
     const { isOpen } = useMenuContext()
-    const { user } = useAuthContext()
-    const path = usePathname()
 
     return (
         <div>
