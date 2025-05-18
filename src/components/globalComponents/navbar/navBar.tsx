@@ -10,7 +10,7 @@ import { useAuthContext } from '../../../../context/useAuthContext'
 
 // Components
 import { useMenuContext } from '../../../../context/MenuContext'
-import { useCartContext } from '../../../../context/cartContext'
+import { useCartContext } from '../../../../context/toggleCartContext'
 import { LoginButton } from './loginButton/loginButton'
 import UserDropdown from './useDropDown/userDropdown'
 import { SignUpButton } from './signUpButton/signUpButton'

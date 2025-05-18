@@ -5,7 +5,7 @@ import { PricesCart } from "./cartFooterTotal"
 import { HeaderCart } from "./cardHeader"
 
 import { useState } from "react"
-import { useCartContext } from "../../../../../context/cartContext"
+import { useCartContext } from "../../../../../context/toggleCartContext"
 import { CardItem } from "./card_sidebar/card_SideBar"
 
 export function CartSideBar() {

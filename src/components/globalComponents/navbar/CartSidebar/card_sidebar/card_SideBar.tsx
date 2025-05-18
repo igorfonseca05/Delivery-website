@@ -5,7 +5,6 @@ import { useState } from "react";
 import { FaTrashAlt } from "react-icons/fa";
 
 
-
 export function CardItem() {
 
     const [count, setCount] = useState(1);

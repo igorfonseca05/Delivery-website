@@ -5,7 +5,7 @@ import "./globals.css";
 
 // Context
 import { MenuContextProvider } from "../../context/MenuContext";
-import { CartContextProvider } from "../../context/cartContext";
+import { CartContextProvider } from "../../context/toggleCartContext";
 import { AuthGlobalContext } from "@/components/SessionWrapper/sessionWrapper";
 
 // Components

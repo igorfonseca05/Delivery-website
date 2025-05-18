@@ -6,7 +6,7 @@ interface ActionProps {
     setCartIsOpen: (cartIsOpen: boolean) => void
 }
 
-import { useCartContext } from "../../../../../../context/cartContext"
+import { useCartContext } from "../../../../../../context/toggleCartContext"
 
 export function HeaderCart() {
 

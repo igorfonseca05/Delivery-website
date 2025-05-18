@@ -9,7 +9,7 @@ import { useAuthContext } from "../../../../context/useAuthContext"
 
 // Components
 import { LogoMenu } from "./IconContainer"
-import { Middle_Icons } from "./links_Side_Menu"
+import { Middle_Icons } from "./links_Side_Menu/middleLinks"
 import UserSidebar from "@/app/(private)/profile/userSidebar"
 
 

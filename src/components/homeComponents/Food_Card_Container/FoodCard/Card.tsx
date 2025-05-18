@@ -14,9 +14,23 @@ import { SizeIndicator } from "./sizeIndicator/SizeIndicator";
 
 export default function FoodCard({ name, imageUrl, sizes }: FoodCardProps) {
 
-    const [infoIsOpen, setInfoIsOpen] = useState<boolean>(false)
+    // const [infoIsOpen, setInfoIsOpen] = useState<boolean>(false)
     const [price, setPrice] = useState<number>()
     const [sizeDishName, setSizeDishName] = useState<string>('Mini')
+
+
+    function handleCard() {
+        // setInfoIsOpen(!infoIsOpen)
+
+        const dishInfos = {
+            name,
+            price,
+            sizeDishName,
+            imageUrl
+        }
+
+        console.log(dishInfos)
+    }
 
 
     useEffect(() => {
@@ -31,7 +45,7 @@ export default function FoodCard({ name, imageUrl, sizes }: FoodCardProps) {
     }, [sizes, sizeDishName])
 
     return (
-        <div className={`foodCardStyle`} onClick={() => setInfoIsOpen(!infoIsOpen)}>
+        <div className={`foodCardStyle`} onClick={handleCard}>
             <div className="relative w-full h-35 flex justify-center">
                 <Image
                     src={`/${imageUrl}`}
@@ -45,24 +59,6 @@ export default function FoodCard({ name, imageUrl, sizes }: FoodCardProps) {
             </div>
             <div className="flex flex-col justify-between">
                 <h3 className={`text-lg font-semibold leading-5 break-words mt-2 h-5 whitespace-nowrap overflow-hidden text-ellipsis`}>{name}</h3>
-
-                {/* Sizes são arrays que armazenam os tamanhos 
-                pequeno, médio e grande disponiveis para o prato*/}
-                {/* {sizes.length >= 2 ? (
-                    (() => {
-                        const mini = sizes.find(item => item.type === 'Mini');
-                        return mini ? (
-                            <p key={mini.id} className="text-sm font-bold my-2 text-orange-500">
-                                R$ {mini.price?.toFixed(2)}
-                            </p>
-                        ) : null;
-                    })()
-                ) : (
-                    <p key={sizes[0].id} className="text-sm font-bold my-2 text-orange-500">
-                        R$ {sizes[0].price?.toFixed(2)}
-                    </p>
-                )} */}
-
                 <div className="flex justify-between items-center py-1">
                     {<p className={`text-lg font-bold text-orange-500`}>
                         R$ {price?.toFixed(2)}

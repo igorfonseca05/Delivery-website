@@ -1,7 +1,7 @@
 'use client'
 
 import React from "react";
-import { useCartContext } from "../../../../context/cartContext";
+import { useCartContext } from "../../../../context/toggleCartContext";
 import { useMenuContext } from "../../../../context/MenuContext";
 
 export function ContentContainer({ children }: { children: React.ReactNode }) {

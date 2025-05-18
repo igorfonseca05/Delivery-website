@@ -34,7 +34,7 @@ export function SizeIndicator({
 
                     <button key={index} className={`flex flex-col items-center p-1 rounded-lg 
                     ${item.type === 'Médio' && 'order-2'}
-                    ${item.type === sizeDishName && item.type !== "Único" && ' bg-orange-100 border-orange-300 shadow-sm'}`}
+                    ${item.type === sizeDishName && item.type !== "Único" && ' bg-orange-100 border-orange-300'}`}
                         onClick={() => setSizeDishName(item?.type as string)}>
 
                         {Icon && <Icon className={`m-auto text-[14px] 

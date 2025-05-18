@@ -54,8 +54,6 @@ export function AuthGlobalContext({ children }: { children: React.ReactNode }) {
     useEffect(() => {
         if (user) {
             router?.push('/')
-        } else {
-            router?.push('/login')
         }
     }, [user])
 

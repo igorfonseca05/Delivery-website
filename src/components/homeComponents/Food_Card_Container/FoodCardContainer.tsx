@@ -5,6 +5,7 @@ import { useFetchData } from "../../../../hooks/useFetch"
 import { useCategoryContext } from "../../../../context/categoryContext"
 import { useEffect } from "react"
 import { toast } from "react-toastify"
+import { useCartContext } from "../../../../context/toggleCartContext"
 
 import FoodCard from "./FoodCard/Card"
 import CardsLoading from "@/components/globalComponents/cardsLoading/CardsLoading"
@@ -13,6 +14,7 @@ import CardsLoading from "@/components/globalComponents/cardsLoading/CardsLoadin
 export function DishesContainer() {
 
     const { category } = useCategoryContext()
+    const { cartIsOpen } = useCartContext()
 
     // Gerando URL dinâmicamente
     const url = category === 'Todos' ?
@@ -30,7 +32,7 @@ export function DishesContainer() {
     return (
         <>
             <h1 className="capitalize text-2xl mb-3 font-medium">{category || "Todos"}</h1>
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-6 min-h-150 m-auto relative">
+            <div className={`grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-5 min-h-150 relative animate ${cartIsOpen && "w-[78%]"}`}>
 
                 {/* Cards de loading */}
                 {loading && [...Array(10)].map((_, i) => (<CardsLoading key={i} />))}
