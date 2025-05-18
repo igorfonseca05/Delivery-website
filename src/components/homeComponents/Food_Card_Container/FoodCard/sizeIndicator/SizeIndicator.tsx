@@ -6,23 +6,19 @@ import { IconType } from "react-icons";
 import React from "react";
 
 interface SizeProps {
-    id?: number,
-    price?: number,
-    type?: string,
     icon?: IconType,
     sizes: Sizes[],
     sizeDishName: string,
-    setSizeDishName: (sizeDishName: string) => void
+    setSizeDishName: (sizeDishName: string) => void,
+    category: string
 }
 
 export function SizeIndicator({
-    id,
-    price,
     icon: Icon,
-    type,
     sizes,
     sizeDishName,
-    setSizeDishName
+    setSizeDishName,
+    category
 }: SizeProps) {
 
     // console.log(sizeDishName)
@@ -30,19 +26,34 @@ export function SizeIndicator({
     return (
         <div className="flex items-center">
             <div className="flex gap-2 items-baseline-last">
-                {sizes.map((item, index) => (
+                {sizes.map((item, index) => {
 
-                    <button key={index} className={`flex flex-col items-center p-1 rounded-lg 
-                    ${item.type === 'Médio' && 'order-2'}
-                    ${item.type === sizeDishName && item.type !== "Único" && ' bg-orange-100 border-orange-300'}`}
-                        onClick={() => setSizeDishName(item?.type as string)}>
+                    const dishTypeIsEqualToSizeDishName = item.type === sizeDishName
+                    const sizeDishIsNotUniqueType = item.type !== "Único"
+                    const sizeDishIsMiddleSize = item.type === 'Médio'
+                    const sizesArrayLengthEqual2 = sizes.length === 2
 
-                        {Icon && <Icon className={`m-auto text-[14px] 
-                         ${item.type === 'Médio' || item.type === 'Único' ? 'text-[18px]' : ''}`} />}
+                    // Não mostrar icon de tamanho para bebidas
+                    if (category === 'bebidas') return
+                    // if (sizes.length < 2) return
 
-                        <p className="text-[11px]">{item.type}</p>
-                    </button>
-                ))}
+
+                    return (
+                        <button key={index} className={`flex flex-col items-center p-1 rounded-lg 
+                            ${dishTypeIsEqualToSizeDishName &&
+                            sizesArrayLengthEqual2 && 'bg-orange-100'}`}
+                            onClick={() => setSizeDishName(item?.type as string)}>
+
+                            {Icon && <Icon className={`m-auto text-[14px]
+                            ${!dishTypeIsEqualToSizeDishName ||
+                                !sizeDishIsNotUniqueType && 'text-gray-400'}`} />}
+
+                            <p className={`text-[11px] 
+                            ${!dishTypeIsEqualToSizeDishName &&
+                                !sizesArrayLengthEqual2 && 'text-gray-400'}`}>{item.type}</p>
+                        </button>
+                    )
+                })}
             </div>
         </div>
     )

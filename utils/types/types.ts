@@ -1,15 +1,26 @@
 
+export interface DishConfig {
+    id: string
+    name: string,
+    price: number | undefined,
+    imageUrl: string,
+    sizeDishName: string,
+
+}
+
+
 export interface FoodCardProps {
     id: string
     name: string;
     imageUrl: string;
+    category: string
     sizes: [
         {
             type: string,
             price: number,
             id: number
         }
-    ]
+    ],
 }
 
 

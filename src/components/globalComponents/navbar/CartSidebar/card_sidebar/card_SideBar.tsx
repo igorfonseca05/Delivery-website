@@ -4,8 +4,13 @@ import Image from "next/image"
 import { useState } from "react";
 import { FaTrashAlt } from "react-icons/fa";
 
+import { useCartContext } from "../../../../../../context/cartContext";
 
 export function CardItem() {
+
+    const { cartItensArray } = useCartContext()
+
+    console.log(cartItensArray)
 
     const [count, setCount] = useState(1);
 

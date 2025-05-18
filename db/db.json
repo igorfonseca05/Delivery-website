@@ -27,13 +27,13 @@
       "image": "3.jpg",
       "sizes": [
         {
-          "type": "Médio",
-          "price": 20.0,
+          "type": "Mini",
+          "price": 18.0,
           "id": 2
         },
         {
-          "type": "Mini",
-          "price": 18.0,
+          "type": "Médio",
+          "price": 20.0,
           "id": 2
         }
       ]
@@ -88,13 +88,13 @@
       "image": "5.jpg",
       "sizes": [
         {
-          "type": "Média",
-          "price": 24.0,
+          "type": "Mini",
+          "price": 22.0,
           "id": 6
         },
         {
-          "type": "Mini",
-          "price": 22.0,
+          "type": "Médio",
+          "price": 24.0,
           "id": 6
         }
       ]
@@ -359,13 +359,13 @@
       "image": "1.jpg",
       "sizes": [
         {
-          "type": "Médio",
-          "price": 25.0,
+          "type": "Mini",
+          "price": 23.0,
           "id": 25
         },
         {
-          "type": "Mini",
-          "price": 23.0,
+          "type": "Médio",
+          "price": 25.0,
           "id": 25
         }
       ]

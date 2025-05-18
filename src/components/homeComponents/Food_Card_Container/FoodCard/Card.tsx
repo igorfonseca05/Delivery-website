@@ -1,6 +1,5 @@
 "use client"
 
-
 import Image from "next/image";
 
 import { MdAddShoppingCart } from "react-icons/md";
@@ -14,38 +13,13 @@ import { SizeIndicator } from "./sizeIndicator/SizeIndicator";
 
 import { useCartContext } from "../../../../../context/cartContext";
 
-interface dishConfig {
-    name: string,
-    price: number | undefined,
-    imageUrl: string,
-    sizeDishName: string
-}
 
-export default function FoodCard({ id, name, imageUrl, sizes }: FoodCardProps) {
+export default function FoodCard({ id, name, imageUrl, sizes, category }: FoodCardProps) {
+    const { addToCart } = useCartContext()
 
-    const { setDish } = useCartContext()
-    // const [infoIsOpen, setInfoIsOpen] = useState<boolean>(false)
     const [price, setPrice] = useState<number>()
     const [sizeDishName, setSizeDishName] = useState<string>('Mini')
 
-    const [dishesArray, setDishesArray] = useState<dishConfig[]>([])
-
-
-    function handleCard() {
-        const dishInfos = {
-            id,
-            name,
-            price,
-            sizeDishName,
-            imageUrl
-        }
-
-        // setDishesArray(prev => [...prev, dishInfos])
-    }
-
-    useEffect(() => {
-        console.log(dishesArray)
-    }, [dishesArray])
 
     useEffect(() => {
         if (sizes.length >= 2) {
@@ -54,12 +28,13 @@ export default function FoodCard({ id, name, imageUrl, sizes }: FoodCardProps) {
             })
         } else {
             setPrice(sizes[0]?.price)
+            setSizeDishName(sizes[0].type)
         }
 
     }, [sizes, sizeDishName])
 
     return (
-        <div className={`foodCardStyle`} onClick={handleCard}>
+        <div className={`foodCardStyle`}>
             <div className="relative w-full h-35 flex justify-center">
                 <Image
                     src={`/${imageUrl}`}
@@ -74,21 +49,24 @@ export default function FoodCard({ id, name, imageUrl, sizes }: FoodCardProps) {
             <div className="flex flex-col justify-between">
                 <h3 className={`text-lg font-semibold leading-5 break-words mt-2 h-5 whitespace-nowrap overflow-hidden text-ellipsis`}>{name}</h3>
                 <div className="flex justify-between items-center py-1">
-                    {<p className={`text-lg font-bold text-orange-500`}>
+                    {<p className={`text-lg font-bold text-[#ffb443]`}>
                         R$ {price?.toFixed(2)}
                     </p>}
                     <SizeIndicator
                         icon={GiHotMeal}
                         sizes={sizes}
                         sizeDishName={sizeDishName}
-                        setSizeDishName={setSizeDishName} />
+                        setSizeDishName={setSizeDishName}
+                        category={category}
+                    />
                 </div>
 
-                <button className={`button_primary_medium w-full flex justify-center mt-2`}>
+                <button onClick={() => {
+                    addToCart({ id, name, price, sizeDishName, imageUrl })
+                }}
+                    className={`button_primary_medium w-full flex justify-center mt-2`}>
                     <MdAddShoppingCart />
                 </button>
-                {/* <Counter showCounter={addCount} /> */}
-
             </div>
         </div>
     );

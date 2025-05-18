@@ -10,11 +10,14 @@ import { useToggleCartContext } from "../../../../context/toggleCartContext"
 import FoodCard from "./FoodCard/Card"
 import CardsLoading from "@/components/globalComponents/cardsLoading/CardsLoading"
 
+// import { useCartContext } from "../../../../context/cartContext"
+// import { dishConfig } from "../../../../utils/types/types"
 
 export function DishesContainer() {
 
     const { category } = useCategoryContext()
     const { cartIsOpen } = useToggleCartContext()
+    // const { setDish, warning } = useCartContext()
 
     // Gerando URL dinâmicamente
     const url = category === 'Todos' ?
@@ -38,8 +41,15 @@ export function DishesContainer() {
                 {loading && [...Array(10)].map((_, i) => (<CardsLoading key={i} />))}
 
                 {/* Pratos disponiveis */}
-                {!loading && dishes?.map(item => (
-                    <FoodCard key={item.id} id={item.id} name={item.name} imageUrl={item.image} sizes={item.sizes} />
+                {!loading && dishes?.map((item, index) => (
+                    <FoodCard
+                        key={item.id}
+                        id={item.id}
+                        name={item.name}
+                        imageUrl={item.image}
+                        sizes={item.sizes}
+                        category={item.category}
+                    />
                 ))}
                 {!dishes && <NotFoundData text='Dados não encontrados' />}
             </div>
