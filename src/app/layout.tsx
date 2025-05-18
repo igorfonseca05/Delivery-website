@@ -5,8 +5,9 @@ import "./globals.css";
 
 // Context
 import { MenuContextProvider } from "../../context/MenuContext";
-import { CartContextProvider } from "../../context/toggleCartContext";
+import { ToggleCartContextProvider } from "../../context/toggleCartContext";
 import { AuthGlobalContext } from "@/components/SessionWrapper/sessionWrapper";
+import { CartContextProvider } from "../../context/cartContext";
 
 // Components
 import { Navbar } from "@/components/globalComponents/navbar/navBar";
@@ -41,15 +42,17 @@ export default function RootLayout({
       <body className={`${roboto.className} antialiased'}`}>
         <AuthGlobalContext>
           <ToastContainer />
-          <CartContextProvider>
+          <ToggleCartContextProvider>
             <MenuContextProvider>
-              <SideMenu />
-              <Navbar />
-              <CartSideBar />
-              {children}
-              <Footer />
+              <CartContextProvider>
+                <SideMenu />
+                <Navbar />
+                <CartSideBar />
+                {children}
+                <Footer />
+              </CartContextProvider>
             </MenuContextProvider>
-          </CartContextProvider>
+          </ToggleCartContextProvider>
         </AuthGlobalContext>
       </body>
     </html>

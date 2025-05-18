@@ -1,5 +1,6 @@
 
 export interface FoodCardProps {
+    id: string
     name: string;
     imageUrl: string;
     sizes: [

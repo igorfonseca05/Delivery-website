@@ -6,11 +6,11 @@ interface ActionProps {
     setCartIsOpen: (cartIsOpen: boolean) => void
 }
 
-import { useCartContext } from "../../../../../../context/toggleCartContext"
+import { useToggleCartContext } from "../../../../../../context/toggleCartContext"
 
 export function HeaderCart() {
 
-    const { setCartIsOpen, cartIsOpen } = useCartContext()
+    const { setCartIsOpen, cartIsOpen } = useToggleCartContext()
 
     return (
         <div className="flex items-center gap-x-2  p-2 rounded-lg">

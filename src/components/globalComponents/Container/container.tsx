@@ -1,12 +1,12 @@
 'use client'
 
 import React from "react";
-import { useCartContext } from "../../../../context/toggleCartContext";
+import { useToggleCartContext } from "../../../../context/toggleCartContext";
 import { useMenuContext } from "../../../../context/MenuContext";
 
 export function ContentContainer({ children }: { children: React.ReactNode }) {
 
-    const { cartIsOpen } = useCartContext()
+    const { cartIsOpen } = useToggleCartContext()
     const { isOpen } = useMenuContext()
 
     return (

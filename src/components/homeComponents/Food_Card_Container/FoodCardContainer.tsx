@@ -5,7 +5,7 @@ import { useFetchData } from "../../../../hooks/useFetch"
 import { useCategoryContext } from "../../../../context/categoryContext"
 import { useEffect } from "react"
 import { toast } from "react-toastify"
-import { useCartContext } from "../../../../context/toggleCartContext"
+import { useToggleCartContext } from "../../../../context/toggleCartContext"
 
 import FoodCard from "./FoodCard/Card"
 import CardsLoading from "@/components/globalComponents/cardsLoading/CardsLoading"
@@ -14,7 +14,7 @@ import CardsLoading from "@/components/globalComponents/cardsLoading/CardsLoadin
 export function DishesContainer() {
 
     const { category } = useCategoryContext()
-    const { cartIsOpen } = useCartContext()
+    const { cartIsOpen } = useToggleCartContext()
 
     // Gerando URL dinâmicamente
     const url = category === 'Todos' ?
@@ -39,7 +39,7 @@ export function DishesContainer() {
 
                 {/* Pratos disponiveis */}
                 {!loading && dishes?.map(item => (
-                    <FoodCard key={item.id} name={item.name} imageUrl={item.image} sizes={item.sizes} />
+                    <FoodCard key={item.id} id={item.id} name={item.name} imageUrl={item.image} sizes={item.sizes} />
                 ))}
                 {!dishes && <NotFoundData text='Dados não encontrados' />}
             </div>

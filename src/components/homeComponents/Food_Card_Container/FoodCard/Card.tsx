@@ -12,26 +12,40 @@ import { useEffect, useState } from "react";
 import { FoodCardProps } from "../../../../../utils/types/types";
 import { SizeIndicator } from "./sizeIndicator/SizeIndicator";
 
-export default function FoodCard({ name, imageUrl, sizes }: FoodCardProps) {
+import { useCartContext } from "../../../../../context/cartContext";
 
+interface dishConfig {
+    name: string,
+    price: number | undefined,
+    imageUrl: string,
+    sizeDishName: string
+}
+
+export default function FoodCard({ id, name, imageUrl, sizes }: FoodCardProps) {
+
+    const { setDish } = useCartContext()
     // const [infoIsOpen, setInfoIsOpen] = useState<boolean>(false)
     const [price, setPrice] = useState<number>()
     const [sizeDishName, setSizeDishName] = useState<string>('Mini')
 
+    const [dishesArray, setDishesArray] = useState<dishConfig[]>([])
+
 
     function handleCard() {
-        // setInfoIsOpen(!infoIsOpen)
-
         const dishInfos = {
+            id,
             name,
             price,
             sizeDishName,
             imageUrl
         }
 
-        console.log(dishInfos)
+        // setDishesArray(prev => [...prev, dishInfos])
     }
 
+    useEffect(() => {
+        console.log(dishesArray)
+    }, [dishesArray])
 
     useEffect(() => {
         if (sizes.length >= 2) {

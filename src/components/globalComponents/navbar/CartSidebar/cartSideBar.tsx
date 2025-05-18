@@ -5,12 +5,12 @@ import { PricesCart } from "./cartFooterTotal"
 import { HeaderCart } from "./cardHeader"
 
 import { useState } from "react"
-import { useCartContext } from "../../../../../context/toggleCartContext"
+import { useToggleCartContext } from "../../../../../context/toggleCartContext"
 import { CardItem } from "./card_sidebar/card_SideBar"
 
 export function CartSideBar() {
 
-    const { cartIsOpen } = useCartContext()
+    const { cartIsOpen } = useToggleCartContext()
 
     return (
         <div className={`fixed right-0 p-4 py-3 h-full z-2 w-75 bg-white ${cartIsOpen ? 'cardIsOpen' : 'cardIsClose'}`}>

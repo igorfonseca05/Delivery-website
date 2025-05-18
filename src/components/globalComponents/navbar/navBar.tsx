@@ -10,7 +10,7 @@ import { useAuthContext } from '../../../../context/useAuthContext'
 
 // Components
 import { useMenuContext } from '../../../../context/MenuContext'
-import { useCartContext } from '../../../../context/toggleCartContext'
+import { useToggleCartContext } from '../../../../context/toggleCartContext'
 import { LoginButton } from './loginButton/loginButton'
 import UserDropdown from './useDropDown/userDropdown'
 import { SignUpButton } from './signUpButton/signUpButton'
@@ -21,7 +21,7 @@ import { MdSearch, MdMenu, MdClose, MdShoppingCart } from 'react-icons/md'
 
 export function Navbar() {
     const { setIsOpen, isOpen } = useMenuContext()
-    const { cartIsOpen, setCartIsOpen } = useCartContext()
+    const { cartIsOpen, setCartIsOpen } = useToggleCartContext()
     const { user } = useAuthContext()
     const path = usePathname()
 
