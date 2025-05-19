@@ -47,8 +47,8 @@ export function FoodCard({ id, name, imageUrl, sizes, category, description }: F
                 />
             </div>
             <div className="flex flex-col justify-between grow">
-                <h3 className={`text-lg font-semibold leading-5 break-words h-5 w-80`}>{name}</h3>
-                <p className="w-80 text-sm">{description}</p>
+                <h3 className={`text-[clamp(1rem,1.3vw,2rem)] font-semibold leading-5 break-words h-5 max-w-80 line-clamp-3`}>{name}</h3>
+                <p className="max-w-80 text-[clamp(0.8rem,1vw,2rem)] text-gray-500 h-15 line-clamp-3">{description}</p>
 
                 <div className="flex justify-between items-center py-1">
                     {<p className={`text-lg font-bold text-[#ffb443]`}>

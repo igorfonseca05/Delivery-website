@@ -9,6 +9,7 @@ import { useToggleCartContext } from "../../../../context/toggleCartContext"
 
 import { FoodCard } from "./FoodCard/Card"
 import { CardsLoading } from "@/components/globalComponents/cardsLoading/CardsLoading"
+import Link from "next/link"
 
 
 export function DishesContainer() {
@@ -32,22 +33,24 @@ export function DishesContainer() {
     return (
         <>
             <h1 className="capitalize text-2xl mb-3 font-medium">{category || "Todos"}</h1>
-            <div className={`grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(450px,1fr))] gap-5 min-h-150 relative animate ${cartIsOpen && "w-[78%]"}`}>
+            <div className={`grid grid-cols-1  md:grid-cols-[auto_auto] gap-5 relative animate ${cartIsOpen && "w-[78%]"}`}>
 
                 {/* Cards de loading */}
                 {loading && [...Array(10)].map((_, i) => (<CardsLoading key={i} />))}
 
                 {/* Pratos disponiveis */}
                 {!loading && dishes?.map((item, index) => (
-                    <FoodCard
-                        key={item.id}
-                        id={item.id}
-                        name={item.name}
-                        imageUrl={item.image}
-                        sizes={item.sizes}
-                        category={item.category}
-                        description={item.description}
-                    />
+                    <Link key={item.id} href={"#"}>
+                        <FoodCard
+                            key={item.id}
+                            id={item.id}
+                            name={item.name}
+                            imageUrl={item.image}
+                            sizes={item.sizes}
+                            category={item.category}
+                            description={item.description}
+                        />
+                    </Link>
                 ))}
                 {!dishes && <NotFoundData text='Dados não encontrados' />}
             </div>
