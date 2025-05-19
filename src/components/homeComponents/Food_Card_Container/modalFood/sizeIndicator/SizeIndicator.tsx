@@ -7,10 +7,10 @@ import React from "react";
 
 interface SizeProps {
     icon?: IconType,
-    sizes: Sizes[],
+    sizes: Sizes[] | undefined,
     sizeDishName: string,
     setSizeDishName: (sizeDishName: string) => void,
-    category: string
+    category: string | undefined
 }
 
 export function SizeIndicator({
@@ -26,7 +26,7 @@ export function SizeIndicator({
     return (
         <div className="flex items-center">
             <div className="flex gap-2 items-baseline-last">
-                {sizes.map((item, index) => {
+                {sizes?.map((item, index) => {
 
                     const dishTypeIsEqualToSizeDishName = item.type === sizeDishName
                     const sizeDishIsNotUniqueType = item.type !== "Único"
@@ -39,16 +39,16 @@ export function SizeIndicator({
 
 
                     return (
-                        <button key={index} className={`flex flex-col items-center p-1 rounded-lg 
+                        <button key={index} className={`flex flex-col items-center p-2 rounded-sm
                             ${dishTypeIsEqualToSizeDishName &&
                             sizesArrayLengthEqual2 && 'bg-orange-100'}`}
                             onClick={() => setSizeDishName(item?.type as string)}>
 
-                            {Icon && <Icon className={`m-auto text-[14px]
+                            {Icon && <Icon className={`m-auto text-[16px]
                             ${!dishTypeIsEqualToSizeDishName ||
                                 !sizeDishIsNotUniqueType && 'text-gray-400'}`} />}
 
-                            <p className={`text-[11px] 
+                            <p className={`text-[12px] 
                             ${!dishTypeIsEqualToSizeDishName &&
                                 !sizesArrayLengthEqual2 && 'text-gray-400'}`}>{item.type}</p>
                         </button>

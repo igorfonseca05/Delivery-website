@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { FormEvent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { useAuth } from "../../../../hooks/auth/useAuth";
+import { useAuth } from "../../../../hooks/useAuth";
 import { useAuthContext } from "../../../../context/useAuthContext";
 import { redirect } from "next/navigation";
 

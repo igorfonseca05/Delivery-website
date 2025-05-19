@@ -1,7 +1,8 @@
 "use client"
 
 import { createContext, ReactNode, useContext, useEffect, useState } from "react"
-import { DishConfig } from "../utils/types/types"
+import { CartItemProps, DishConfig } from "../utils/types/types"
+
 
 
 // interface DishConfig {
@@ -14,9 +15,11 @@ import { DishConfig } from "../utils/types/types"
 interface DishCartContextProps {
     // dish: DishConfig | undefined,
     // setDish: (dish: DishConfig) => void,
-    cartItensArray: DishConfig[],
+    cartItensArray: CartItemProps[],
     warning: string,
-    addToCart: (dishInfos: DishConfig) => void
+    addToCart: (dishInfos: CartItemProps) => void
+    // cartIndicator?: number
+    removeCartItem: (id: string) => void
 }
 
 // Cria onde add os dados globalmente
@@ -26,9 +29,8 @@ export const CartContext = createContext<DishCartContextProps | undefined>(undef
 // Indica quem pode ter acesso aos dados
 export function CartContextProvider({ children }: { children: ReactNode }) {
 
-    // const [dish, setDish] = useState<DishConfig>()
     const [warning, setWarning] = useState('')
-
+    const [removedItem, setRemovedItem] = useState<DishConfig[]>([])
     // usando os itens no localstage como padrão
     const [cartItensArray, setCartItensArray] = useState<DishConfig[]>(() => {
         const stored = localStorage.getItem('cartItens')
@@ -36,8 +38,9 @@ export function CartContextProvider({ children }: { children: ReactNode }) {
     })
 
 
+
     // Função responsavel por adicionar itens no
-    function addToCart(dishInfos: DishConfig) {
+    function addToCart(dishInfos: CartItemProps) {
         const alreadyExists = cartItensArray.some(item => item.name === dishInfos.name);
         if (alreadyExists) {
             setWarning('Item já está no carrinho');
@@ -46,15 +49,23 @@ export function CartContextProvider({ children }: { children: ReactNode }) {
         }
     }
 
+    function removeCartItem(id: string) {
+        const updatedCartArray = cartItensArray.filter(cartItem => cartItem.id !== id)
+        setCartItensArray(updatedCartArray)
+    }
+
     useEffect(() => {
         localStorage.setItem('cartItens', JSON.stringify(cartItensArray))
-
     }, [cartItensArray.length])
 
-
+    // useEffect(() => {
+    //     if (removedItem) {
+    //         setCartItensArray(removedItem)
+    //     }
+    // }, [removedItem])
 
     return (
-        <CartContext.Provider value={{ addToCart, cartItensArray, warning }}>
+        <CartContext.Provider value={{ addToCart, cartItensArray, warning, removeCartItem }}>
             {children}
         </CartContext.Provider>
     )

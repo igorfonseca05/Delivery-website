@@ -5,7 +5,25 @@ export interface DishConfig {
     price: number | undefined,
     imageUrl: string,
     sizeDishName: string,
-
+    sizes?: [
+        {
+            type: string,
+            price: number,
+            id: number
+        }
+    ]
+    quantity?: number
+    orderNote?: string,
+}
+export interface CartItemProps {
+    id: string
+    name: string,
+    price: number | undefined,
+    imageUrl: string,
+    sizeDishName: string,
+    quantity?: number
+    orderNote?: string
+    cartIndicator?: number
 }
 
 

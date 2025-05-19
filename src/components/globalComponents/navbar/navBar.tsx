@@ -8,6 +8,8 @@ import { usePathname } from 'next/navigation'
 // import { useSession, signIn, signOut } from 'next-auth/react'
 import { useAuthContext } from '../../../../context/useAuthContext'
 
+import { useCartContext } from '../../../../context/cartContext'
+
 // Components
 import { useMenuContext } from '../../../../context/MenuContext'
 import { useToggleCartContext } from '../../../../context/toggleCartContext'
@@ -21,6 +23,7 @@ import { MdSearch, MdMenu, MdClose, MdShoppingCart } from 'react-icons/md'
 
 export function Navbar() {
     const { setIsOpen, isOpen } = useMenuContext()
+    const { cartItensArray } = useCartContext()
     const { cartIsOpen, setCartIsOpen } = useToggleCartContext()
     const { user } = useAuthContext()
     const path = usePathname()
@@ -81,8 +84,9 @@ export function Navbar() {
                             {user && <UserDropdown />}
 
                             {/* Shopping Cart */}
-                            <li className='cursor-pointer button_neutral_medium p-2 ml-2' onClick={() => setCartIsOpen(!cartIsOpen)}>
-                                <MdShoppingCart className='text-gray-700 text-xl' />
+                            <li className='cursor-pointer button_neutral_medium p-2 ml-2 relative' onClick={() => setCartIsOpen(!cartIsOpen)}>
+                                <span className={`absolute top-0 right-1 w-4 h-4 text-center bg-orange-300 rounded-full text-[11px] ${cartItensArray.length === 0 ? 'hidden' : 'block'}`}>{cartItensArray.length}</span>
+                                <MdShoppingCart className='text-gray-700 text-xl z-10' />
                             </li>
                         </div>
                     </ul>

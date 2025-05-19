@@ -44,6 +44,17 @@ body {
   @apply my-3 bg-white rounded-lg;
 }
 
+.TextColor {
+  @apply text-[var(--button-color)];
+}
+.color {
+  @apply bg-[var(--button-color)];
+}
+
+.colorHover {
+  @apply bg-[var(--button-color-hover)];
+}
+
 /* Navbar */
 .navContainer {
   @apply bg-[var(--menu-color)] h-14 flex items-center justify-end fixed transition-all ease-in-out duration-500;

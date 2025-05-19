@@ -42,7 +42,7 @@ export function DishesContainer() {
         <>
             <div className="min-h-150">
                 <h1 className="capitalize text-2xl mb-3 font-medium">{category || "Todos"}</h1>
-                <div className={`grid grid-cols-1 md:grid-cols-[auto_auto] gap-5 relative animate ${cartIsOpen && "w-[78%]"}`}>
+                <div className={`grid grid-cols-1 md:grid-cols-[auto_auto] gap-5 relative animate`}>
 
                     {/* Cards de loading */}
                     {loading && [...Array(10)].map((_, i) => (<CardsLoading key={i} />))}
@@ -68,10 +68,10 @@ export function DishesContainer() {
                     {!dishes && <NotFoundData text='Dados não encontrados' />}
                 </div>
             </div>
-            <FoodModal
+            {modalIsOpen && <FoodModal
                 modalIsOpen={modalIsOpen}
                 setModalIsOpen={setModalIsOpen}
-                clickedDish={clickedDish} />
+                clickedDish={clickedDish} />}
         </>
     )
 }

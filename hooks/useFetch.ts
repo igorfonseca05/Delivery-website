@@ -28,7 +28,7 @@ export function useFetchData(url: string) {
                     setData(cache[url])
                     return
                 }
-                // await new Promise(resolve => setTimeout(() => resolve(''), 5000))
+                // await new Promise(resolve => setTimeout(() => resolve(''), 20000))
 
                 const res = await fetch(url, { signal: controller.signal })
 
