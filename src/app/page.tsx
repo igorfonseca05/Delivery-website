@@ -9,6 +9,7 @@ import { Suspense } from "react";
 import { useServerFetch } from "../../service/useServerFetch";
 import { DishesProps } from "../../utils/types/types";
 import { CategoryContextProvider } from "../../context/categoryContext";
+import { ModalProvider } from "../../context/modalContext";
 
 
 export default async function Home() {
@@ -22,7 +23,9 @@ export default async function Home() {
         <h1 className="text-2xl mt-5 font-bold">Escolha uma categoria</h1>
         <CategoryContextProvider>
           <CategorySelector categories={data} />
-          <DishesContainer />
+          <ModalProvider>
+            <DishesContainer />
+          </ModalProvider>
         </CategoryContextProvider>
       </Suspense>
     </ContentContainer>

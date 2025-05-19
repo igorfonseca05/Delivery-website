@@ -9,13 +9,12 @@ import { GiHotMeal } from "react-icons/gi";
 import { useEffect, useState } from "react";
 
 import { FoodCardProps } from "../../../../../utils/types/types";
-import { SizeIndicator } from "./sizeIndicator/SizeIndicator";
+import { SizeIndicator } from "../modalFood/sizeIndicator/SizeIndicator";
 
 import { useCartContext } from "../../../../../context/cartContext";
 
 
 export function FoodCard({ id, name, imageUrl, sizes, category, description }: FoodCardProps) {
-    const { addToCart } = useCartContext()
 
     const [price, setPrice] = useState<number>()
     const [sizeDishName, setSizeDishName] = useState<string>('Mini')
@@ -46,7 +45,7 @@ export function FoodCard({ id, name, imageUrl, sizes, category, description }: F
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
             </div>
-            <div className="flex flex-col justify-between grow">
+            <div className="flex flex-col justify-between grow text-start">
                 <h3 className={`text-[clamp(1rem,1.3vw,2rem)] font-semibold leading-5 break-words h-5 max-w-80 line-clamp-3`}>{name}</h3>
                 <p className="max-w-80 text-[clamp(0.8rem,1vw,2rem)] text-gray-500 h-15 line-clamp-3">{description}</p>
 
