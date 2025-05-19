@@ -10,7 +10,7 @@ export function ContentContainer({ children }: { children: React.ReactNode }) {
     const { isOpen } = useMenuContext()
 
     return (
-        <section className={`alignAllContent max-w-300 pt-16 p-2 text-justify m-auto overflow-hidden`}>
+        <section className={`alignAllContent sizeContentet pt-16 p-2 text-justify  overflow-hidden`}>
             {children}
         </section>
     )

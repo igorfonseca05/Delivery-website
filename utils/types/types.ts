@@ -21,6 +21,7 @@ export interface FoodCardProps {
             id: number
         }
     ],
+    description: string
 }
 
 

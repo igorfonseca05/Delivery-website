@@ -14,7 +14,7 @@ import { SizeIndicator } from "./sizeIndicator/SizeIndicator";
 import { useCartContext } from "../../../../../context/cartContext";
 
 
-export default function FoodCard({ id, name, imageUrl, sizes, category }: FoodCardProps) {
+export function FoodCard({ id, name, imageUrl, sizes, category, description }: FoodCardProps) {
     const { addToCart } = useCartContext()
 
     const [price, setPrice] = useState<number>()
@@ -34,39 +34,41 @@ export default function FoodCard({ id, name, imageUrl, sizes, category }: FoodCa
     }, [sizes, sizeDishName])
 
     return (
-        <div className={`foodCardStyle`}>
-            <div className="relative w-full h-35 flex justify-center">
+        <div className={`foodCardStyle gap-x-2`}>
+            <div className="relative w-50 h-35 flex justify-center order-2 rounded-lg">
                 <Image
                     src={`/${imageUrl}`}
                     alt={name}
                     fill
                     className="rounded-lg"
-                    style={{ objectFit: 'contain' }}
+                    style={{ objectFit: 'cover' }}
                     priority
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
             </div>
-            <div className="flex flex-col justify-between">
-                <h3 className={`text-lg font-semibold leading-5 break-words mt-2 h-5 whitespace-nowrap overflow-hidden text-ellipsis`}>{name}</h3>
+            <div className="flex flex-col justify-between grow">
+                <h3 className={`text-lg font-semibold leading-5 break-words h-5 w-80`}>{name}</h3>
+                <p className="w-80 text-sm">{description}</p>
+
                 <div className="flex justify-between items-center py-1">
                     {<p className={`text-lg font-bold text-[#ffb443]`}>
                         R$ {price?.toFixed(2)}
                     </p>}
-                    <SizeIndicator
+                    {/* <SizeIndicator
                         icon={GiHotMeal}
                         sizes={sizes}
                         sizeDishName={sizeDishName}
                         setSizeDishName={setSizeDishName}
                         category={category}
-                    />
+                    /> */}
                 </div>
 
-                <button onClick={() => {
+                {/* <button onClick={() => {
                     addToCart({ id, name, price, sizeDishName, imageUrl })
                 }}
                     className={`button_primary_medium w-full flex justify-center mt-2`}>
                     <MdAddShoppingCart />
-                </button>
+                </button> */}
             </div>
         </div>
     );

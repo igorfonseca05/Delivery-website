@@ -7,19 +7,16 @@ import { useEffect } from "react"
 import { toast } from "react-toastify"
 import { useToggleCartContext } from "../../../../context/toggleCartContext"
 
-import FoodCard from "./FoodCard/Card"
-import CardsLoading from "@/components/globalComponents/cardsLoading/CardsLoading"
+import { FoodCard } from "./FoodCard/Card"
+import { CardsLoading } from "@/components/globalComponents/cardsLoading/CardsLoading"
 
-// import { useCartContext } from "../../../../context/cartContext"
-// import { dishConfig } from "../../../../utils/types/types"
 
 export function DishesContainer() {
 
     const { category } = useCategoryContext()
     const { cartIsOpen } = useToggleCartContext()
-    // const { setDish, warning } = useCartContext()
 
-    // Gerando URL dinâmicamente
+    // Gerando URL dinâmicamente com base na categoria
     const url = category === 'Todos' ?
         `http://localhost:5000/cardapio` :
         `http://localhost:5000/cardapio?category=${category}`
@@ -30,12 +27,12 @@ export function DishesContainer() {
     // Capturando erro de fetch
     useEffect(() => {
         error && toast.error(error)
-    }, [error])
+    }, [])
 
     return (
         <>
             <h1 className="capitalize text-2xl mb-3 font-medium">{category || "Todos"}</h1>
-            <div className={`grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-5 min-h-150 relative animate ${cartIsOpen && "w-[78%]"}`}>
+            <div className={`grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(450px,1fr))] gap-5 min-h-150 relative animate ${cartIsOpen && "w-[78%]"}`}>
 
                 {/* Cards de loading */}
                 {loading && [...Array(10)].map((_, i) => (<CardsLoading key={i} />))}
@@ -49,6 +46,7 @@ export function DishesContainer() {
                         imageUrl={item.image}
                         sizes={item.sizes}
                         category={item.category}
+                        description={item.description}
                     />
                 ))}
                 {!dishes && <NotFoundData text='Dados não encontrados' />}

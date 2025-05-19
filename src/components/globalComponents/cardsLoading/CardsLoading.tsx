@@ -1,6 +1,6 @@
 'use client'
 
-export default function CardsLoading() {
+export function CardsLoading() {
   return (
     <div className="relative overflow-hidden rounded-xl shadow bg-gray-100 h-[280px] w-full max-w-[240px] animate-pulse">
       {/* Bloco da imagem */}

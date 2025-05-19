@@ -6,11 +6,14 @@ import { FaTrashAlt } from "react-icons/fa";
 
 import { useCartContext } from "../../../../../../context/cartContext";
 
-export function CardItem() {
+interface CartProps {
+    id: string,
+    name: string,
+    imageUrl: string,
+    price: number | undefined
+}
 
-    const { cartItensArray } = useCartContext()
-
-    console.log(cartItensArray)
+export function CardItem({ id, name, imageUrl, price }: CartProps) {
 
     const [count, setCount] = useState(1);
 
@@ -23,9 +26,9 @@ export function CardItem() {
     };
 
     return (
-        <div className="flex p-2 gap-x-2">
+        <div className="flex p-2 gap-x-2 bg-orange-100 rounded-lg">
             <Image
-                src='/1.jpg'
+                src={`/${imageUrl}`}
                 alt="food"
                 width={75}
                 height={75}
@@ -33,8 +36,11 @@ export function CardItem() {
             />
             <div className=" flex flex-col justify-between w-full">
                 <div className="flex items-center justify-between">
-                    <p>Food</p>
-                    <span>R$ 78.22</span>
+                    <div>
+                        <p className="w-40 whitespace-nowrap text-ellipsis overflow-hidden">{name}</p>
+                        <span className="text-[11px]">{name}</span>
+                    </div>
+                    <span>R$ {price?.toFixed(2)}</span>
                 </div>
                 <div className="flex items-center justify-between">
                     <div className="flex items-center border rounded-lg px-1 bg-white shadow-sm">
