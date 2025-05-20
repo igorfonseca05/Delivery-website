@@ -2,8 +2,7 @@
 
 import Image from "next/image";
 
-import { MdAddShoppingCart } from "react-icons/md";
-import { GiHotMeal } from "react-icons/gi";
+import { GiSodaCan } from "react-icons/gi";
 
 
 import { useEffect, useState } from "react";
@@ -46,7 +45,10 @@ export function FoodCard({ id, name, imageUrl, sizes, category, description }: F
                 />
             </div>
             <div className="flex flex-col justify-between grow text-start">
-                <h3 className={`text-[clamp(1rem,1.3vw,2rem)] font-semibold leading-5 break-words h-5 max-w-80 line-clamp-3`}>{name}</h3>
+                {category !== 'Combos com Coca' && <h3 className={`text-[clamp(1rem,1.3vw,2rem)] font-semibold leading-5 break-words h-5 max-w-80 line-clamp-3`}>{name}</h3>}
+
+                {category === 'Combos com Coca' &&
+                    <h3 className={`text-[clamp(1rem,1.3vw,2rem)] font-semibold leading-5 break-words h-5 max-w-80 line-clamp-3`}>{name} + Coca</h3>}
                 <p className="max-w-80 text-[clamp(0.8rem,1vw,2rem)] text-gray-500 h-15 line-clamp-3">{description}</p>
 
                 <div className="flex justify-between items-center py-1">

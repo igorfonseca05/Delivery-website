@@ -1,9 +1,10 @@
 'use client'
 
 import Image from "next/image"
+import Link from "next/link"
 
 import { MdClose } from "react-icons/md"
-import { PricesCart } from "./cartFooterTotal"
+import { PricesCart } from "./cartFooterTotal/cartFooter"
 import { HeaderCart } from "./cardHeader"
 
 import { useState } from "react"
@@ -14,7 +15,7 @@ import { useCartContext } from "../../../../../context/cartContext"
 
 export function CartSideBar() {
 
-    const { cartIsOpen } = useToggleCartContext()
+    const { cartIsOpen, setCartIsOpen } = useToggleCartContext()
     const { cartItensArray } = useCartContext()
 
     return (
@@ -37,15 +38,23 @@ export function CartSideBar() {
                 {cartItensArray.length !== 0 &&
                     (<>
                         <div className=" flex flex-col grow-2 mt-4 rounded-lg gap-y-2 overflow-y-auto cartScroll">
-                            {cartItensArray && cartItensArray?.map(({ id, name, price, imageUrl }) => (
-                                <CardItem key={id} id={id} name={name} price={price} imageUrl={imageUrl} />
+                            {cartItensArray && cartItensArray?.map(({ id, name, price, imageUrl, quantity }) => (
+                                <CardItem
+                                    key={id}
+                                    id={id}
+                                    name={name}
+                                    price={price}
+                                    imageUrl={imageUrl}
+                                    quantity={quantity} />
                             ))}
                         </div>
                         <div className="flex flex-col items-center gap-y-2">
                             <PricesCart />
-                            <button className="button_primary_medium w-full mt-2">
+                            <Link href={'/payment'}
+                                className="button_primary_medium bg-[#df4f4b] w-full mt-2 text-center"
+                                onClick={() => setCartIsOpen(false)}>
                                 Finalizar pedido
-                            </button>
+                            </Link>
                         </div>
                     </>)
                 }

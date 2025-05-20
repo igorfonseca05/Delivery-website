@@ -10,22 +10,13 @@ interface CartProps {
     id: string,
     name: string,
     imageUrl: string,
-    price: number | undefined
+    price: number,
+    quantity?: number
 }
 
-export function CardItem({ id, name, imageUrl, price }: CartProps) {
+export function CardItem({ id, name, imageUrl, price, quantity }: CartProps) {
 
     const { removeCartItem } = useCartContext()
-
-    // const [count, setCount] = useState(1);
-
-    // const decrement = () => {
-    //     if (count > 1) setCount(count - 1);
-    // };
-
-    // const increment = () => {
-    //     setCount(count + 1);
-    // };
 
     return (
         <div className="flex p-2 gap-x-2 bg-orange-100 rounded-lg">
@@ -38,29 +29,12 @@ export function CardItem({ id, name, imageUrl, price }: CartProps) {
             />
             <div className=" flex flex-col justify-between w-full">
                 <div className="flex items-center justify-between">
-                    <div>
-                        <p className="w-full">{name}</p>
-                        {/* <span className="text-[11px]">{name}</span> */}
-                    </div>
+                    <p className="font-bold">{name}</p>
+                    <span className="mr-1">{quantity && `x${quantity}`}</span>
                 </div>
                 <div className="flex items-center justify-between">
-                    <span>R$ {price?.toFixed(2)}</span>
-                    {/* <div className="flex items-center border rounded-lg px-1 bg-white shadow-sm">
-                        <button
-                            onClick={decrement}
-                            className="text-gray-500 hover:text-black px-1 text-sm"
-                        >
-                            -
-                        </button>
-                        <span className="px-2 text-sm font-medium">{count}</span>
-                        <button
-                            onClick={increment}
-                            className="text-gray-500 hover:text-black px-1 text-sm"
-                        >
-                            +
-                        </button>
-                    </div> */}
-                    <FaTrashAlt onClick={() => removeCartItem(id)} className="cursor-pointer" />
+                    <span>R$ {price?.toFixed(2)} <span className="text-[11px]">Uni.</span> </span>
+                    <FaTrashAlt onClick={() => removeCartItem(id)} className="cursor-pointer mr-1" />
                 </div>
 
             </div>

@@ -7,7 +7,9 @@ interface DishCartContextProps {
     cartItensArray: CartItemProps[],
     warning: string,
     addToCart: (dishInfos: CartItemProps) => void
-    removeCartItem: (id: string) => void
+    removeCartItem: (id: string) => void,
+    setTotal: (total: number) => void
+    total: number
 }
 
 // Cria onde add os dados globalmente
@@ -18,7 +20,8 @@ export const CartContext = createContext<DishCartContextProps | undefined>(undef
 export function CartContextProvider({ children }: { children: ReactNode }) {
 
     const [warning, setWarning] = useState('')
-    const [removedItem, setRemovedItem] = useState<DishConfig[]>([])
+    const [total, setTotal] = useState<number>(0)
+
     // usando os itens no localstage como padrão
     const [cartItensArray, setCartItensArray] = useState<DishConfig[]>(() => {
         const stored = localStorage.getItem('cartItens')
@@ -26,8 +29,7 @@ export function CartContextProvider({ children }: { children: ReactNode }) {
     })
 
 
-
-    // Função responsavel por adicionar itens no
+    // Função responsavel por adicionar itens no carrinho
     function addToCart(dishInfos: CartItemProps) {
         const alreadyExists = cartItensArray.some(item => item.name === dishInfos.name);
         if (alreadyExists) {
@@ -37,23 +39,31 @@ export function CartContextProvider({ children }: { children: ReactNode }) {
         }
     }
 
+    // Função responsavel por remover item do carrinho
     function removeCartItem(id: string) {
         const updatedCartArray = cartItensArray.filter(cartItem => cartItem.id !== id)
         setCartItensArray(updatedCartArray)
     }
 
+    // Atualizar dados de carrinho no localstorage
     useEffect(() => {
         localStorage.setItem('cartItens', JSON.stringify(cartItensArray))
+
+        // Se carrinho vazio, total compra é zero
+        if (cartItensArray.length === 0) setTotal(0)
     }, [cartItensArray.length])
 
-    // useEffect(() => {
-    //     if (removedItem) {
-    //         setCartItensArray(removedItem)
-    //     }
-    // }, [removedItem])
 
     return (
-        <CartContext.Provider value={{ addToCart, cartItensArray, warning, removeCartItem }}>
+        <CartContext.Provider value={{
+            addToCart,
+            cartItensArray,
+            warning,
+            removeCartItem,
+            total,
+            setTotal,
+        }
+        }>
             {children}
         </CartContext.Provider>
     )

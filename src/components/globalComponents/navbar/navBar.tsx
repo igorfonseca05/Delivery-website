@@ -23,7 +23,7 @@ import { MdSearch, MdMenu, MdClose, MdShoppingCart } from 'react-icons/md'
 
 export function Navbar() {
     const { setIsOpen, isOpen } = useMenuContext()
-    const { cartItensArray } = useCartContext()
+    const { cartItensArray, total } = useCartContext()
     const { cartIsOpen, setCartIsOpen } = useToggleCartContext()
     const { user } = useAuthContext()
     const path = usePathname()
@@ -84,9 +84,14 @@ export function Navbar() {
                             {user && <UserDropdown />}
 
                             {/* Shopping Cart */}
-                            <li className='cursor-pointer button_neutral_medium p-2 ml-2 relative' onClick={() => setCartIsOpen(!cartIsOpen)}>
-                                <span className={`absolute top-0 right-1 w-4 h-4 text-center bg-orange-300 rounded-full text-[11px] ${cartItensArray.length === 0 ? 'hidden' : 'block'}`}>{cartItensArray.length}</span>
-                                <MdShoppingCart className='text-gray-700 text-xl z-10' />
+                            <li className='cursor-pointer flex button_neutral_medium p-2 ml-2 relative' onClick={() => setCartIsOpen(!cartIsOpen)}>
+                                <div className='flex items-baseline gap-x-0.5'>
+                                    <span className={`absolute top-0 left-8 w-4 h-4 text-center bg-[#df4f4b] text-white rounded-full text-[11px] ${cartItensArray.length === 0 ? 'hidden' : 'block'}`}>{cartItensArray.length}</span>
+                                    <MdShoppingCart className='text-gray-700 text-2xl' />
+                                    <div className='flex flex-col'>
+                                        <span className='text-[10px] text-gray-400'>R$ {total.toFixed(2)}</span>
+                                    </div>
+                                </div>
                             </li>
                         </div>
                     </ul>
