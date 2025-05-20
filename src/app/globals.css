@@ -25,7 +25,7 @@
 }
 
 html {
-  max-width: 1200px;
+  max-width: 1400px;
 }
 
 body {
@@ -158,6 +158,10 @@ body {
   @apply w-full border border-gray-300 rounded-lg py-3 px-4 text-sm focus:outline-none focus:ring-1 focus:ring-[var(--button-color)];
 }
 
+.red_input {
+  @apply w-full border border-gray-300 rounded-lg py-3 px-4 text-sm focus:outline-none focus:ring-1 focus:ring-[#d8241f];
+}
+
 /* FoodCard Component */
 
 .foodCardStyle {
@@ -184,4 +188,138 @@ body {
 
 .animate {
   @apply transition-all ease-in-out duration-500;
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid #ffd579;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.checkmark__circle {
+  /* Traço do círculo (contorno) */
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 2;
+  stroke: #4caf50; /* cor laranja para o traço */
+  fill: none;
+  /* Animação que desenha o contorno do círculo */
+  animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark {
+  /* Define tamanho do SVG, bordas arredondadas e centro */
+  width: 56px;
+  height: 56px;
+  display: block;
+  margin: 0 auto;
+  border-radius: 50%;
+  /* Traço branco para o check e preparação para preenchimento */
+  stroke: #fff;
+  stroke-miterlimit: 10;
+  box-shadow: inset 0 0 0 0 #4caf50;
+  /* Animações: primeiro preenche o círculo, depois aplica leve “bounce” */
+  animation: fill 0.4s ease-in-out 0.4s forwards,
+    scale 0.3s ease-in-out 0.9s both;
+}
+
+.checkmark__check {
+  /* Traço do símbolo de check */
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  /* Animação que desenha o check */
+  animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+/* Animação de traçado: reduz dash-offset para desenhar */
+@keyframes stroke {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+/* Animação de preenchimento: expande box-shadow interno */
+@keyframes fill {
+  100% {
+    box-shadow: inset 0 0 0 30px #4caf50;
+  }
+}
+/* Animação de escala (ligeiro “bounce”) */
+@keyframes scale {
+  0%,
+  100% {
+    transform: none;
+  }
+  50% {
+    transform: scale3d(1.1, 1.1, 1);
+  }
+}
+
+/* Error animation */
+
+.errormark {
+  width: 56px;
+  height: 56px;
+  display: block;
+  margin: 0 auto;
+  border-radius: 50%;
+  stroke: #fff;
+  stroke-miterlimit: 10;
+  box-shadow: inset 0 0 0 0 #db3935;
+  animation: fillError 0.4s ease-in-out 0.4s forwards,
+    scaleError 0.3s ease-in-out 0.9s both;
+}
+
+.errormark__circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 2;
+  stroke: #db3935;
+  fill: none;
+  animation: strokeError 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.errormark__cross1,
+.errormark__cross2 {
+  stroke: #fff;
+  stroke-width: 3;
+  stroke-dasharray: 28;
+  stroke-dashoffset: 28;
+  animation: strokeError 0.3s ease-in-out 0.8s forwards;
+}
+
+@keyframes strokeError {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fillError {
+  to {
+    box-shadow: inset 0 0 0 30px #db3935;
+  }
+}
+
+@keyframes scaleError {
+  0%,
+  100% {
+    transform: none;
+  }
+  50% {
+    transform: scale(1.1);
+  }
 }

@@ -11,7 +11,7 @@ export function Footer() {
 
     return (
         <footer className={`bg-white px-10 lg:pl-24 text-gray-600 py-4 max-w-full mt-3 ${path === '/login' || path === '/signup' ? 'hidden' : ''}`}>
-            <div className=" bg-red-300 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-300">
+            <div className=" grid grid-cols-1 md:grid-cols-3 gap-8 max-w-300">
                 {/* Coluna 1: Endereço */}
                 <div>
                     <h4 className="text-lg font-semibold mb-2">Endereço</h4>
