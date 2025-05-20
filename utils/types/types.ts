@@ -2,7 +2,7 @@
 export interface DishConfig {
     id: string
     name: string,
-    price: number | undefined,
+    price: number,
     imageUrl: string,
     sizeDishName: string,
     sizes?: [
@@ -18,12 +18,11 @@ export interface DishConfig {
 export interface CartItemProps {
     id: string
     name: string,
-    price: number | undefined,
+    price: number,
     imageUrl: string,
     sizeDishName: string,
     quantity?: number
     orderNote?: string
-    cartIndicator?: number
 }
 
 
@@ -48,7 +47,8 @@ export interface DishesProps {
     category: string
     name: string
     description: string
-    image: string
+    image: string,
+    price?: number,
     sizes: [
         {
             type: string

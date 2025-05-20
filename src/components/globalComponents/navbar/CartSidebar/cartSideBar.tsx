@@ -1,5 +1,7 @@
 'use client'
 
+import Image from "next/image"
+
 import { MdClose } from "react-icons/md"
 import { PricesCart } from "./cartFooterTotal"
 import { HeaderCart } from "./cardHeader"
@@ -16,22 +18,38 @@ export function CartSideBar() {
     const { cartItensArray } = useCartContext()
 
     return (
-        <div className={`fixed right-0 p-4 py-3 h-full z-2 w-90 bg-white ${cartIsOpen ? 'cardIsOpen shadow-md' : 'cardIsClose'}`}>
+        <div className={`fixed right-0 p-4 py-3 h-full z-2 w-full lg:w-90 bg-white
+         ${cartIsOpen ? 'cardIsOpen shadow-md' : 'cardIsClose'}`}>
             <div className="flex flex-col h-full  justify-between">
-                <HeaderCart />
-                <div className=" flex flex-col grow-2 mt-4 rounded-lg gap-y-2 overflow-y-auto cartScroll">
-                    {cartItensArray.map(({ id, name, price, imageUrl }) => (
-                        <CardItem key={id} id={id} name={name} price={price} imageUrl={imageUrl} />
-                    ))}
-                </div>
-                <div className="flex flex-col items-center gap-y-2">
-                    <PricesCart />
-                    <button className="button_primary_medium w-full mt-2">
-                        Finalizar pedido
-                    </button>
-                </div>
-            </div>
 
+                <HeaderCart />
+
+                {/* Messagem de aviso "carrinho vazio" */}
+                {cartItensArray.length === 0 &&
+                    (<div className="m-auto text-center">
+                        <Image src={`/cartIcon.svg`} alt="logo carrinho vazio" priority quality={50} width={200} height={200} className="opacity-40 mb-4" />
+                        <p>Seu carrinho está vazio</p>
+                        <span className="text-sm text-gray-500">Adicione itens</span>
+                    </div>)
+                }
+
+                {/* Produtos caso carrinho não esteja vazio */}
+                {cartItensArray.length !== 0 &&
+                    (<>
+                        <div className=" flex flex-col grow-2 mt-4 rounded-lg gap-y-2 overflow-y-auto cartScroll">
+                            {cartItensArray && cartItensArray?.map(({ id, name, price, imageUrl }) => (
+                                <CardItem key={id} id={id} name={name} price={price} imageUrl={imageUrl} />
+                            ))}
+                        </div>
+                        <div className="flex flex-col items-center gap-y-2">
+                            <PricesCart />
+                            <button className="button_primary_medium w-full mt-2">
+                                Finalizar pedido
+                            </button>
+                        </div>
+                    </>)
+                }
+            </div>
         </div>
     )
 }

@@ -39,7 +39,7 @@ export function CardItem({ id, name, imageUrl, price }: CartProps) {
             <div className=" flex flex-col justify-between w-full">
                 <div className="flex items-center justify-between">
                     <div>
-                        <p className="w-40">{name}</p>
+                        <p className="w-full">{name}</p>
                         {/* <span className="text-[11px]">{name}</span> */}
                     </div>
                 </div>

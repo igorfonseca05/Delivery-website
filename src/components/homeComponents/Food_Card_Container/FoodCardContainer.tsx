@@ -27,9 +27,6 @@ export function DishesContainer() {
     // Buscando dados
     const { data: dishes, loading, error } = useFetchData(url)
 
-    const { cartIsOpen } = useToggleCartContext()
-    const { isOpen, setIsOpen } = useModalContext()
-
     const [clickedDish, setClickedDish] = useState<DishesProps>()
     const [modalIsOpen, setModalIsOpen] = useState(false)
 
@@ -68,7 +65,7 @@ export function DishesContainer() {
                     {!dishes && <NotFoundData text='Dados não encontrados' />}
                 </div>
             </div>
-            {modalIsOpen && <FoodModal
+            {modalIsOpen && clickedDish && <FoodModal
                 modalIsOpen={modalIsOpen}
                 setModalIsOpen={setModalIsOpen}
                 clickedDish={clickedDish} />}

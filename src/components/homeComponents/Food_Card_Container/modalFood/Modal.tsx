@@ -15,7 +15,7 @@ import { useToggleCartContext } from '../../../../../context/toggleCartContext';
 interface FoodModalProps {
     modalIsOpen: boolean
     setModalIsOpen: (modalIsOpen: boolean) => void,
-    clickedDish: DishesProps | undefined
+    clickedDish: DishesProps
 }
 
 
@@ -25,7 +25,7 @@ export function FoodModal({ modalIsOpen, setModalIsOpen, clickedDish }: FoodModa
     const { cartIsOpen, setCartIsOpen } = useToggleCartContext()
 
     const [quantity, setQuantity] = useState(1)
-    const [price, setPrice] = useState<number>()
+    const [price, setPrice] = useState<number>(0)
     const [sizeDishName, setSizeDishName] = useState<string>('Mini')
     const [orderNote, setOrderNote] = useState('')
 
@@ -86,7 +86,7 @@ export function FoodModal({ modalIsOpen, setModalIsOpen, clickedDish }: FoodModa
             }`}>
 
             {/* Modal */}
-            <div className="bg-white rounded-lg shadow-xl w-[90%] max-w-5xl p-4 grid grid-cols-1 md:grid-cols-2 gap-6 relative">
+            <div className="bg-white rounded-lg shadow-xl w-[95%] max-w-[400px] md:max-w-5xl p-2 md:p-4 grid grid-cols-1 md:grid-cols-2 gap-6 relative">
 
                 {/* Botões de Fechar Modal */}
                 <div className="absolute top-4 right-4 flex gap-3 z-10">
@@ -98,18 +98,18 @@ export function FoodModal({ modalIsOpen, setModalIsOpen, clickedDish }: FoodModa
                     <img
                         src={`/${clickedDish?.image}`}
                         alt="Foto do prato"
-                        className="rounded-xl object-cover w-full h-full max-h-[400px]"
+                        className="rounded-lg object-cover w-full h-full max-h-[150px] md:max-h-[400px]"
                     />
                 </div>
 
-                {/* Coluna de conteúdo */}
-                <div className="flex flex-col justify-between gap-y-4 w-[90%] mx-auto">
+                {/* Coluna de conteúdo 0 lado direito modal */}
+                <div className="flex flex-col justify-between gap-y-2 lg:gap-y-4 w-full md:w-[90%] mx-auto">
                     <div className=' flex flex-col justify-between h-full'>
-                        <h2 className="text-[clamp(1.5rem,1vw,2rem)] font-bold text-gray-800 mb-2 max-w-[90%]">{clickedDish?.name}</h2>
-                        <p className="text-gray-500 mb-4 text-sm">{clickedDish?.description}</p>
+                        <h2 className="text-[clamp(1rem,1.7vw,2rem)] font-bold text-gray-800 mb-2 max-w-[90%]">{clickedDish?.name}</h2>
+                        <p className="text-gray-500 lg:mb-4 text- text-[clamp(0.8rem,0.8vw,2rem)]">{clickedDish?.description}</p>
                         {/* <span className='bg-gray-200 block text-end'>Selecione o tamanho</span> */}
-                        <div className='flex justify-between items-center'>
-                            <p className="text-2xl font-semibold TextColor">R$ {price?.toFixed(2)} </p>
+                        <div className='flex justify-between items-center mb-2 mb:mb-0'>
+                            <p className="text-[clamp(1rem,1vw,2rem)] font-semibold TextColor">R$ {price?.toFixed(2)} </p>
                             <SizeIndicator
                                 icon={GiHotMeal}
                                 sizes={clickedDish?.sizes}
@@ -119,14 +119,14 @@ export function FoodModal({ modalIsOpen, setModalIsOpen, clickedDish }: FoodModa
                             />
                         </div>
                         <textarea name="orderNote" id=""
-                            className='w-full border border-gray-400 rounded-sm h-25 resize-none p-3 outline-none'
+                            className='w-full border border-gray-300 rounded-sm md:h-25 mb-2 mb:mb-0 resize-none p-3 outline-none'
                             placeholder='Ex: Tirar cebola, preciso de talher'
                             onChange={(e) => setOrderNote(e.target.value)}></textarea>
                     </div>
 
-                    <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div className="flex flex-col sm:flex-row items-center justify-between gap-4 ">
                         {/* Seletor de quantidade */}
-                        <div className="flex items-center border border-gray-300 rounded-lg px-3 py-2">
+                        <div className="flex items-center border border-gray-300 rounded-lg px-3 py-1 lg:py-2">
                             <button onClick={decrease} className="text-lg px-2 text-gray-700 hover:text-black">−</button>
                             <span className="mx-3">{quantity}</span>
                             <button onClick={increase} className="text-lg px-2 text-gray-700 hover:text-black">+</button>

@@ -3,22 +3,10 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from "react"
 import { CartItemProps, DishConfig } from "../utils/types/types"
 
-
-
-// interface DishConfig {
-//     name: string,
-//     price: number | undefined,
-//     imageUrl: string,
-//     sizeDishName: string
-// }
-
 interface DishCartContextProps {
-    // dish: DishConfig | undefined,
-    // setDish: (dish: DishConfig) => void,
     cartItensArray: CartItemProps[],
     warning: string,
     addToCart: (dishInfos: CartItemProps) => void
-    // cartIndicator?: number
     removeCartItem: (id: string) => void
 }
 
