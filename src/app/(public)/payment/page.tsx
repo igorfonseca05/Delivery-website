@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ContentContainer } from '@/components/globalComponents/Container/container';
+import Image from 'next/image';
 
 export default function CheckoutForm() {
     const [step, setStep] = useState(1);
@@ -26,20 +27,24 @@ export default function CheckoutForm() {
         if (step === 1) setStep(2);
     };
 
+    const handlePrevious = () => {
+        if (step === 2) setStep(1);
+    };
+
     return (
         <ContentContainer>
-            <div className="bg-white shadow-lg rounded-lg w-full p-6 relative">
-
-                <div className="flex flex-col md:flex-row min-h-130 ">
-                    <div className="md:w-1/3 mb-6 md:mb-0 border-r border-gray-300 pr-4 imageBg">
+            <div className="bg-white shadow-lg rounded-lg w-full p-3 sm:p-6 relative">
+                <div className=" flex flex-col md:flex-row min-h-130">
+                    <div className="md:w-1/3 mb-6 md:mb-0 border-r border-gray-300">
                         <h2 className="text-xl font-semibold text-[#ffb443] mb-4">Endereço de entrega</h2>
                         <ul className="space-y-4">
                             <li className={step === 1 ? 'text-[#ffb443] font-bold' : 'text-gray-500'}>1. Endereço</li>
-                            <li className={step === 2 ? 'text-[#ffb443] font-bold' : 'text-gray-500'}>2. Payment</li>
+                            <li className={step === 2 ? 'text-[#ffb443] font-bold' : 'text-gray-500'}>2. Pagamento</li>
                         </ul>
+                        <Image className='hidden md:block' src={'/pay.svg'} width={400} height={400} alt='logo pagamentos' />
                     </div>
 
-                    <div className="md:w-2/3 w-full min-h-full pl-4">
+                    <div className="md:w-2/3 w-full min-h-full sm:pl-4">
                         {step === 1 && (
                             <motion.div className='h-full flex flex-col justify-between' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                                 <h3 className="text-lg font-semibold mb-2 text-gray-800">Detalhes pessoais</h3>
@@ -68,12 +73,15 @@ export default function CheckoutForm() {
                         )}
 
                         {step === 2 && (
-                            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                                <h3 className="text-lg font-semibold mb-4 text-gray-800">Pagamento</h3>
-                                <p className="mb-4">Aqui você pode gerar o QR Code do Pix e monitorar o pagamento.</p>
+                            <motion.div className='h-full flex flex-col justify-between' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                                <header>
+                                    <h3 className="text-lg font-semibold mb-4 text-gray-800">Pagamento</h3>
+                                    <p className="mb-4">Aqui você pode gerar o QR Code do Pix e monitorar o pagamento.</p>
+                                </header>
                                 <div className="bg-gray-100 rounded p-6 flex items-center justify-center">
                                     <span className="text-gray-500">[QR Code Pix Aqui]</span>
                                 </div>
+                                <button onClick={handlePrevious} className="button_primary_large max-w-50 m-auto md:m-0">Previous</button>
                             </motion.div>
                         )}
                     </div>

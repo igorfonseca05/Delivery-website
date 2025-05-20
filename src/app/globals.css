@@ -24,6 +24,10 @@
   }
 }
 
+html {
+  max-width: 1200px;
+}
+
 body {
   background: #f3f4f6;
   color: var(--foreground);
@@ -180,10 +184,4 @@ body {
 
 .animate {
   @apply transition-all ease-in-out duration-500;
-}
-
-.imageBg {
-  background-image: url("/3.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
 }

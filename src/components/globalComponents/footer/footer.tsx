@@ -10,8 +10,8 @@ export function Footer() {
     const path = usePathname()
 
     return (
-        <footer className={`bg-white text-gray-600 py-4 px-4 mt-3 ${path === '/login' || path === '/signup' ? 'hidden' : ''}`}>
-            <div className="w-[85%] mx-auto ml:25 grid grid-cols-1 md:grid-cols-3 gap-8">
+        <footer className={`bg-white px-10 lg:pl-24 text-gray-600 py-4 max-w-full mt-3 ${path === '/login' || path === '/signup' ? 'hidden' : ''}`}>
+            <div className=" bg-red-300 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-300">
                 {/* Coluna 1: Endereço */}
                 <div>
                     <h4 className="text-lg font-semibold mb-2">Endereço</h4>
