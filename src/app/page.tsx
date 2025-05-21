@@ -19,7 +19,7 @@ export default async function Home() {
   return (
     <ContentContainer>
       <Suspense fallback={<GifLoading />} >
-        {/* <SlideShow /> */}
+        <SlideShow />
         <h1 className="text-2xl mt-5 font-bold">Escolha uma categoria</h1>
         <CategoryContextProvider>
           <CategorySelector categories={data} />

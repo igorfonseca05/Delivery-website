@@ -4,25 +4,29 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ContentContainer } from '@/components/globalComponents/Container/container';
 import Image from 'next/image';
+import { useCartContext } from '../../../../context/cartContext';
 import { Success } from './components/sucessLogo/Success';
 import { Loading } from './components/loading/Loading';
 import QRcode from './components/QRcontainer/QRcode';
 import Failure from './components/Failure/Failure';
 
 export default function CheckoutForm() {
+
+    const { setUserData } = useCartContext()
+
     const [step, setStep] = useState(1);
     const [loading, setLoading] = useState(false)
     const [success, setSuccess] = useState(false)
     const [formData, setFormData] = useState({
-        firstName: '',
-        lastName: '',
-        street: '',
-        city: '',
-        neighborhood: '',
-        postCode: '',
-        number: '',
-        complement: '',
-        phone: '',
+        nome: '',
+        sobrenome: '',
+        rua: '',
+        cidade: '',
+        bairro: '',
+        CEP: '',
+        numero: '',
+        complemento: '',
+        telefone: '',
         email: '',
     });
 
@@ -52,16 +56,17 @@ export default function CheckoutForm() {
     // Verificando forms inputs
     function verifyFormInputs() {
         return (
-            formData.city.trim() !== '' &&
-            formData.lastName.trim() !== '' &&
-            formData.complement.trim() !== '' &&
+            formData.cidade.trim() !== '' &&
+            formData.sobrenome.trim() !== '' &&
+            formData.complemento.trim() !== '' &&
             formData.email.trim() !== '' &&
-            formData.firstName.trim() !== '' &&
-            formData.neighborhood.trim() !== '' &&
-            formData.number.trim() !== '' &&
-            formData.phone.trim() !== '' &&
-            formData.postCode.trim() !== '' &&
-            formData.street.trim() !== ''
+            formData.nome.trim() !== '' &&
+            formData.bairro.trim() !== '' &&
+            formData.numero.trim() !== '' &&
+            formData.telefone.trim() !== '' &&
+            formData.CEP.trim() !== '' &&
+            formData.CEP.trim().length === 8 &&
+            formData.rua.trim() !== ''
         )
     }
 
@@ -71,6 +76,22 @@ export default function CheckoutForm() {
         if (verifyFormInputs()) {
             handleNext()
         }
+
+        const userData = {
+            nome: formData.nome,
+            email: formData.email,
+            telefone: formData.telefone,
+            endereco: {
+                cidade: formData.cidade,
+                complemento: formData.complemento,
+                bairro: formData.bairro,
+                numero: formData.numero,
+                CEP: formData.CEP,
+                rua: formData.rua,
+            }
+        }
+
+        setUserData(userData)
     }
 
     return (
@@ -97,24 +118,84 @@ export default function CheckoutForm() {
                                 <form className=' min-h-full flex flex-col justify-between' onSubmit={handleSumit}>
                                     <h3 className={`text-lg font-semibold mb-2 ${step === 1 ? 'text-[#d8241f]' : 'text-[#ffb443]'}`}>Detalhes pessoais</h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                                        <input name="firstName" onChange={handleChange} value={formData.firstName} placeholder="Nome" className={step === 1 ? 'red_input' : 'input'} required />
-                                        <input name="lastName" onChange={handleChange} value={formData.lastName} placeholder="Sobrenome" className={step === 1 ? 'red_input' : 'input'} required />
+                                        <input
+                                            name="nome"
+                                            onChange={handleChange}
+                                            value={formData.nome}
+                                            placeholder="nome"
+                                            className={step === 1 ? 'red_input' : 'input'}
+                                            required />
+                                        <input
+                                            name="sobrenome"
+                                            onChange={handleChange}
+                                            value={formData.sobrenome}
+                                            placeholder="sobrenome"
+                                            className={step === 1 ? 'red_input' : 'input'}
+                                            required />
                                     </div>
 
                                     <h3 className={`text-lg font-semibold mb-2 ${step === 1 ? 'text-[#d8241f]' : 'text-[#ffb443]'}`}>{step === 1 ? 'Endereço de entrega' : 'Pagamento'}</h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                                        <input name="street" onChange={handleChange} value={formData.street} placeholder="Endereço Rua/Avenida" className={step === 1 ? 'red_input' : 'input'} required />
-                                        <input name="neighborhood" onChange={handleChange} value={formData.neighborhood} placeholder="Bairro" className={step === 1 ? 'red_input' : 'input'} required />
-                                        <input name="postCode" type='number' onChange={handleChange} value={formData.postCode} placeholder="CEP" className={step === 1 ? 'red_input' : 'input'} required />
-                                        <input name="city" onChange={handleChange} value={formData.city} placeholder="Cidade" className={step === 1 ? 'red_input' : 'input'} required />
-                                        <input name="number" type='number' onChange={handleChange} value={formData.number} placeholder="Número" className={step === 1 ? 'red_input' : 'input'} required />
-                                        <input name="complement" onChange={handleChange} value={formData.complement} placeholder="Complemento" className={step === 1 ? 'red_input' : 'input'} required />
+                                        <input
+                                            name="rua"
+                                            onChange={handleChange}
+                                            value={formData.rua}
+                                            placeholder="Endereço rua/Avenida"
+                                            className={step === 1 ? 'red_input' : 'input'}
+                                            required />
+                                        <input
+                                            name="bairro"
+                                            onChange={handleChange}
+                                            value={formData.bairro}
+                                            placeholder="bairro"
+                                            className={step === 1 ? 'red_input' : 'input'}
+                                            required />
+                                        <input
+                                            name="CEP"
+                                            type='number' onChange={handleChange}
+                                            value={formData.CEP}
+                                            placeholder="CEP"
+                                            className={step === 1 ? 'red_input' : 'input'}
+                                            required />
+                                        <input
+                                            name="cidade"
+                                            onChange={handleChange}
+                                            value={formData.cidade}
+                                            placeholder="cidade"
+                                            className={step === 1 ? 'red_input' : 'input'}
+                                            required />
+                                        <input
+                                            name="numero"
+                                            onChange={handleChange}
+                                            value={formData.numero}
+                                            placeholder="Número"
+                                            className={step === 1 ? 'red_input' : 'input'}
+                                            required />
+                                        <input
+                                            name="complemento"
+                                            onChange={handleChange}
+                                            value={formData.complemento}
+                                            placeholder="complementoo"
+                                            className={step === 1 ? 'red_input' : 'input'} />
                                     </div>
 
                                     <h3 className={`text-lg font-semibold mb-2 ${step === 1 ? 'text-[#d8241f]' : 'text-[#ffb443]'}`}>Contato</h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                                        <input name="phone" type='number' onChange={handleChange} value={formData.phone} placeholder="Número para contato" className={step === 1 ? 'red_input' : 'input'} required />
-                                        <input name="email" onChange={handleChange} value={formData.email} placeholder="Email" className={step === 1 ? 'red_input' : 'input'} required />
+                                        <input
+                                            name="telefone"
+                                            type='number'
+                                            onChange={handleChange}
+                                            value={formData.telefone}
+                                            placeholder="Número para contato"
+                                            className={step === 1 ? 'red_input' : 'input'}
+                                            required />
+                                        <input
+                                            name="email"
+                                            onChange={handleChange}
+                                            value={formData.email}
+                                            placeholder="Email"
+                                            className={step === 1 ? 'red_input' : 'input'}
+                                            required />
                                     </div>
                                     <button type='submit' className="bg-[#db3935] hover:bg-[#d8241f] py-3 px-4 rounded-lg text-white max-w-70 m-auto md:m-0">Next</button>
                                 </form>

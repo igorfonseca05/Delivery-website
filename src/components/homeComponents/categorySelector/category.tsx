@@ -64,7 +64,7 @@ export function CategorySelector({ categories }: { categories: DishesProps[] }) 
                                 setCategory(item.label)
                             }}
                             className={`flex items-center gap-1 p-3 min-w-fit grow-2 capitalize justify-center rounded-lg text-sm font-medium
-                          ${isSelected ? "bg-[#ffb443]" : "bg-white text-gray-700"}
+                          ${isSelected ? 'color text-white' : "buttonColorHover  text-gray-700"}
                           hover:bg-[#ffb443] hover:text-white transition`}
                         >
                             <Icon className="text-lg" />

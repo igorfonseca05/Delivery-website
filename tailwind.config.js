@@ -1,19 +1,18 @@
 /** @type {import('tailwindcss').Config} */
+
+// tailwind.config.js
 module.exports = {
     content: [
-        './app/**/*.{js,ts,jsx,tsx}',     // se usar app dir
-        './pages/**/*.{js,ts,jsx,tsx}',   // se usar pages dir
-        './components/**/*.{js,ts,jsx,tsx}', // componentes
+        './pages/**/*.{js,ts,jsx,tsx}',
+        './components/**/*.{js,ts,jsx,tsx}',
+        './app/**/*.{js,ts,jsx,tsx}',
     ],
     theme: {
         extend: {
             colors: {
-                tema: {
-                    fundo: '#FF5722', // laranja
-                    texto: '#ffffff', // branco
-                },
+                primary: '#db3935', // Nome personalizado para a cor laranja
             },
         },
     },
-    plugins: [require('tailwind-scrollbar')],
-};
+    plugins: [],
+}

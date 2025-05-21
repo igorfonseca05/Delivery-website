@@ -28,7 +28,7 @@ export function CartSideBar() {
                 {/* Messagem de aviso "carrinho vazio" */}
                 {cartItensArray.length === 0 &&
                     (<div className="m-auto text-center">
-                        <Image src={`/cartIcon.svg`} alt="logo carrinho vazio" priority quality={50} width={200} height={200} className="opacity-40 mb-4" />
+                        <Image src={`/empty.svg`} alt="logo carrinho vazio" priority quality={50} width={200} height={200} className="opacity-40 mb-4" />
                         <p>Seu carrinho está vazio</p>
                         <span className="text-sm text-gray-500">Adicione itens</span>
                     </div>)

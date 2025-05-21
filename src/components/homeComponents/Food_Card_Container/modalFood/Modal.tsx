@@ -127,9 +127,9 @@ export function FoodModal({ modalIsOpen, setModalIsOpen, clickedDish }: FoodModa
                     <div className="flex flex-col sm:flex-row items-center justify-between gap-4 ">
                         {/* Seletor de quantidade */}
                         <div className="flex items-center border border-gray-300 rounded-lg px-3 py-1 lg:py-2">
-                            <button onClick={decrease} className="text-lg px-2 text-gray-700 hover:text-black">−</button>
+                            <button onClick={decrease} className="text-lg px-2 TextColor hover:text-black">−</button>
                             <span className="mx-3">{quantity}</span>
-                            <button onClick={increase} className="text-lg px-2 text-gray-700 hover:text-black">+</button>
+                            <button onClick={increase} className="text-lg px-2 TextColor hover:text-black">+</button>
                         </div>
 
                         {/* Botão adicionar */}

@@ -52,7 +52,7 @@ export function FoodCard({ id, name, imageUrl, sizes, category, description }: F
                 <p className="max-w-80 text-[clamp(0.8rem,1vw,2rem)] text-gray-500 h-15 line-clamp-3">{description}</p>
 
                 <div className="flex justify-between items-center py-1">
-                    {<p className={`text-lg font-bold text-[#ffb443]`}>
+                    {<p className={`text-lg font-bold TextColor`}>
                         R$ {price?.toFixed(2)}<span className="text-gray-400 text-[11px] ml-1 font-normal">{sizeDishName}</span>
                     </p>}
                     {/* <SizeIndicator

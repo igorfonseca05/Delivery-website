@@ -6,7 +6,7 @@ import { Autoplay } from 'swiper/modules';
 
 import Image from 'next/image';
 
-import banner from '../../../../public/banner-1024.png'
+
 
 export default function SlideShow() {
     return (
@@ -21,7 +21,7 @@ export default function SlideShow() {
             // }}
             className='rounded-lg h-[250px]'
         >
-            <SwiperSlide><Image src={banner} alt='doce' fill /></SwiperSlide>
+            <SwiperSlide><Image src='/bann.jpg' style={{ objectFit: 'cover' }} alt='doce' fill /></SwiperSlide>
             <SwiperSlide><div className="bg-blue-300 h-full">Slide 2</div></SwiperSlide>
             <SwiperSlide><div className="bg-green-300 h-full">Slide 3</div></SwiperSlide>
         </Swiper>

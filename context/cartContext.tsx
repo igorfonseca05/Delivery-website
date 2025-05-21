@@ -3,14 +3,30 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from "react"
 import { CartItemProps, DishConfig } from "../utils/types/types"
 
+interface UserData {
+    nome: string,
+    email: string,
+    telefone: string,
+    endereco: {
+        cidade: string,
+        complemento: string,
+        bairro: string,
+        numero: string,
+        CEP: string,
+        rua: string,
+    }
+}
+
 interface DishCartContextProps {
     cartItensArray: CartItemProps[],
     warning: string,
     addToCart: (dishInfos: CartItemProps) => void
     removeCartItem: (id: string) => void,
     setTotal: (total: number) => void
-    total: number
+    total: number,
+    setUserData: (userData: UserData) => void
 }
+
 
 // Cria onde add os dados globalmente
 export const CartContext = createContext<DishCartContextProps | undefined>(undefined)
@@ -21,6 +37,7 @@ export function CartContextProvider({ children }: { children: ReactNode }) {
 
     const [warning, setWarning] = useState('')
     const [total, setTotal] = useState<number>(0)
+    const [userData, setUserData] = useState<UserData>()
 
     // usando os itens no localstage como padrão
     const [cartItensArray, setCartItensArray] = useState<DishConfig[]>(() => {
@@ -28,6 +45,7 @@ export function CartContextProvider({ children }: { children: ReactNode }) {
         return stored ? JSON.parse(stored) : []
     })
 
+    console.log(userData)
 
     // Função responsavel por adicionar itens no carrinho
     function addToCart(dishInfos: CartItemProps) {
@@ -35,6 +53,7 @@ export function CartContextProvider({ children }: { children: ReactNode }) {
         if (alreadyExists) {
             setWarning('Item já está no carrinho');
         } else {
+            // setCartItensArray(prev => [...prev, dishInfos]);
             setCartItensArray(prev => [...prev, dishInfos]);
         }
     }
@@ -62,6 +81,7 @@ export function CartContextProvider({ children }: { children: ReactNode }) {
             removeCartItem,
             total,
             setTotal,
+            setUserData
         }
         }>
             {children}

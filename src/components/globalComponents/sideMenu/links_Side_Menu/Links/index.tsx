@@ -27,10 +27,10 @@ export function MenuLinks({ href, innerText, icon: Icon, isSelected, useSelected
 
     return (
         <>
-            <li onClick={() => handleLink(innerText)} className={`group/lihover sidemenu-item ${isSelected ? "activeButton" : ''}`}>
-                <Link href={`${href}`} className="sidemenu-link">
-                    {Icon && <Icon className="min-w-5" />}
-                    <p className="sidemenu-innerText">{innerText}</p>
+            <li onClick={() => handleLink(innerText)} className={`group/lihover sidemenu-item ${isSelected ? "activeButton text-white" : ''}`}>
+                <Link href={`${href}`} className={`sidemenu-link`}>
+                    {Icon && <Icon className={`min-w-5  ${isSelected && " text-white"}`} />}
+                    <p className={`sidemenu-innerText  ${isSelected && " text-white"} `}>{innerText}</p>
                 </Link>
             </li>
         </>

@@ -41,7 +41,7 @@ export function SizeIndicator({
                     return (
                         <button key={index} className={`flex flex-col items-center p-2 rounded-sm
                             ${dishTypeIsEqualToSizeDishName &&
-                            sizesArrayLengthEqual2 && 'bg-orange-100'}`}
+                            sizesArrayLengthEqual2 && 'TextColor'}`}
                             onClick={() => setSizeDishName(item?.type as string)}>
 
                             {Icon && <Icon className={`m-auto text-[16px]

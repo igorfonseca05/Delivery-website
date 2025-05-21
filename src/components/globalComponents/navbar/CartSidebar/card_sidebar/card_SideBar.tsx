@@ -19,7 +19,7 @@ export function CardItem({ id, name, imageUrl, price, quantity }: CartProps) {
     const { removeCartItem } = useCartContext()
 
     return (
-        <div className="flex p-2 gap-x-2 bg-orange-100 rounded-lg">
+        <div className="flex p-2 gap-x-2 cardSidebarColor rounded-lg">
             <Image
                 src={`/${imageUrl}`}
                 alt="food"
