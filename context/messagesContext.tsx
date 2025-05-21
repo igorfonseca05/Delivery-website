@@ -25,8 +25,8 @@ export function MessagesContextProvider({ children }: { children: ReactNode }) {
 }
 
 
-export function useModalContext() {
+export function useMessageContext() {
     const context = useContext(MessagesContext)
-    if (!context) throw new Error('useModal must be used within a ModalProvider')
+    if (!context) throw new Error('Message context must be used within a MessageProvider')
     return context
 }

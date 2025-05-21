@@ -3,6 +3,9 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from "react"
 import { CartItemProps, DishConfig } from "../utils/types/types"
 
+import { useMessageContext } from "./messagesContext"
+import { useToggleCartContext } from "./toggleCartContext"
+
 interface UserData {
     nome: string,
     email: string,
@@ -35,6 +38,9 @@ export const CartContext = createContext<DishCartContextProps | undefined>(undef
 // Indica quem pode ter acesso aos dados
 export function CartContextProvider({ children }: { children: ReactNode }) {
 
+    const { setError } = useMessageContext()
+    const { setCartIsOpen } = useToggleCartContext()
+
     const [warning, setWarning] = useState('')
     const [total, setTotal] = useState<number>(0)
     const [userData, setUserData] = useState<UserData>()
@@ -50,7 +56,9 @@ export function CartContextProvider({ children }: { children: ReactNode }) {
     function addToCart(dishInfos: CartItemProps) {
         const alreadyExists = cartItensArray.some(item => item.name === dishInfos.name);
         if (alreadyExists) {
-            setWarning('Item já está no carrinho');
+            setError('Dado já adicionado ao carrinho')
+            setCartIsOpen(false)
+
         } else {
             // setCartItensArray(prev => [...prev, dishInfos]);
             setCartItensArray(prev => [...prev, dishInfos]);
@@ -67,9 +75,11 @@ export function CartContextProvider({ children }: { children: ReactNode }) {
     useEffect(() => {
         localStorage.setItem('cartItens', JSON.stringify(cartItensArray))
 
+        userData && localStorage.setItem('userData', JSON.stringify(userData))
+
         // Se carrinho vazio, total compra é zero
         if (cartItensArray.length === 0) setTotal(0)
-    }, [cartItensArray.length])
+    }, [cartItensArray.length, userData])
 
 
     return (

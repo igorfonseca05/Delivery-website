@@ -1,7 +1,7 @@
 'use client'
 
 import { useCartContext } from '../../../../../context/cartContext';
-import { useState, useEffect } from 'react'
+import { useState, useEffect, use } from 'react'
 
 import { DishesProps } from '../../../../../utils/types/types'
 
@@ -11,6 +11,8 @@ import { MdAddShoppingCart } from "react-icons/md";
 import { SizeIndicator } from './sizeIndicator/SizeIndicator'
 
 import { useToggleCartContext } from '../../../../../context/toggleCartContext';
+
+import { useMessageContext } from '../../../../../context/messagesContext';
 
 interface FoodModalProps {
     modalIsOpen: boolean
@@ -23,6 +25,7 @@ export function FoodModal({ modalIsOpen, setModalIsOpen, clickedDish }: FoodModa
 
     const { addToCart } = useCartContext()
     const { cartIsOpen, setCartIsOpen } = useToggleCartContext()
+    const { error } = useMessageContext()
 
     const [quantity, setQuantity] = useState(1)
     const [price, setPrice] = useState<number>(0)

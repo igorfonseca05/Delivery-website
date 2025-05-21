@@ -17,6 +17,7 @@ import { Footer } from "@/components/globalComponents/footer/footer";
 
 
 import { ToastContainer } from "react-toastify";
+import { MessagesContextProvider } from "../../context/messagesContext";
 
 
 const roboto = Roboto({
@@ -40,20 +41,22 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className={`${roboto.className} antialiased'}`}>
-        <AuthGlobalContext>
-          <ToastContainer />
-          <ToggleCartContextProvider>
-            <MenuContextProvider>
-              <CartContextProvider>
-                <SideMenu />
-                <Navbar />
-                <CartSideBar />
-                {children}
-                <Footer />
-              </CartContextProvider>
-            </MenuContextProvider>
-          </ToggleCartContextProvider>
-        </AuthGlobalContext>
+        <MessagesContextProvider>
+          <AuthGlobalContext>
+            <ToastContainer />
+            <ToggleCartContextProvider>
+              <MenuContextProvider>
+                <CartContextProvider>
+                  <SideMenu />
+                  <Navbar />
+                  <CartSideBar />
+                  {children}
+                  <Footer />
+                </CartContextProvider>
+              </MenuContextProvider>
+            </ToggleCartContextProvider>
+          </AuthGlobalContext>
+        </MessagesContextProvider>
       </body>
     </html>
   );

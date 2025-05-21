@@ -9,7 +9,7 @@ export function useFetchData(url: string) {
 
     const [data, setData] = useState<DishesProps[]>([])
     const [loading, setLoading] = useState(false)
-    const [error, setError] = useState(null)
+    const [error, setError] = useState<string | null>(null)
 
 
     useEffect(() => {
@@ -41,7 +41,11 @@ export function useFetchData(url: string) {
                 cache[url] = dishes
 
             } catch (error: any) {
-                setError(error.message)
+                if (error.name === "AbortError") {
+                    // setError('Requisição abortada');
+                } else {
+                    // setError(error.message)
+                }
             } finally {
                 setLoading(false)
             }

@@ -1,6 +1,7 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { ContentContainer } from '@/components/globalComponents/Container/container';
 import Image from 'next/image';
@@ -15,8 +16,9 @@ import { randomBytes } from 'crypto';
 
 
 export default function CheckoutForm() {
+    const router = useRouter()
 
-    const { setUserData } = useCartContext()
+    const { setUserData, cartItensArray } = useCartContext()
 
     const [step, setStep] = useState(1);
     const [loading, setLoading] = useState(false)
@@ -36,7 +38,6 @@ export default function CheckoutForm() {
     });
 
 
-
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
@@ -53,8 +54,6 @@ export default function CheckoutForm() {
                 setSuccess(false)
             }, 3000)
         }, 4000)
-
-
     }
 
     const handleNext = () => {
@@ -69,6 +68,12 @@ export default function CheckoutForm() {
         const random = randomBytes(4).toString('hex')
         setOrderId(random)
     }
+
+
+    useEffect(() => {
+        cartItensArray.length === 0 && router?.push('/')
+        console.log(cartItensArray.length === 0)
+    }, [])
 
 
     // Verificando forms inputs

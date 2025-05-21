@@ -12,12 +12,13 @@ import { CardsLoading } from "@/components/globalComponents/cardsLoading/CardsLo
 import Link from "next/link"
 import { FoodModal } from "./modalFood/Modal"
 import { DishConfig, DishesProps } from "../../../../utils/types/types"
-import { useModalContext } from "../../../../context/modalContext"
+import { useMessageContext } from "../../../../context/messagesContext"
 
 
 export function DishesContainer() {
 
     const { category } = useCategoryContext()
+    const { error: msgFromMessageContext, setError } = useMessageContext()
 
     // Gerando URL dinâmicamente com base na categoria
     const url = category === 'Todos' ?
@@ -33,7 +34,13 @@ export function DishesContainer() {
     // Capturando erro de fetch
     useEffect(() => {
         error && toast.error(error)
-    }, [])
+        msgFromMessageContext && toast.error(msgFromMessageContext)
+
+        setTimeout(() => {
+            setError('')
+        }, 2000)
+
+    }, [error, msgFromMessageContext])
 
     return (
         <>
