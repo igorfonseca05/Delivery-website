@@ -45,7 +45,6 @@ export function CartContextProvider({ children }: { children: ReactNode }) {
         return stored ? JSON.parse(stored) : []
     })
 
-    console.log(userData)
 
     // Função responsavel por adicionar itens no carrinho
     function addToCart(dishInfos: CartItemProps) {

@@ -55,21 +55,7 @@ export function FoodCard({ id, name, imageUrl, sizes, category, description }: F
                     {<p className={`text-lg font-bold TextColor`}>
                         R$ {price?.toFixed(2)}<span className="text-gray-400 text-[11px] ml-1 font-normal">{sizeDishName}</span>
                     </p>}
-                    {/* <SizeIndicator
-                        icon={GiHotMeal}
-                        sizes={sizes}
-                        sizeDishName={sizeDishName}
-                        setSizeDishName={setSizeDishName}
-                        category={category}
-                    /> */}
                 </div>
-
-                {/* <button onClick={() => {
-                    addToCart({ id, name, price, sizeDishName, imageUrl })
-                }}
-                    className={`button_primary_medium w-full flex justify-center mt-2`}>
-                    <MdAddShoppingCart />
-                </button> */}
             </div>
         </div>
     );

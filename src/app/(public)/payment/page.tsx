@@ -9,6 +9,10 @@ import { Success } from './components/sucessLogo/Success';
 import { Loading } from './components/loading/Loading';
 import QRcode from './components/QRcontainer/QRcode';
 import Failure from './components/Failure/Failure';
+import Link from 'next/link';
+
+import { randomBytes } from 'crypto';
+
 
 export default function CheckoutForm() {
 
@@ -17,6 +21,7 @@ export default function CheckoutForm() {
     const [step, setStep] = useState(1);
     const [loading, setLoading] = useState(false)
     const [success, setSuccess] = useState(false)
+    const [orderId, setOrderId] = useState('')
     const [formData, setFormData] = useState({
         nome: '',
         sobrenome: '',
@@ -42,7 +47,14 @@ export default function CheckoutForm() {
         setTimeout(() => {
             setLoading(false)
             setSuccess(true)
+
+            setTimeout(() => {
+                generateOrderNumber()
+                setSuccess(false)
+            }, 3000)
         }, 4000)
+
+
     }
 
     const handleNext = () => {
@@ -53,12 +65,17 @@ export default function CheckoutForm() {
         if (step === 2) setStep(1);
     };
 
+    function generateOrderNumber() {
+        const random = randomBytes(4).toString('hex')
+        setOrderId(random)
+    }
+
+
     // Verificando forms inputs
     function verifyFormInputs() {
         return (
             formData.cidade.trim() !== '' &&
             formData.sobrenome.trim() !== '' &&
-            formData.complemento.trim() !== '' &&
             formData.email.trim() !== '' &&
             formData.nome.trim() !== '' &&
             formData.bairro.trim() !== '' &&
@@ -73,9 +90,9 @@ export default function CheckoutForm() {
     function handleSumit(e: React.FormEvent) {
         e.preventDefault()
 
-        if (verifyFormInputs()) {
-            handleNext()
-        }
+        if (!verifyFormInputs()) return
+
+        handleNext()
 
         const userData = {
             nome: formData.nome,
@@ -88,7 +105,7 @@ export default function CheckoutForm() {
                 numero: formData.numero,
                 CEP: formData.CEP,
                 rua: formData.rua,
-            }
+            },
         }
 
         setUserData(userData)
@@ -99,10 +116,10 @@ export default function CheckoutForm() {
             <div className="bg-white shadow-lg rounded-lg w-full p-3 sm:p-6 relative">
                 <div className=" flex flex-col md:flex-row min-h-130">
                     <div className="md:w-1/3 mb-6 md:mb-0 border-r border-gray-300">
-                        <h2 className={`text-xl font-semibold mb-4 ${step === 1 ? 'text-[#d8241f]' : 'text-[#ffb443]'}`}>Endereço de entrega</h2>
+                        <h2 className={`text-3xl font-bold mb-4 ${step === 1 ? 'text-[#d8241f]' : 'text-[#ffb443]'}`}>{step === 1 ? 'Endereço de entrega' : 'Pagamento'}</h2>
                         <ul className="space-y-4">
-                            <li className={step === 1 ? 'text-[#d8241f] font-bold' : 'text-gray-500'}>1. Endereço</li>
-                            <li className={step === 2 ? 'text-[#ffb443] font-bold' : 'text-gray-500'}>2. Pagamento</li>
+                            <li className={` ${step === 1 ? 'text-xl font-bold text-gray-500' : 'text-gray-500'}`}>1. Endereço</li>
+                            <li className={` ${step === 2 ? 'text-xl font-bold text-gray-500' : 'text-gray-500'}`}>2. Pagamento</li>
                         </ul>
                         {step === 1 && <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                             <Image className={`hidden md:block animate`} src={step === 1 ? '/address2.svg' : '/pay.svg'} width={380} height={380} alt='logo pagamentos' />
@@ -116,7 +133,7 @@ export default function CheckoutForm() {
                         {step === 1 && (
                             <motion.div className='h-full' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                                 <form className=' min-h-full flex flex-col justify-between' onSubmit={handleSumit}>
-                                    <h3 className={`text-lg font-semibold mb-2 ${step === 1 ? 'text-[#d8241f]' : 'text-[#ffb443]'}`}>Detalhes pessoais</h3>
+                                    <h3 className={`text-lg font-semibold mb-2 text-gray-700`}>Detalhes pessoais</h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                                         <input
                                             name="nome"
@@ -134,7 +151,7 @@ export default function CheckoutForm() {
                                             required />
                                     </div>
 
-                                    <h3 className={`text-lg font-semibold mb-2 ${step === 1 ? 'text-[#d8241f]' : 'text-[#ffb443]'}`}>{step === 1 ? 'Endereço de entrega' : 'Pagamento'}</h3>
+                                    <h3 className={`text-lg font-semibold mb-2 text-gray-700`}>{step === 1 ? 'Endereço de entrega' : 'Pagamento'}</h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                                         <input
                                             name="rua"
@@ -179,7 +196,7 @@ export default function CheckoutForm() {
                                             className={step === 1 ? 'red_input' : 'input'} />
                                     </div>
 
-                                    <h3 className={`text-lg font-semibold mb-2 ${step === 1 ? 'text-[#d8241f]' : 'text-[#ffb443]'}`}>Contato</h3>
+                                    <h3 className={`text-lg font-semibold mb-2 text-gray-700`}>Contato</h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                                         <input
                                             name="telefone"
@@ -206,15 +223,34 @@ export default function CheckoutForm() {
                             <motion.div className='h-full flex flex-col justify-between' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                                 <header>
                                     <h3 className="text-lg font-semibold mb-4 text-gray-800">Pagamento</h3>
-                                    <p className="mb-4">Mire a camera do celular para o QR code abaixo para efetuar o pagamento</p>
+                                    {!orderId && <p className="mb-4">Mire a camera do celular para o QR code abaixo para efetuar o pagamento</p>}
                                 </header>
                                 <div className='flex flex-col justify-center items-center'>
-                                    {!loading && !success && <QRcode handlePayment={handlePayment} />}
+                                    {!loading && !success && !orderId && <QRcode handlePayment={handlePayment} />}
                                     {loading && <Loading />}
-                                    {/* {success && <Success setSuccess={setSuccess} />} */}
-                                    {success && <Failure />}
+                                    {success && <Success setSuccess={setSuccess} />}
+                                    {orderId &&
+                                        <>
+                                            <div className="p-6 text-center space-y-4">
+                                                <h1 className="text-3xl font-bold text-green-600">Pedido realizado com sucesso!</h1>
+                                                <h2 className="text-xl text-gray-700">Anote o ID do seu pedido:</h2>
+                                                <div className="bg-gray-100 p-4 rounded-md inline-block text-xl font-mono text-gray-900 border border-gray-300">
+                                                    {orderId}
+                                                </div>
+                                                <p className="text-gray-600 max-w-md mx-auto">
+                                                    Guarde este código. Ele será necessário para acompanhar ou consultar o status do seu pedido.
+                                                </p>
+                                                <p className="text-gray-700">
+                                                    Para mais informações, entre em contato pelo número:{" "}
+                                                    <span className="font-semibold">(12) 99621-4388</span>
+                                                </p>
+                                            </div>
+                                        </>
+                                    }
+                                    {/* {success && <Failure />} */}
                                 </div>
-                                <button onClick={handlePrevious} className="button_primary_large max-w-50 m-auto md:m-0">Previous</button>
+                                {!orderId && <button onClick={handlePrevious} className="button_primary_large max-w-50 m-auto md:m-0">Previous</button>}
+                                {orderId && <Link href={'/'} className="button_primary_large text-center max-w-50 m-auto md:text-end">Página inicial</Link>}
                             </motion.div>
                         )}
                     </div>
