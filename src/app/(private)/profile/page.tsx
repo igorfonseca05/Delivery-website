@@ -4,11 +4,14 @@ import { useState } from "react"
 import UserSidebar from "./userSidebar"
 import { ContentContainer } from "@/components/globalComponents/Container/container"
 
+import { useAuthContext } from "../../../../context/useAuthContext"
+
 // import { useSession } from "next-auth/react"
 import { redirect } from "next/navigation"
 
 export default function ProfilePage() {
     // const { data: session } = useSession()
+    const { user } = useAuthContext()
     const [form, setForm] = useState({
         name: "",
         email: "",
@@ -18,7 +21,7 @@ export default function ProfilePage() {
         state: "",
         zip: "",
         country: "Brasil",
-        paymentMethod: "",
+        paymentMethod: "Pix",
         deliveryInstructions: "",
     })
 
@@ -32,17 +35,19 @@ export default function ProfilePage() {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         console.log("Dados salvos:", form)
+
+        console.log(form)
         // Aqui você integraria com sua API ou backend
     }
 
     return (
         <ContentContainer>
             <div className="p-2 flex flex-col wrap gap-4 md:flex-row">
-                {/* <UserSidebar
-                    name={`${session?.user?.name}`}
-                    email={`${session?.user?.email}`}
-                    url={`${session?.user?.image}`} // coloque sua imagem aqui
-                /> */}
+                <UserSidebar
+                    name={`${user?.displayName}`}
+                    email={`${user?.email}`}
+                    url={`${user?.photoURL}`} // coloque sua imagem aqui
+                />
                 <div className="flex-1">
                     <div className="max-w-5xl mx-auto bg-white rounded-lg shadow p-6">
                         <h1 className="text-2xl font-bold mb-6">Meu Perfil</h1>
@@ -62,10 +67,10 @@ export default function ProfilePage() {
                             <div>
                                 <label className="block text-sm font-medium mb-1">Método de Pagamento</label>
                                 <select name="paymentMethod" value={form.paymentMethod} onChange={handleChange} className="input">
-                                    <option value="">Selecione</option>
+                                    {/* <option value="">Selecione</option> */}
                                     <option value="pix">Pix</option>
-                                    <option value="cartao">Cartão de Crédito</option>
-                                    <option value="dinheiro">Dinheiro</option>
+                                    {/* <option value="cartao">Cartão de Crédito</option>
+                                    <option value="dinheiro">Dinheiro</option> */}
                                 </select>
                             </div>
                             <div className="md:col-span-2">

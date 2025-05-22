@@ -58,17 +58,32 @@ export function CartContextProvider({ children }: { children: ReactNode }) {
         }
     }
 
-    // Função responsavel por remover item do carrinho
+    // Função responsável por remover item do carrinho
     function removeCartItem(id: string) {
         const updatedCartArray = cartItensArray.filter(cartItem => cartItem.id !== id)
         setCartItensArray(updatedCartArray)
     }
 
-    // Atualizar dados de carrinho no localstorage
+    // Atualizar dados no localstorage
     useEffect(() => {
+
+        const orderData = {
+            userData,
+            cartItens: {
+                ...cartItensArray
+            },
+            orderDatails: {
+                total,
+                totalCartItens,
+                deliveryFee
+            }
+        }
+
         localStorage.setItem('cartItens', JSON.stringify(cartItensArray))
 
         userData && localStorage.setItem('userData', JSON.stringify(userData))
+        userData && localStorage.setItem('order', JSON.stringify(orderData))
+
 
         // Se carrinho vazio, total compra é zero
         if (cartItensArray.length === 0) setTotal(0)

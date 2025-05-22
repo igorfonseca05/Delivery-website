@@ -28,9 +28,9 @@ export default function Orders() {
     };
     return (
         <ContentContainer>
-            <h1>Seus Pedidos</h1>
-            <OrderStatusCard user={user} item={item} status="A Caminho" />
-            <OrderStatusCard user={user} item={item} status="A Caminho" />
+            <h1 className="text-2xl font-bold my-3 text-gray-700">Seus Pedidos</h1>
+            <OrderStatusCard user={user} item={item} status="Em Preparo" />
+            <OrderStatusCard user={user} item={item} status="Entregue" />
         </ContentContainer>
     )
 }

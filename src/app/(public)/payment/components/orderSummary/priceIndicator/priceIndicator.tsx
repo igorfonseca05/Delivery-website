@@ -1,6 +1,6 @@
 "use client"
 
-import { useCartContext } from "../../../../../../context/cartContext"
+import { useCartContext } from "../../../../../../../context/cartContext"
 
 interface PriceProps {
     price?: number

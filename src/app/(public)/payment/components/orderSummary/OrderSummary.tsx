@@ -1,10 +1,10 @@
 
 import { Info } from "lucide-react";
-import { PriceIndicator } from "./priceIndicator";
+import { PriceIndicator } from "./priceIndicator/priceIndicator";
 import { ConfirmButton } from "./confirmButton/ConfirmButton";
 
 
-export default function OrderSummary() {
+export default function OrderSummary({ removeButton }: { removeButton?: boolean }) {
     return (
         <div className="max-w-md mx-auto p-6 bg-white rounded-xl space-y-6">
             <h2 className="text-xl font-semibold">Resumo do Pedido</h2>
@@ -29,9 +29,9 @@ export default function OrderSummary() {
                     <span>Total:</span>
                     <PriceIndicator type="total" />
                 </div>
-                <p className="text-xs text-gray-500">(Impostos inclusos)</p>
+                {!removeButton && <p className="text-xs text-gray-500">(Impostos inclusos)</p>}
             </div>
-            <ConfirmButton />
+            {!removeButton && <ConfirmButton />}
         </div>
     );
 }
