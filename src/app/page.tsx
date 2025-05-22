@@ -10,6 +10,7 @@ import { useServerFetch } from "../../service/useServerFetch";
 import { DishesProps } from "../../utils/types/types";
 import { CategoryContextProvider } from "../../context/categoryContext";
 import { ModalProvider } from "../../context/modalContext";
+import { WarningModalProvider } from "../../context/warningModalContext";
 
 
 export default async function Home() {

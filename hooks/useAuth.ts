@@ -123,7 +123,6 @@ export function useAuth() {
     // SignOut
     function logout() {
         checkIfCancelled()
-
         signOut(auth)
     }
 

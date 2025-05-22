@@ -4,10 +4,18 @@ import { useCartContext } from "../../../../../../context/cartContext"
 
 export function PricesCart() {
 
-    const { cartItensArray, setTotal, total } = useCartContext()
+    const {
+        cartItensArray,
+        setTotal,
+        total,
+        setDeliveryFee,
+        setTotalCartItens,
+        totalCartItens } = useCartContext()
 
-    const [totalCartItens, setTotalCartItens] = useState<number>(0)
+    // const [totalCartItens, setTotalCartItens] = useState<number>(0)
     const deliveryFee = 6
+
+    useEffect(() => setDeliveryFee(deliveryFee), [])
 
     // Calculating the Total
     useEffect(() => {

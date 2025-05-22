@@ -22,12 +22,17 @@ interface UserData {
 
 interface DishCartContextProps {
     cartItensArray: CartItemProps[],
-    warning: string,
-    addToCart: (dishInfos: CartItemProps) => void
+    setCartItensArray: (cartItensArray: CartItemProps[] | []) => void,
+    // warning: string,
+    addToCart: (dishInfos: CartItemProps) => void,
     removeCartItem: (id: string) => void,
-    setTotal: (total: number) => void
+    setTotal: (total: number) => void,
     total: number,
-    setUserData: (userData: UserData) => void
+    setUserData: (userData: UserData) => void,
+    deliveryFee: number,
+    setDeliveryFee: (deliveryFee: number) => void,
+    totalCartItens: number,
+    setTotalCartItens: (totalCartItens: number) => void,
 }
 
 
@@ -41,16 +46,17 @@ export function CartContextProvider({ children }: { children: ReactNode }) {
     const { setError } = useMessageContext()
     const { setCartIsOpen } = useToggleCartContext()
 
-    const [warning, setWarning] = useState('')
     const [total, setTotal] = useState<number>(0)
     const [userData, setUserData] = useState<UserData>()
+    const [deliveryFee, setDeliveryFee] = useState<number>(0)
+    const [totalCartItens, setTotalCartItens] = useState<number>(0)
+
 
     // usando os itens no localstage como padrão
     const [cartItensArray, setCartItensArray] = useState<DishConfig[]>(() => {
         const stored = localStorage.getItem('cartItens')
         return stored ? JSON.parse(stored) : []
     })
-
 
     // Função responsavel por adicionar itens no carrinho
     function addToCart(dishInfos: CartItemProps) {
@@ -79,6 +85,7 @@ export function CartContextProvider({ children }: { children: ReactNode }) {
 
         // Se carrinho vazio, total compra é zero
         if (cartItensArray.length === 0) setTotal(0)
+        if (cartItensArray.length === 0) setTotalCartItens(0)
     }, [cartItensArray.length, userData])
 
 
@@ -86,11 +93,15 @@ export function CartContextProvider({ children }: { children: ReactNode }) {
         <CartContext.Provider value={{
             addToCart,
             cartItensArray,
-            warning,
             removeCartItem,
             total,
             setTotal,
-            setUserData
+            setUserData,
+            setDeliveryFee,
+            deliveryFee,
+            totalCartItens,
+            setTotalCartItens,
+            setCartItensArray
         }
         }>
             {children}

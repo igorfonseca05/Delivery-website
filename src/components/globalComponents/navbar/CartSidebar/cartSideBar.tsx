@@ -2,6 +2,7 @@
 
 import Image from "next/image"
 import Link from "next/link"
+import { useAuthContext } from "../../../../../context/useAuthContext"
 
 // import { MdClose } from "lucide-react"
 import { PricesCart } from "./cartFooterTotal/cartFooter"
@@ -10,13 +11,20 @@ import { HeaderCart } from "./cardHeader"
 import { useState } from "react"
 import { useToggleCartContext } from "../../../../../context/toggleCartContext"
 import { CardItem } from "./card_sidebar/card_SideBar"
+import { useWarningModalContext } from "../../../../../context/warningModalContext"
 
 import { useCartContext } from "../../../../../context/cartContext"
+import { GuestCheckoutWarning } from "../../warningModal/WarningModal"
+import { useRouter } from "next/compat/router"
 
 export function CartSideBar() {
 
+    const router = useRouter()
+
     const { cartIsOpen, setCartIsOpen } = useToggleCartContext()
     const { cartItensArray } = useCartContext()
+    const { user } = useAuthContext()
+    const { isOpen, setIsOpen } = useWarningModalContext()
 
     return (
         <div className={`fixed right-0 p-4 py-3 h-full z-2 w-full lg:w-90 bg-white
@@ -50,15 +58,25 @@ export function CartSideBar() {
                         </div>
                         <div className="flex flex-col items-center gap-y-2">
                             <PricesCart />
-                            <Link href={'/payment'}
+                            {user && <Link href={'/payment'}
                                 className="button_primary_medium bg-[#df4f4b] w-full mt-2 text-center"
                                 onClick={() => setCartIsOpen(false)}>
                                 Finalizar pedido
-                            </Link>
+                            </Link>}
+                            {!user && <button
+                                className="button_primary_medium bg-[#df4f4b] w-full mt-2 text-center"
+                                onClick={() => {
+                                    setIsOpen(true)
+                                    setCartIsOpen(false)
+                                }}>
+                                Finalizar pedido
+                            </button>}
                         </div>
                     </>)
                 }
+
             </div>
+
         </div>
     )
 }

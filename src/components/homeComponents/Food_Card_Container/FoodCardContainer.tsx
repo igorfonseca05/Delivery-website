@@ -13,12 +13,15 @@ import Link from "next/link"
 import { FoodModal } from "./modalFood/Modal"
 import { DishConfig, DishesProps } from "../../../../utils/types/types"
 import { useMessageContext } from "../../../../context/messagesContext"
+import { useWarningModalContext } from "../../../../context/warningModalContext"
+import { GuestCheckoutWarning } from "@/components/globalComponents/warningModal/WarningModal"
 
 
 export function DishesContainer() {
 
     const { category } = useCategoryContext()
     const { error: msgFromMessageContext, setError } = useMessageContext()
+    const { isOpen } = useWarningModalContext()
 
     // Gerando URL dinâmicamente com base na categoria
     const url = category === 'Todos' ?
@@ -41,6 +44,8 @@ export function DishesContainer() {
         }, 2000)
 
     }, [error, msgFromMessageContext])
+
+
 
     return (
         <>
@@ -76,6 +81,7 @@ export function DishesContainer() {
                 modalIsOpen={modalIsOpen}
                 setModalIsOpen={setModalIsOpen}
                 clickedDish={clickedDish} />}
+            {isOpen && <GuestCheckoutWarning />}
         </>
     )
 }

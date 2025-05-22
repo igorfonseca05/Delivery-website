@@ -142,7 +142,7 @@ body {
 /* Elementos */
 
 .button_primary_large {
-  @apply bg-[var(--button-color)] py-3 px-4 rounded-lg text-white hover:bg-[var(--button-color-hover)]  disabled:bg-[#ffc877];
+  @apply bg-[var(--button-color)] py-3 px-4 rounded-lg  text-white hover:bg-[var(--button-color-hover)]  disabled:bg-[#ffc877];
 }
 
 .button_neutral_medium {
