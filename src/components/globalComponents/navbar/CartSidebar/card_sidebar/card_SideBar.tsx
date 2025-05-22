@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import { useState } from "react";
-import { FaTrashAlt } from "react-icons/fa";
+import { Trash2 } from "lucide-react";
 
 import { useCartContext } from "../../../../../../context/cartContext";
 
@@ -34,7 +34,7 @@ export function CardItem({ id, name, imageUrl, price, quantity }: CartProps) {
                 </div>
                 <div className="flex items-center justify-between">
                     <span>R$ {price?.toFixed(2)} <span className="text-[11px]">Uni.</span> </span>
-                    <FaTrashAlt onClick={() => removeCartItem(id)} className="cursor-pointer mr-1" />
+                    <Trash2 size={22} onClick={() => removeCartItem(id)} className="cursor-pointer mr-1" />
                 </div>
 
             </div>

@@ -1,6 +1,6 @@
 
 
-import { MdFastfood } from "react-icons/md";
+// import { MdFastfood } from "react-icons/md";
 import { Sizes } from "../../../../../../utils/types/types";
 import { IconType } from "react-icons";
 import React from "react";

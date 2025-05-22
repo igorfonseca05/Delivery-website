@@ -2,7 +2,6 @@
 
 // Recursos next
 import { useMenuContext } from "../../../../context/MenuContext"
-import { useSession } from "next-auth/react"
 import { usePathname } from "next/navigation"
 
 import { useAuthContext } from "../../../../context/useAuthContext"

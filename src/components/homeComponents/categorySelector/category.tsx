@@ -1,35 +1,40 @@
 "use client";
 
+
 import { useState } from "react";
-// import { FaHamburger, FaPizzaSlice, FaFish, FaDrumstickBite } from "react-icons/fa";
-// import { GiNoodles, GiCow, GiChopsticks } from "react-icons/gi";
-import { MdOutlineAllInclusive } from "react-icons/md";
-
-import { FaUtensils, FaGlassWhiskey, FaIceCream } from 'react-icons/fa';
-import { MdFastfood, MdLocalBar } from 'react-icons/md';
-import { GiChefToque, GiFrenchFries, GiNoodles } from 'react-icons/gi';
-
-import { DishesProps } from "../../../../utils/types/types";
+import { MdOutlineFastfood, MdOutlineDinnerDining } from "react-icons/md";
 import { IconType } from "react-icons";
 
+
+import {
+    Infinity,
+    Utensils,
+    HandPlatter,
+    Coffee,
+    ChefHat,
+    CupSoda,
+    IceCreamBowl,
+} from 'lucide-react';
+
+
+import { DishesProps } from "../../../../utils/types/types";
 import { useCategoryContext } from "../../../../context/categoryContext";
 
-import { useFetchData } from "../../../../hooks/useFetch";
 
 export function CategorySelector({ categories }: { categories: DishesProps[] }) {
 
 
     const [selected, setSelected] = useState('Todos');
     const [icons, setIcons] = useState([
-        MdOutlineAllInclusive,
-        FaUtensils,
-        MdFastfood,
-        GiChefToque,
-        FaGlassWhiskey,
-        MdLocalBar,
-        GiFrenchFries,
-        FaIceCream,
-        GiNoodles
+        Infinity,
+        Utensils,
+        Coffee,
+        ChefHat,
+        MdOutlineFastfood,
+        CupSoda,
+        HandPlatter,
+        IceCreamBowl,
+        MdOutlineDinnerDining
     ])
 
     const { setCategory } = useCategoryContext()
@@ -67,7 +72,7 @@ export function CategorySelector({ categories }: { categories: DishesProps[] }) 
                           ${isSelected ? 'color text-white' : "buttonColorHover  text-gray-700"}
                           hover:bg-[#ffb443] hover:text-white transition`}
                         >
-                            <Icon className="text-lg" />
+                            <Icon className="text-lg" size={24} />
                             {item.label}
                         </button>
                     );

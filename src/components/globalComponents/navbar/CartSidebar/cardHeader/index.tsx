@@ -1,5 +1,5 @@
 
-import { MdClose } from "react-icons/md"
+import { X } from "lucide-react"
 
 interface ActionProps {
     cartIsOpen: boolean,
@@ -14,7 +14,7 @@ export function HeaderCart() {
 
     return (
         <div className="flex items-center gap-x-2  p-2 rounded-lg">
-            <MdClose className="cursor-pointer size-6" onClick={() => setCartIsOpen(!cartIsOpen)} />
+            <X className="cursor-pointer size-6" onClick={() => setCartIsOpen(!cartIsOpen)} />
             <p className="w-full text-center text-lg">Seu carrinho</p>
         </div>
     )

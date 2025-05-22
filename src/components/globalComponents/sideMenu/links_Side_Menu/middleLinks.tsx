@@ -6,8 +6,17 @@ import { SearchBar } from "./input/Search_Input"
 import { LoginButton } from "@/components/globalComponents/navbar/loginButton/loginButton"
 
 // Icons
-import { FaHome, FaUsers, FaMapMarkerAlt, FaClock, FaHeart, FaShoppingCart } from 'react-icons/fa'
-import { FaCog } from "react-icons/fa"
+
+import {
+    Home,
+    Users,
+    MapPin,
+    Clock,
+    Heart,
+    ShoppingCart,
+    Settings,
+} from 'lucide-react';
+
 
 // Contexts
 import { useAuthContext } from "../../../../../context/useAuthContext"
@@ -22,17 +31,17 @@ export function Middle_Icons() {
     let isSelected = false
 
     const linksButton = [
-        { href: '/', icon: FaHome, text: 'Página inicial' },
+        { href: '/', icon: Home, text: 'Página inicial' },
         ...(user ?
             [
-                { href: '/favorites', icon: FaHeart, text: 'Favoritos' },
-                { href: '/myshop', icon: FaShoppingCart, text: 'Minhas Compras' },
-                { href: '/about', icon: FaClock, text: 'Pedidos' },
+                { href: '/favorites', icon: Heart, text: 'Favoritos' },
+                { href: '/myshop', icon: ShoppingCart, text: 'Minhas Compras' },
+                { href: '/about', icon: Clock, text: 'Pedidos' },
             ]
             : []),
-        { href: '/about', icon: FaUsers, text: 'Sobre nós' },
-        { href: '/deliveryArea', icon: FaMapMarkerAlt, text: 'Área de entrega' },
-        { href: '/about', icon: FaClock, text: 'Horários' },
+        { href: '/about', icon: Users, text: 'Sobre nós' },
+        { href: '/deliveryArea', icon: MapPin, text: 'Área de entrega' },
+        { href: '/about', icon: Clock, text: 'Horários' },
     ]
 
     return (
@@ -82,7 +91,7 @@ export function Middle_Icons() {
                             <p className="sidemenu-innerText">Cadastrar</p>
                         </Link>
                     </li> */}
-                <MenuLinks href="/config" icon={FaCog} isSelected={isSelected} useSelected={useSelected} innerText="Configurações" />
+                <MenuLinks href="/config" icon={Settings} isSelected={isSelected} useSelected={useSelected} innerText="Configurações" />
             </ul>
         </aside>
 

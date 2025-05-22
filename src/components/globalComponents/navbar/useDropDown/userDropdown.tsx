@@ -5,13 +5,8 @@ import { useState } from "react";
 import { useAuth } from "../../../../../hooks/useAuth";
 import Link from "next/link";
 
-import {
-    FiUser,
-    FiSettings,
-    FiLogOut,
-    FiChevronDown,
-} from "react-icons/fi";
 
+import { User, Settings, LogOut, ChevronDown } from 'lucide-react';
 
 
 export default function UserDropdown() {
@@ -39,7 +34,7 @@ export default function UserDropdown() {
                         alt="Avatar"
                         className="w-9 h-9 rounded-full object-cover"
                     />
-                    <FiChevronDown className="text-gray-500" />
+                    <ChevronDown className="text-gray-500" />
                 </div>
             </button>
 
@@ -52,14 +47,14 @@ export default function UserDropdown() {
                             className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                             onClick={() => setOpen(!open)}
                         >
-                            <FiUser className="mr-2" /> Profile
+                            <User className="mr-2" /> Profile
                         </Link>
                         <Link
                             href="/settings"
                             className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                             onClick={() => setOpen(!open)}
                         >
-                            <FiSettings className="mr-2" /> Settings
+                            <Settings className="mr-2" /> Settings
                         </Link>
 
                         {/* logout Button */}
@@ -67,7 +62,7 @@ export default function UserDropdown() {
                             onClick={() => logout()}
                             className="w-full text-left flex items-center px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
                         >
-                            <FiLogOut className="mr-2" /> Sign out
+                            <LogOut className="mr-2" /> Sign out
                         </button>
                     </div>
                 </div>

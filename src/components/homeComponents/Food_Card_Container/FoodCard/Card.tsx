@@ -2,16 +2,8 @@
 
 import Image from "next/image";
 
-import { GiSodaCan } from "react-icons/gi";
-
-
 import { useEffect, useState } from "react";
-
 import { FoodCardProps } from "../../../../../utils/types/types";
-import { SizeIndicator } from "../modalFood/sizeIndicator/SizeIndicator";
-
-import { useCartContext } from "../../../../../context/cartContext";
-
 
 export function FoodCard({ id, name, imageUrl, sizes, category, description }: FoodCardProps) {
 

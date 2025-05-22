@@ -5,8 +5,8 @@ import { useState, useEffect, use } from 'react'
 
 import { DishesProps } from '../../../../../utils/types/types'
 
-import { GiHotMeal } from "react-icons/gi";
-import { MdAddShoppingCart } from "react-icons/md";
+import { Soup } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
 
 import { SizeIndicator } from './sizeIndicator/SizeIndicator'
 
@@ -114,7 +114,7 @@ export function FoodModal({ modalIsOpen, setModalIsOpen, clickedDish }: FoodModa
                         <div className='flex justify-between items-center mb-2 mb:mb-0'>
                             <p className="text-[clamp(1rem,1vw,2rem)] font-semibold TextColor">R$ {price?.toFixed(2)} </p>
                             <SizeIndicator
-                                icon={GiHotMeal}
+                                icon={Soup}
                                 sizes={clickedDish?.sizes}
                                 sizeDishName={sizeDishName}
                                 setSizeDishName={setSizeDishName}
@@ -139,7 +139,7 @@ export function FoodModal({ modalIsOpen, setModalIsOpen, clickedDish }: FoodModa
                         <button className="button_primary_large w-full flex justify-center items-center gap-2"
                             onClick={() => handleFood(clickedDish as DishesProps)}>
                             Adicionar ao pedido
-                            <MdAddShoppingCart size={24} />
+                            <ShoppingCart size={24} />
                         </button>
                     </div>
                 </div>

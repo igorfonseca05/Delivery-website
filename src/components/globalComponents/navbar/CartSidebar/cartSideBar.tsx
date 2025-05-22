@@ -3,7 +3,7 @@
 import Image from "next/image"
 import Link from "next/link"
 
-import { MdClose } from "react-icons/md"
+// import { MdClose } from "lucide-react"
 import { PricesCart } from "./cartFooterTotal/cartFooter"
 import { HeaderCart } from "./cardHeader"
 

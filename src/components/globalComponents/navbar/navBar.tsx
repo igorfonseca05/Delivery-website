@@ -18,7 +18,8 @@ import UserDropdown from './useDropDown/userDropdown'
 import { SignUpButton } from './signUpButton/signUpButton'
 
 // Icons
-import { MdSearch, MdMenu, MdClose, MdShoppingCart } from 'react-icons/md'
+// import { ShoppingCart } from 'react-icons/md'
+import { Search, Menu, X, ShoppingCart } from 'lucide-react';
 
 
 export function Navbar() {
@@ -40,7 +41,7 @@ export function Navbar() {
 
                         {/* Menu icon to close menu(Mobile) */}
                         <li className='flex items-center sm:block lg:hidden'>
-                            <span><MdMenu className='text-xl text-gray-500 cursor-pointer lg:hidden' onClick={() => setIsOpen(!isOpen)} /></span>
+                            <span><Menu className='text-xl text-gray-500 cursor-pointer lg:hidden' onClick={() => setIsOpen(!isOpen)} /></span>
                         </li>
 
                         <li className='hidden lg:block'>
@@ -62,7 +63,7 @@ export function Navbar() {
                             <span
                                 className='absolute top-1 left-0.2 px-2 block'
                                 onClick={() => setSearchBarIsOpen(!searchBarIsOpen)}>
-                                <MdSearch className='text-2xl text-gray-500' />
+                                <Search className='text-2xl text-gray-500' />
                             </span>
                             <input
                                 type="text"
@@ -87,7 +88,7 @@ export function Navbar() {
                             <li className='cursor-pointer flex button_neutral_medium p-2 ml-2 relative' onClick={() => setCartIsOpen(!cartIsOpen)}>
                                 <div className='flex items-baseline gap-x-0.5'>
                                     <span className={`absolute top-0 left-8 w-4 h-4 text-center bg-[#df4f4b] text-white rounded-full text-[11px] ${cartItensArray.length === 0 ? 'hidden' : 'block'}`}>{cartItensArray.length}</span>
-                                    <MdShoppingCart className='text-gray-700 text-2xl' />
+                                    <ShoppingCart className='text-gray-700 text-2xl' />
                                     <div className='flex flex-col'>
                                         <span className='text-[10px] text-gray-400'>R$ {total.toFixed(2)}</span>
                                     </div>

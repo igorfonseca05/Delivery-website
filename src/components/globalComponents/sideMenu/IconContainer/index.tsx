@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 
-import { MdMenu } from "react-icons/md"
+import { Menu } from "lucide-react"
 
 import { useMenuContext } from "../../../../../context/MenuContext"
 
@@ -13,7 +13,7 @@ export function LogoMenu() {
 
     return (
         <div className={`mt-1.5 grow-0 mx-auto flex flex-col w-full`}>
-            <span><MdMenu className='text-xl text-gray-500 cursor-pointer lg:hidden mx-4' onClick={() => setIsOpen(!isOpen)} /></span>
+            <span><Menu className='text-xl text-gray-500 cursor-pointer lg:hidden mx-4' onClick={() => setIsOpen(!isOpen)} /></span>
             <Image
                 src='logoIcon.svg'
                 alt='logo'
