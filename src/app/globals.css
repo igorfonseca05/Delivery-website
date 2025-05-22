@@ -1,10 +1,6 @@
 @import "tailwindcss";
-/* @import "tailwindcss/preflight"; */
-/* @tailwind utilities; */
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
   --menu-color: #ffffff;
   --button-color: #ffb443;
   --button-color-hover: #ffab2e;
@@ -13,21 +9,12 @@
   --mg: "ml-25";
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 html {
   max-width: 1400px;
 }
 
 body {
   background: #f3f4f6;
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
   position: relative;
   /* overflow: hidden; */
 }

@@ -7,7 +7,21 @@ import {
     updateProfile,
     signOut,
 } from "firebase/auth"
-import { getFirestore } from "firebase/firestore";
+
+import {
+    getFirestore,
+    addDoc,
+    getDocs,
+    getDoc,
+    doc,
+    collection,
+    query,
+    where,
+    updateDoc,
+    deleteDoc,
+    Timestamp
+} from "firebase/firestore";
+
 
 const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -30,5 +44,15 @@ export {
     signInWithEmailAndPassword,
     updateProfile,
     signOut,
-    db
+    db,
+    addDoc,
+    Timestamp,
+    getDocs,
+    getDoc,
+    doc,
+    collection,
+    query,
+    where,
+    updateDoc,
+    deleteDoc,
 }

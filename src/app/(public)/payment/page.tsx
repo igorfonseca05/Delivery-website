@@ -58,6 +58,7 @@ export default function CheckoutForm() {
                 generateOrderNumber()
                 setSuccess(false)
                 setCartItensArray([])
+
             }, 3000)
         }, 4000)
     }

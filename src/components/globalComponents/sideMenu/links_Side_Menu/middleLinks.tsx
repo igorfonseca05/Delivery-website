@@ -36,7 +36,7 @@ export function Middle_Icons() {
             [
                 { href: '/favorites', icon: Heart, text: 'Favoritos' },
                 { href: '/myshop', icon: ShoppingCart, text: 'Minhas Compras' },
-                { href: '/about', icon: Clock, text: 'Pedidos' },
+                { href: '/orders', icon: Clock, text: 'Pedidos' },
             ]
             : []),
         { href: '/about', icon: Users, text: 'Sobre nós' },

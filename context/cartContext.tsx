@@ -5,20 +5,7 @@ import { CartItemProps, DishConfig } from "../utils/types/types"
 
 import { useMessageContext } from "./messagesContext"
 import { useToggleCartContext } from "./toggleCartContext"
-
-interface UserData {
-    nome: string,
-    email: string,
-    telefone: string,
-    endereco: {
-        cidade: string,
-        complemento: string,
-        bairro: string,
-        numero: string,
-        CEP: string,
-        rua: string,
-    }
-}
+import { UserData } from "../utils/types/types"
 
 interface DishCartContextProps {
     cartItensArray: CartItemProps[],
