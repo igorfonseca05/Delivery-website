@@ -105,3 +105,16 @@ export interface UserData {
         rua: string,
     }
 }
+
+export type StatusPedido =
+    | 'Recebido'
+    | 'Em Preparo'
+    | 'A Caminho'
+    | 'Entregue'
+    | 'Cancelado';
+
+export interface OrderStatusCardProps {
+    user: UserData;
+    item: DishConfig;
+    status: StatusPedido;
+}

@@ -1,64 +1,84 @@
-import React from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import { Badge } from "@/components/ui/badge";
-import { CheckCircle, Clock, XCircle } from "lucide-react";
+'use client';
 
-interface OrderStatusCardProps {
-    orderId: string;
-    status: "pendente" | "processando" | "pago" | "cancelado";
-    createdAt: string;
-    updatedAt: string;
-    progress: number;
-    itemsCount: number;
-    total: number;
-}
+import Image from 'next/image';
+import clsx from 'clsx';
+import { OrderStatusCardProps } from '../../../../utils/types/types';
 
-const statusLabels = {
-    pendente: { label: "Pendente", icon: <Clock className="w-4 h-4" />, color: "bg-yellow-400" },
-    processando: { label: "Processando", icon: <Clock className="w-4 h-4" />, color: "bg-blue-500" },
-    pago: { label: "Pago", icon: <CheckCircle className="w-4 h-4" />, color: "bg-green-500" },
-    cancelado: { label: "Cancelado", icon: <XCircle className="w-4 h-4" />, color: "bg-red-500" },
-};
+const statusSteps = ['Recebido', 'Em Preparo', 'A Caminho', 'Entregue'];
 
-export default function OrderStatusCard({
-    orderId,
-    status,
-    createdAt,
-    updatedAt,
-    progress,
-    itemsCount,
-    total,
-}: OrderStatusCardProps) {
+export default function OrderStatusCard({ user, item, status }: OrderStatusCardProps) {
+    const currentStepIndex = statusSteps.indexOf(status);
+
     return (
-        <Card className="w-full max-w-3xl mx-auto mb-6 p-4 shadow-md rounded-2xl">
-            <CardContent>
-                <div className="flex justify-between items-start mb-4">
-                    <div>
-                        <h2 className="text-lg font-semibold">Pedido #{orderId}</h2>
-                        <p className="text-sm text-muted-foreground">
-                            Criado em: {createdAt} | Última atualização: {updatedAt}
-                        </p>
-                    </div>
+        <div className="flex flex-col md:flex-row bg-white rounded-xl shadow-md p-6 w-full mb-4 mx-auto">
+            {/* Lado esquerdo */}
+            <div className="flex-1">
+                <h2 className="text-2xl font-semibold mb-2">Pedido f5g6e9</h2>
+                {/* <h2 className="text-lg mb-2">{item.name}</h2> */}
+                {/* <p className="text-sm text-gray-500 mb-4">{item.orderNote || 'Sem observações'}</p> */}
 
-                    <div className="flex items-center gap-2">
-                        <Badge className={`${statusLabels[status].color} text-white px-2 py-1 text-xs rounded-full flex items-center gap-1`}>
-                            {statusLabels[status].icon}
-                            {statusLabels[status].label}
-                        </Badge>
-                    </div>
+                <div className="flex items-center gap-4 mb-4">
                 </div>
 
-                <div className="mb-4">
-                    <p className="text-sm">Itens: {itemsCount}</p>
-                    <p className="text-sm font-medium">Total: R$ {total.toFixed(2)}</p>
+                <div className="mt-6">
+                    {/* <h3 className="font-semibold mb-2">Progresso do Pedido</h3> */}
+                    <div className="flex items-center justify-between">
+                        {statusSteps.map((step, index) => (
+                            <div key={step} className="flex-1 flex flex-col items-center">
+                                <div
+                                    className={clsx(
+                                        'w-8 h-8 rounded-full flex items-center justify-center mb-2',
+                                        index <= currentStepIndex
+                                            ? 'bg-orange-400 text-white'
+                                            : 'bg-gray-300 text-gray-600'
+                                    )}
+                                >
+                                    {index + 1}
+                                </div>
+                                <p
+                                    className={clsx(
+                                        'text-xs text-center',
+                                        index <= currentStepIndex ? 'text-orange-400 font-semibold' : 'text-gray-500'
+                                    )}
+                                >
+                                    {step}
+                                </p>
+                            </div>
+                        ))}
+                    </div>
+                    <div className="w-full h-1 bg-gray-200 rounded-full mt-2 relative">
+                        <div
+                            className="h-1 bg-orange-400 rounded-full transition-all"
+                            style={{ width: `${(currentStepIndex / (statusSteps.length - 1)) * 100}%` }}
+                        />
+                    </div>
+                </div>
+            </div>
+
+            {/* Lado direito */}
+            <div className="flex flex-col justify-between bg-gray-50 p-4 rounded-lg md:ml-6 mt-6 md:mt-0">
+                {/* <div>
+                    <div className="flex items-center gap-3 mb-4">
+                        <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">
+                            {user.nome.charAt(0)}
+                        </div>
+                        <div>
+                            <p className="font-medium">{user.nome}</p>
+                            <p className="text-xs text-gray-500">{user.email}</p>
+                            <p className="text-xs text-gray-500">{user.telefone}</p>
+                        </div>
+                    </div>
                 </div>
 
                 <div>
-                    <Progress value={progress} className="h-2 bg-gray-200" />
-                    <p className="text-xs text-muted-foreground mt-1">Progresso do pedido: {progress}%</p>
-                </div>
-            </CardContent>
-        </Card>
+                    <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg text-sm mb-2">
+                        Entrar em Contato
+                    </button>
+                    <button className="w-full border border-blue-600 text-blue-600 py-2 px-4 rounded-lg text-sm">
+                        Ver Detalhes
+                    </button>
+                </div> */}
+            </div>
+        </div>
     );
 }
