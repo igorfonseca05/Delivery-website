@@ -1,35 +1,35 @@
 "use client"
 
+
+import clsx from 'clsx'
 import { useEffect, useState } from "react"
-import UserSidebar from "./userSidebar"
+import UserSidebar from "./userSidebar/userSideBar"
 import { ContentContainer } from "@/components/globalComponents/Container/container"
 
 import { useAuthContext } from "../../../../context/useAuthContext"
 
 import { useFirebase } from "../../../../hooks/useFirebase"
+import { address } from 'framer-motion/client'
+import { toast } from 'react-toastify'
 
-// import { useSession } from "next-auth/react"
-import { redirect } from "next/navigation"
 
 export default function ProfilePage() {
-    // const { data: session } = useSession()
-    const { addDataToFireCollection, loading, getData } = useFirebase()
+    const { addDataToFireCollection, loading, getData, success } = useFirebase()
     const { user } = useAuthContext()
+
     const [form, setForm] = useState({
-        name: "",
+        nome: "",
         email: "",
-        phone: "",
-        address: "",
-        city: "",
-        state: "",
-        zip: "",
-        country: "Brasil",
-        paymentMethod: "Pix",
-        deliveryInstructions: "",
+        telefone: "",
+        endereco: "",
+        cidade: "",
+        estado: "",
+        CEP: "",
+        país: "Brasil",
+        metodoPagamento: "Pix",
+        detalhesEntrega: "",
     })
 
-
-    // !session && redirect('/login')
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         setForm({ ...form, [e.target.name]: e.target.value })
@@ -42,17 +42,40 @@ export default function ProfilePage() {
         const userData = {
             ...form
         }
+
         addDataToFireCollection('users', userData)
         // Aqui você integraria com sua API ou backend
     }
 
+
     useEffect(() => {
-        getData('users')
+        async function getUserAddress() {
+            const address = await getData('users')
+
+            setForm(prev => ({
+                ...prev,
+                ...address?.data
+            }))
+
+        }
+        getUserAddress()
     }, [])
+
+
+    useEffect(() => {
+        success && toast.success(success)
+    }, [success])
+
+
 
     return (
         <ContentContainer>
-            <div className="p-2 flex flex-col wrap gap-4 md:flex-row">
+            <div className='basicStyle p-2'>
+                <h1 className='text-[clamp(1rem,2vw,2rem)] font-bold text-center md:text-start md:pl-3 text-gray-500'>Editar perfil</h1>
+                {/* <p className='text-gray-400 text-[clamp(0.8rem,1vw,2rem)] '>Entre com as informações abaixo para registrar. Você pode altere-las a qualquer momento</p> */}
+            </div>
+
+            <div className="flex flex-col wrap gap-2 md:flex-row">
                 <UserSidebar
                     name={`${user?.displayName}`}
                     email={`${user?.email}`}
@@ -60,23 +83,46 @@ export default function ProfilePage() {
                 />
                 <div className="flex-1">
                     <div className="max-w-5xl mx-auto bg-white rounded-lg shadow p-6">
-                        <h1 className="text-2xl font-bold mb-6">Meu Perfil</h1>
+                        {/* <h1 className="text-2xl font-bold mb-6">Meu Perfil</h1> */}
                         <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label className="block text-sm font-medium mb-1">Nome Completo</label>
-                                <input type="text" name="name" value={form.name} onChange={handleChange} className="input" />
+                                <label className="block text-sm font-medium mb-1 text-gray-500">Nome Completo</label>
+                                <input
+                                    name="nome"
+                                    type="text"
+                                    value={form.nome}
+                                    onChange={handleChange}
+                                    className="input"
+                                    required />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium mb-1">Email</label>
-                                <input type="email" name="email" value={form.email} onChange={handleChange} className="input" />
+                                <label className="block text-sm font-medium mb-1 text-gray-500">Email</label>
+                                <input
+                                    name="email"
+                                    type="email"
+                                    value={form.email}
+                                    onChange={handleChange}
+                                    className="input"
+                                    required />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium mb-1">Telefone</label>
-                                <input type="tel" name="phone" value={form.phone} onChange={handleChange} className="input" />
+                                <label className="block text-sm font-medium mb-1 text-gray-500">Telefone</label>
+                                <input
+                                    name="telefone"
+                                    type="text"
+                                    value={form.telefone}
+                                    onChange={handleChange}
+                                    className="input"
+                                    required />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium mb-1">Método de Pagamento</label>
-                                <select name="paymentMethod" value={form.paymentMethod} onChange={handleChange} className="input">
+                                <label className="block text-sm font-medium mb-1 text-gray-500">Método de Pagamento</label>
+                                <select
+                                    name="metodoDePagamento"
+                                    value={form.metodoPagamento}
+                                    onChange={handleChange}
+                                    className="input"
+                                    required>
                                     {/* <option value="">Selecione</option> */}
                                     <option value="pix">Pix</option>
                                     {/* <option value="cartao">Cartão de Crédito</option>
@@ -85,35 +131,71 @@ export default function ProfilePage() {
                             </div>
                             <div className="md:col-span-2">
                                 <label className="block text-sm font-medium mb-1">Endereço</label>
-                                <input type="text" name="address" value={form.address} onChange={handleChange} className="input" />
+                                <input
+                                    name="endereco"
+                                    type="text"
+                                    value={form.endereco}
+                                    onChange={handleChange}
+                                    className="input"
+                                    required />
                             </div>
                             <div>
                                 <label className="block text-sm font-medium mb-1">Cidade</label>
-                                <input type="text" name="city" value={form.city} onChange={handleChange} className="input" />
+                                <input
+                                    name="cidade"
+                                    type="text"
+                                    value={form.cidade}
+                                    onChange={handleChange}
+                                    className="input"
+                                    required />
                             </div>
                             <div>
                                 <label className="block text-sm font-medium mb-1">Estado</label>
-                                <input type="text" name="state" value={form.state} onChange={handleChange} className="input" />
+                                <input
+                                    name="estado"
+                                    type="text"
+                                    value={form.estado}
+                                    onChange={handleChange}
+                                    className="input"
+                                    required />
                             </div>
                             <div>
                                 <label className="block text-sm font-medium mb-1">CEP</label>
-                                <input type="text" name="zip" value={form.zip} onChange={handleChange} className="input" />
+                                <input
+                                    name="CEP"
+                                    type="text"
+                                    value={form.CEP}
+                                    onChange={handleChange}
+                                    className="input"
+                                    required />
                             </div>
                             <div>
                                 <label className="block text-sm font-medium mb-1">País</label>
-                                <input type="text" name="country" value={form.country} onChange={handleChange} className="input" />
+                                <input
+                                    name="país"
+                                    type="text"
+                                    value={form.país}
+                                    onChange={handleChange}
+                                    className="input"
+                                    required />
                             </div>
                             <div className="md:col-span-2">
                                 <label className="block text-sm font-medium mb-1">Instruções de Entrega</label>
-                                <textarea name="deliveryInstructions" value={form.deliveryInstructions} onChange={handleChange} className="input h-24" />
+                                <textarea name="detalhesEntrega" value={form.detalhesEntrega} onChange={handleChange} className="input h-24" />
                             </div>
                             <div className="md:col-span-2">
-                                {!loading && <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
-                                    Salvar Alterações
-                                </button>}
-                                {loading && <button type="submit" disabled={loading} className="bg-blue-400 text-white px-4 py-2 rounded cursor-not-allowed">
-                                    Salvar Alterações
-                                </button>}
+                                <button
+                                    disabled={loading}
+                                    type="submit"
+                                    className={clsx(
+                                        'px-4 py-2 w-full rounded-lg text-white transition',
+                                        loading
+                                            ? 'bg-blue-400 cursor-not-allowed'
+                                            : 'bg-blue-600 hover:bg-blue-700'
+                                    )}
+                                >
+                                    {loading ? 'Salvando...' : 'Salvar Alterações'}
+                                </button>
                             </div>
                         </form>
                     </div>

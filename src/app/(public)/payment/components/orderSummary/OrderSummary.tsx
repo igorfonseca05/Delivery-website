@@ -3,12 +3,21 @@ import { Info } from "lucide-react";
 import { PriceIndicator } from "./priceIndicator/priceIndicator";
 import { ConfirmButton } from "./confirmButton/ConfirmButton";
 
+import { useCartContext } from "../../../../../../context/cartContext";
+
 
 export default function OrderSummary({ removeButton }: { removeButton?: boolean }) {
+
+    const { cartItensArray } = useCartContext()
+
     return (
         <div className="max-w-md mx-auto p-6 bg-white rounded-xl space-y-6">
             <h2 className="text-xl font-semibold">Resumo do Pedido</h2>
+            <div className="flex justify-between">
+                <span>Produtos</span>
+                <p>sdçlfjasdç</p>
 
+            </div>
             <div className="space-y-2 text-sm text-gray-600">
                 <div className="flex justify-between">
                     <span>Valor dos itens:</span>

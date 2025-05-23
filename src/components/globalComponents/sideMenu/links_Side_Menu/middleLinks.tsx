@@ -4,6 +4,7 @@
 import { MenuLinks } from "./Links"
 import { SearchBar } from "./input/Search_Input"
 import { LoginButton } from "@/components/globalComponents/navbar/loginButton/loginButton"
+import Link from "next/link";
 
 // Icons
 
@@ -27,7 +28,7 @@ export function Middle_Icons() {
     const { user } = useAuthContext()
 
     const [selected, useSelected] = useState('Página inicial')
-    // const [isSelected, setIsSelected] = useState(false)
+
     let isSelected = false
 
     const linksButton = [
@@ -50,17 +51,19 @@ export function Middle_Icons() {
             {/* SideMenu buttons */}
             <main>
                 {user && <div className="flex flex-col md:hidden items-center text-center m-auto py-4 space-x-3">
-                    <img
-                        src={user?.photoURL ? `${user.photoURL}` : '/placeholder.png'}
-                        alt="Avatar"
-                        className="w-12 h-12 rounded-full object-cover m-auto mb-2"
-                    />
-                    <div className="text-right block">
-                        <p className={`text-md font-medium text-gray-900 capitalize`}>
-                            {user?.displayName}
-                        </p>
-                        {/* <p className="text-xs text-gray-500">Admin</p> */}
-                    </div>
+                    <Link href="/profile">
+                        <img
+                            src={user?.photoURL ? `${user.photoURL}` : '/placeholder.png'}
+                            alt="Avatar"
+                            className="w-12 h-12 rounded-full object-cover m-auto mb-2"
+                        />
+                        <div className="block">
+                            <p className={`text-md font-medium text-gray-900 capitalize`}>
+                                {user?.displayName}
+                            </p>
+                            {/* <p className="text-xs text-gray-500">Admin</p> */}
+                        </div>
+                    </Link>
                 </div>}
                 <SearchBar />
                 <ul className="scrollStyle relative w-full max-h-100 py-4 flex flex-col justify-between items-center gap-y-5 mt-2 sidebar overflow-y-auto">

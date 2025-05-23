@@ -20,7 +20,7 @@ body {
 }
 
 .alignAllContent {
-  @apply md:w-[95%] lg:ml-21;
+  @apply md:w-[100%] lg:ml-21;
 }
 
 .sizeContentet {
@@ -28,7 +28,7 @@ body {
 }
 
 .basicStyle {
-  @apply my-3 bg-white rounded-lg;
+  @apply my-2 bg-white rounded-lg;
 }
 
 .TextColor {

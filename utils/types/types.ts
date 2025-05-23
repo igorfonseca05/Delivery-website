@@ -91,7 +91,6 @@ export interface FirebaseUser {
 }
 
 
-
 export interface UserData {
     nome: string,
     email: string,
@@ -117,4 +116,17 @@ export interface OrderStatusCardProps {
     user: UserData;
     item: DishConfig;
     status: StatusPedido;
+}
+
+export interface UserProfileAddress {
+    nome: string,
+    email: string,
+    telefone: string,
+    endereço: string,
+    cidade: string,
+    estado: string,
+    CEP: string,
+    país: string,
+    metodoPagamento: string,
+    detalhesEntrega: string,
 }

@@ -14,20 +14,40 @@ import {
 } from "../firebase/firebase";
 import { CartItemProps, UserData } from "../utils/types/types";
 
+import { UserProfileAddress } from "../utils/types/types";
+
+import { DocumentData } from "firebase/firestore";
+
 
 interface OrderProps {
     userData: UserData
     cartItens: CartItemProps[]
 }
 
+interface DocProps {
+    data: UserProfileAddress | DocumentData,
+    createdAt: Timestamp,
+}
+
 export function useFirebase() {
 
-    // const [docs, setDoc] = useState()
+    // const [data, setData] = useState<DocumentData | undefined>(undefined)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
+    const [success, setSuccess] = useState<string | null>(null)
+
+
+    const [isMounted, setIsMounted] = useState(true)
+
+    function checkIfMounted() {
+        if (!isMounted) return
+    }
 
 
     async function addDataToFireCollection(collectionName: string, data: Record<string, any>) {
+
+        checkIfMounted()
+
         setLoading(true)
         setError(null)
 
@@ -39,8 +59,7 @@ export function useFirebase() {
                 createdAt: Timestamp.now(),
             }, { merge: true })
 
-            console.log('Pedido salvo com ID:', auth.currentUser?.uid)
-
+            setSuccess('Endereço atualizado sucesso')
         } catch (error: any) {
             console.log(error)
             throw error
@@ -50,48 +69,32 @@ export function useFirebase() {
     }
 
     // async function getOrdersByUserId(collectionName: string) {
-    //     setLoading(true)
-    //     setError(null)
-
-    //     try {
-    //         if (!auth.currentUser?.uid) return
-
-    //         const docSnap = await getDoc(doc(db, collectionName))
-
-    //         if (docSnap.exists()) {
-    //             console.log("Document data:", docSnap.data());
-    //         } else {
-    //             console.log("No such document!");
-    //         }
-
-    //     } catch (error: any) {
-    //         console.log(error)
-    //         throw error
-    //     } finally {
-    //         setLoading(false)
-    //     }
     // }
 
-    async function getData(collectionName: string) {
+    async function getData(collectionName: string): Promise<DocProps | undefined> {
+        checkIfMounted()
+
         setLoading(true)
         setError(null)
 
         try {
-            if (!auth.currentUser?.uid) return
+            if (!auth.currentUser?.uid) throw new Error('Usuário não autenticado')
 
-            const docSnap = await getDoc(doc(db, collectionName))
+            const docRef = doc(db, collectionName, auth.currentUser.uid)
+            const docSnap = await getDoc(docRef)
 
-            if (docSnap.exists()) {
-                console.log("Document data:", docSnap.data());
-            } else {
-                console.log("No such document!");
+            if (!docSnap.exists()) {
+                throw new Error('Documento não encontrado')
             }
 
+            return docSnap.data() as DocProps
         } catch (error: any) {
             console.log(error)
-            throw error
+            setError(error.message)
+            return undefined
         } finally {
             setLoading(false)
+            setSuccess(null)
         }
     }
 
@@ -101,6 +104,8 @@ export function useFirebase() {
 
 
     async function updateCollectionField(collectionName: string, data: Record<string, any>): Promise<void> {
+        checkIfMounted()
+
         setLoading(true)
         setError('')
 
@@ -123,6 +128,10 @@ export function useFirebase() {
         }
     }
 
+    useEffect(() => {
+        return () => setIsMounted(false)
+    }, [])
+
     return {
         addDataToFireCollection,
         getData,
@@ -130,6 +139,7 @@ export function useFirebase() {
         updateCollectionField,
         loading,
         error,
+        success
     }
 }
 
