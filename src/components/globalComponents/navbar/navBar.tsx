@@ -10,6 +10,8 @@ import { useAuthContext } from '../../../../context/useAuthContext'
 
 import { useCartContext } from '../../../../context/cartContext'
 
+import { useAdminContext } from '../../../../context/isAdminContext'
+
 // Components
 import { useMenuContext } from '../../../../context/MenuContext'
 import { useToggleCartContext } from '../../../../context/toggleCartContext'
@@ -26,8 +28,11 @@ export function Navbar() {
     const { setIsOpen, isOpen } = useMenuContext()
     const { cartItensArray, total } = useCartContext()
     const { cartIsOpen, setCartIsOpen } = useToggleCartContext()
+    const { isAdmin } = useAdminContext()
     const { user } = useAuthContext()
     const path = usePathname()
+
+    console.log(isAdmin)
 
     const [searchBarIsOpen, setSearchBarIsOpen] = useState<boolean>(false)
 
@@ -85,16 +90,19 @@ export function Navbar() {
                             {user && <UserDropdown />}
 
                             {/* Shopping Cart */}
-                            <li
-                                className={`cursor-pointer flex button_neutral_medium p-2 ml-2 relative ${path === '/payment' && 'opacity-50 pointer-events-none'}`} onClick={() => setCartIsOpen(!cartIsOpen)}>
-                                <div className='flex items-baseline gap-x-0.5'>
-                                    <span className={`absolute top-0 left-8 w-4 h-4 text-center bg-[#df4f4b] text-white rounded-full text-[11px] ${cartItensArray.length === 0 ? 'hidden' : 'block'}`}>{cartItensArray.length}</span>
-                                    <ShoppingCart className='text-gray-700 text-2xl' />
-                                    <div className='flex flex-col'>
-                                        <span className='text-[10px] text-gray-400'>R$ {total.toFixed(2)}</span>
+
+
+                            {!isAdmin &&
+                                (<li
+                                    className={`cursor-pointer flex button_neutral_medium p-2 ml-2 relative ${path === '/payment' && 'opacity-50 pointer-events-none'}`} onClick={() => setCartIsOpen(!cartIsOpen)}>
+                                    <div className='flex items-baseline gap-x-0.5'>
+                                        <span className={`absolute top-0 left-8 w-4 h-4 text-center bg-[#df4f4b] text-white rounded-full text-[11px] ${cartItensArray.length === 0 ? 'hidden' : 'block'}`}>{cartItensArray.length}</span>
+                                        <ShoppingCart className='text-gray-700 text-2xl' />
+                                        <div className='flex flex-col'>
+                                            <span className='text-[10px] text-gray-400'>R$ {total.toFixed(2)}</span>
+                                        </div>
                                     </div>
-                                </div>
-                            </li>
+                                </li>)}
                         </div>
                     </ul>
                 </nav >

@@ -115,7 +115,6 @@ export interface UserData {
     numero: string,
     CEP: string,
     rua: string,
-
 }
 
 export type StatusPedido =

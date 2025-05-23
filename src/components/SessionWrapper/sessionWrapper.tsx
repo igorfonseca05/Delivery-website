@@ -21,6 +21,8 @@ import { PrivateRoute } from "./Protect/private"
 // import { useRouter } from 'next/compat/router'
 import { useRouter } from 'next/navigation'
 
+import { useAdminContext } from "../../../context/isAdminContext"
+
 
 
 /**Esse componente existe para monitorar o estado de autenticação do usuário
@@ -35,6 +37,8 @@ import { useRouter } from 'next/navigation'
 
 export function AuthGlobalContext({ children }: { children: React.ReactNode }) {
 
+    const { setIsAdmin } = useAdminContext()
+
     // Variavel que recebe dados do usuário do firebase(tipagem recomendada)
     const [user, setUser] = useState<User | null | undefined>(undefined)
     const router = useRouter()
@@ -45,6 +49,8 @@ export function AuthGlobalContext({ children }: { children: React.ReactNode }) {
     useEffect(() => {
         const unsubscribed = onAuthStateChanged(auth, (user) => {
             setUser(user)
+            const admin = user?.uid === 'gRxy3jlenTZnHMzOv2r7dxCsQKt1'
+            setIsAdmin(admin)
         })
         return () => unsubscribed()
     }, [auth])

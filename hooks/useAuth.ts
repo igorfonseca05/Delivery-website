@@ -9,6 +9,8 @@ import {
     signInWithEmailAndPassword
 } from '../firebase/firebase'
 
+import { useAdminContext } from '../context/isAdminContext'
+
 import { FirebaseError } from 'firebase/app'
 
 // Context
@@ -25,6 +27,8 @@ interface UserProps {
  */
 
 export function useAuth() {
+
+    const { setIsAdmin } = useAdminContext()
 
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
@@ -48,6 +52,7 @@ export function useAuth() {
             await updateProfile(user, {
                 displayName: name || 'User'
             })
+
 
             return user
 

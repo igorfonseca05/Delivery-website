@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { ContentContainer } from '@/components/globalComponents/Container/container';
@@ -22,13 +22,14 @@ import { useFirebase } from '../../../../hooks/useFirebase';
 import PixCodeBox from './components/QRcontainer/copyButton/CopyButton';
 
 import { useMessageContext } from '../../../../context/messagesContext';
-import { OrderWithotAuthProps } from '../../../../utils/types/types';
+import { OrderWithotAuthProps, UserProfileAddress } from '../../../../utils/types/types';
 import { UserData } from '../../../../utils/types/types';
 import { toast } from 'react-toastify';
 
 
 export default function CheckoutForm() {
     const router = useRouter()
+    const timeoutIds = useRef<Array<number | NodeJS.Timeout>>([]);
 
     enum Routes {
         Profile = '/profile',
@@ -47,13 +48,15 @@ export default function CheckoutForm() {
     const { setError, error } = useMessageContext()
 
     const { user } = useAuthContext()
-    const { addOrderGuests, getData } = useFirebase()
+    const { addOrderGuests, getData, addDataToFireCollection } = useFirebase()
 
     const [step, setStep] = useState(1);
     const [loading, setLoading] = useState(false)
     const [success, setSuccess] = useState(false)
     const [orderId, setOrderId] = useState<string>()
     const [IsValidAddress, setIsValidAddress] = useState(false)
+
+    const [address, setAddress] = useState<UserProfileAddress>()
 
     // Estaso inicial do formulário
     const [formData, setFormData] = useState({
@@ -89,16 +92,19 @@ export default function CheckoutForm() {
 
             // Se usuário está logado, verifica no Firebase
             if (user) {
-                const address = await getData('users')
+                const addressProfile = await getData('users')
 
-                console.log('oi')
+                if (!addressProfile) throw new Error('Endereço não informado')
+                setAddress(address)
 
-                if (!address?.data) {
+                if (!addressProfile?.data) {
                     setError('Precisamos do seu endereço para enviar seu pedido até você.')
-                    setTimeout(() => {
+                    const timer = setTimeout(() => {
                         router?.push(Routes.Profile)
                         setIsValidAddress(false)
-                    }, 10000)
+                    }, 4000)
+
+                    timeoutIds.current.push(timer);
                     return false
                 }
             }
@@ -106,15 +112,19 @@ export default function CheckoutForm() {
             // Usuário não autenticado
             if (!userAddress) {
                 setError('Precisamos do seu endereço para enviar seu pedido até você.')
-                setTimeout(() => {
-                    userAddress && router?.push(Routes.Payment)
-                    setIsValidAddress(false)
-                }, 10000)
+
+                const timer = setTimeout(() => {
+                    router?.push(Routes.Profile);
+                    setIsValidAddress(false);
+                }, 4000);
+
+                timeoutIds.current.push(timer);
                 return false
             }
 
             setIsValidAddress(true)
             return true
+
         } catch (error) {
             console.error('Erro ao verificar endereço:', error);
             setError('Ocorreu um erro ao verificar seu endereço. Tente novamente.');
@@ -123,21 +133,35 @@ export default function CheckoutForm() {
 
     }
 
-    function createOrder() {
+    async function createOrder() {
         const random = randomBytes(6).toString('hex')
 
-        const storageOrder = localStorage.getItem('order')
-        const order = storageOrder ? JSON.parse(storageOrder) : null
+        if (!user) {
+            const storageOrder = localStorage.getItem('order')
+            const order = storageOrder ? JSON.parse(storageOrder) : null
 
-        const orderFinished = {
-            orderId: random,
-            ...order
+            const orderFinished = {
+                orderId: random,
+                ...order
+            }
+
+            orderFinished && addOrderGuests(order, random)
+        } else {
+
+            const orderFinished = {
+                orderId: random,
+                ...address,
+                cart: {
+                    ...cartItensArray
+                }
+            }
+
+            orderFinished && addDataToFireCollection('orders_users', orderFinished)
         }
 
         // console.log(orderFinished)
         setOrderId(random)
 
-        orderFinished && addOrderGuests(order, random)
         setCartItensArray([])
         setUserData({
             nome: '',
@@ -224,6 +248,7 @@ export default function CheckoutForm() {
         !user && setStep(1)
     }, [user])
 
+
     useEffect(() => {
         if (userAddress) {
 
@@ -248,6 +273,13 @@ export default function CheckoutForm() {
         setError('')
 
     }, [error])
+
+    useEffect(() => {
+        return () => {
+            timeoutIds.current.forEach((id) => clearTimeout(id));
+            timeoutIds.current = [];
+        };
+    }, [])
 
 
     return (
@@ -364,7 +396,7 @@ export default function CheckoutForm() {
                                         </div>
                                     )}
                                     {
-                                        cartItensArray.length === 0 &&
+                                        !orderId && cartItensArray.length === 0 &&
                                         <div className='h-full flex flex-col items-center'>
                                             <Image src={`/empty.svg`} alt="logo carrinho vazio" priority quality={50} width={300} height={300} className="opacity-40 mb-4" />
                                             <p>Adicione itens no carrinho para prosseguir com pagamento</p>
@@ -384,8 +416,9 @@ export default function CheckoutForm() {
                             </motion.div>
                         ))}
                         {!IsValidAddress &&
-                            <motion.div className='basicStyle relative m-auto p-4 mb:p-0 h-full flex flex-col justify-between' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                                <p>Dados de Endereço inválidos, impossivel continuar com pagamento!</p>
+                            <motion.div className='basicStyle relative m-auto p-4 mb:p-0 h-full flex flex-col items-center justify-center' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                                <Image src={`/address3.svg`} alt="logo carrinho vazio" priority quality={50} width={500} height={500} className="opacity-40 mb-4" />
+                                <p>Dados de Endereço não fornecidos!</p>
                             </motion.div>
                         }
                     </div>
