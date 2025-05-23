@@ -1,16 +1,19 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import UserSidebar from "./userSidebar"
 import { ContentContainer } from "@/components/globalComponents/Container/container"
 
 import { useAuthContext } from "../../../../context/useAuthContext"
+
+import { useFirebase } from "../../../../hooks/useFirebase"
 
 // import { useSession } from "next-auth/react"
 import { redirect } from "next/navigation"
 
 export default function ProfilePage() {
     // const { data: session } = useSession()
+    const { addDataToFireCollection, loading, getData } = useFirebase()
     const { user } = useAuthContext()
     const [form, setForm] = useState({
         name: "",
@@ -36,9 +39,16 @@ export default function ProfilePage() {
         e.preventDefault()
         console.log("Dados salvos:", form)
 
-        console.log(form)
+        const userData = {
+            ...form
+        }
+        addDataToFireCollection('users', userData)
         // Aqui você integraria com sua API ou backend
     }
+
+    useEffect(() => {
+        getData('users')
+    }, [])
 
     return (
         <ContentContainer>
@@ -98,9 +108,12 @@ export default function ProfilePage() {
                                 <textarea name="deliveryInstructions" value={form.deliveryInstructions} onChange={handleChange} className="input h-24" />
                             </div>
                             <div className="md:col-span-2">
-                                <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+                                {!loading && <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
                                     Salvar Alterações
-                                </button>
+                                </button>}
+                                {loading && <button type="submit" disabled={loading} className="bg-blue-400 text-white px-4 py-2 rounded cursor-not-allowed">
+                                    Salvar Alterações
+                                </button>}
                             </div>
                         </form>
                     </div>
