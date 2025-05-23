@@ -130,3 +130,13 @@ export interface UserProfileAddress {
     metodoPagamento: string,
     detalhesEntrega: string,
 }
+
+export interface OrderWithotAuthProps {
+    userData: UserData,
+    cartItens: CartItemProps[],
+    orderDatails: {
+        total: number,
+        totalCartItens: number,
+        deliveryFee: number
+    }
+}

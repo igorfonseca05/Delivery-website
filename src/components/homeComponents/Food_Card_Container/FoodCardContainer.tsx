@@ -50,11 +50,7 @@ export function DishesContainer() {
     return (
         <>
             <div className="min-h-150">
-                <div className='basicStyle p-2 shadow'>
-                    <h1 className='text-[clamp(1rem,1.5vw,2rem)] font-bold text-center md:text-start md:pl-3 text-gray-500 capitalize'>{category || "Todos"}</h1>
-                    {/* <p className='text-gray-400 text-[clamp(0.8rem,1vw,2rem)] '>Entre com as informações abaixo para registrar. Você pode altere-las a qualquer momento</p> */}
-                </div>
-                {/* <h1 className="capitalize text-2xl mb-3 font-medium">{category || "Todos"}</h1> */}
+                <h1 className="capitalize text-2xl mb-3 font-medium">{category || "Todos"}</h1>
                 <div className={`grid grid-cols-1 md:grid-cols-[auto_auto] gap-5 relative animate`}>
 
                     {/* Cards de loading */}

@@ -14,7 +14,7 @@ export default function OrderSummary({ removeButton }: { removeButton?: boolean 
     return (
         <div className="max-w-md mx-auto p-4 md:p-6 bg-white rounded-xl space-y-6">
             <h2 className="text-xl font-semibold">Resumo do Pedido</h2>
-            <div className="flex flex-col gap-y-2 justify-between w-full max-h-78 overflow-auto h-full">
+            <div className="flex flex-col gap-y-2 w-full max-h-78 overflow-auto">
                 {cartItensArray && cartItensArray?.map(({ id, name, price, imageUrl, quantity }) => (
                     <CardItem
                         key={id}

@@ -17,20 +17,36 @@ import { useAuthContext } from '../../../../context/useAuthContext';
 import { randomBytes } from 'crypto';
 import OrderSummary from './components/orderSummary/OrderSummary';
 import { FinishedOrder } from './components/FinishedOrder/FinishesOrder';
+import { useFirebase } from '../../../../hooks/useFirebase';
 
 import PixCodeBox from './components/QRcontainer/copyButton/CopyButton';
+
+import { useMessageContext } from '../../../../context/messagesContext';
+import { OrderWithotAuthProps } from '../../../../utils/types/types';
 
 
 export default function CheckoutForm() {
     const router = useRouter()
 
-    const { setUserData, cartItensArray, setCartItensArray } = useCartContext()
+    const {
+        setUserData,
+        cartItensArray,
+        setCartItensArray,
+        total,
+        totalCartItens,
+        deliveryFee,
+    } = useCartContext()
+
+    const { setError } = useMessageContext()
+
     const { user } = useAuthContext()
+    const { addDataToFireCollection, getData } = useFirebase()
 
     const [step, setStep] = useState(1);
     const [loading, setLoading] = useState(false)
     const [success, setSuccess] = useState(false)
-    const [orderId, setOrderId] = useState('')
+    const [orderId, setOrderId] = useState<string>()
+    const [order, setOrder] = useState()
     const [formData, setFormData] = useState({
         nome: '',
         sobrenome: '',
@@ -49,6 +65,29 @@ export default function CheckoutForm() {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
+    async function createOrder() {
+
+        const noAuthUserOrder = localStorage.getItem('order')
+        const address = await getData('users')
+
+        if (!noAuthUserOrder || address?.data) {
+            setError('Precisamos do seu endereço para enviar seu pedido até você.')
+
+            address?.data && router?.push('/profile')
+            noAuthUserOrder && router?.push('/payment')
+
+            throw new Error('Precisamos do seu endereço para enviar seu pedido até você.')
+        }
+
+        if (noAuthUserOrder) {
+            // setOrder(noAuthUserOrder)
+        }
+
+
+        // addDataToFireCollection('orders', order)
+        // setCartItensArray([])
+    }
+
     function handlePayment() {
         setLoading(true)
 
@@ -59,8 +98,7 @@ export default function CheckoutForm() {
             setTimeout(() => {
                 generateOrderNumber()
                 setSuccess(false)
-                setCartItensArray([])
-
+                createOrder()
             }, 3000)
         }, 4000)
     }
@@ -77,11 +115,6 @@ export default function CheckoutForm() {
         const random = randomBytes(4).toString('hex')
         setOrderId(random)
     }
-
-
-    useEffect(() => {
-        cartItensArray.length === 0 && router?.push('/')
-    }, [])
 
 
     // Verificando forms inputs
@@ -125,7 +158,12 @@ export default function CheckoutForm() {
     }
 
     useEffect(() => {
-        setStep(2)
+        cartItensArray.length === 0 && router?.push('/')
+    }, [])
+
+    useEffect(() => {
+        user && setStep(2)
+        !user && setStep(1)
     }, [user])
 
     return (
@@ -133,13 +171,13 @@ export default function CheckoutForm() {
             <div className="mt-5 md:mt-0 w-full sm:p-2 relative">
                 {/* <h1 className='block md:hidden text-2xl font-bold text-center my-4'>Endereço</h1> */}
                 <div className=" flex flex-col md:flex-row min-h-130 gap-x-4">
-                    <div className="md:w-1/3 md:mb-0 rounded-lg md:order-3 ">
+                    <div className="md:w-1/3 md:mb-0 rounded-lg mt-2 order-2 ">
                         <OrderSummary />
                     </div>
 
-                    <div className="basicStyle md:w-2/3 w-full pt-0 min-h-full">
-                        {!user && (step === 1 && (
-                            <motion.div className='h-full' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                    <div className="md:w-2/3 w-full pt-0 min-h-full">
+                        {(step === 1 && (
+                            <motion.div className='basicStyle relative m-auto p-4 mb:p-0 h-full flex flex-col justify-between' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                                 <form className=' min-h-full flex flex-col justify-between' onSubmit={handleSumit}>
                                     <h3 className={`text-lg font-semibold mb-2 text-gray-700`}>Detalhes pessoais</h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -229,10 +267,10 @@ export default function CheckoutForm() {
 
                         {step === 2 && (
                             <motion.div className='basicStyle relative m-auto p-4 mb:p-0 h-full flex flex-col justify-between' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                                <header>
-                                    <h3 className="text-2xl font-semibold mb-4 text-gray-800">Pagamento</h3>
+                                <h3 className="text-2xl font-semibold mb-4 text-gray-800">Pagamento</h3>
+                                <div className='flex'>
                                     {!orderId && (
-                                        <div className="mb-6 p-4 rounded-lg bg-orange-50 text-gray-600 border border-orange-200">
+                                        <div className="rounded-lg text-gray-600 ">
                                             <p className="mb-2">
                                                 Aponte a câmera do seu celular para o QR Code abaixo para realizar o pagamento via <strong>Pix</strong>.
                                             </p>
@@ -241,17 +279,16 @@ export default function CheckoutForm() {
                                             </p>
                                         </div>
                                     )}
-
-                                </header>
-                                <div className='flex flex-col justify-center items-center'>
                                     {!loading && !success && !orderId && <QRcode handlePayment={handlePayment} />}
+                                </div>
+                                <div className='flex flex-col justify-center items-center'>
                                     {loading && <Loading />}
                                     {success && <Success setSuccess={setSuccess} />}
                                     {orderId && <FinishedOrder orderId={orderId} />}
                                     {/* {success && <Failure />} */}
                                 </div>
-                                <PixCodeBox />
-                                {!orderId && <button onClick={handlePrevious} className={`button_primary_large max-w-50 m-auto md:m-0 ${user && 'opacity-0 pointer-events-none'}`}>Previous</button>}
+                                {!orderId && <PixCodeBox />}
+                                {!orderId && <button onClick={handlePrevious} className={`button_primary_large max-w-50 m-auto md:m-0 ${user && 'hidden'}`}>Previous</button>}
                                 {orderId && <Link href={'/'} className="button_primary_large text-center max-w-50 m-auto md:text-end">Página inicial</Link>}
                             </motion.div>
                         )}

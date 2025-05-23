@@ -12,7 +12,7 @@ export default function QRcode({ handlePayment }: { handlePayment: () => void })
         <div className="flex flex-col overflow-hidden">
             <div className=" rounded-lg p-6 flex items-center justify-center">
                 <span className="">
-                    <img src={qrCodeURL} alt="" width={150} height={150} className='rounded-lg' onClick={handlePayment} />
+                    <img src={qrCodeURL} alt="" className='rounded-lg' onClick={handlePayment} />
                 </span>
             </div>
         </div>

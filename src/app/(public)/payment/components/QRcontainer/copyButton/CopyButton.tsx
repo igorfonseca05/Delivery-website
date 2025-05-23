@@ -17,17 +17,17 @@ export default function PixCodeBox() {
     }
 
     return (
-        <div className="bg-white p-4 rounded-2xl shadow-md border w-190 border-gray-200 mb-6">
+        <div className="bg-white rounded-lg mb-6">
             <p className="text-gray-800 font-medium text-sm mb-2">
                 Ou, se preferir, copie o código Pix abaixo:
             </p>
-            <div className="flex flex-col items-start justify-between gap-3">
-                <pre className="text-sm text-gray-700 font-mono bg-gray-100 p-3 rounded-xl w-full max-h-36 overflow-auto whitespace-pre-wrap">
+            <div className="flex items-start justify-between gap-3">
+                <pre className="text-sm scrollStyle text-gray-700 font-mono bg-gray-100 p-3 rounded-lg w-full max-h-30 overflow-auto">
                     {pixCode}
                 </pre>
                 <button
                     onClick={handleCopy}
-                    className="flex items-center gap-2 px-4 py-2 bg-orange-400 hover:bg-orange-600 text-white text-sm rounded-xl transition"
+                    className="flex items-center gap-2 px-4 py-2 bg-orange-400 hover:bg-orange-600 text-white text-sm rounded-lg transition"
                 >
                     {copied ? (
                         <>

@@ -103,7 +103,7 @@ export function CartContextProvider({ children }: { children: ReactNode }) {
             deliveryFee,
             totalCartItens,
             setTotalCartItens,
-            setCartItensArray
+            setCartItensArray,
         }
         }>
             {children}
