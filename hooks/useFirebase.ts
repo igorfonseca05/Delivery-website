@@ -44,10 +44,27 @@ export function useFirebase() {
     }
 
 
+    async function addOrderGuests(data: Record<string, any>, orderId: string) {
+        setLoading(true)
+        setError(null)
+
+        try {
+            if (!orderId) throw new Error('Insira um orderId')
+
+            await setDoc(doc(db, 'orders_guests', orderId), {
+                data,
+                createdAt: serverTimestamp(),
+                isGuest: true
+            })
+            console.log('Adicionado com sucesso')
+        } catch (error: any) {
+            console.log(error)
+            throw error
+        } finally {
+            setLoading(false)
+        }
+    }
     async function addDataToFireCollection(collectionName: string, data: Record<string, any>) {
-
-        checkIfMounted()
-
         setLoading(true)
         setError(null)
 
@@ -60,6 +77,7 @@ export function useFirebase() {
             }, { merge: true })
 
             setSuccess('Endereço atualizado sucesso')
+            console.log('Adicionado com sucesso')
         } catch (error: any) {
             console.log(error)
             throw error
@@ -72,7 +90,7 @@ export function useFirebase() {
     // }
 
     async function getData(collectionName: string): Promise<DocProps | undefined> {
-        checkIfMounted()
+        // checkIfMounted()
 
         setLoading(true)
         setError(null)
@@ -104,7 +122,7 @@ export function useFirebase() {
 
 
     async function updateCollectionField(collectionName: string, data: Record<string, any>): Promise<void> {
-        checkIfMounted()
+        // checkIfMounted()
 
         setLoading(true)
         setError('')
@@ -128,9 +146,9 @@ export function useFirebase() {
         }
     }
 
-    useEffect(() => {
-        return () => setIsMounted(false)
-    }, [])
+    // useEffect(() => {
+    //     return () => setIsMounted(false)
+    // }, [])
 
     return {
         addDataToFireCollection,
@@ -139,7 +157,8 @@ export function useFirebase() {
         updateCollectionField,
         loading,
         error,
-        success
+        success,
+        addOrderGuests
     }
 }
 

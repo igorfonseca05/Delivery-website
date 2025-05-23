@@ -106,6 +106,7 @@ export interface FirebaseUser {
 // }
 export interface UserData {
     nome: string,
+    sobrenome: string,
     email: string,
     telefone: string,
     cidade: string,

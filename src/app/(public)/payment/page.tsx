@@ -24,10 +24,16 @@ import PixCodeBox from './components/QRcontainer/copyButton/CopyButton';
 import { useMessageContext } from '../../../../context/messagesContext';
 import { OrderWithotAuthProps } from '../../../../utils/types/types';
 import { UserData } from '../../../../utils/types/types';
+import { toast } from 'react-toastify';
 
 
 export default function CheckoutForm() {
     const router = useRouter()
+
+    enum Routes {
+        Profile = '/profile',
+        Payment = '/payment',
+    }
 
     const {
         setUserData,
@@ -38,16 +44,16 @@ export default function CheckoutForm() {
         deliveryFee,
     } = useCartContext()
 
-    const { setError } = useMessageContext()
+    const { setError, error } = useMessageContext()
 
     const { user } = useAuthContext()
-    const { addDataToFireCollection, getData } = useFirebase()
+    const { addOrderGuests, getData } = useFirebase()
 
     const [step, setStep] = useState(1);
     const [loading, setLoading] = useState(false)
     const [success, setSuccess] = useState(false)
     const [orderId, setOrderId] = useState<string>()
-    const [order, setOrder] = useState()
+    const [IsValidAddress, setIsValidAddress] = useState(false)
 
     // Estaso inicial do formulário
     const [formData, setFormData] = useState({
@@ -75,32 +81,79 @@ export default function CheckoutForm() {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    async function createOrder() {
+    async function verifyAddress() {
+        try {
+            // Verificando se usuário adicionou endereço
+            const storageAddress = localStorage.getItem('userData')
+            const userAddress = storageAddress ? JSON.parse(storageAddress) : null
 
-        const storageOrder = localStorage.getItem('order')
-        const noAuthUserOrder = storageOrder ? JSON.parse(storageOrder) : null
+            // Se usuário está logado, verifica no Firebase
+            if (user) {
+                const address = await getData('users')
 
-        const address = await getData('users')
+                console.log('oi')
 
-        if (!noAuthUserOrder || address?.data) {
-            setError('Precisamos do seu endereço para enviar seu pedido até você.')
+                if (!address?.data) {
+                    setError('Precisamos do seu endereço para enviar seu pedido até você.')
+                    setTimeout(() => {
+                        router?.push(Routes.Profile)
+                        setIsValidAddress(false)
+                    }, 10000)
+                    return false
+                }
+            }
 
-            address?.data && router?.push('/profile')
-            noAuthUserOrder && router?.push('/payment')
+            // Usuário não autenticado
+            if (!userAddress) {
+                setError('Precisamos do seu endereço para enviar seu pedido até você.')
+                setTimeout(() => {
+                    userAddress && router?.push(Routes.Payment)
+                    setIsValidAddress(false)
+                }, 10000)
+                return false
+            }
 
-            throw new Error('Precisamos do seu endereço para enviar seu pedido até você.')
+            setIsValidAddress(true)
+            return true
+        } catch (error) {
+            console.error('Erro ao verificar endereço:', error);
+            setError('Ocorreu um erro ao verificar seu endereço. Tente novamente.');
+            return false;
         }
 
-        if (noAuthUserOrder) {
-            // setOrder(noAuthUserOrder)
-        }
-
-
-        // addDataToFireCollection('orders', order)
-        // setCartItensArray([])
     }
 
-    function handlePayment() {
+    function createOrder() {
+        const random = randomBytes(6).toString('hex')
+
+        const storageOrder = localStorage.getItem('order')
+        const order = storageOrder ? JSON.parse(storageOrder) : null
+
+        const orderFinished = {
+            orderId: random,
+            ...order
+        }
+
+        // console.log(orderFinished)
+        setOrderId(random)
+
+        orderFinished && addOrderGuests(order, random)
+        setCartItensArray([])
+        setUserData({
+            nome: '',
+            sobrenome: '',
+            email: '',
+            telefone: '',
+            cidade: '',
+            complemento: '',
+            bairro: '',
+            numero: '',
+            CEP: '',
+            rua: '',
+        })
+    }
+
+    async function handlePayment() {
         setLoading(true)
 
         setTimeout(() => {
@@ -108,7 +161,6 @@ export default function CheckoutForm() {
             setSuccess(true)
 
             setTimeout(() => {
-                generateOrderNumber()
                 setSuccess(false)
                 createOrder()
             }, 3000)
@@ -122,11 +174,6 @@ export default function CheckoutForm() {
     const handlePrevious = () => {
         if (step === 2) setStep(1);
     };
-
-    function generateOrderNumber() {
-        const random = randomBytes(4).toString('hex')
-        setOrderId(random)
-    }
 
 
     // Verificando forms inputs
@@ -188,6 +235,21 @@ export default function CheckoutForm() {
         }
     }, [userAddress])
 
+    useEffect(() => {
+        if (step === 2) {
+            (async () => {
+                await verifyAddress()
+            })()
+        }
+    }, [step])
+
+    useEffect(() => {
+        error && toast.error(error)
+        setError('')
+
+    }, [error])
+
+
     return (
         <ContentContainer>
             <div className="mt-5 md:mt-0 w-full sm:p-2 relative">
@@ -198,7 +260,7 @@ export default function CheckoutForm() {
                     </div>
 
                     <div className="md:w-2/3 w-full pt-0 min-h-full">
-                        {(step === 1 && (
+                        {!user && (step === 1 && (
                             <motion.div className='basicStyle relative m-auto p-4 mb:p-0 h-full flex flex-col justify-between' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                                 <form className=' min-h-full flex flex-col justify-between' onSubmit={handleSumit}>
                                     <h3 className={`text-lg font-semibold mb-2 text-gray-700`}>Detalhes pessoais</h3>
@@ -287,11 +349,11 @@ export default function CheckoutForm() {
                             </motion.div>
                         ))}
 
-                        {step === 2 && (
+                        {IsValidAddress && (step === 2 && (
                             <motion.div className='basicStyle relative m-auto p-4 mb:p-0 h-full flex flex-col justify-between' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                                 <div>
                                     <h3 className="text-2xl font-semibold mb-4 text-gray-800">Pagamento</h3>
-                                    {!orderId && (
+                                    {!orderId && cartItensArray.length !== 0 && (
                                         <div className="rounded-lg text-gray-600 ">
                                             <p className="mb-2">
                                                 Aponte a câmera do seu celular para o QR Code abaixo para realizar o pagamento via <strong>Pix</strong>.
@@ -301,19 +363,31 @@ export default function CheckoutForm() {
                                             </p>
                                         </div>
                                     )}
+                                    {
+                                        cartItensArray.length === 0 &&
+                                        <div className='h-full flex flex-col items-center'>
+                                            <Image src={`/empty.svg`} alt="logo carrinho vazio" priority quality={50} width={300} height={300} className="opacity-40 mb-4" />
+                                            <p>Adicione itens no carrinho para prosseguir com pagamento</p>
+                                        </div>
+                                    }
                                 </div>
                                 <div className='flex flex-col justify-center items-center'>
-                                    {!loading && !success && !orderId && <QRcode handlePayment={handlePayment} />}
+                                    {!loading && !success && !orderId && cartItensArray.length !== 0 && <QRcode handlePayment={handlePayment} />}
                                     {loading && <Loading />}
                                     {success && <Success setSuccess={setSuccess} />}
                                     {orderId && <FinishedOrder orderId={orderId} />}
                                     {/* {success && <Failure />} */}
                                 </div>
-                                {!orderId && <PixCodeBox />}
+                                {!orderId && cartItensArray.length !== 0 && <PixCodeBox />}
                                 {!orderId && <button onClick={handlePrevious} className={`button_primary_large max-w-50 m-auto md:m-0 ${user && 'hidden'}`}>Previous</button>}
                                 {orderId && <Link href={'/'} className="button_primary_large text-center max-w-50 m-auto md:text-end">Página inicial</Link>}
                             </motion.div>
-                        )}
+                        ))}
+                        {!IsValidAddress &&
+                            <motion.div className='basicStyle relative m-auto p-4 mb:p-0 h-full flex flex-col justify-between' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                                <p>Dados de Endereço inválidos, impossivel continuar com pagamento!</p>
+                            </motion.div>
+                        }
                     </div>
                 </div>
             </div>
