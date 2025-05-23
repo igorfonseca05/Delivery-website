@@ -4,6 +4,7 @@ import { PriceIndicator } from "./priceIndicator/priceIndicator";
 import { ConfirmButton } from "./confirmButton/ConfirmButton";
 
 import { useCartContext } from "../../../../../../context/cartContext";
+import { CardItem } from "@/components/globalComponents/navbar/CartSidebar/card_sidebar/card_SideBar";
 
 
 export default function OrderSummary({ removeButton }: { removeButton?: boolean }) {
@@ -11,12 +12,18 @@ export default function OrderSummary({ removeButton }: { removeButton?: boolean 
     const { cartItensArray } = useCartContext()
 
     return (
-        <div className="max-w-md mx-auto p-6 bg-white rounded-xl space-y-6">
+        <div className="max-w-md mx-auto p-4 md:p-6 bg-white rounded-xl space-y-6">
             <h2 className="text-xl font-semibold">Resumo do Pedido</h2>
-            <div className="flex justify-between">
-                <span>Produtos</span>
-                <p>sdçlfjasdç</p>
-
+            <div className="flex flex-col gap-y-2 justify-between w-full max-h-78 overflow-auto h-full">
+                {cartItensArray && cartItensArray?.map(({ id, name, price, imageUrl, quantity }) => (
+                    <CardItem
+                        key={id}
+                        id={id}
+                        name={name}
+                        price={price}
+                        imageUrl={imageUrl}
+                        quantity={quantity} />
+                ))}
             </div>
             <div className="space-y-2 text-sm text-gray-600">
                 <div className="flex justify-between">
@@ -40,7 +47,7 @@ export default function OrderSummary({ removeButton }: { removeButton?: boolean 
                 </div>
                 {!removeButton && <p className="text-xs text-gray-500">(Impostos inclusos)</p>}
             </div>
-            {!removeButton && <ConfirmButton />}
+            {/* {!removeButton && <ConfirmButton />} */}
         </div>
     );
 }

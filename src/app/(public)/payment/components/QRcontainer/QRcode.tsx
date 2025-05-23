@@ -1,3 +1,4 @@
+import PixCodeBox from "./copyButton/CopyButton";
 
 
 
@@ -8,10 +9,12 @@ export default function QRcode({ handlePayment }: { handlePayment: () => void })
     const qrCodeURL = `https://quickchart.io/qr?text=${encodeURIComponent(payloadPix)}&size=250`;
 
     return (
-        <div className="bg-gray-50 rounded-lg p-6 flex items-center justify-center">
-            <span className="text-gray-500">
-                <img src={qrCodeURL} alt="" className='rounded-lg' onClick={handlePayment} />
-            </span>
+        <div className="flex flex-col overflow-hidden">
+            <div className=" rounded-lg p-6 flex items-center justify-center">
+                <span className="">
+                    <img src={qrCodeURL} alt="" width={150} height={150} className='rounded-lg' onClick={handlePayment} />
+                </span>
+            </div>
         </div>
     );
 };

@@ -85,7 +85,8 @@ export function Navbar() {
                             {user && <UserDropdown />}
 
                             {/* Shopping Cart */}
-                            <li className='cursor-pointer flex button_neutral_medium p-2 ml-2 relative' onClick={() => setCartIsOpen(!cartIsOpen)}>
+                            <li
+                                className={`cursor-pointer flex button_neutral_medium p-2 ml-2 relative ${path === '/payment' && 'opacity-50 pointer-events-none'}`} onClick={() => setCartIsOpen(!cartIsOpen)}>
                                 <div className='flex items-baseline gap-x-0.5'>
                                     <span className={`absolute top-0 left-8 w-4 h-4 text-center bg-[#df4f4b] text-white rounded-full text-[11px] ${cartItensArray.length === 0 ? 'hidden' : 'block'}`}>{cartItensArray.length}</span>
                                     <ShoppingCart className='text-gray-700 text-2xl' />

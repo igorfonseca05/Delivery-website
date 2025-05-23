@@ -18,6 +18,8 @@ import { randomBytes } from 'crypto';
 import OrderSummary from './components/orderSummary/OrderSummary';
 import { FinishedOrder } from './components/FinishedOrder/FinishesOrder';
 
+import PixCodeBox from './components/QRcontainer/copyButton/CopyButton';
+
 
 export default function CheckoutForm() {
     const router = useRouter()
@@ -128,28 +130,14 @@ export default function CheckoutForm() {
 
     return (
         <ContentContainer>
-            <div className="bg-white shadow-lg rounded-lg w-full p-3 sm:p-6 relative">
-                <h1 className='block md:hidden text-2xl font-bold text-center my-4'>Endereço</h1>
+            <div className="mt-5 md:mt-0 w-full sm:p-2 relative">
+                {/* <h1 className='block md:hidden text-2xl font-bold text-center my-4'>Endereço</h1> */}
                 <div className=" flex flex-col md:flex-row min-h-130 gap-x-4">
-                    {/* <div className="md:w-1/3 mb-6 md:mb-0 border-r border-gray-300">
-                        <h2 className={`text-3xl font-bold mb-4 ${step === 1 ? 'text-[#d8241f]' : 'text-[#ffb443]'}`}>{step === 1 ? 'Endereço de entrega' : 'Pagamento'}</h2>
-                        <ul className="space-y-4">
-                            <li className={` ${step === 1 ? 'text-xl font-bold text-gray-500' : 'text-gray-500'}`}>1. Endereço</li>
-                            <li className={` ${step === 2 ? 'text-xl font-bold text-gray-500' : 'text-gray-500'}`}>2. Pagamento</li>
-                        </ul>
-                        {step === 1 && <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                            <Image className={`hidden md:block animate`} src={step === 1 ? '/address2.svg' : '/pay.svg'} width={380} height={380} alt='logo pagamentos' />
-                        </motion.div>}
-                        {step === 2 && <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                            <Image className={`hidden md:block animate`} src={'/pay.svg'} width={380} height={380} alt='logo pagamentos' />
-                        </motion.div>}
-                    </div> */}
-
-                    <div className="md:w-1/3 mb-6 md:mb-0 rounded-lg md:order-3 ">
+                    <div className="md:w-1/3 md:mb-0 rounded-lg md:order-3 ">
                         <OrderSummary />
                     </div>
 
-                    <div className="md:w-2/3 w-full min-h-full sm:pl-4">
+                    <div className="basicStyle md:w-2/3 w-full pt-0 min-h-full">
                         {!user && (step === 1 && (
                             <motion.div className='h-full' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                                 <form className=' min-h-full flex flex-col justify-between' onSubmit={handleSumit}>
@@ -240,10 +228,20 @@ export default function CheckoutForm() {
                         ))}
 
                         {step === 2 && (
-                            <motion.div className='h-full flex flex-col justify-between' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                            <motion.div className='basicStyle relative m-auto p-4 mb:p-0 h-full flex flex-col justify-between' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                                 <header>
                                     <h3 className="text-2xl font-semibold mb-4 text-gray-800">Pagamento</h3>
-                                    {!orderId && <p className="mb-4">Mire a camera do celular para o QR code abaixo para efetuar o pagamento</p>}
+                                    {!orderId && (
+                                        <div className="mb-6 p-4 rounded-lg bg-orange-50 text-gray-600 border border-orange-200">
+                                            <p className="mb-2">
+                                                Aponte a câmera do seu celular para o QR Code abaixo para realizar o pagamento via <strong>Pix</strong>.
+                                            </p>
+                                            <p>
+                                                Seu pedido será aprovado automaticamente assim que o pagamento for confirmado.
+                                            </p>
+                                        </div>
+                                    )}
+
                                 </header>
                                 <div className='flex flex-col justify-center items-center'>
                                     {!loading && !success && !orderId && <QRcode handlePayment={handlePayment} />}
@@ -252,6 +250,7 @@ export default function CheckoutForm() {
                                     {orderId && <FinishedOrder orderId={orderId} />}
                                     {/* {success && <Failure />} */}
                                 </div>
+                                <PixCodeBox />
                                 {!orderId && <button onClick={handlePrevious} className={`button_primary_large max-w-50 m-auto md:m-0 ${user && 'opacity-0 pointer-events-none'}`}>Previous</button>}
                                 {orderId && <Link href={'/'} className="button_primary_large text-center max-w-50 m-auto md:text-end">Página inicial</Link>}
                             </motion.div>
