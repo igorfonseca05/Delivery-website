@@ -19,12 +19,12 @@ export function PricesCart() {
 
     // Calculating the Total
     useEffect(() => {
-        const total = cartItensArray?.reduce((acc, item) => {
+        const cartItensSum = cartItensArray?.reduce((acc, item) => {
             if (!item.quantity) return acc
             return acc + item.price * item.quantity
         }, 0)
 
-        setTotalCartItens(total)
+        setTotalCartItens(cartItensSum)
     }, [cartItensArray])
 
     useEffect(() => {

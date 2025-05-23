@@ -23,6 +23,7 @@ import PixCodeBox from './components/QRcontainer/copyButton/CopyButton';
 
 import { useMessageContext } from '../../../../context/messagesContext';
 import { OrderWithotAuthProps } from '../../../../utils/types/types';
+import { UserData } from '../../../../utils/types/types';
 
 
 export default function CheckoutForm() {
@@ -47,17 +48,26 @@ export default function CheckoutForm() {
     const [success, setSuccess] = useState(false)
     const [orderId, setOrderId] = useState<string>()
     const [order, setOrder] = useState()
+
+    // Estaso inicial do formulário
     const [formData, setFormData] = useState({
         nome: '',
         sobrenome: '',
+        email: '',
+        telefone: '',
         rua: '',
         cidade: '',
         bairro: '',
         CEP: '',
         numero: '',
         complemento: '',
-        telefone: '',
-        email: '',
+    });
+
+    // Busco dados para adicionar ao form
+    // caso o usuário já tenha digitado esses dados uma vez
+    const [userAddress, setUserAddress] = useState<UserData>(() => {
+        const stored = localStorage.getItem('userData');
+        return stored ? JSON.parse(stored) : formData
     });
 
 
@@ -67,7 +77,9 @@ export default function CheckoutForm() {
 
     async function createOrder() {
 
-        const noAuthUserOrder = localStorage.getItem('order')
+        const storageOrder = localStorage.getItem('order')
+        const noAuthUserOrder = storageOrder ? JSON.parse(storageOrder) : null
+
         const address = await getData('users')
 
         if (!noAuthUserOrder || address?.data) {
@@ -142,16 +154,15 @@ export default function CheckoutForm() {
 
         const userData = {
             nome: formData.nome,
+            sobrenome: formData.sobrenome,
             email: formData.email,
             telefone: formData.telefone,
-            endereco: {
-                cidade: formData.cidade,
-                complemento: formData.complemento,
-                bairro: formData.bairro,
-                numero: formData.numero,
-                CEP: formData.CEP,
-                rua: formData.rua,
-            },
+            cidade: formData.cidade,
+            complemento: formData.complemento,
+            bairro: formData.bairro,
+            numero: formData.numero,
+            CEP: formData.CEP,
+            rua: formData.rua,
         }
 
         setUserData(userData)
@@ -165,6 +176,17 @@ export default function CheckoutForm() {
         user && setStep(2)
         !user && setStep(1)
     }, [user])
+
+    useEffect(() => {
+        if (userAddress) {
+
+            setFormData((prev) => ({
+                ...prev,
+                ...userAddress,
+            }))
+
+        }
+    }, [userAddress])
 
     return (
         <ContentContainer>
@@ -267,8 +289,8 @@ export default function CheckoutForm() {
 
                         {step === 2 && (
                             <motion.div className='basicStyle relative m-auto p-4 mb:p-0 h-full flex flex-col justify-between' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                                <h3 className="text-2xl font-semibold mb-4 text-gray-800">Pagamento</h3>
-                                <div className='flex'>
+                                <div>
+                                    <h3 className="text-2xl font-semibold mb-4 text-gray-800">Pagamento</h3>
                                     {!orderId && (
                                         <div className="rounded-lg text-gray-600 ">
                                             <p className="mb-2">
@@ -279,9 +301,9 @@ export default function CheckoutForm() {
                                             </p>
                                         </div>
                                     )}
-                                    {!loading && !success && !orderId && <QRcode handlePayment={handlePayment} />}
                                 </div>
                                 <div className='flex flex-col justify-center items-center'>
+                                    {!loading && !success && !orderId && <QRcode handlePayment={handlePayment} />}
                                     {loading && <Loading />}
                                     {success && <Success setSuccess={setSuccess} />}
                                     {orderId && <FinishedOrder orderId={orderId} />}

@@ -26,7 +26,6 @@ interface DishCartContextProps {
 // Cria onde add os dados globalmente
 export const CartContext = createContext<DishCartContextProps | undefined>(undefined)
 
-
 // Indica quem pode ter acesso aos dados
 export function CartContextProvider({ children }: { children: ReactNode }) {
 
@@ -69,9 +68,9 @@ export function CartContextProvider({ children }: { children: ReactNode }) {
 
         const orderData = {
             userData,
-            cartItens: {
+            cartItens: [
                 ...cartItensArray
-            },
+            ],
             orderDatails: {
                 total,
                 totalCartItens,
@@ -80,7 +79,6 @@ export function CartContextProvider({ children }: { children: ReactNode }) {
         }
 
         localStorage.setItem('cartItens', JSON.stringify(cartItensArray))
-
         userData && localStorage.setItem('userData', JSON.stringify(userData))
         userData && localStorage.setItem('order', JSON.stringify(orderData))
 
@@ -88,7 +86,7 @@ export function CartContextProvider({ children }: { children: ReactNode }) {
         // Se carrinho vazio, total compra é zero
         if (cartItensArray.length === 0) setTotal(0)
         if (cartItensArray.length === 0) setTotalCartItens(0)
-    }, [cartItensArray.length, userData])
+    }, [cartItensArray.length, userData, total])
 
 
     return (

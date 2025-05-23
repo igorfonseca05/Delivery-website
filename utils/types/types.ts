@@ -91,18 +91,30 @@ export interface FirebaseUser {
 }
 
 
+// export interface UserData {
+//     nome: string,
+//     email: string,
+//     telefone: string,
+//     endereco: {
+//         cidade: string,
+//         complemento: string,
+//         bairro: string,
+//         numero: string,
+//         CEP: string,
+//         rua: string,
+//     }
+// }
 export interface UserData {
     nome: string,
     email: string,
     telefone: string,
-    endereco: {
-        cidade: string,
-        complemento: string,
-        bairro: string,
-        numero: string,
-        CEP: string,
-        rua: string,
-    }
+    cidade: string,
+    complemento: string,
+    bairro: string,
+    numero: string,
+    CEP: string,
+    rua: string,
+
 }
 
 export type StatusPedido =
