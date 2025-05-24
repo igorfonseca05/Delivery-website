@@ -32,8 +32,6 @@ export function Navbar() {
     const { user } = useAuthContext()
     const path = usePathname()
 
-    console.log(isAdmin)
-
     const [searchBarIsOpen, setSearchBarIsOpen] = useState<boolean>(false)
 
     return (

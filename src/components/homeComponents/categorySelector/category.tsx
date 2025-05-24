@@ -1,9 +1,11 @@
 "use client";
 
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { MdOutlineFastfood, MdOutlineDinnerDining } from "react-icons/md";
 import { IconType } from "react-icons";
+
+import { useAdminContext } from "../../../../context/isAdminContext";
 
 
 import {
@@ -22,6 +24,8 @@ import { useCategoryContext } from "../../../../context/categoryContext";
 
 
 export function CategorySelector({ categories }: { categories: DishesProps[] }) {
+
+    const { isAdmin } = useAdminContext()
 
 
     const [selected, setSelected] = useState('Todos');
@@ -56,7 +60,7 @@ export function CategorySelector({ categories }: { categories: DishesProps[] }) 
 
 
     return (
-        <div className="basicStyle shadow-sm">
+        <div className={`basicStyle shadow-sm ${isAdmin && 'hidden'}`}>
             <div className="flex gap-3 overflow-x-auto categoryContainer">
                 {categorias?.map((item, id) => {
                     const Icon = item.icon;

@@ -11,6 +11,8 @@ import { DishesProps } from "../../utils/types/types";
 import { CategoryContextProvider } from "../../context/categoryContext";
 import { ModalProvider } from "../../context/modalContext";
 import { WarningModalProvider } from "../../context/warningModalContext";
+import OrderSummary from "./(public)/payment/components/orderSummary/OrderSummary";
+import OrdersSummary from "@/components/homeComponents/chooseText";
 
 
 export default async function Home() {
@@ -21,7 +23,7 @@ export default async function Home() {
     <ContentContainer>
       <Suspense fallback={<GifLoading />} >
         <SlideShow />
-        <h1 className="text-2xl mt-5 font-bold">Escolha uma categoria</h1>
+        <OrdersSummary />
         <CategoryContextProvider>
           <CategorySelector categories={data} />
           <ModalProvider>
