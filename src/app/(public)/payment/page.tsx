@@ -145,7 +145,7 @@ export default function CheckoutForm() {
                 ...order
             }
 
-            orderFinished && addOrderGuests(order, random)
+            // orderFinished && addOrderGuests(order, random)
         } else {
 
             const orderFinished = {
@@ -156,7 +156,7 @@ export default function CheckoutForm() {
                 }
             }
 
-            orderFinished && addDataToFireCollection('orders_users', orderFinished)
+            // orderFinished && addDataToFireCollection('orders_users', orderFinished)
         }
 
         // console.log(orderFinished)
@@ -293,7 +293,7 @@ export default function CheckoutForm() {
 
                     <div className="md:w-2/3 w-full pt-0 min-h-full">
                         {!user && (step === 1 && (
-                            <motion.div className='basicStyle relative m-auto p-4 mb:p-0 h-full flex flex-col justify-between' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                            <motion.div className='basicStyle relative m-auto p-4 mb:p-0 flex flex-col justify-between' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                                 <form className=' min-h-full flex flex-col justify-between' onSubmit={handleSumit}>
                                     <h3 className={`text-lg font-semibold mb-2 text-gray-700`}>Detalhes pessoais</h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -303,6 +303,7 @@ export default function CheckoutForm() {
                                             value={formData.nome}
                                             placeholder="nome"
                                             className={step === 1 ? 'red_input' : 'input'}
+                                            autoComplete='on'
                                             required />
                                         <input
                                             name="sobrenome"
@@ -310,6 +311,7 @@ export default function CheckoutForm() {
                                             value={formData.sobrenome}
                                             placeholder="sobrenome"
                                             className={step === 1 ? 'red_input' : 'input'}
+                                            autoComplete='on'
                                             required />
                                     </div>
 
@@ -321,6 +323,7 @@ export default function CheckoutForm() {
                                             value={formData.rua}
                                             placeholder="Endereço rua/Avenida"
                                             className={step === 1 ? 'red_input' : 'input'}
+                                            autoComplete='on'
                                             required />
                                         <input
                                             name="bairro"
@@ -328,6 +331,7 @@ export default function CheckoutForm() {
                                             value={formData.bairro}
                                             placeholder="bairro"
                                             className={step === 1 ? 'red_input' : 'input'}
+                                            autoComplete='on'
                                             required />
                                         <input
                                             name="CEP"
@@ -335,6 +339,7 @@ export default function CheckoutForm() {
                                             value={formData.CEP}
                                             placeholder="CEP"
                                             className={step === 1 ? 'red_input' : 'input'}
+                                            autoComplete='on'
                                             required />
                                         <input
                                             name="cidade"
@@ -342,6 +347,7 @@ export default function CheckoutForm() {
                                             value={formData.cidade}
                                             placeholder="cidade"
                                             className={step === 1 ? 'red_input' : 'input'}
+                                            autoComplete='on'
                                             required />
                                         <input
                                             name="numero"
@@ -349,6 +355,7 @@ export default function CheckoutForm() {
                                             value={formData.numero}
                                             placeholder="Número"
                                             className={step === 1 ? 'red_input' : 'input'}
+                                            autoComplete='on'
                                             required />
                                         <input
                                             name="complemento"
@@ -403,7 +410,7 @@ export default function CheckoutForm() {
                                         </div>
                                     }
                                 </div>
-                                <div className='flex flex-col justify-center items-center'>
+                                <div className='flex flex-col justify-center items-center h-80'>
                                     {!loading && !success && !orderId && cartItensArray.length !== 0 && <QRcode handlePayment={handlePayment} />}
                                     {loading && <Loading />}
                                     {success && <Success setSuccess={setSuccess} />}
@@ -415,12 +422,12 @@ export default function CheckoutForm() {
                                 {orderId && <Link href={'/'} className="button_primary_large text-center max-w-50 m-auto md:text-end">Página inicial</Link>}
                             </motion.div>
                         ))}
-                        {!IsValidAddress &&
+                        {/* {!IsValidAddress &&
                             <motion.div className='basicStyle relative m-auto p-4 mb:p-0 h-full flex flex-col items-center justify-center' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                                 <Image src={`/address3.svg`} alt="logo carrinho vazio" priority quality={50} width={500} height={500} className="opacity-40 mb-4" />
                                 <p>Dados de Endereço não fornecidos!</p>
                             </motion.div>
-                        }
+                        } */}
                     </div>
                 </div>
             </div>

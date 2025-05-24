@@ -18,19 +18,19 @@ export default function SlideShow() {
         <>
             {!isAdmin ? (
                 <Swiper
-                    // modules={[Autoplay]}
+                    modules={[Autoplay]}
                     spaceBetween={30}
                     slidesPerView={1}
                     loop={true}
-                    // autoplay={{
-                    //     delay: 5000,
-                    //     disableOnInteraction: false
-                    // }}
+                    autoplay={{
+                        delay: 3000,
+                        disableOnInteraction: false
+                    }}
                     className='rounded-lg h-[250px]'
                 >
-                    <SwiperSlide><Image src='/bann.jpg' style={{ objectFit: 'cover' }} alt='doce' fill /></SwiperSlide>
-                    <SwiperSlide><div className="bg-blue-300 h-full">Slide 2</div></SwiperSlide>
-                    <SwiperSlide><div className="bg-green-300 h-full">Slide 3</div></SwiperSlide>
+                    <SwiperSlide><Image src='/new3.png' style={{ objectFit: 'fill' }} alt='doce' fill /></SwiperSlide>
+                    <SwiperSlide><Image src='/new.jpg' style={{ objectFit: 'fill' }} alt='doce' fill /></SwiperSlide>
+                    <SwiperSlide><Image src='/new2.jpg' style={{ objectFit: 'fill' }} alt='doce' fill /></SwiperSlide>
                 </Swiper>
             ) : (
                 <WelcomePanel />

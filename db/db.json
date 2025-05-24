@@ -5,7 +5,7 @@
       "category": "do dia",
       "name": "Strogonoff de Frango",
       "description": "Delicado strogonoff de frango, servido com arroz soltinho, feijão caseiro, batata frita crocante e batata palha.",
-      "image": "1.jpg",
+      "image": "Strogonoff.webp",
       "sizes": [
         {
           "type": "Mini",
@@ -24,7 +24,7 @@
       "category": "do dia",
       "name": "Bife à Milanesa",
       "description": "Clássico bife à milanesa servido com arroz, macarrão ao dente, batata frita e uma salada fresca.",
-      "image": "3.jpg",
+      "image": "bife.jfif",
       "sizes": [
         {
           "type": "Mini",
@@ -43,7 +43,7 @@
       "category": "do dia",
       "name": "Filé de Frango Crocante",
       "description": "Filé de frango empanado crocante com Ovo Frito, acompanhado de arroz, feijão temperado, batata frita e uma salada variada.",
-      "image": "4.jpg",
+      "image": "file.jfif",
       "sizes": [
         {
           "type": "Médio",
@@ -71,7 +71,7 @@
       "category": "combos",
       "name": "Parmegiana de Carne",
       "description": "Parmegiana de carne caseira, preparada com carinho, servida com arroz e batata frita para duas pessoas.",
-      "image": "4.jpg",
+      "image": "parmegianacarne.jfif",
       "sizes": [
         {
           "type": "Único",
@@ -85,7 +85,7 @@
       "category": "da casa",
       "name": "Parmegiana de Frango",
       "description": "Parmegiana de frango caseira, com sabor incomparável, servida com arroz e batata frita crocante.",
-      "image": "5.jpg",
+      "image": "parmegianafrango.webp",
       "sizes": [
         {
           "type": "Mini",
@@ -132,7 +132,7 @@
       "category": "bebidas",
       "name": "P4 Lemon",
       "description": "Bebida refrescante com sabor de limão e zero açúcar, perfeita para acompanhar suas refeições.",
-      "image": "3.jpg",
+      "image": "p4.jfif",
       "sizes": [
         {
           "type": "Único",
@@ -146,7 +146,7 @@
       "category": "bebidas",
       "name": "Guaraná Cibal 2L",
       "description": "Tradicional guaraná de 2 litros, ideal para compartilhar em família ou entre amigos.",
-      "image": "4.jpg",
+      "image": "cical.webp",
       "sizes": [
         {
           "type": "Único",
@@ -160,7 +160,7 @@
       "category": "bebidas",
       "name": "Coca-Cola 2L",
       "description": "A clássica Coca-Cola de 2 litros, refrescante e ideal para qualquer ocasião.",
-      "image": "1.jpg",
+      "image": "coca.png",
       "sizes": [
         {
           "type": "Único",
