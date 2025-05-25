@@ -1,4 +1,5 @@
-![capa projeto](delivery.png)
+![delivery](https://github.com/user-attachments/assets/280eb20b-cb86-4212-972e-6991e2fa0429)
+
 
 ## Descrição do projeto
 
