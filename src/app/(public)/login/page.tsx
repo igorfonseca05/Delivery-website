@@ -1,45 +1,16 @@
-'use client'
 
 // Recursos next
-
 import Image from "next/image";
-import { redirect } from "next/navigation";
 import Link from "next/link";
-import { useAuth } from "../../../../hooks/useAuth";
-import { useAuthContext } from "../../../../context/useAuthContext";
-import { useEffect } from "react";
 
 // Icons
-import { FcGoogle } from "react-icons/fc";
 import { FaHome } from "react-icons/fa";
-import React, { useState } from "react";
-import { useRouter } from "next/router";
-import { toast } from "react-toastify";
+
+// Components
+import Form from "./form/Form";
+
 
 export default function Login() {
-    const { signIn, error, loading } = useAuth()
-    const { user } = useAuthContext()
-
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-
-    async function handleLoginForm(e: React.FormEvent) {
-        e.preventDefault()
-
-        const userCredentials = {
-            email,
-            password
-        }
-
-        signIn(userCredentials)
-    }
-
-    useEffect(() => {
-        if (error) {
-            toast.error(error)
-        }
-    }, [error])
-
 
     return (
         <section className="relative h-screen flex items-end overflow-hidden bg-white lg:ml-16 lg:max-w-screen">
@@ -71,32 +42,9 @@ export default function Login() {
                         Faça login para acessar sua conta.
                     </p>
 
-
                     {/* Form login */}
-                    <form onSubmit={handleLoginForm} className="flex flex-col gap-y-3">
-                        <label>
-                            <input onChange={(e) => setEmail(e.target.value)} type="text" placeholder="E-mail" className="input" required />
-                        </label>
-                        <label>
-                            <input onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Senha" className="input" required />
-                        </label>
-                        <a href="" className="my-2">Esqueceu sua senha?</a>
+                    <Form />
 
-                        {!loading && <button className="button_primary_large">Entrar</button>}
-                        {loading && <button disabled className="button_primary_large cursor-pointer">Aguarde...</button>}
-
-                        <span className="inline-flex items-center">
-                            <hr className="w-1/2 text-slate-300" />
-                            <p className="mx-1 text-slate-500">ou</p>
-                            <hr className="w-1/2 text-slate-300" />
-                        </span>
-                        {/* Button de login */}
-                        <button className='flex items-center justify-center gap-x-3 border-slate-200 border-1 w-full bg-white hover:bg-[#4283f1] text-slate-600 hover:text-white font-semibold py-3 px-4 rounded-lg shadow-md transition duration-200'>
-                            <p>Entrar com Google</p>
-                            <FcGoogle size={24} />
-                        </button>
-
-                    </form>
                     <p className="text-sm text-gray-500 hover:text-gray-800">
                         <Link href={'/signup'}>Ainda não tem uma conta?</Link>
                     </p>

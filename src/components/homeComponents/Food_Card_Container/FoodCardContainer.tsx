@@ -56,7 +56,7 @@ export function DishesContainer() {
             {!isAdmin ? (
                 <>
                     <div className="min-h-150">
-                        <h1 className="capitalize text-2xl mb-3 font-medium">{category || "Todos"}</h1>
+                        <h1 className="capitalize text-2xl mb-3 font-medium animate">{category || "Todos"}</h1>
                         <div className={`grid grid-cols-1 md:grid-cols-[auto_auto] gap-5 relative animate`}>
 
                             {/* Cards de loading */}

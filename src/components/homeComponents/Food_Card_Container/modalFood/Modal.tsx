@@ -85,7 +85,7 @@ export function FoodModal({ modalIsOpen, setModalIsOpen, clickedDish }: FoodModa
 
     return (
         // fundo do Modal
-        <div className={`fixed inset-0 z-50 bg-black/60 flex items-center justify-center transition-all duration-300 ${modalIsOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
+        <div className={`fixed inset-0 z-50 bg-black/65 flex items-center justify-center transition-all duration-300 ${modalIsOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
             }`}>
 
             {/* Modal */}

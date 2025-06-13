@@ -24,7 +24,7 @@ export function FoodCard({ id, name, imageUrl, sizes, category, description }: F
     }, [sizes, sizeDishName])
 
     return (
-        <div className={`foodCardStyle gap-x-2`}>
+        <div className={`foodCardStyle gap-x-2 cardAnimate`}>
             <div className="relative w-50 h-35 flex justify-center order-2 rounded-lg">
                 <Image
                     src={`/${imageUrl}`}

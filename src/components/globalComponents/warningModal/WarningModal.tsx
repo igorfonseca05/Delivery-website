@@ -15,7 +15,7 @@ export function GuestCheckoutWarning() {
     if (!open) return null;
 
     return (
-        <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center">
+        <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center">
             <div className="bg-white rounded-2xl shadow-xl w-[90%] max-w-md p-6 relative">
                 {/* Botão de fechar */}
                 <button
@@ -54,6 +54,7 @@ export function GuestCheckoutWarning() {
 
                     <Link href={'/login'}
                         className="button_primary_medium hover:bg-yellow-600 transition"
+                        onClick={() => setIsOpen(false)}
                     >
                         Fazer login
                     </Link>

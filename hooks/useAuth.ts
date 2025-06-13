@@ -53,7 +53,6 @@ export function useAuth() {
                 displayName: name || 'User'
             })
 
-
             return user
 
         } catch (error: any) {

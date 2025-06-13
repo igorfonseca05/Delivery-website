@@ -2,12 +2,6 @@
 import { ContentContainer } from "@/components/globalComponents/Container/container"
 import Image from "next/image"
 
-// import capa from '../../../public/aboutUs.jpg'
-// import logo from '../../../public/logo.svg'
-// import aboutUsImg from '../../../public/aboutus_img.jpg'
-
-// import gif from '../../../public/gif.gif'
-
 export default function About() {
     return (
         <ContentContainer>
@@ -39,9 +33,6 @@ export default function About() {
                                 atendimento. Venha nos visitar e descubra o prazer de comer bem!
                             </p>
                         </article>
-                        {/* <figure className="w-[30%] relative grow-2 rounded-lg overflow-hidden">
-                            <Image src={aboutUsImg} fill alt="Capa página sobre nós" style={{ objectFit: 'cover' }} />
-                        </figure> */}
                     </main>
                 </section>
 

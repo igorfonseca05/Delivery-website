@@ -26,7 +26,7 @@ export default function SlideShow() {
                         delay: 3000,
                         disableOnInteraction: false
                     }}
-                    className='rounded-lg h-[250px]'
+                    className='rounded-lg h-[250px] mt-4'
                 >
                     <SwiperSlide><Image src='/new3.png' style={{ objectFit: 'fill' }} alt='doce' fill /></SwiperSlide>
                     <SwiperSlide><Image src='/new.jpg' style={{ objectFit: 'fill' }} alt='doce' fill /></SwiperSlide>

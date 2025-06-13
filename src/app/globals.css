@@ -184,6 +184,21 @@ body {
   @apply transition-all ease-in-out duration-500;
 }
 
+.cardAnimate {
+  animation: move 0.4s ease-in-out;
+}
+
+@keyframes move {
+  0% {
+    transform: translateY(60px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+}
+
 .loader {
   width: 48px;
   height: 48px;

@@ -80,15 +80,15 @@ export default function CheckoutForm() {
     });
 
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
     async function verifyAddress() {
         try {
             // Verificando se usuário adicionou endereço
-            const storageAddress = localStorage.getItem('userData')
-            const userAddress = storageAddress ? JSON.parse(storageAddress) : null
+            // const storageAddress = localStorage.getItem('userData')
+            // const userAddress = storageAddress ? JSON.parse(storageAddress) : null
 
             // Se usuário está logado, verifica no Firebase
             if (user) {
@@ -155,11 +155,8 @@ export default function CheckoutForm() {
                     ...cartItensArray
                 }
             }
-
-            // orderFinished && addDataToFireCollection('orders_users', orderFinished)
         }
 
-        // console.log(orderFinished)
         setOrderId(random)
 
         setCartItensArray([])
@@ -177,6 +174,7 @@ export default function CheckoutForm() {
         })
     }
 
+
     async function handlePayment() {
         setLoading(true)
 
@@ -191,7 +189,7 @@ export default function CheckoutForm() {
         }, 4000)
     }
 
-    const handleNext = () => {
+    const moveToTheNextForm = () => {
         if (step === 1) setStep(2);
     };
 
@@ -201,27 +199,27 @@ export default function CheckoutForm() {
 
 
     // Verificando forms inputs
-    function verifyFormInputs() {
+    function isEmptyAddressFormField() {
         return (
-            formData.cidade.trim() !== '' &&
-            formData.sobrenome.trim() !== '' &&
-            formData.email.trim() !== '' &&
-            formData.nome.trim() !== '' &&
-            formData.bairro.trim() !== '' &&
-            formData.numero.trim() !== '' &&
-            formData.telefone.trim() !== '' &&
-            formData.CEP.trim() !== '' &&
+            formData.cidade.trim() === '' &&
+            formData.sobrenome.trim() === '' &&
+            formData.email.trim() === '' &&
+            formData.nome.trim() === '' &&
+            formData.bairro.trim() === '' &&
+            formData.numero.trim() === '' &&
+            formData.telefone.trim() === '' &&
+            formData.CEP.trim() === '' &&
             formData.CEP.trim().length === 8 &&
-            formData.rua.trim() !== ''
+            formData.rua.trim() === ''
         )
     }
 
-    function handleSumit(e: React.FormEvent) {
+
+    // Formulário para o endeço de pagamento
+    function handleFormSubmit(e: React.FormEvent) {
         e.preventDefault()
 
-        if (!verifyFormInputs()) return
-
-        handleNext()
+        if (isEmptyAddressFormField()) return
 
         const userData = {
             nome: formData.nome,
@@ -237,21 +235,26 @@ export default function CheckoutForm() {
         }
 
         setUserData(userData)
+        moveToTheNextForm()
     }
 
+    // Redireciona user para "home" se carrinho ficou vazio
     useEffect(() => {
         cartItensArray.length === 0 && router?.push('/')
-    }, [])
+    }, [cartItensArray.length])
 
+    // Se user estiver logado, não mostra form de cadastro
+    // de enderço.
     useEffect(() => {
         user && setStep(2)
         !user && setStep(1)
     }, [user])
 
 
+    // Usa dados do localstorage para preencher o formulário do usuário
+    // caso ele já tenha dados armazenados
     useEffect(() => {
         if (userAddress) {
-
             setFormData((prev) => ({
                 ...prev,
                 ...userAddress,
@@ -259,6 +262,7 @@ export default function CheckoutForm() {
 
         }
     }, [userAddress])
+
 
     useEffect(() => {
         if (step === 2) {
@@ -268,11 +272,12 @@ export default function CheckoutForm() {
         }
     }, [step])
 
+
     useEffect(() => {
         error && toast.error(error)
         setError('')
-
     }, [error])
+
 
     useEffect(() => {
         return () => {
@@ -285,21 +290,21 @@ export default function CheckoutForm() {
     return (
         <ContentContainer>
             <div className="mt-5 md:mt-0 w-full sm:p-2 relative">
-                {/* <h1 className='block md:hidden text-2xl font-bold text-center my-4'>Endereço</h1> */}
-                <div className=" flex flex-col md:flex-row min-h-130 gap-x-4">
-                    <div className="md:w-1/3 md:mb-0 rounded-lg mt-2 order-2 ">
+                <div className="flex flex-col md:flex-row min-h-130 gap-x-4">
+                    <div className="hidden md:w-1/3 md:block md:mb-0 rounded-lg mt-2">
                         <OrderSummary />
                     </div>
 
                     <div className="md:w-2/3 w-full pt-0 min-h-full">
                         {!user && (step === 1 && (
                             <motion.div className='basicStyle relative m-auto p-4 mb:p-0 flex flex-col justify-between' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                                <form className=' min-h-full flex flex-col justify-between' onSubmit={handleSumit}>
-                                    <h3 className={`text-lg font-semibold mb-2 text-gray-700`}>Detalhes pessoais</h3>
+                                <h1 className='block text-[clamp(1.5rem,1em,2rem)] font-bold mb-4 text-gray-800'>Endereço</h1>
+                                <form className=' min-h-full flex flex-col justify-between' onSubmit={handleFormSubmit}>
+                                    <h3 className={`text-md mb-2 font-semibold text-gray-600`}>Detalhes pessoais</h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                                         <input
                                             name="nome"
-                                            onChange={handleChange}
+                                            onChange={handleInputChange}
                                             value={formData.nome}
                                             placeholder="nome"
                                             className={step === 1 ? 'red_input' : 'input'}
@@ -307,7 +312,7 @@ export default function CheckoutForm() {
                                             required />
                                         <input
                                             name="sobrenome"
-                                            onChange={handleChange}
+                                            onChange={handleInputChange}
                                             value={formData.sobrenome}
                                             placeholder="sobrenome"
                                             className={step === 1 ? 'red_input' : 'input'}
@@ -315,11 +320,11 @@ export default function CheckoutForm() {
                                             required />
                                     </div>
 
-                                    <h3 className={`text-lg font-semibold mb-2 text-gray-700`}>{step === 1 ? 'Endereço de entrega' : 'Pagamento'}</h3>
+                                    <h3 className={`text-md mb-2 font-semibold text-gray-600`}>{step === 1 ? 'Endereço de entrega' : 'Pagamento'}</h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                                         <input
                                             name="rua"
-                                            onChange={handleChange}
+                                            onChange={handleInputChange}
                                             value={formData.rua}
                                             placeholder="Endereço rua/Avenida"
                                             className={step === 1 ? 'red_input' : 'input'}
@@ -327,7 +332,7 @@ export default function CheckoutForm() {
                                             required />
                                         <input
                                             name="bairro"
-                                            onChange={handleChange}
+                                            onChange={handleInputChange}
                                             value={formData.bairro}
                                             placeholder="bairro"
                                             className={step === 1 ? 'red_input' : 'input'}
@@ -335,7 +340,7 @@ export default function CheckoutForm() {
                                             required />
                                         <input
                                             name="CEP"
-                                            type='number' onChange={handleChange}
+                                            type='number' onChange={handleInputChange}
                                             value={formData.CEP}
                                             placeholder="CEP"
                                             className={step === 1 ? 'red_input' : 'input'}
@@ -343,7 +348,7 @@ export default function CheckoutForm() {
                                             required />
                                         <input
                                             name="cidade"
-                                            onChange={handleChange}
+                                            onChange={handleInputChange}
                                             value={formData.cidade}
                                             placeholder="cidade"
                                             className={step === 1 ? 'red_input' : 'input'}
@@ -351,7 +356,7 @@ export default function CheckoutForm() {
                                             required />
                                         <input
                                             name="numero"
-                                            onChange={handleChange}
+                                            onChange={handleInputChange}
                                             value={formData.numero}
                                             placeholder="Número"
                                             className={step === 1 ? 'red_input' : 'input'}
@@ -359,31 +364,31 @@ export default function CheckoutForm() {
                                             required />
                                         <input
                                             name="complemento"
-                                            onChange={handleChange}
+                                            onChange={handleInputChange}
                                             value={formData.complemento}
                                             placeholder="complementoo"
                                             className={step === 1 ? 'red_input' : 'input'} />
                                     </div>
 
-                                    <h3 className={`text-lg font-semibold mb-2 text-gray-700`}>Contato</h3>
+                                    <h3 className={`text-md mb-2 font-semibold text-gray-600`}>Contato</h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                                         <input
                                             name="telefone"
                                             type='number'
-                                            onChange={handleChange}
+                                            onChange={handleInputChange}
                                             value={formData.telefone}
                                             placeholder="Número para contato"
                                             className={step === 1 ? 'red_input' : 'input'}
                                             required />
                                         <input
                                             name="email"
-                                            onChange={handleChange}
+                                            onChange={handleInputChange}
                                             value={formData.email}
                                             placeholder="Email"
                                             className={step === 1 ? 'red_input' : 'input'}
                                             required />
                                     </div>
-                                    <button type='submit' className="bg-[#db3935] hover:bg-[#d8241f] py-3 px-4 rounded-lg text-white w-full md:max-w-70 m-auto md:m-0">Next</button>
+                                    <button type='submit' className=" button_primary_large w-full md:max-w-70 m-auto md:m-0">Next</button>
                                 </form>
                             </motion.div>
                         ))}
@@ -391,7 +396,7 @@ export default function CheckoutForm() {
                         {IsValidAddress && (step === 2 && (
                             <motion.div className='basicStyle relative m-auto p-4 mb:p-0 h-full flex flex-col justify-between' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                                 <div>
-                                    <h3 className="text-2xl font-semibold mb-4 text-gray-800">Pagamento</h3>
+                                    <h3 className="text-2md font-semibold mb-4 text-gray-800">Pagamento</h3>
                                     {!orderId && cartItensArray.length !== 0 && (
                                         <div className="rounded-lg text-gray-600 ">
                                             <p className="mb-2">
@@ -431,6 +436,6 @@ export default function CheckoutForm() {
                     </div>
                 </div>
             </div>
-        </ContentContainer>
+        </ContentContainer >
     );
 }
