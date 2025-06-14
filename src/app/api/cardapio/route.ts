@@ -16,7 +16,10 @@ export async function GET(request: NextRequest) {
 
 export async function HEAD(request: Request) { }
 
-export async function POST(request: Request) { }
+export async function POST(request: Request) {
+    console.log(await request.json())
+    return NextResponse.json('oi')
+}
 
 export async function PUT(request: Request) { }
 
