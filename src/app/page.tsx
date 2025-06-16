@@ -2,7 +2,7 @@
 import SlideShow from "@/components/homeComponents/carrosel";
 import { ContentContainer } from "@/components/globalComponents/Container/container";
 import { CategorySelector } from "@/components/homeComponents/categorySelector/category";
-import { DishesContainer } from "../components/homeComponents/Food_Card_Container/FoodCardContainer";
+import { DishesContainer } from "@/components/homeComponents/DishContainer/DishContainer";
 import { GifLoading } from "../components/globalComponents/loading_gif";
 import { Suspense } from "react";
 

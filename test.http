@@ -3,7 +3,23 @@ POST http://localhost:3000/api/cardapio
 Content-Type: 'application/json'
 
 {
-    "name": "igor"
-}
+      "id": 2,
+      "category": "do dia",
+      "name": "Bife à Milanesa",
+      "description": "Clássico bife à milanesa servido com arroz, macarrão ao dente, batata frita e uma salada fresca.",
+      "image": "https://www.shutterstock.com/image-photo/yogyakarta-indonesia-oct-142021-coca-600nw-2534402125.jpg",
+      "sizes": [
+        {
+          "type": "Mini",
+          "price": 18.0,
+          "id": 2
+        },
+        {
+          "type": "Médio",
+          "price": 20.0,
+          "id": 2
+        }
+      ]
+    }
 
 ###
