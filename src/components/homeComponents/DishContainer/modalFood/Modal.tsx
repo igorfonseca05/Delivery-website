@@ -89,7 +89,7 @@ export function FoodModal({ modalIsOpen, setModalIsOpen, clickedDish }: FoodModa
             }`}>
 
             {/* Modal */}
-            <div className="bg-white rounded-lg shadow-xl w-[95%] max-w-[400px] md:max-w-5xl p-2 md:p-4 grid grid-cols-1 md:grid-cols-2 gap-6 relative">
+            <div className={`bg-white rounded-lg shadow-xl w-[95%] max-w-[400px] md:max-w-5xl p-2 md:p-4 grid grid-cols-1 md:grid-cols-2 gap-6 relative cardAnimate`}>
 
                 {/* Botões de Fechar Modal */}
                 <div className="absolute top-4 right-4 flex gap-3 z-10">

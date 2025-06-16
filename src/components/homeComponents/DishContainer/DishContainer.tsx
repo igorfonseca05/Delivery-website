@@ -4,58 +4,28 @@ import FoodGrid from "./FoodGrid/FoodGrid"
 
 import foodModel from "../../../../model/foodModel"
 import { dbConnect } from "../../../../db/dbConnection"
+import { DishesProps } from "../../../../utils/types/types"
+
 
 
 export async function DishesContainer() {
+    // const res = await fetch('http://localhost:5000/cardapio')
+    // const menu = res.json()
 
-    // await dbConnect()
-    // const menu = await foodModel.find({})
+    await dbConnect()
+    // const menu = await foodModel.find()
 
-    // console.log(menu)
+    // console.log(menu[0])
 
-
-    // Gerando URL dinâmicamente com base na categoria
-    // const url = category === 'Todos' ?
-    //     `http://localhost:5000/cardapio` :
-    //     `http://localhost:5000/cardapio?category=${category}`
-
-    // Buscando dados
-    // const { data: dishes, error } = useFetchData(url)
-
-    // const [clickedDish, setClickedDish] = useState<DishesProps>()
-    // const [modalIsOpen, setModalIsOpen] = useState(false)
-
-    // Capturando erro de fetch
-    // useEffect(() => {
-    //     error && toast.error(error)
-    //     msgFromMessageContext && toast.error(msgFromMessageContext)
-
-    //     setTimeout(() => {
-    //         setError('')
-    //     }, 2000)
-
-    // }, [error, msgFromMessageContext])
-
-
+    // const parsed = menu.map(item => ({
+    //     ...item.toObject(),
+    //     id: item._id.toString(),
+    // }));
 
     return (
-        <>
-            <div className="min-h-150">
-                <FoodGridTitle />
-                {/* <FoodGrid dishes={menu} /> */}
-            </div>
-        </>
-        // <>
-        //     {!isAdmin ? (
-        //         <>
-        //             <div className="min-h-150">
-        //                 <FoodGridTitle />
-        //                 <FoodGrid/>
-        //             </div>
-        //         </>
-        //     ) : (
-        //         <OrdersTable />
-        //     )}
-        // </>
+        <div className="min-h-150">
+            <FoodGridTitle />
+            {/* <FoodGrid dishes={parsed} /> */}
+        </div>
     )
 }

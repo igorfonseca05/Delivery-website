@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { DishesProps } from "../../../../../utils/types/types";
 
+import { use } from "react";
+
 import { NotFoundData } from "@/components/globalComponents/notFoundData/notFound"
 import { FoodCard } from "../FoodCard/Card";
 import { FoodModal } from "../modalFood/Modal";
@@ -14,14 +16,15 @@ import { useAdminContext } from "../../../../../context/isAdminContext";
 
 export default function FoodGrid({ dishes }: { dishes: DishesProps[] }) {
 
-    // const { error: msgFromMessageContext, setError } = useMessageContext()
+    // const dishes = use(menu)
+
+    const { error: msgFromMessageContext, setError } = useMessageContext()
     const { isOpen } = useWarningModalContext()
     const { isAdmin } = useAdminContext()
 
     const [clickedDish, setClickedDish] = useState<DishesProps>()
     const [modalIsOpen, setModalIsOpen] = useState(false)
 
-    console.log(dishes)
 
     return (
         <>
@@ -31,7 +34,7 @@ export default function FoodGrid({ dishes }: { dishes: DishesProps[] }) {
                 {/* {loading && [...Array(10)].map((_, i) => (<CardsLoading key={i} />))} */}
 
                 {/* Pratos disponiveis */}
-                {/* {dishes?.map((item, index) => (
+                {dishes?.map((item, index) => (
                     <a key={item.id}
                         onClick={() => {
                             setModalIsOpen(!modalIsOpen)
@@ -47,14 +50,17 @@ export default function FoodGrid({ dishes }: { dishes: DishesProps[] }) {
                             description={item.description}
                         />
                     </a>
-                ))} */}
+                ))}
 
                 {/* {!dishes && <NotFoundData text='Dados não encontrados' />} */}
             </div>
-            {modalIsOpen && clickedDish && <FoodModal
-                modalIsOpen={modalIsOpen}
-                setModalIsOpen={setModalIsOpen}
-                clickedDish={clickedDish} />}
+            {modalIsOpen &&
+                clickedDish &&
+                <FoodModal
+                    modalIsOpen={modalIsOpen}
+                    setModalIsOpen={setModalIsOpen}
+                    clickedDish={clickedDish}
+                />}
             {isOpen && <GuestCheckoutWarning />}
         </>
 

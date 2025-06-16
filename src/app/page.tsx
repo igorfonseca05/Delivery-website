@@ -13,9 +13,13 @@ import { ModalProvider } from "../../context/modalContext";
 import { WarningModalProvider } from "../../context/warningModalContext";
 import OrderSummary from "./(public)/payment/components/orderSummary/OrderSummary";
 import OrdersSummary from "@/components/homeComponents/chooseText";
+import { Providers } from "./providers";
 
+import foodModel from "../../model/foodModel";
+import { dbConnect } from "../../db/dbConnection";
 
 export default async function Home() {
+
   const url = 'http://localhost:5000/cardapio'
   const data: DishesProps[] = await useServerFetch(url)
 
@@ -24,12 +28,10 @@ export default async function Home() {
       <Suspense fallback={<GifLoading />} >
         <SlideShow />
         <OrdersSummary />
-        <CategoryContextProvider>
+        <Providers>
           <CategorySelector categories={data} />
-          <ModalProvider>
-            <DishesContainer />
-          </ModalProvider>
-        </CategoryContextProvider>
+          <DishesContainer />
+        </Providers>
       </Suspense>
     </ContentContainer>
   );

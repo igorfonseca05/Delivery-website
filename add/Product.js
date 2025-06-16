@@ -1,16 +1,5 @@
 import mongoose from "mongoose";
 
-export interface Cardapio extends mongoose.Document {
-    category: string,
-    name: string,
-    description: string,
-    image: string,
-    sizes: {
-        type: string,
-        price: number
-    }[]
-}
-
 const sizeSchema = new mongoose.Schema({
     type: {
         type: String,
@@ -29,7 +18,7 @@ const sizeSchema = new mongoose.Schema({
 }, { _id: false })
 
 
-const menuSchema = new mongoose.Schema<Cardapio>({
+const menuSchema = new mongoose.Schema({
     category: {
         type: String,
         required: true,
@@ -62,16 +51,14 @@ const menuSchema = new mongoose.Schema<Cardapio>({
 }, { timestamps: true })
 
 
+// Exemplo: hook que você quer ativar
 menuSchema.pre('save', function (next) {
-    const id = this._id
-
-    this.sizes = this.sizes.map(item => ({
-        ...item || item,
-        id
+    const productId = this._id
+    this.sizes = this.sizes.map(size => ({
+        ...size,
+        id: productId
     }))
-
     next()
 })
 
-
-export default mongoose.models.Menu || mongoose.model<Cardapio>('Menu', menuSchema)
+export default mongoose.models.Menu || mongoose.model('Menu', menuSchema)

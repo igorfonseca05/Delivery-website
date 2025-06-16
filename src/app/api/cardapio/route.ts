@@ -4,6 +4,7 @@ import { dbConnect } from "../../../../db/dbConnection";
 import MenuModel from "../../../../model/foodModel";
 
 import { MenuSchemaZod } from "@/lib/definitions";
+// import foodModel from "../../../../model/foodModel";
 
 
 export async function GET(req: NextRequest) {
@@ -16,16 +17,13 @@ export async function GET(req: NextRequest) {
     }
 }
 
-export async function HEAD(re: Request) { }
+export async function HEAD(req: Request) { }
 
-export async function POST(req: Request) {
-
+export async function POST(request: Request) {
     try {
-        const body = await req.json()
+        const body = await request.json()
 
         const valid = MenuSchemaZod.safeParse(body)
-
-        console.log(valid)
 
         if (!valid.success) {
             return NextResponse.json(
@@ -34,10 +32,13 @@ export async function POST(req: Request) {
             )
         }
 
-        return NextResponse.json('oi')
+        const newDish = new MenuModel(body)
+        await newDish.save()
+
+        return NextResponse.json({ message: 'oi' })
 
     } catch (error) {
-
+        console.log(error)
     }
 }
 
