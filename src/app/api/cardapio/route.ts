@@ -9,9 +9,14 @@ import { MenuSchemaZod } from "@/lib/definitions";
 
 export async function GET(req: NextRequest) {
     try {
+
+        // Obtendo queryParams com um objeto
+        const queryParamsObj = Object.fromEntries(req.nextUrl.searchParams.entries())
+
         await dbConnect()
-        const pratos = await MenuModel.find()
-        return NextResponse.json({ cardapio: pratos })
+        const pratos = await MenuModel.find(queryParamsObj)
+        return NextResponse.json(pratos)
+        // return NextResponse.json('opi')
     } catch (error) {
         return NextResponse.json({ message: 'Erro ao obter dados da API' })
     }

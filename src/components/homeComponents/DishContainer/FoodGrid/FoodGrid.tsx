@@ -14,9 +14,8 @@ import { useMessageContext } from "../../../../../context/messagesContext";
 import { useWarningModalContext } from "../../../../../context/warningModalContext";
 import { useAdminContext } from "../../../../../context/isAdminContext";
 
-export default function FoodGrid({ dishes }: { dishes: DishesProps[] }) {
-
-    // const dishes = use(menu)
+export default function FoodGrid({ menu }: { menu: Promise<DishesProps[]> }) {
+    const dishes = use(menu)
 
     const { error: msgFromMessageContext, setError } = useMessageContext()
     const { isOpen } = useWarningModalContext()
@@ -24,7 +23,6 @@ export default function FoodGrid({ dishes }: { dishes: DishesProps[] }) {
 
     const [clickedDish, setClickedDish] = useState<DishesProps>()
     const [modalIsOpen, setModalIsOpen] = useState(false)
-
 
     return (
         <>
@@ -35,14 +33,14 @@ export default function FoodGrid({ dishes }: { dishes: DishesProps[] }) {
 
                 {/* Pratos disponiveis */}
                 {dishes?.map((item, index) => (
-                    <a key={item.id}
+                    <a key={item._id}
                         onClick={() => {
                             setModalIsOpen(!modalIsOpen)
                             setClickedDish(item)
                         }} className="cursor-pointer">
                         <FoodCard
-                            key={item.id}
-                            id={item.id}
+                            key={item._id}
+                            _id={item._id}
                             name={item.name}
                             imageUrl={item.image}
                             sizes={item.sizes}

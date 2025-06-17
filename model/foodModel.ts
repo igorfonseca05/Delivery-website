@@ -52,8 +52,6 @@ const menuSchema = new mongoose.Schema<Cardapio>({
         type: String,
         required: true,
         trim: true,
-        lowercase: true
-
     },
     sizes: {
         type: [sizeSchema],

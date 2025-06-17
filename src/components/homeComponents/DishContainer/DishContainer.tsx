@@ -9,10 +9,10 @@ import { DishesProps } from "../../../../utils/types/types"
 
 
 export async function DishesContainer() {
-    // const res = await fetch('http://localhost:5000/cardapio')
-    // const menu = res.json()
+    const res = await fetch('http://localhost:3000/api/cardapio')
+    const menu = res.json()
 
-    await dbConnect()
+    // await dbConnect()
     // const menu = await foodModel.find()
 
     // console.log(menu[0])
@@ -26,6 +26,7 @@ export async function DishesContainer() {
         <div className="min-h-150">
             <FoodGridTitle />
             {/* <FoodGrid dishes={parsed} /> */}
+            <FoodGrid menu={menu} />
         </div>
     )
 }

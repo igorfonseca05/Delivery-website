@@ -1,20 +1,23 @@
-"use client"
-
 import Image from "next/image";
 
 import { useEffect, useState } from "react";
 import { FoodCardProps } from "../../../../../utils/types/types";
 
-export function FoodCard({ id, name, imageUrl, sizes, category, description }: FoodCardProps) {
+export function FoodCard({ _id, name, imageUrl, sizes, category, description }: FoodCardProps) {
 
-    const [price, setPrice] = useState<number>()
-    const [sizeDishName, setSizeDishName] = useState<string>('Mini')
+    const [price, setPrice] = useState<number>(0)
+    const [sizeDishName, setSizeDishName] = useState<string>('mini')
 
-
+    /** Nesse useEffect eu verifico quais pratos possuem mais de um tamanho
+     * disponivel e escolho o valor do menor deles como padrão para o card.
+    */
     useEffect(() => {
-        if (sizes.length >= 2) {
-            sizes.map(item => {
-                item.type === sizeDishName && setPrice(item.price)
+        const thereMoreThanOne = sizes.length >= 2
+
+        if (thereMoreThanOne) {
+            sizes.map(({ type, price }) => {
+                type === sizeDishName && setPrice(price)
+                console.log(type, price)
             })
         } else {
             setPrice(sizes[0]?.price)
@@ -37,16 +40,16 @@ export function FoodCard({ id, name, imageUrl, sizes, category, description }: F
                 />
             </div>
             <div className="flex flex-col justify-between grow text-start">
-                {category !== 'Combos com Coca' && <h3 className={`text-[clamp(1rem,1.3vw,2rem)] font-semibold leading-5 break-words h-5 max-w-80 line-clamp-3`}>{name}</h3>}
+                {category !== 'combos com Coca' && <h3 className={`text-[clamp(1rem,1.3vw,2rem)] capitalize font-semibold leading-5 break-words h-5 max-w-80 line-clamp-3`}>{name}</h3>}
 
-                {category === 'Combos com Coca' &&
-                    <h3 className={`text-[clamp(1rem,1.3vw,2rem)] font-semibold leading-5 break-words h-5 max-w-80 line-clamp-3`}>{name} + Coca</h3>}
-                <p className="max-w-80 text-[clamp(0.8rem,1vw,2rem)] text-gray-500 h-15 line-clamp-3">{description}</p>
+                {category === 'combos com Coca' &&
+                    <h3 className={`text-[clamp(1rem,1.3vw,2rem)] font-semibold leading-5 break-words h-5 max-w-80 line-clamp-3 capitalize`}>{name} + Coca</h3>}
+                <p className="max-w-80 text-[clamp(0.8rem,1vw,2rem)] text-gray-500 h-15 line-clamp-3 capitalize">{description}</p>
 
                 <div className="flex justify-between items-center py-1">
-                    {<p className={`text-lg font-bold TextColor`}>
-                        R$ {price?.toFixed(2)}<span className="text-gray-400 text-[11px] ml-1 font-normal">{sizeDishName}</span>
-                    </p>}
+                    <p className={`text-lg font-bold TextColor`}>
+                        R$ {price?.toFixed(2)}<span className="text-gray-400 text-[11px] ml-1 font-normal capitalize">{sizeDishName}</span>
+                    </p>
                 </div>
             </div>
         </div>

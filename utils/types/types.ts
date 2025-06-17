@@ -16,7 +16,7 @@ export interface DishConfig {
     orderNote?: string,
 }
 export interface CartItemProps {
-    id: string
+    _id: string
     name: string,
     price: number,
     imageUrl: string,
@@ -27,7 +27,7 @@ export interface CartItemProps {
 
 
 export interface FoodCardProps {
-    id: string
+    _id: string
     name: string;
     imageUrl: string;
     category: string
@@ -43,7 +43,7 @@ export interface FoodCardProps {
 
 
 export interface DishesProps {
-    id: string
+    _id: string
     category: string
     name: string
     description: string
