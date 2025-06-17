@@ -2,7 +2,7 @@
 import mongoose from 'mongoose'
 import MenuModel from './Product.js'
 
-await mongoose.connect('mongodb://localhost:27017/next')
+await mongoose.connect('mongodb+srv://igorrfonseca27:QbMGyzMgCljJyPPt@deliverycluster.qxcgbpf.mongodb.net/dishes?retryWrites=true&w=majority&appName=deliveryCluster')
 
 const produtos = [
     {

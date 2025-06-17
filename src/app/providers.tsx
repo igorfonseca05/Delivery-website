@@ -7,12 +7,10 @@ import { WarningModalProvider } from "../../context/warningModalContext";
 export function Providers({ children }: { children: React.ReactNode }) {
 
     return (
-        <WarningModalProvider>
+        <CategoryContextProvider>
             <ModalProvider>
-                <CategoryContextProvider>
-                    {children}
-                </CategoryContextProvider>
+                {children}
             </ModalProvider>
-        </WarningModalProvider>
+        </CategoryContextProvider>
     )
 }

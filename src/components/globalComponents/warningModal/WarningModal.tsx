@@ -1,22 +1,16 @@
-'use client';
-
-import { useState } from 'react';
 import { AlertCircle, X } from 'lucide-react';
 import { useWarningModalContext } from '../../../../context/warningModalContext';
 import { useToggleCartContext } from '../../../../context/toggleCartContext';
 import Link from 'next/link';
 
 export function GuestCheckoutWarning() {
-    const { isOpen, setIsOpen } = useWarningModalContext()
-    const { cartIsOpen, setCartIsOpen } = useToggleCartContext()
 
-    // const [open, setOpen] = useState(true);
-
-    if (!open) return null;
+    const { setIsOpen } = useWarningModalContext()
+    const { setCartIsOpen } = useToggleCartContext()
 
     return (
         <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center">
-            <div className="bg-white rounded-2xl shadow-xl w-[90%] max-w-md p-6 relative">
+            <div className="bg-white rounded-2xl shadow-xl w-[90%] max-w-md p-6 relative cardAnimate">
                 {/* Botão de fechar */}
                 <button
                     onClick={() => setIsOpen(false)}
@@ -34,13 +28,13 @@ export function GuestCheckoutWarning() {
                     </h2>
                 </div>
 
-                {/* Texto de aviso */}
+                {/* Warning message */}
                 <p className="text-gray-600 text-sm leading-relaxed">
                     Você está prestes a finalizar sua compra sem fazer login.
                     Nesse caso, <strong>não será possível acompanhar o status do pedido</strong> posteriormente.
                 </p>
 
-                {/* Botões */}
+                {/* Warning buttons */}
                 <div className="mt-6 flex flex-col sm:flex-row justify-end gap-3">
                     <Link href={'/payment'}
                         onClick={() => {

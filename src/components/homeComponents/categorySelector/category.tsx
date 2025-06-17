@@ -7,6 +7,7 @@ import { IconType } from "react-icons";
 
 import { useAdminContext } from "../../../../context/isAdminContext";
 
+import { use } from "react";
 
 import {
     Infinity,
@@ -23,8 +24,9 @@ import { DishesProps } from "../../../../utils/types/types";
 import { useCategoryContext } from "../../../../context/categoryContext";
 
 
-export function CategorySelector({ categories }: { categories: DishesProps[] }) {
+export function CategorySelector({ dishPromise }: { dishPromise: Promise<DishesProps[]> }) {
 
+    const categories = use(dishPromise)
     const { isAdmin } = useAdminContext()
 
 
@@ -51,6 +53,8 @@ export function CategorySelector({ categories }: { categories: DishesProps[] }) 
 
     // Aqui inclui a categoria "Todos"
     const allCategoryItems = Array('Todos', ...categorySet)
+
+    // .sort((a, b) => a.localeCompare(b))
 
     // Criando array de objeto do tipo { label: category, icon: icons[index] }
     const categorias = allCategoryItems.reduce<{ label: string, icon: IconType }[]>((acc, category, index) => {

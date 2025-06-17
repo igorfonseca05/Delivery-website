@@ -51,7 +51,6 @@ export function useFetchData(url: string) {
             }
         }
 
-
         getData()
 
         return () => controller.abort()

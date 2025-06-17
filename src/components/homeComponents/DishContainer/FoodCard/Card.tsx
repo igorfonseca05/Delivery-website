@@ -17,7 +17,6 @@ export function FoodCard({ _id, name, imageUrl, sizes, category, description }: 
         if (thereMoreThanOne) {
             sizes.map(({ type, price }) => {
                 type === sizeDishName && setPrice(price)
-                console.log(type, price)
             })
         } else {
             setPrice(sizes[0]?.price)

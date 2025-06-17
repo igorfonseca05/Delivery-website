@@ -26,6 +26,7 @@ export function CartSideBar() {
     const { user } = useAuthContext()
     const { isOpen, setIsOpen } = useWarningModalContext()
 
+
     return (
         <div className={`fixed right-0 p-4 py-3 h-full z-2 w-full lg:w-90 bg-white
          ${cartIsOpen ? 'cardIsOpen shadow-md' : 'cardIsClose'}`}>
@@ -46,10 +47,10 @@ export function CartSideBar() {
                 {cartItensArray.length !== 0 &&
                     (<>
                         <div className=" flex flex-col grow-2 mt-4 rounded-lg gap-y-2 overflow-y-auto cartScroll">
-                            {cartItensArray && cartItensArray?.map(({ id, name, price, imageUrl, quantity }) => (
+                            {cartItensArray && cartItensArray?.map(({ _id, name, price, imageUrl, quantity }) => (
                                 <CardItem
-                                    key={id}
-                                    id={id}
+                                    key={_id}
+                                    id={_id}
                                     name={name}
                                     price={price}
                                     imageUrl={imageUrl}

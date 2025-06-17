@@ -19,9 +19,8 @@ import foodModel from "../../model/foodModel";
 import { dbConnect } from "../../db/dbConnection";
 
 export default async function Home() {
-
-  const url = 'http://localhost:5000/cardapio'
-  const data: DishesProps[] = await useServerFetch(url)
+  const data = await fetch(`${process.env.URL_API}`, { cache: 'force-cache' })
+  const dishes = data.json()
 
   return (
     <ContentContainer>
@@ -29,7 +28,7 @@ export default async function Home() {
         <SlideShow />
         <OrdersSummary />
         <Providers>
-          <CategorySelector categories={data} />
+          <CategorySelector dishPromise={dishes} />
           <DishesContainer />
         </Providers>
       </Suspense>
