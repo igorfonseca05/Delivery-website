@@ -1,6 +1,6 @@
 
 export interface DishConfig {
-    id: string
+    _id: string
     name: string,
     price: number,
     imageUrl: string,

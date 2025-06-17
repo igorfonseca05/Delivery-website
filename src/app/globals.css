@@ -28,7 +28,7 @@ body {
 }
 
 .basicStyle {
-  @apply my-2 bg-white rounded-lg;
+  @apply bg-white rounded-lg;
 }
 
 .TextColor {

@@ -36,17 +36,8 @@ export default function CheckoutForm() {
         Payment = '/payment',
     }
 
-    const {
-        setUserData,
-        cartItensArray,
-        setCartItensArray,
-        total,
-        totalCartItens,
-        deliveryFee,
-    } = useCartContext()
-
+    const { setUserData, cartItensArray, setCartItensArray } = useCartContext()
     const { setError, error } = useMessageContext()
-
     const { user } = useAuthContext()
     const { addOrderGuests, getData, addDataToFireCollection } = useFirebase()
 
@@ -55,7 +46,6 @@ export default function CheckoutForm() {
     const [success, setSuccess] = useState(false)
     const [orderId, setOrderId] = useState<string>()
     const [IsValidAddress, setIsValidAddress] = useState(false)
-
     const [address, setAddress] = useState<UserProfileAddress>()
 
     // Estaso inicial do formulário
@@ -145,7 +135,6 @@ export default function CheckoutForm() {
                 ...order
             }
 
-            // orderFinished && addOrderGuests(order, random)
         } else {
 
             const orderFinished = {
@@ -173,7 +162,6 @@ export default function CheckoutForm() {
             rua: '',
         })
     }
-
 
     async function handlePayment() {
         setLoading(true)
@@ -213,6 +201,12 @@ export default function CheckoutForm() {
             formData.rua.trim() === ''
         )
     }
+
+    Object.entries(formData).some(item => {
+        if (item[0] === 'complemento') return
+        return item[1] === ''
+    })
+
 
 
     // Formulário para o endeço de pagamento
@@ -289,18 +283,24 @@ export default function CheckoutForm() {
 
     return (
         <ContentContainer>
-            <div className="mt-5 md:mt-0 w-full sm:p-2 relative">
+            <div className="mt-5 md:mt-0 w-full sm:p-4 relative">
                 <div className="flex flex-col md:flex-row min-h-130 gap-x-4">
-                    <div className="hidden md:w-1/3 md:block md:mb-0 rounded-lg mt-2">
+                    <div className="hidden md:w-1/3 md:block md:mb-0 rounded-lg">
                         <OrderSummary />
                     </div>
 
-                    <div className="md:w-2/3 w-full pt-0 min-h-full">
+                    <div className="md:w-2/3 w-full min-h-full">
                         {!user && (step === 1 && (
                             <motion.div className='basicStyle relative m-auto p-4 mb:p-0 flex flex-col justify-between' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                                <h1 className='block text-[clamp(1.5rem,1em,2rem)] font-bold mb-4 text-gray-800'>Endereço</h1>
+                                <div className='flex justify-between'>
+                                    <h1 className='block text-[clamp(1rem,1em,2rem)] font-bold text-gray-800'>Endereço</h1>
+                                    <h1 className='block text-[clamp(1rem,1em,2rem)] font-bold text-gray-800'>Pagamento</h1>
+                                    <h1 className='block text-[clamp(1rem,1em,2rem)] font-bold text-gray-800'>
+                                        Pedido
+                                    </h1>
+                                </div>
                                 <form className=' min-h-full flex flex-col justify-between' onSubmit={handleFormSubmit}>
-                                    <h3 className={`text-md mb-2 font-semibold text-gray-600`}>Detalhes pessoais</h3>
+                                    <h3 className={`text-md mb-2 font- text-gray-600`}>Detalhes pessoais</h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                                         <input
                                             name="nome"
@@ -309,7 +309,7 @@ export default function CheckoutForm() {
                                             placeholder="nome"
                                             className={step === 1 ? 'red_input' : 'input'}
                                             autoComplete='on'
-                                            required />
+                                        />
                                         <input
                                             name="sobrenome"
                                             onChange={handleInputChange}
@@ -320,7 +320,7 @@ export default function CheckoutForm() {
                                             required />
                                     </div>
 
-                                    <h3 className={`text-md mb-2 font-semibold text-gray-600`}>{step === 1 ? 'Endereço de entrega' : 'Pagamento'}</h3>
+                                    <h3 className={`text-md mb-2 font- text-gray-600`}>{step === 1 ? 'Endereço de entrega' : 'Pagamento'}</h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                                         <input
                                             name="rua"
@@ -370,7 +370,7 @@ export default function CheckoutForm() {
                                             className={step === 1 ? 'red_input' : 'input'} />
                                     </div>
 
-                                    <h3 className={`text-md mb-2 font-semibold text-gray-600`}>Contato</h3>
+                                    <h3 className={`text-md mb-2 font-extralight text-gray-600`}>Contato</h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                                         <input
                                             name="telefone"

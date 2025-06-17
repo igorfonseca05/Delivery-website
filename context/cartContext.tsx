@@ -59,7 +59,7 @@ export function CartContextProvider({ children }: { children: ReactNode }) {
 
     // Função responsável por remover item do carrinho
     function removeCartItem(id: string) {
-        const updatedCartArray = cartItensArray.filter(cartItem => cartItem.id !== id)
+        const updatedCartArray = cartItensArray.filter(cartItem => cartItem._id !== id)
         setCartItensArray(updatedCartArray)
     }
 
