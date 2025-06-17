@@ -29,7 +29,7 @@ export function FoodModal({ modalIsOpen, setModalIsOpen, clickedDish }: FoodModa
 
     const [quantity, setQuantity] = useState(1)
     const [price, setPrice] = useState<number>(0)
-    const [sizeDishName, setSizeDishName] = useState<string>('Mini')
+    const [sizeDishName, setSizeDishName] = useState<string>('mini')
     const [orderNote, setOrderNote] = useState('')
 
     const increase = () => setQuantity(q => q + 1)
@@ -40,7 +40,7 @@ export function FoodModal({ modalIsOpen, setModalIsOpen, clickedDish }: FoodModa
         if (!clickedDish) return
 
         const selectedDish = {
-            id: clickedDish.id,
+            _id: clickedDish._id,
             name: clickedDish.name,
             imageUrl: clickedDish.image,
             quantity,
