@@ -185,29 +185,12 @@ export default function CheckoutForm() {
         if (step === 2) setStep(1);
     };
 
-
     // Verificando forms inputs
     function isEmptyAddressFormField() {
-        return (
-            formData.cidade.trim() === '' &&
-            formData.sobrenome.trim() === '' &&
-            formData.email.trim() === '' &&
-            formData.nome.trim() === '' &&
-            formData.bairro.trim() === '' &&
-            formData.numero.trim() === '' &&
-            formData.telefone.trim() === '' &&
-            formData.CEP.trim() === '' &&
-            formData.CEP.trim().length === 8 &&
-            formData.rua.trim() === ''
-        )
+        return Object.entries(formData)
+            .some(item => item[0] === 'complemento' ? null : item[1] === '')
+
     }
-
-    Object.entries(formData).some(item => {
-        if (item[0] === 'complemento') return
-        return item[1] === ''
-    })
-
-
 
     // Formulário para o endeço de pagamento
     function handleFormSubmit(e: React.FormEvent) {
@@ -216,16 +199,7 @@ export default function CheckoutForm() {
         if (isEmptyAddressFormField()) return
 
         const userData = {
-            nome: formData.nome,
-            sobrenome: formData.sobrenome,
-            email: formData.email,
-            telefone: formData.telefone,
-            cidade: formData.cidade,
-            complemento: formData.complemento,
-            bairro: formData.bairro,
-            numero: formData.numero,
-            CEP: formData.CEP,
-            rua: formData.rua,
+            ...formData
         }
 
         setUserData(userData)
