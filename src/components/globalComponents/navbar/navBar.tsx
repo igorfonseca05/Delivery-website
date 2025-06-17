@@ -91,13 +91,13 @@ export function Navbar() {
 
 
                             {!isAdmin &&
-                                (<li
-                                    className={`cursor-pointer flex button_neutral_medium p-2 ml-2 relative ${path === '/payment' && 'opacity-50 pointer-events-none'}`} onClick={() => setCartIsOpen(!cartIsOpen)}>
-                                    <div className='flex items-baseline gap-x-0.5'>
-                                        <span className={`absolute top-0 left-8 w-4 h-4 text-center bg-[#df4f4b] text-white rounded-full text-[11px] ${cartItensArray.length === 0 ? 'hidden' : 'block'}`}>{cartItensArray.length}</span>
+                                (<li className={`cursor-pointer flex sm:p-2 sm:ml-2 ${path === '/payment' && 'opacity-50 pointer-events-none'}`} onClick={() => setCartIsOpen(!cartIsOpen)}>
+
+                                    <div className='flex items-baseline gap-x-0.5 relative py-1'>
+                                        <span className={`absolute top-0 left-4 w-4 h-4 text-center bg-[#df4f4b] text-white rounded-full text-[11px] ${cartItensArray.length === 0 ? 'hidden' : 'block'}`}>{cartItensArray.length}</span>
                                         <ShoppingCart className='text-gray-700 text-2xl' />
                                         <div className='flex flex-col'>
-                                            <span className='text-[10px] text-gray-400'>R$ {total.toFixed(2)}</span>
+                                            <span className='text-[10px] text-gray-400 hidden'>R$ {total.toFixed(2)}</span>
                                         </div>
                                     </div>
                                 </li>)}

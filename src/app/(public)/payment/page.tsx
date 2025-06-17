@@ -25,6 +25,11 @@ import { useMessageContext } from '../../../../context/messagesContext';
 import { OrderWithotAuthProps, UserProfileAddress } from '../../../../utils/types/types';
 import { UserData } from '../../../../utils/types/types';
 import { toast } from 'react-toastify';
+import FormHeader from './components/formHeader/FormHeader';
+import GetOrderContainer from './components/getOrderContainer/getOrderContainer';
+import Delivery from './components/deliverSection/Delivery';
+import PickupInstructions from './components/pickupSection/PickupInstructions';
+import PickupMap from './components/pickupSection/map/map';
 
 
 export default function CheckoutForm() {
@@ -47,6 +52,7 @@ export default function CheckoutForm() {
     const [orderId, setOrderId] = useState<string>()
     const [IsValidAddress, setIsValidAddress] = useState(false)
     const [address, setAddress] = useState<UserProfileAddress>()
+    const [getOrder, setGetOrder] = useState('Entrega')
 
     // Estaso inicial do formulário
     const [formData, setFormData] = useState({
@@ -84,10 +90,12 @@ export default function CheckoutForm() {
             if (user) {
                 const addressProfile = await getData('users')
 
-                if (!addressProfile) throw new Error('Endereço não informado')
+                // if (!addressProfile) {
+                //     throw new Error('Endereço não informado')
+                // }
                 setAddress(address)
 
-                if (!addressProfile?.data) {
+                if (!addressProfile || !addressProfile?.data) {
                     setError('Precisamos do seu endereço para enviar seu pedido até você.')
                     const timer = setTimeout(() => {
                         router?.push(Routes.Profile)
@@ -254,6 +262,7 @@ export default function CheckoutForm() {
         };
     }, [])
 
+    console.log(getOrder)
 
     return (
         <ContentContainer>
@@ -263,114 +272,38 @@ export default function CheckoutForm() {
                         <OrderSummary />
                     </div>
 
-                    <div className="md:w-2/3 w-full min-h-full">
-                        {!user && (step === 1 && (
-                            <motion.div className='basicStyle relative m-auto p-4 mb:p-0 flex flex-col justify-between' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                                <div className='flex justify-between'>
-                                    <h1 className='block text-[clamp(1rem,1em,2rem)] font-bold text-gray-800'>Endereço</h1>
-                                    <h1 className='block text-[clamp(1rem,1em,2rem)] font-bold text-gray-800'>Pagamento</h1>
-                                    <h1 className='block text-[clamp(1rem,1em,2rem)] font-bold text-gray-800'>
-                                        Pedido
-                                    </h1>
-                                </div>
-                                <form className=' min-h-full flex flex-col justify-between' onSubmit={handleFormSubmit}>
-                                    <h3 className={`text-md mb-2 font- text-gray-600`}>Detalhes pessoais</h3>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                                        <input
-                                            name="nome"
-                                            onChange={handleInputChange}
-                                            value={formData.nome}
-                                            placeholder="nome"
-                                            className={step === 1 ? 'red_input' : 'input'}
-                                            autoComplete='on'
-                                        />
-                                        <input
-                                            name="sobrenome"
-                                            onChange={handleInputChange}
-                                            value={formData.sobrenome}
-                                            placeholder="sobrenome"
-                                            className={step === 1 ? 'red_input' : 'input'}
-                                            autoComplete='on'
-                                            required />
-                                    </div>
-
-                                    <h3 className={`text-md mb-2 font- text-gray-600`}>{step === 1 ? 'Endereço de entrega' : 'Pagamento'}</h3>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                                        <input
-                                            name="rua"
-                                            onChange={handleInputChange}
-                                            value={formData.rua}
-                                            placeholder="Endereço rua/Avenida"
-                                            className={step === 1 ? 'red_input' : 'input'}
-                                            autoComplete='on'
-                                            required />
-                                        <input
-                                            name="bairro"
-                                            onChange={handleInputChange}
-                                            value={formData.bairro}
-                                            placeholder="bairro"
-                                            className={step === 1 ? 'red_input' : 'input'}
-                                            autoComplete='on'
-                                            required />
-                                        <input
-                                            name="CEP"
-                                            type='number' onChange={handleInputChange}
-                                            value={formData.CEP}
-                                            placeholder="CEP"
-                                            className={step === 1 ? 'red_input' : 'input'}
-                                            autoComplete='on'
-                                            required />
-                                        <input
-                                            name="cidade"
-                                            onChange={handleInputChange}
-                                            value={formData.cidade}
-                                            placeholder="cidade"
-                                            className={step === 1 ? 'red_input' : 'input'}
-                                            autoComplete='on'
-                                            required />
-                                        <input
-                                            name="numero"
-                                            onChange={handleInputChange}
-                                            value={formData.numero}
-                                            placeholder="Número"
-                                            className={step === 1 ? 'red_input' : 'input'}
-                                            autoComplete='on'
-                                            required />
-                                        <input
-                                            name="complemento"
-                                            onChange={handleInputChange}
-                                            value={formData.complemento}
-                                            placeholder="complementoo"
-                                            className={step === 1 ? 'red_input' : 'input'} />
-                                    </div>
-
-                                    <h3 className={`text-md mb-2 font-extralight text-gray-600`}>Contato</h3>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                                        <input
-                                            name="telefone"
-                                            type='number'
-                                            onChange={handleInputChange}
-                                            value={formData.telefone}
-                                            placeholder="Número para contato"
-                                            className={step === 1 ? 'red_input' : 'input'}
-                                            required />
-                                        <input
-                                            name="email"
-                                            onChange={handleInputChange}
-                                            value={formData.email}
-                                            placeholder="Email"
-                                            className={step === 1 ? 'red_input' : 'input'}
-                                            required />
-                                    </div>
-                                    <button type='submit' className=" button_primary_large w-full md:max-w-70 m-auto md:m-0">Next</button>
-                                </form>
-                            </motion.div>
-                        ))}
+                    <div className="md:w-2/3 p-2 sm:p-6 rounded-lg w-full min-h-full bg-white">
+                        <FormHeader step={step} />
+                        {!user &&
+                            step === 1 && (
+                                <>
+                                    <GetOrderContainer setGetOrder={setGetOrder} />
+                                    {
+                                        getOrder === 'Entrega' ? (
+                                            <>
+                                                <Delivery
+                                                    step={step}
+                                                    handleFormSubmit={handleFormSubmit}
+                                                    formData={formData}
+                                                    setFormData={setFormData}
+                                                    setGetOrder={setGetOrder}
+                                                    getOrder={getOrder} />
+                                            </>
+                                        ) : (
+                                            <motion.div className='flex flex-col space-y-4' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                                                <PickupInstructions />
+                                                <PickupMap />
+                                                <button type='submit' className=" button_primary_large w-full md:max-w-70 m-auto md:m-0" onClick={moveToTheNextForm}>Next</button>
+                                            </motion.div>
+                                        )
+                                    }
+                                </>
+                            )}
 
                         {IsValidAddress && (step === 2 && (
                             <motion.div className='basicStyle relative m-auto p-4 mb:p-0 h-full flex flex-col justify-between' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                                 <div>
-                                    <h3 className="text-2md font-semibold mb-4 text-gray-800">Pagamento</h3>
+                                    <h1 className='text-[clamp(1.2rem,1em,2rem)] mb-2'>Pagamento</h1>
                                     {!orderId && cartItensArray.length !== 0 && (
                                         <div className="rounded-lg text-gray-600 ">
                                             <p className="mb-2">
@@ -401,12 +334,6 @@ export default function CheckoutForm() {
                                 {orderId && <Link href={'/'} className="button_primary_large text-center max-w-50 m-auto md:text-end">Página inicial</Link>}
                             </motion.div>
                         ))}
-                        {/* {!IsValidAddress &&
-                            <motion.div className='basicStyle relative m-auto p-4 mb:p-0 h-full flex flex-col items-center justify-center' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                                <Image src={`/address3.svg`} alt="logo carrinho vazio" priority quality={50} width={500} height={500} className="opacity-40 mb-4" />
-                                <p>Dados de Endereço não fornecidos!</p>
-                            </motion.div>
-                        } */}
                     </div>
                 </div>
             </div>

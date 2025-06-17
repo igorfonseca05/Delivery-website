@@ -109,8 +109,6 @@ body {
   border: 2px solid transparent;
 }
 
-/* ---------------------------------------------- */
-
 .activeButton {
   @apply bg-[var(--button-color)];
 }
@@ -130,6 +128,10 @@ body {
 
 .button_primary_large {
   @apply bg-[var(--button-color)] py-3 px-4 rounded-lg  text-white hover:bg-[var(--button-color-hover)]  disabled:bg-[#ffc877];
+}
+
+.button_neutral_large {
+  @apply py-4 px-4 rounded-lg text-start border-2 border-gray-200;
 }
 
 .button_neutral_medium {
@@ -154,6 +156,16 @@ body {
 
 .red_input {
   @apply w-full border border-gray-300 rounded-lg py-3 px-4 text-sm focus:outline-none focus:ring-1 focus:ring-[#d8241f];
+}
+
+/* seção pagamento */
+
+.paymentFormInput {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-4 mb-4;
+}
+
+.paymentFormHeader {
+  @apply block text-[clamp(0.9rem,0.9em,2rem)] font-bold text-gray-800 pb-1 mx-1 my-1 grow;
 }
 
 /* FoodCard Component */
