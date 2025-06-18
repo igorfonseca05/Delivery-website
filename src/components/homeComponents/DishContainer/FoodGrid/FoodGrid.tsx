@@ -27,7 +27,11 @@ export default function FoodGrid() {
     const [url, setUrl] = useState('')
 
     function getUrl() {
-        const base = process.env.NEXT_PUBLIC_MENU_API || process.env.NEXT_PUBLIC_API;
+
+        const base = process.env.NODE_ENV === 'production' ?
+            process.env.NEXT_PUBLIC_MENU_API :
+            process.env.NODE_ENV === 'development' && process.env.NEXT_PUBLIC_API;
+
 
         const baseUrl = category === 'Todos'
             ? `${base}/api/cardapio`

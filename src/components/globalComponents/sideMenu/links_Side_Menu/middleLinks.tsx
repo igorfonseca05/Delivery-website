@@ -64,7 +64,7 @@ export function Middle_Icons() {
             }, 600)
 
         }
-    }, [isOpen]);
+    }, []);
 
 
     return (
