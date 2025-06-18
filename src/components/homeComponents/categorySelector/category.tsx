@@ -24,11 +24,10 @@ import { DishesProps } from "../../../../utils/types/types";
 import { useCategoryContext } from "../../../../context/categoryContext";
 
 
-export function CategorySelector({ dishPromise }: { dishPromise: Promise<DishesProps[]> }) {
+export function CategorySelector({ dishes }: { dishes: string }) {
 
-    const categories = use(dishPromise)
+    const categories: DishesProps[] = JSON.parse(dishes)
     const { isAdmin } = useAdminContext()
-
 
     const [selected, setSelected] = useState('Todos');
     const [icons, setIcons] = useState([

@@ -19,9 +19,12 @@ import foodModel from "../../model/foodModel";
 import { dbConnect } from "../../db/dbConnection";
 
 export default async function Home() {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
-  const data = await fetch(`${baseUrl}/api/cardapio`, { cache: 'force-cache' })
-  const dishes = data.json()
+  // const data = await fetch(`http://localhost:3000/api/cardapio`, { cache: 'force-cache' })
+  // const dishes = data.json()
+
+  await dbConnect()
+  const data = await foodModel.find(); // ou o filtro que você quiser
+  const data2 = JSON.stringify(data)
 
   return (
     <ContentContainer>
@@ -29,7 +32,7 @@ export default async function Home() {
         <SlideShow />
         <OrdersSummary />
         <Providers>
-          <CategorySelector dishPromise={dishes} />
+          <CategorySelector dishes={data2} />
           <DishesContainer />
         </Providers>
       </Suspense>
