@@ -26,7 +26,7 @@ export default function OrdersSummary() {
     return (
         <>
             {!isAdmin ? (
-                <h1 className="text-2xl mt-5 font-bold">Escolha uma categoria</h1>
+                <h1 className="text-[clamp(1.5rem,1em,2rem)] my-3 text-gray-900 font-semibold">Escolha uma categoria</h1>
             ) : (
                 <>
                     <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 my-4">

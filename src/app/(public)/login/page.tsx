@@ -15,11 +15,12 @@ export default function Login() {
     return (
         <section className="relative h-screen flex items-end overflow-hidden bg-white lg:ml-16 lg:max-w-screen">
             <Link href={'/'} className="absolute top-4 left-4 z-5 flex gap-x-2 lg:hidden">
-                <FaHome size={18} className="text-white md:text-gray-700" />
+                <FaHome size={18} className="text-gray-700" />
                 <span className="hidden md:block text-sm">Pagina Inicial</span>
             </Link>
+
             {/* Lado da imagem */}
-            <div className="absolute w-full md:relative md:w-1/2 h-full order-1">
+            <div className="absolute w-full hidden md:flex md:relative md:w-1/2 h-full order-1">
                 <Image
                     src="/chef.jpg" // imagem em public/
                     alt="Imagem de um chef preparando prato"
@@ -30,8 +31,8 @@ export default function Login() {
             </div>
 
             {/* Lado do login */}
-            <div className="w-full flex items-start justify-center p-6 z-2 bg-white sm:h-[80%] rounded-t-4xl md:w-1/2 md:h-screen md:items-center">
-                <div className="max-w-[80%] w-full flex flex-col justify-around space-y-5 text-center lg:max-w-[70%] ">
+            <div className="w-full h-full bg-red-300 flex items-center justify-center z-2 sm:h-[80%] md:w-1/2 md:h-screen md:items-center">
+                <div className=" w-full flex flex-col p-4 justify-around space-y-5 text-center lg:max-w-[70%] ">
                     <figure className="flex justify-center lg:rounded-t-4xl lg:rounded-b-4xl">
                         <Image src='/logoIcon.svg' width={50} height={50} alt="Logo paraíso da gastronomia" />
                     </figure>

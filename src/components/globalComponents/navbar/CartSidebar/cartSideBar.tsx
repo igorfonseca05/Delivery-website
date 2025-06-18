@@ -28,7 +28,7 @@ export function CartSideBar() {
 
 
     return (
-        <div className={`fixed right-0 p-4 py-3 h-full z-2 w-full lg:w-90 bg-white
+        <div className={`fixed right-0 px-4 py-2 pb-4 h-full z-2 w-[88%] lg:w-90 bg-white
          ${cartIsOpen ? 'cardIsOpen shadow-md' : 'cardIsClose'}`}>
             <div className="flex flex-col h-full  justify-between">
 
@@ -46,7 +46,7 @@ export function CartSideBar() {
                 {/* Produtos caso carrinho não esteja vazio */}
                 {cartItensArray.length !== 0 &&
                     (<>
-                        <div className=" flex flex-col grow-2 mt-4 rounded-lg gap-y-2 overflow-y-auto cartScroll">
+                        <div className="flex flex-col grow-2 rounded-lg gap-y-2 mt-1 overflow-y-auto cartScroll">
                             {cartItensArray && cartItensArray?.map(({ _id, name, price, imageUrl, quantity }) => (
                                 <CardItem
                                     key={_id}

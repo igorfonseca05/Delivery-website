@@ -6,7 +6,7 @@ import { useState, useEffect, use } from 'react'
 import { DishesProps } from '../../../../../utils/types/types'
 
 import { Soup } from "lucide-react";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, X } from "lucide-react";
 
 import { SizeIndicator } from './sizeIndicator/SizeIndicator'
 
@@ -85,15 +85,15 @@ export function FoodModal({ modalIsOpen, setModalIsOpen, clickedDish }: FoodModa
 
     return (
         // fundo do Modal
-        <div className={`fixed inset-0 z-50 bg-black/65 flex items-center justify-center transition-all duration-300 ${modalIsOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
-            }`}>
+        <div className={`fixed inset-0 z-50 bg-black/30 backdrop-blur-xs flex items-end justify-center transition-all duration-400 
+           `}>
 
             {/* Modal */}
-            <div className={`bg-white rounded-lg shadow-xl w-[95%] max-w-[400px] md:max-w-5xl p-2 md:p-4 grid grid-cols-1 md:grid-cols-2 gap-6 relative cardAnimate`}>
+            <div className={`bg-white rounded-t-3xl  shadow-xl h-[85%] max-w-[400px] md:max-w-5xl p-2 md:p-4 grid grid-cols-1 md:grid-cols-2 gap-6 relative transition-transform duration-500  ${modalIsOpen ? "modalAnimate" : "closeModal"} `}>
 
                 {/* Botões de Fechar Modal */}
-                <div className="absolute top-4 right-4 flex gap-3 z-10">
-                    <button onClick={() => setModalIsOpen(!modalIsOpen)} className="text-gray-600 hover:text-red-500"> ✕ </button>
+                <div className="absolute top-4 right-4 p-1 flex gap-3 z-10 bg-gray-100 rounded-full">
+                    <button onClick={() => setModalIsOpen(!modalIsOpen)} className="text-gray-600 hover:text-red-500"> <X size={20} /> </button>
                 </div>
 
                 {/* Coluna da imagem */}
@@ -101,15 +101,15 @@ export function FoodModal({ modalIsOpen, setModalIsOpen, clickedDish }: FoodModa
                     <img
                         src={`/${clickedDish?.image}`}
                         alt="Foto do prato"
-                        className="rounded-lg object-cover w-full h-full max-h-[150px] md:max-h-[400px]"
+                        className="rounded-3xl object-cover w-full h-full max-h-[150px] md:max-h-[400px]"
                     />
                 </div>
 
                 {/* Coluna de conteúdo 0 lado direito modal */}
                 <div className="flex flex-col justify-between gap-y-2 lg:gap-y-4 w-full md:w-[90%] mx-auto">
                     <div className=' flex flex-col justify-between h-full'>
-                        <h2 className="text-[clamp(1rem,1.7vw,2rem)] font-bold text-gray-800 mb-2 max-w-[90%]">{clickedDish?.name}</h2>
-                        <p className="text-gray-500 lg:mb-4 text- text-[clamp(0.8rem,0.8vw,2rem)]">{clickedDish?.description}</p>
+                        <h2 className="text-[clamp(1rem,1.7vw,2rem)] capitalize font-bold text-gray-800 mb-2 max-w-[90%]">{clickedDish?.name}</h2>
+                        <p className="text-gray-500 capitalize lg:mb-4 text- text-[clamp(0.8rem,0.8vw,2rem)]">{clickedDish?.description}</p>
                         {/* <span className='bg-gray-200 block text-end'>Selecione o tamanho</span> */}
                         <div className='flex justify-between items-center mb-2 mb:mb-0'>
                             <p className="text-[clamp(1rem,1vw,2rem)] font-semibold TextColor">R$ {price?.toFixed(2)} </p>

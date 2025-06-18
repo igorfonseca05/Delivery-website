@@ -64,7 +64,7 @@ export function CategorySelector({ dishPromise }: { dishPromise: Promise<DishesP
 
 
     return (
-        <div className={`basicStyle shadow-sm ${isAdmin && 'hidden'}`}>
+        <div className={`bg-white rounded-lg md:w-full shadow-sm ${isAdmin && 'hidden'}`}>
             <div className="flex gap-3 overflow-x-auto categoryContainer">
                 {categorias?.map((item, id) => {
                     const Icon = item.icon;
