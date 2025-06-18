@@ -10,7 +10,7 @@ interface CategoryProps {
 const CategoryContext = createContext<CategoryProps | undefined>(undefined)
 
 export function CategoryContextProvider({ children }: { children: ReactNode }) {
-    const [category, setCategory] = useState('')
+    const [category, setCategory] = useState('Todos')
 
     return (
         <CategoryContext.Provider value={{ category, setCategory }}>

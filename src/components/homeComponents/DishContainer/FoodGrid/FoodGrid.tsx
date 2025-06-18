@@ -24,9 +24,30 @@ export default function FoodGrid() {
 
     const { category } = useCategoryContext()
 
-    const url = !category || category === 'Todos' ?
-        `${process.env.NEXT_PUBLIC_API}/api/cardapio` :
-        `${process.env.NEXT_PUBLIC_API}/api/cardapio?category=${category}`
+    const [url, setUrl] = useState('')
+
+    function getUrl() {
+        if (process.env.NODE_ENV === 'development') {
+            const baseUrl = category === 'Todos' ?
+                `${process.env.NEXT_PUBLIC_API}/api/cardapio` :
+                `${process.env.NEXT_PUBLIC_API}/api/cardapio?category=${category}`
+
+            setUrl(baseUrl)
+
+        }
+        if (process.env.NODE_ENV === 'production') {
+            const baseUrl = category === 'Todos' ?
+                `${process.env.NEXT_PUBLIC_MENU_API}/api/cardapio` :
+                `${process.env.NEXT_PUBLIC_MENU_API}/api/cardapio?category=${category}`
+
+            setUrl(baseUrl)
+        }
+    }
+
+    useEffect(() => {
+        category && getUrl()
+    }, [category])
+
 
     const { data: dishes, loading, error } = useFetchData(url)
 
