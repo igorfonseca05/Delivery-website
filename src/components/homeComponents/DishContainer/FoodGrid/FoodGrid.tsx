@@ -27,22 +27,15 @@ export default function FoodGrid() {
     const [url, setUrl] = useState('')
 
     function getUrl() {
-        if (process.env.NODE_ENV === 'development') {
-            const baseUrl = category === 'Todos' ?
-                `${process.env.NEXT_PUBLIC_API}/api/cardapio` :
-                `${process.env.NEXT_PUBLIC_API}/api/cardapio?category=${category}`
+        const base = process.env.NEXT_PUBLIC_MENU_API || process.env.NEXT_PUBLIC_API;
 
-            setUrl(baseUrl)
+        const baseUrl = category === 'Todos'
+            ? `${base}/api/cardapio`
+            : `${base}/api/cardapio?category=${category}`;
 
-        }
-        if (process.env.NODE_ENV === 'production') {
-            const baseUrl = category === 'Todos' ?
-                `${process.env.NEXT_PUBLIC_MENU_API}/api/cardapio` :
-                `${process.env.NEXT_PUBLIC_MENU_API}/api/cardapio?category=${category}`
-
-            setUrl(baseUrl)
-        }
+        setUrl(baseUrl);
     }
+
 
     useEffect(() => {
         category && getUrl()
