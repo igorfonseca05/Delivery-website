@@ -1,5 +1,8 @@
 // Este é componente container do SideMenu
 
+import { useMenuContext } from "../../../../../context/MenuContext";
+import { useAuth } from "../../../../../hooks/useAuth";
+
 // Components
 import { MenuLinks } from "./Links"
 import { SearchBar } from "./input/Search_Input"
@@ -21,11 +24,16 @@ import {
 
 // Contexts
 import { useAuthContext } from "../../../../../context/useAuthContext"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useRef } from "react";
 
 export function Middle_Icons() {
 
     const { user } = useAuthContext()
+    const { isOpen, setIsOpen } = useMenuContext()
+    const { logout } = useAuth()
+
+    const scroll = useRef<HTMLUListElement>(null)
 
     const [selected, useSelected] = useState('Página inicial')
 
@@ -45,28 +53,27 @@ export function Middle_Icons() {
         { href: '/about', icon: Clock, text: 'Horários' },
     ]
 
+
+    useEffect(() => {
+        if (isOpen) {
+            setTimeout(() => {
+                scroll.current && scroll.current.scrollBy({ top: 50, behavior: 'smooth' });
+            }, 300)
+            setTimeout(() => {
+                scroll.current && scroll.current?.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 600)
+
+        }
+    }, [isOpen]);
+
+
     return (
-        <aside className="grow mt-4 flex flex-col justify-between">
+        <aside className="grow flex flex-col justify-between pt-4">
 
             {/* SideMenu buttons */}
             <main>
-                {user && <div className="flex flex-col md:hidden items-center text-center m-auto py-4 space-x-3">
-                    <Link href="/profile">
-                        <img
-                            src={user?.photoURL ? `${user.photoURL}` : '/placeholder.png'}
-                            alt="Avatar"
-                            className="w-12 h-12 rounded-full object-cover m-auto mb-2"
-                        />
-                        <div className="block">
-                            <p className={`text-md font-medium text-gray-900 capitalize`}>
-                                {user?.displayName}
-                            </p>
-                            {/* <p className="text-xs text-gray-500">Admin</p> */}
-                        </div>
-                    </Link>
-                </div>}
                 <SearchBar />
-                <ul className="scrollStyle relative w-full max-h-100 py-4 flex flex-col justify-between items-center gap-y-5 mt-2 sidebar overflow-y-auto">
+                <ul ref={scroll} className="scrollStyle relative w-full max-h-100 py-4 flex flex-col justify-between items-center gap-y-5 mt-2 sidebar overflow-y-auto">
                     {linksButton.map((item, index) => {
                         isSelected = item.text === selected
                         return (
@@ -85,16 +92,21 @@ export function Middle_Icons() {
 
             {/* Footer SideMenu */}
             <ul className="relative w-full flex flex-col justify-center items-center gap-y-2 part-2">
-                <li className="group/lihover sidemenu-item md:hidden">
-                    <LoginButton style={'sidemenu-link'} innerText="Entrar" />
-                </li>
-                {/* <li className="group/lihover sidemenu-item md:hidden">
-                        <Link href='/login' className="sidemenu-link">
-                            <FaUserPlus className="min-w-5" />
-                            <p className="sidemenu-innerText">Cadastrar</p>
-                        </Link>
-                    </li> */}
-                <MenuLinks href="/config" icon={Settings} isSelected={isSelected} useSelected={useSelected} innerText="Configurações" />
+                {!user && <>
+                    <li className="group/lihover sidemenu-item md:hidden" onClick={() => setIsOpen(false)}>
+                        <LoginButton style={'sidemenu-link'} innerText="Entrar" />
+                    </li>
+                    <MenuLinks href="/config" icon={Settings} isSelected={isSelected} useSelected={useSelected} innerText="Configurações" />
+                </>}
+                {user && <>
+                    <li className="group/lihover sidemenu-item md:hidden button_primary_large" onClick={() => {
+                        setIsOpen(false)
+                        logout()
+                    }}>
+                        <LoginButton style={'sidemenu-link'} innerText="Sair" />
+                    </li>
+                    <MenuLinks href="/config" icon={Settings} isSelected={isSelected} useSelected={useSelected} innerText="Configurações" />
+                </>}
             </ul>
         </aside>
 

@@ -7,20 +7,24 @@ if (!url) {
     throw new Error('Por favor, defina a variável MONGODB_URI no .env.local');
 }
 
-let isConnected = false;
+let cached = (global as any).mongoose || { conn: null, promise: null };
+
+// let isConnected = false;
 
 export async function dbConnect() {
-    if (isConnected) return;
+    if (cached.conn) return cached.conn;
 
-    try {
-        await mongoose.connect(url);
-        isConnected = true;
-        console.log('✅ Conectado ao MongoDB');
-    } catch (err) {
-        console.error('❌ Erro ao conectar ao MongoDB:', err);
-        throw err;
+    if (!cached.promise) {
+        await mongoose.connect(url, {
+            bufferCommands: false,
+        }).then(m => m);
     }
+
+    cached.conn = await cached.promise;
+    return cached.conn;
 }
+
+(global as any).mongoose = cached;
 
 
 

@@ -18,7 +18,8 @@ export async function GET(req: NextRequest) {
         return NextResponse.json(pratos)
         // return NextResponse.json('opi')
     } catch (error) {
-        return NextResponse.json({ message: 'Erro ao obter dados da API' })
+        return NextResponse.json({ message: 'Erro ao obter dados da API' }, { status: 500 });
+
     }
 }
 
@@ -37,13 +38,14 @@ export async function POST(request: Request) {
             )
         }
 
-        const newDish = new MenuModel(body)
+        const newDish = new MenuModel(valid.data)
         await newDish.save()
 
         return NextResponse.json({ message: 'oi' })
 
     } catch (error) {
-        console.log(error)
+        return NextResponse.json({ message: 'Erro ao salvar novo prato' }, { status: 500 });
+
     }
 }
 

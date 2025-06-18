@@ -31,7 +31,7 @@ export default function Login() {
             </div>
 
             {/* Lado do login */}
-            <div className="w-full h-full bg-red-300 flex items-center justify-center z-2 sm:h-[80%] md:w-1/2 md:h-screen md:items-center">
+            <div className="w-full h-full bg-white flex items-center justify-center z-2 sm:h-[80%] md:w-1/2 md:h-screen md:items-center">
                 <div className=" w-full flex flex-col p-4 justify-around space-y-5 text-center lg:max-w-[70%] ">
                     <figure className="flex justify-center lg:rounded-t-4xl lg:rounded-b-4xl">
                         <Image src='/logoIcon.svg' width={50} height={50} alt="Logo paraíso da gastronomia" />
