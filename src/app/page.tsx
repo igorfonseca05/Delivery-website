@@ -19,7 +19,8 @@ import foodModel from "../../model/foodModel";
 import { dbConnect } from "../../db/dbConnection";
 
 export default async function Home() {
-  const data = await fetch(`${process.env.URL_API}`, { cache: 'force-cache' })
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+  const data = await fetch(`${baseUrl}/api/cardapio`, { cache: 'force-cache' })
   const dishes = data.json()
 
   return (

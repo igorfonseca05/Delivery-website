@@ -25,8 +25,8 @@ export default function FoodGrid() {
     const { category } = useCategoryContext()
 
     const url = !category || category === 'Todos' ?
-        `${process.env.NEXT_PUBLIC_API}` :
-        `${process.env.NEXT_PUBLIC_API}?category=${category}`
+        `${process.env.NEXT_PUBLIC_API}/api/cardapio` :
+        `${process.env.NEXT_PUBLIC_API}/api/cardapio?category=${category}`
 
     const { data: dishes, loading, error } = useFetchData(url)
 
