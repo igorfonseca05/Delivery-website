@@ -31,15 +31,13 @@ export function CategorySelector({ dishes }: { dishes: string }) {
 
     const [selected, setSelected] = useState('Todos');
     const [icons, setIcons] = useState([
-        Infinity,
-        Utensils,
-        Coffee,
-        ChefHat,
-        MdOutlineFastfood,
-        CupSoda,
-        HandPlatter,
-        IceCreamBowl,
-        MdOutlineDinnerDining
+        'infinito.svg',
+        'marmita.svg',
+        'dia.svg',
+        'casa.svg',
+        'macarrao.svg',
+        'combos.svg',
+        'porcoes.svg'
     ])
 
     const { setCategory } = useCategoryContext()
@@ -53,10 +51,8 @@ export function CategorySelector({ dishes }: { dishes: string }) {
     // Aqui inclui a categoria "Todos"
     const allCategoryItems = Array('Todos', ...categorySet)
 
-    // .sort((a, b) => a.localeCompare(b))
-
     // Criando array de objeto do tipo { label: category, icon: icons[index] }
-    const categorias = allCategoryItems.reduce<{ label: string, icon: IconType }[]>((acc, category, index) => {
+    const categorias = allCategoryItems.reduce<{ label: string, icon: string }[]>((acc, category, index) => {
         acc.push({ label: category, icon: icons[index] })
         return acc
     }, [])
@@ -64,49 +60,25 @@ export function CategorySelector({ dishes }: { dishes: string }) {
 
     return (
         <div className={` ${isAdmin && 'hidden'} flex space-x-4 items-center overflow-y-auto`}>
-            <div className="bg-white rounded-lg flex flex-col justify-center items-center w-fit p-6 shadow-sm grow">
-                <figure className="w-10 h-10 flex justify-center items-center">
-                    <img src="dia.svg" className="w-full" alt="" />
-                </figure>
-                <p className="w-full text-center">Do dia</p>
-            </div>
-            <div className="bg-white rounded-lg flex flex-col justify-center items-center w-fit p-6 shadow-sm grow">
-                <figure className="w-10 h-10 flex justify-center items-center">
-                    <img src="marmita.svg" className="w-full" alt="" />
-                </figure>
-                <p>Marmitex</p>
-            </div>
-            <div className="bg-white rounded-lg flex flex-col justify-center items-center w-fit p-6 shadow-sm grow">
-                <figure className="w-10 h-10 flex justify-center items-center">
-                    <img src="infinito.svg" className="w-full" alt="" />
-                </figure>
-                <p>Todos</p>
-            </div>
-            <div className="bg-white rounded-lg flex flex-col justify-center items-center w-fit p-6 shadow-sm grow">
-                <figure className="w-10 h-10 flex justify-center items-center">
-                    <img src="casa.svg" className="w-full" alt="" />
-                </figure>
-                <p>Da casa</p>
-            </div>
-            <div className="bg-white rounded-lg flex flex-col justify-center items-center w-fit p-6 shadow-sm grow">
-                <figure className="w-10 h-10 flex justify-center items-center">
-                    <img src="macarrao.svg" className="w-full" alt="" />
-                </figure>
-                <p>Massas</p>
-            </div>
-            <div className="bg-white rounded-lg flex flex-col justify-center items-center w-fit p-6 shadow-sm grow">
-                <figure className="w-10 h-10 flex justify-center items-center">
-                    <img src="combos.svg" className="w-full " alt="" />
-                </figure>
-                <p>Combos</p>
-            </div>
-            <div className="bg-white rounded-lg flex flex-col justify-center items-center w-fit p-6 shadow-sm grow">
-                <figure className="w-10 h-10 flex justify-center items-center">
-                    <img src="porcoes.svg" className="w-full" alt="" />
-                </figure>
-                <p>Porções</p>
-            </div>
+            {categorias?.map((category, id) => {
 
+                const isSelected = category.label === selected
+
+                const upperCaseTitle = category.label[0].toUpperCase() + category.label.slice(1)
+
+                return (
+                    <div key={id} className={`rounded-lg flex flex-col justify-center min-w-30 items-center w-fit p-6 shadow-sm grow transition-colors duration-75 ease-in-out ${isSelected ? 'bg-orange-300' : 'bg-white'}`}
+                        onClick={() => {
+                            setSelected(category.label)
+                            setCategory(category.label)
+                        }}>
+                        <figure className="w-10 h-10 flex justify-center items-center">
+                            <img src={category.icon} className="w-full" alt="" />
+                        </figure>
+                        <p className="w-full text-center text-[clamp(0.8rem,0.8em,2rem)]">{upperCaseTitle}</p>
+                    </div>
+                )
+            })}
         </div>
         // <div className={`bg-white rounded-lg md:w-full shadow-sm ${isAdmin && 'hidden'}`}>
         //     <div className="flex gap-3 overflow-x-auto categoryContainer">
