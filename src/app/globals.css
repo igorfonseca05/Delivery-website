@@ -49,7 +49,7 @@ body {
 
 /* SideMenu */
 .sidemenu {
-  @apply fixed h-full left-0 shadow hover:shadow-lg flex flex-col justify-between items-center bg-[var(--menu-color)] w-[90%] z-10 max-w-[300px] sm:w-[40vw] lg:w-16 hover:w-60 lg:items-center lg:max-w-[340px] overflow-hidden transition-all ease-in-out duration-500;
+  @apply fixed h-full left-0 shadow hover:shadow-lg flex flex-col justify-between items-center bg-[var(--menu-color)] w-[340px] z-10 max-w-[340px] sm:w-[40vw] lg:w-16 hover:w-60 lg:items-center lg:max-w-[340px] overflow-hidden transition-all ease-in-out duration-500;
 }
 
 .sidemenu-item {
@@ -177,23 +177,23 @@ body {
 /* Transform classes */
 
 .isOpen {
-  @apply translate-x-0 lg:translate-x-[0%] transition-all ease-in-out duration-500;
+  @apply translate-x-0 lg:translate-x-[0%] transition-all ease-in-out duration-400;
 }
 
 .isClose {
-  @apply translate-x-[-100%] lg:translate-x-0 transition-all ease-in-out duration-500;
+  @apply translate-x-[-100%] lg:translate-x-0 transition-all ease-in-out duration-400;
 }
 
 .cardIsOpen {
-  @apply translate-x-0 lg:translate-x-[0%] transition-all ease-in-out duration-500;
+  @apply translate-x-0 lg:translate-x-[0%] transition-all ease-in-out duration-400;
 }
 
 .cardIsClose {
-  @apply translate-x-[100%] lg:translate-x-[100%] transition-all ease-in-out duration-500;
+  @apply translate-x-[100%] lg:translate-x-[100%] transition-all ease-in-out duration-400;
 }
 
 .animate {
-  @apply transition-all ease-in-out duration-500;
+  @apply transition-all ease-in-out duration-400;
 }
 
 .cardAnimate {

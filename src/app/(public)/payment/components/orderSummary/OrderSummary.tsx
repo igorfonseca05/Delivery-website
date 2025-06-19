@@ -5,7 +5,7 @@ import { PriceIndicator } from "./priceIndicator/priceIndicator";
 import { ConfirmButton } from "./confirmButton/ConfirmButton";
 
 import { useCartContext } from "../../../../../../context/cartContext";
-import { CardItem } from "@/components/globalComponents/navbar/CartSidebar/card_sidebar/card_SideBar";
+import { CardItem } from "@/components/globalComponents/navbar/CartSidebar/CardItem/card_SideBar";
 
 
 export default function OrderSummary({ removeButton }: { removeButton?: boolean }) {

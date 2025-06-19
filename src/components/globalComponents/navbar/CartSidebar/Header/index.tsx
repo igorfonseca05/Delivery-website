@@ -1,11 +1,5 @@
 
 import { X } from "lucide-react"
-
-interface ActionProps {
-    cartIsOpen: boolean,
-    setCartIsOpen: (cartIsOpen: boolean) => void
-}
-
 import { useToggleCartContext } from "../../../../../../context/toggleCartContext"
 
 export function HeaderCart() {
