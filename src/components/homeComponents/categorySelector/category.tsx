@@ -66,45 +66,45 @@ export function CategorySelector({ dishes }: { dishes: string }) {
         <div className={` ${isAdmin && 'hidden'} flex space-x-4 items-center`}>
             <div className="bg-white rounded-lg flex flex-col justify-center items-center w-fit p-6 shadow-sm grow">
                 <figure className="w-10 h-10 flex justify-center items-center">
-                    <img src="dia.svg" alt="" />
+                    <img src="dia.svg" className="w-full" alt="" />
                 </figure>
                 <p className="w-full text-center">Do dia</p>
             </div>
             <div className="bg-white rounded-lg flex flex-col justify-center items-center w-fit p-6 shadow-sm grow">
                 <figure className="w-10 h-10 flex justify-center items-center">
-                    <img src="marmita.svg" alt="" />
+                    <img src="marmita.svg" className="w-full" alt="" />
                 </figure>
                 <p>Marmitex</p>
             </div>
             <div className="bg-white rounded-lg flex flex-col justify-center items-center w-fit p-6 shadow-sm grow">
                 <figure className="w-10 h-10 flex justify-center items-center">
-                    <img src="infinito.svg" alt="" />
+                    <img src="infinito.svg" className="w-full" alt="" />
                 </figure>
                 <p>Todos</p>
             </div>
             <div className="bg-white rounded-lg flex flex-col justify-center items-center w-fit p-6 shadow-sm grow">
                 <figure className="w-10 h-10 flex justify-center items-center">
-                    <img src="infinito.svg" alt="" />
+                    <img src="casa.svg" className="w-full" alt="" />
                 </figure>
-                <p>Todos</p>
+                <p>Da casa</p>
             </div>
             <div className="bg-white rounded-lg flex flex-col justify-center items-center w-fit p-6 shadow-sm grow">
                 <figure className="w-10 h-10 flex justify-center items-center">
-                    <img src="infinito.svg" alt="" />
+                    <img src="macarrao.svg" className="w-full" alt="" />
                 </figure>
-                <p>Todos</p>
+                <p>Massas</p>
             </div>
             <div className="bg-white rounded-lg flex flex-col justify-center items-center w-fit p-6 shadow-sm grow">
                 <figure className="w-10 h-10 flex justify-center items-center">
-                    <img src="infinito.svg" alt="" />
+                    <img src="combos.svg" className="w-full " alt="" />
                 </figure>
-                <p>Todos</p>
+                <p>Combos</p>
             </div>
             <div className="bg-white rounded-lg flex flex-col justify-center items-center w-fit p-6 shadow-sm grow">
                 <figure className="w-10 h-10 flex justify-center items-center">
-                    <img src="infinito.svg" alt="" />
+                    <img src="porcoes.svg" className="w-full" alt="" />
                 </figure>
-                <p>Todos</p>
+                <p>Porções</p>
             </div>
 
         </div>
