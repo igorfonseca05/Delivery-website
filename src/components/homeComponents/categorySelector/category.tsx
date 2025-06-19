@@ -63,7 +63,7 @@ export function CategorySelector({ dishes }: { dishes: string }) {
 
 
     return (
-        <div className={` ${isAdmin && 'hidden'} flex space-x-4 items-center`}>
+        <div className={` ${isAdmin && 'hidden'} flex space-x-4 items-center overflow-y-auto`}>
             <div className="bg-white rounded-lg flex flex-col justify-center items-center w-fit p-6 shadow-sm grow">
                 <figure className="w-10 h-10 flex justify-center items-center">
                     <img src="dia.svg" className="w-full" alt="" />

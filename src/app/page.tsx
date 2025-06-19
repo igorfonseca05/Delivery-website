@@ -19,12 +19,9 @@ import foodModel from "../../model/foodModel";
 import { dbConnect } from "../../db/dbConnection";
 
 export default async function Home() {
-  // const data = await fetch(`http://localhost:3000/api/cardapio`, { cache: 'force-cache' })
-  // const dishes = data.json()
-
   await dbConnect()
-  const data = await foodModel.find(); // ou o filtro que você quiser
-  const data2 = JSON.stringify(data)
+  const data = await foodModel.find();
+  const data2 = JSON.stringify(data);
 
   return (
     <ContentContainer>
