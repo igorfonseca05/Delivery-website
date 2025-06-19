@@ -15,11 +15,11 @@ export async function GET(req: NextRequest) {
 
         await dbConnect()
         const pratos = await MenuModel.find(queryParamsObj)
+
         return NextResponse.json(pratos)
         // return NextResponse.json('opi')
     } catch (error) {
         return NextResponse.json({ message: 'Erro ao obter dados da API' }, { status: 500 });
-
     }
 }
 

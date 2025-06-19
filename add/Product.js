@@ -61,4 +61,4 @@ menuSchema.pre('save', function (next) {
     next()
 })
 
-export default mongoose.models.Menu || mongoose.model('Menu', menuSchema)
+export default mongoose.models.Menu || mongoose.model('cardapio', menuSchema)

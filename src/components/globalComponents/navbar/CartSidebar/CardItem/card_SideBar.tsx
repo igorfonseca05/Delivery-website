@@ -3,6 +3,7 @@
 import Image from "next/image"
 import { Trash2 } from "lucide-react";
 import { useCartContext } from "../../../../../../context/cartContext";
+import { useState } from "react";
 
 
 interface CartProps {
@@ -17,14 +18,27 @@ export function CardItem({ id, name, imageUrl, price, quantity }: CartProps) {
 
     const { removeCartItem } = useCartContext()
 
+    const [animation, setAddAnimation] = useState(false)
+
+    function animateCard(id: string) {
+
+        setAddAnimation(true)
+
+        setTimeout(() => {
+            removeCartItem(id)
+        }, 500)
+    }
+
     return (
-        <div className="flex p-2 gap-x-2 cardSidebarColor rounded-lg grow max-h-fit">
+        <div className={`flex p-2 gap-x-2 border-1 border-gray-300 h-25 rounded-lg transition-transform 
+            duration-200 ease-in-out ${animation && 'translate-x-[100%]'}`}>
             <Image
-                src={`/${imageUrl}`}
+                src={imageUrl}
                 alt="food"
-                width={75}
-                height={75}
+                width={120}
+                height={120}
                 className="rounded-lg"
+                style={{ objectFit: 'cover' }}
             />
             <div className=" text-[clamp(0.9rem,1vw,1.5rem)] flex flex-col justify-between w-full">
                 <TitleCard />
@@ -37,8 +51,8 @@ export function CardItem({ id, name, imageUrl, price, quantity }: CartProps) {
     function TitleCard() {
         return (
             <div className="flex items-center justify-between">
-                <p className="font-bold">{name}</p>
-                <span className="mr-1">{quantity && `x${quantity}`}</span>
+                <p className="font-bold text-[clamp(0.8rem,0.7rem,2rem)]">{`${name[0].toUpperCase() + name.slice(1)}`}</p>
+                {/* <span className="mr-1">{quantity && `x${quantity}`}</span> */}
             </div>
         )
     }
@@ -46,10 +60,10 @@ export function CardItem({ id, name, imageUrl, price, quantity }: CartProps) {
     function PriceCard() {
         return (
             <div className="flex items-center justify-between">
-                <span>R$ {price?.toFixed(2)} <span className="text-[11px]">Uni.</span> </span>
+                <span className="text-orange-400 font-semibold">R$ {price?.toFixed(2)} <span className="text-gray-800 font-normal"><span className="ml-2">{quantity && `x${quantity}`}</span></span> </span>
                 <Trash2
                     size={22}
-                    onClick={() => removeCartItem(id)} className="cursor-pointer mr-1" />
+                    onClick={() => animateCard(id)} className="cursor-pointer mr-1" />
                 {/* {path !== '/payment' &&
                         <Trash2
                             size={22}

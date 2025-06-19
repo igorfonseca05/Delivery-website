@@ -64,12 +64,12 @@ export function PricesCart() {
             <div className="flex flex-col w-full items-center gap-y-2">
                 {user ?
                     (<Link href={'/payment'}
-                        className="button_primary_medium bg-[#df4f4b] w-full mt-2 text-center"
+                        className="button_primary_large w-full mt-2 text-center"
                         onClick={() => setCartIsOpen(false)}>
                         Finalizar pedido
                     </Link>) :
                     (<button
-                        className="button_primary_medium bg-[#df4f4b] w-full mt-2 text-center"
+                        className="button_primary_large w-full mt-2 text-center"
                         onClick={() => {
                             setWarningModalIsOpen(true)
                             setCartIsOpen(false)

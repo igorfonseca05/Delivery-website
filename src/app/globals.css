@@ -7,6 +7,7 @@
   --cardSideBar-color: #fff2de;
   --button-padding: "px-5";
   --mg: "ml-25";
+  --bg: #f3f4f6;
 }
 
 html {
@@ -14,7 +15,7 @@ html {
 }
 
 body {
-  background: #f3f4f6;
+  background: var(--bg);
   position: relative;
   /* overflow: hidden; */
 }

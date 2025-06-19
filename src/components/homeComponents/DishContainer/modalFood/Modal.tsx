@@ -2,6 +2,7 @@
 
 import { useCartContext } from '../../../../../context/cartContext';
 import { useState, useEffect, use } from 'react'
+import Image from 'next/image';
 
 import { DishesProps } from '../../../../../utils/types/types'
 
@@ -97,11 +98,21 @@ export function FoodModal({ modalIsOpen, setModalIsOpen, clickedDish }: FoodModa
                     </div>
                     {/* Coluna da imagem */}
                     <div className='h-50 md:h-full'>
-                        <img
-                            src={`/${clickedDish?.image}`}
-                            alt="Foto do prato"
-                            className="rounded-lg object-cover w-full h-full md:max-h-[400px]"
-                        />
+                        {clickedDish?.image ? (
+                            <Image
+                                src={clickedDish?.image}
+                                alt="Foto do prato"
+                                className="rounded-lg object-cover w-full h-full md:max-h-[400px]"
+                                width={800}
+                                height={400}
+                                style={{ objectFit: 'cover' }}
+                                sizes="(max-width: 768px) 100vw, 800px"
+                                priority
+                            />
+                        ) : (
+                            <p>Carregando...</p>
+                        )}
+
                     </div>
                     {/* Coluna de conteúdo 0 lado direito modal */}
                     <div className="flex flex-col justify-between lg:gap-y-4 mt-2 w-full min-w-auto md:w-[90%] mx-auto">

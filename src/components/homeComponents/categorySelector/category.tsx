@@ -63,28 +63,73 @@ export function CategorySelector({ dishes }: { dishes: string }) {
 
 
     return (
-        <div className={`bg-white rounded-lg md:w-full shadow-sm ${isAdmin && 'hidden'}`}>
-            <div className="flex gap-3 overflow-x-auto categoryContainer">
-                {categorias?.map((item, id) => {
-                    const Icon = item.icon;
-                    const isSelected = selected === item.label;
-                    return (
-                        <button
-                            key={id}
-                            onClick={() => {
-                                setSelected(item.label)
-                                setCategory(item.label)
-                            }}
-                            className={`flex items-center gap-1 p-3 min-w-fit grow-2 capitalize justify-center rounded-lg text-sm font-medium
-                          ${isSelected ? 'color text-white' : "buttonColorHover  text-gray-700"}
-                          hover:bg-[#ffb443] hover:text-white transition`}
-                        >
-                            <Icon className="text-lg" size={24} />
-                            {item.label}
-                        </button>
-                    );
-                })}
+        <div className={` ${isAdmin && 'hidden'} flex space-x-4 items-center`}>
+            <div className="bg-white rounded-lg flex flex-col justify-center items-center w-fit p-6 shadow-sm grow">
+                <figure className="w-10 h-10 flex justify-center items-center">
+                    <img src="dia.svg" alt="" />
+                </figure>
+                <p className="w-full text-center">Do dia</p>
             </div>
+            <div className="bg-white rounded-lg flex flex-col justify-center items-center w-fit p-6 shadow-sm grow">
+                <figure className="w-10 h-10 flex justify-center items-center">
+                    <img src="marmita.svg" alt="" />
+                </figure>
+                <p>Marmitex</p>
+            </div>
+            <div className="bg-white rounded-lg flex flex-col justify-center items-center w-fit p-6 shadow-sm grow">
+                <figure className="w-10 h-10 flex justify-center items-center">
+                    <img src="infinito.svg" alt="" />
+                </figure>
+                <p>Todos</p>
+            </div>
+            <div className="bg-white rounded-lg flex flex-col justify-center items-center w-fit p-6 shadow-sm grow">
+                <figure className="w-10 h-10 flex justify-center items-center">
+                    <img src="infinito.svg" alt="" />
+                </figure>
+                <p>Todos</p>
+            </div>
+            <div className="bg-white rounded-lg flex flex-col justify-center items-center w-fit p-6 shadow-sm grow">
+                <figure className="w-10 h-10 flex justify-center items-center">
+                    <img src="infinito.svg" alt="" />
+                </figure>
+                <p>Todos</p>
+            </div>
+            <div className="bg-white rounded-lg flex flex-col justify-center items-center w-fit p-6 shadow-sm grow">
+                <figure className="w-10 h-10 flex justify-center items-center">
+                    <img src="infinito.svg" alt="" />
+                </figure>
+                <p>Todos</p>
+            </div>
+            <div className="bg-white rounded-lg flex flex-col justify-center items-center w-fit p-6 shadow-sm grow">
+                <figure className="w-10 h-10 flex justify-center items-center">
+                    <img src="infinito.svg" alt="" />
+                </figure>
+                <p>Todos</p>
+            </div>
+
         </div>
+        // <div className={`bg-white rounded-lg md:w-full shadow-sm ${isAdmin && 'hidden'}`}>
+        //     <div className="flex gap-3 overflow-x-auto categoryContainer">
+        //         {categorias?.map((item, id) => {
+        //             const Icon = item.icon;
+        //             const isSelected = selected === item.label;
+        //             return (
+        //                 <button
+        //                     key={id}
+        //                     onClick={() => {
+        //                         setSelected(item.label)
+        //                         setCategory(item.label)
+        //                     }}
+        //                     className={`flex items-center gap-1 p-3 min-w-fit grow-2 capitalize justify-center rounded-lg text-sm font-medium
+        //                   ${isSelected ? 'color text-white' : "buttonColorHover  text-gray-700"}
+        //                   hover:bg-[#ffb443] hover:text-white transition`}
+        //                 >
+        //                     <Icon className="text-lg" size={24} />
+        //                     {item.label}
+        //                 </button>
+        //             );
+        //         })}
+        //     </div>
+        // </div>
     );
 }

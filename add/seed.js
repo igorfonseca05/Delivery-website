@@ -2,326 +2,257 @@
 import mongoose from 'mongoose'
 import MenuModel from './Product.js'
 
-await mongoose.connect('mongodb+srv://igorrfonseca27:QbMGyzMgCljJyPPt@deliverycluster.qxcgbpf.mongodb.net/dishes?retryWrites=true&w=majority&appName=deliveryCluster')
+
+const url = process.env.DB_CONNECTION
+
+await mongoose.connect('mongodb://127.0.0.1:27017/next')
+// await mongoose.connect('mongodb+srv://igorrfonseca27:QbMGyzMgCljJyPPt@deliverycluster.qxcgbpf.mongodb.net/dishes?retryWrites=true&w=majority&appName=deliveryCluster')
 
 const produtos = [
     {
-        "category": "do dia",
-        "name": "Strogonoff de Frango",
-        "description": "Delicado strogonoff de frango, servido com arroz soltinho, feijão caseiro, batata frita crocante e batata palha.",
-        "image": "Strogonoff.webp",
+        "category": "marmitex",
+        "name": "strogonoff de frango",
+        "description": "strogonoff de frango acompanhado de arroz branco, batata palha e batata frita.",
+        "image": "https://res.cloudinary.com/igorfonseca/image/upload/v1750342524/Strogonoff_wtko8h.jpg",
+        "sizes": [{ "type": "único", "price": 22.5 }]
+    },
+    {
+        "category": "marmitex",
+        "name": "bife à milanesa",
+        "description": "acompanhado de arroz, feijão, macarrão, batata frita e salada.",
+        "image": "https://res.cloudinary.com/igorfonseca/image/upload/v1750342562/bife_a_milanesa_mini_kfz58o.jpg",
+        "sizes": [
+            { "type": "mini", "price": 23.0 },
+            { "type": "médio", "price": 24.44 }
+        ]
+    },
+    {
+        "category": "marmitex",
+        "name": "filé de frango empanado",
+        "description": "acompanhado de arroz, feijão, macarrão, batata frita e salada.",
+        "image": "https://res.cloudinary.com/igorfonseca/image/upload/v1750342562/frango_empanado_mini_bonbsy.jpg",
+        "sizes": [
+            { "type": "mini", "price": 21.0 },
+            { "type": "médio", "price": 25.85 }
+        ]
+    },
+    {
+        "category": "marmitex",
+        "name": "filé de peixe Panga empanado",
+        "description": "filé de peixe panga empanado sem espinho, acompanhado de arroz, feijão, macarrão, batata frita e salada do dia. serve 1 pessoa.",
+        "image": "https://res.cloudinary.com/igorfonseca/image/upload/v1750342526/file_peixe_pangas_kpsxb1.jpg",
         "sizes": [
             {
-                "type": "Mini",
-                "price": 18.0
+                "type": "mini",
+                "price": 23
             },
             {
-                "type": "Médio",
-                "price": 20.0
+                "type": "médio",
+                "price": 24.7
             }
         ]
     },
     {
         "category": "do dia",
-        "name": "Bife à Milanesa",
-        "description": "Clássico bife à milanesa servido com arroz, macarrão ao dente, batata frita e uma salada fresca.",
-        "image": "bife.jfif",
+        "name": "filé de frango empanado três queijos",
+        "description": "filé de frango empanado com mistura de queijos, arroz, feijão (opcional) e batata frita.",
+        "image": "https://res.cloudinary.com/igorfonseca/image/upload/v1750342525/file_de_frango_queijo_empandado_medio_lcuo02.jpg",
         "sizes": [
-            {
-                "type": "Mini",
-                "price": 18.0
-            },
-            {
-                "type": "Médio",
-                "price": 20.0
-            }
+            { "type": "mini", "price": 25.0 },
+            { "type": "médio", "price": 27.0 }
         ]
     },
     {
         "category": "do dia",
-        "name": "Filé de Frango Crocante",
-        "description": "Filé de frango empanado crocante com Ovo Frito, acompanhado de arroz, feijão temperado, batata frita e uma salada variada.",
-        "image": "file.jfif",
+        "name": "parmegiana de frango com queijo cheddar",
+        "description": "frango grelhado com queijo cheddar, arroz branco e batata frita crocante.",
+        "image": "https://res.cloudinary.com/igorfonseca/image/upload/v1750342510/parmegiana_de_frango_com_queijo_sdgeg2.jpg",
         "sizes": [
-            {
-                "type": "Médio",
-                "price": 23.0
-            }
+            { "type": "mini", "price": 25.0 },
+            { "type": "médio", "price": 27.0 }
         ]
     },
     {
-        "category": "combos",
-        "name": "Frango Empanado ",
-        "description": "Frango empanado crocante ao molho cremoso de catupiry, enriquecido com queijo derretido e pedaços de bacon, acompanhado de arroz e batata frita separados.",
-        "image": "1.jpg",
+        "category": "do dia",
+        "name": "parmegiana de frango",
+        "description": "parmegiana caseira com arroz, feijão opcional e batata frita. serve 1 pessoa.",
+        "image": "https://res.cloudinary.com/igorfonseca/image/upload/v1750342513/parmegiana_de_frango_media_ickwl6.jpg",
         "sizes": [
-            {
-                "type": "Único",
-                "price": 55.0
-            }
+            { "type": "mini", "price": 25.0 },
+            { "type": "médio", "price": 27.65 }
         ]
     },
     {
-        "category": "combos",
-        "name": "Parmegiana de Carne",
-        "description": "Parmegiana de carne caseira, preparada com carinho, servida com arroz e batata frita para duas pessoas.",
-        "image": "parmegianacarne.jfif",
+        "category": "do dia",
+        "name": "pizzaiolo",
+        "description": "filé de frango empanado, queijo ralado, tomate, presunto e temperos, acompanhado de batata frita e arroz (feijão opcional).",
+        "image": "https://res.cloudinary.com/igorfonseca/image/upload/v1750342515/pizzaiolo_mini_z7s5x1.jpg",
         "sizes": [
-            {
-                "type": "Único",
-                "price": 65.0
-            }
+            { "type": "mini", "price": 25.0 },
+            { "type": "médio", "price": 27.0 }
         ]
     },
     {
         "category": "da casa",
-        "name": "Parmegiana de Frango",
-        "description": "Parmegiana de frango caseira, com sabor incomparável, servida com arroz e batata frita crocante.",
-        "image": "parmegianafrango.webp",
+        "name": "calçadão de carne com alho frito",
+        "description": "bife à milanesa, ovo frito, presunto, queijo, alho frito por cima, arroz, feijão e batata frita.",
+        "image": "https://res.cloudinary.com/igorfonseca/image/upload/v1750342541/cal%C3%A7ad%C3%A3o_medio_okijqy.jpg",
         "sizes": [
-            {
-                "type": "Mini",
-                "price": 22.0
-            },
-            {
-                "type": "Médio",
-                "price": 24.0
-            }
+            { "type": "mini", "price": 25.0 },
+            { "type": "médio", "price": 30.0 }
         ]
     },
     {
-        "category": "Combos com Coca",
-        "name": "Parmegiana de Frango",
-        "description": "Parmegiana de frango caseira com sabor irresistível, acompanhada de arroz e batata frita crocante. Inclui uma lata de Coca-Cola de 350ml para complementar a refeição.",
-        "image": "3.jpg",
+        "category": "da casa",
+        "name": "parmegiana de carne",
+        "description": "parmegiana caseira com arroz e batata frita.",
+        "image": "https://res.cloudinary.com/igorfonseca/image/upload/v1750342508/parmegiana_de_carne_coca_rwpnrl.jpg",
         "sizes": [
-            {
-                "type": "Único",
-                "price": 30.0
-            }
+            { "type": "mini", "price": 25.0 },
+            { "type": "médio", "price": 29.76 }
         ]
     },
     {
-        "category": "Combos com Coca",
-        "name": "Parmegiana de Carne ",
-        "description": "Deliciosa parmegiana de carne caseira, servida com arroz soltinho e batata frita dourada. Acompanha uma Coca-Cola de 350ml.",
-        "image": "5.jpg",
+        "category": "da casa",
+        "name": "parmegiana de peixe",
+        "description": "parmegiana de peixe sem espinho com arroz e batata frita, com molho caseiro.",
+        "image": "https://res.cloudinary.com/igorfonseca/image/upload/v1750342506/parmediana_peixe_medio_xrar06.jpg",
         "sizes": [
-            {
-                "type": "Único",
-                "price": 34.0
-            }
+            { "type": "mini", "price": 25.0 },
+            { "type": "médio", "price": 28.0 }
         ]
     },
     {
-        "category": "bebidas",
-        "name": "P4 Lemon",
-        "description": "Bebida refrescante com sabor de limão e zero açúcar, perfeita para acompanhar suas refeições.",
-        "image": "p4.jfif",
+        "category": "da casa",
+        "name": "parmegiana de contra filé bovino",
+        "description": "parmegiana de contra filé acompanhado de arroz e batata frita.",
+        "image": "https://res.cloudinary.com/igorfonseca/image/upload/v1750342505/parmediana_contra_file_media_vnq4xq.jpg",
+        "sizes": [{ "type": "médio", "price": 38.0 }]
+    },
+    {
+        "category": "da casa",
+        "name": "bife paraíso",
+        "description": "bife à milanesa com anéis de cebola fritos, molho catupiry e queijo ralado, acompanhado de arroz, feijão e batata frita.",
+        "image": "https://res.cloudinary.com/igorfonseca/image/upload/v1750342540/bife_paraiso_mini_lz3b2w.jpg",
         "sizes": [
-            {
-                "type": "Único",
-                "price": 4.0
-            }
+            { "type": "mini", "price": 27.0 },
+            { "type": "médio", "price": 32.0 }
         ]
     },
     {
-        "category": "bebidas",
-        "name": "Guaraná Cibal 2L",
-        "description": "Tradicional guaraná de 2 litros, ideal para compartilhar em família ou entre amigos.",
-        "image": "cical.webp",
+        "category": "da casa",
+        "name": "filé de frango empanado ao molho",
+        "description": "frango empanado com molho de catupiry, calabresa acebolada, arroz, feijão (opcional) e batata frita.",
+        "image": "https://res.cloudinary.com/igorfonseca/image/upload/v1750342552/file-frango-acebolado_yjidfb.jpg",
         "sizes": [
-            {
-                "type": "Único",
-                "price": 10.0
-            }
+            { "type": "mini", "price": 25.0 },
+            { "type": "médio", "price": 27.0 }
         ]
     },
     {
-        "category": "bebidas",
-        "name": "Coca-Cola 2L",
-        "description": "A clássica Coca-Cola de 2 litros, refrescante e ideal para qualquer ocasião.",
-        "image": "coca.png",
+        "category": "da casa",
+        "name": "calçadão de frango",
+        "description": "frango empanado, ovo frito, presunto e queijo, arroz, feijão opcional e batata frita.",
+        "image": "https://res.cloudinary.com/igorfonseca/image/upload/v1750342551/cal%C3%A7ad%C3%A3o_frango_iznnyt.jpg",
         "sizes": [
-            {
-                "type": "Único",
-                "price": 13.0
-            }
+            { "type": "mini", "price": 25.0 },
+            { "type": "médio", "price": 27.0 }
         ]
     },
     {
-        "category": "bebidas",
-        "name": "Coca-Cola Lata",
-        "description": "A tradicional Coca-Cola de 350ml, na medida perfeita para uma refeição individual.",
-        "image": "5.jpg",
+        "category": "massas",
+        "name": "nhoque ao molho branco com bacon e queijo",
+        "description": "nhoque ao molho branco com bacon e queijo cremoso. serve 2 pessoas.",
+        "image": "https://res.cloudinary.com/igorfonseca/image/upload/v1750342501/macarr%C3%A3o_ao_molho_sy3voy.jpg",
+        "sizes": [{ "type": "único", "price": 34.0 }]
+    },
+    {
+        "category": "massas",
+        "name": "nhoque ao molho vermelho",
+        "description": "nhoque ao molho vermelho com calabresa e bacon. serve 2 pessoas.",
+        "image": "https://res.cloudinary.com/igorfonseca/image/upload/v1750342502/nhoque_calabresa_z9faek.jpg",
+        "sizes": [{ "type": "único", "price": 35.0 }]
+    },
+    {
+        "category": "massas",
+        "name": "nhoque à bolonhesa",
+        "description": "marmitex somente de nhoque à bolonhesa. com 500g serve até 2 pessoas.",
+        "image": "https://res.cloudinary.com/igorfonseca/image/upload/v1750342503/nhoque_aryrwu.jpg",
+        "sizes": [{ "type": "único", "price": 32.0 }]
+    },
+    {
+        "category": "combos",
+        "name": "combo de nhoque à bolonhesa",
+        "description": "nhoque ao molho vermelho com carne deliciosa, toque de queijo ralado. acompanha porção de arroz.",
+        "image": "https://res.cloudinary.com/igorfonseca/image/upload/v1750342502/nhoque_calabresa_z9faek.jpg",
+        "sizes": [{ "type": "único", "price": 45.0 }]
+    },
+    {
+        "category": "combos",
+        "name": "combo de parmegiana de frango",
+        "description": "combo de parmegiana de frango completa: frango suculento, arroz soltinho e batata frita crocante. serve 2 pessoas.",
+        "image": "https://res.cloudinary.com/igorfonseca/image/upload/v1750342525/combo_parmegiana_frango_rbkzgg.jpg",
         "sizes": [
-            {
-                "type": "Único",
-                "price": 6.0
-            }
+            { "type": "mini", "price": 60.8 },
+            { "type": "médio", "price": 99.9 }
         ]
     },
     {
-        "category": "bebidas",
-        "name": "Coca-Cola Lata Zero",
-        "description": "A mesma Coca-Cola, agora sem açúcar, para quem deseja uma opção mais leve, sem abrir mão do sabor.",
-        "image": "2.jpg",
+        "category": "combos",
+        "name": "combo de parmegiana de contra filé",
+        "description": "combo de parmegiana de contra filé bovino, acompanhado de arroz, feijão, batata frita e batata rústica frita.",
+        "image": "https://res.cloudinary.com/igorfonseca/image/upload/v1750342533/combo_parmegiana_carne_vwa36n.jpg",
+        "sizes": [{ "type": "único", "price": 80.75 }]
+    },
+    {
+        "category": "combos",
+        "name": "combo frango empanado ao molho de catupiry",
+        "description": "delicioso frango empanado ao molho de catupiry com bacon e queijo, com arroz e batata frita separados.",
+        "image": "https://res.cloudinary.com/igorfonseca/image/upload/v1750342534/combo_parmegiana_frango_2_pessoas_d0dxxg.jpg",
+        "sizes": [{ "type": "único", "price": 60.8 }]
+    },
+    {
+        "category": "combos",
+        "name": "combo de parmegiana de carne",
+        "description": "deliciosa parmegiana de carne que serve 2 pessoas, com arroz e batata frita.",
+        "image": "https://res.cloudinary.com/igorfonseca/image/upload/v1750342543/Combo_para_2_pessoas_de_parmegiana_de_carne_c9x0hn.jpg",
+        "sizes": [{ "type": "único", "price": 69.35 }]
+    },
+    {
+        "category": "porções",
+        "name": "porção de batata frita com cheddar",
+        "description": "porção de batata frita com cheddar original, bacon e queijo ralado. ",
+        "image": "https://res.cloudinary.com/igorfonseca/image/upload/v1750342540/batata_cuqfwj.jpg",
         "sizes": [
-            {
-                "type": "Único",
-                "price": 6.0
-            }
+            { "type": "mini", "price": 18.0 },
+            { "type": "médio", "price": 30.0 }
         ]
     },
     {
         "category": "porções",
-        "name": "Porção de Peixe",
-        "description": "Suculenta porção de 700g de filé de peixe panga sem espinhos, acompanhada de limão para realçar o sabor. Ideal para compartilhar.",
-        "image": "4.jpg",
-        "sizes": [
-            {
-                "type": "Único",
-                "price": 65.0
-            }
-        ]
+        "name": "mandioca frita",
+        "description": "150g de mandioca frita.",
+        "image": "https://res.cloudinary.com/igorfonseca/image/upload/v1750342501/mandioca_mp6apu.jpg",
+        "sizes": [{ "type": "único", "price": 14.0 }]
     },
     {
         "category": "porções",
-        "name": "Porção de Peixe",
-        "description": "Porção de 570g de filé de peixe panga sem espinhos, servida com limão fresco. Perfeita para uma refeição leve e saborosa.",
-        "image": "3.jpg",
-        "sizes": [
-            {
-                "type": "Único",
-                "price": 40.0
-            }
-        ]
+        "name": "porção de tiras de frango",
+        "description": "porção de tiras de frango serve 2 pessoas com molho da casa.",
+        "image": "https://res.cloudinary.com/igorfonseca/image/upload/v1750342519/porcoes_peices_tzd3dt.jpg",
+        "sizes": [{ "type": "médio", "price": 30.0 }]
     },
     {
         "category": "porções",
-        "name": "Porção de Coxinha de Frango",
-        "description": "Crocantes coxinhas de frango empanadas com farinha panko, acompanhadas de molho barbecue para uma explosão de sabor.",
-        "image": "4.jpg",
-        "sizes": [
-            {
-                "type": "Único",
-                "price": 50.0
-            }
-        ]
-    },
-    {
-        "category": "porções",
-        "name": "Porção de Batata Frita",
-        "description": "Batata frita dourada e crocante, coberta com queijo cheddar cremoso e pedaços de bacon crocante. Um verdadeiro deleite!",
-        "image": "2.jpg",
-        "sizes": [
-            {
-                "type": "Único",
-                "price": 45.0
-            }
-        ]
-    },
-    {
-        "category": "sobremesas",
-        "name": "Copo Paraíso Misto",
-        "description": "Essa sobremesa é da casa, rica em sabor. Copo paraíso de creme de ninho com bolo fofinho com brigadeiro gourmet de panela.",
-        "image": "1.jpg",
-        "sizes": [
-            {
-                "type": "Único",
-                "price": 10.0
-            }
-        ]
-    },
-    {
-        "category": "sobremesas",
-        "name": "Copo Paraíso de Geleia de Morango",
-        "description": "Essa sobremesa é da casa, rica em sabor. Copo paraíso de ninho com morango, pedaços de bolo e geleia de morango caseira.",
-        "image": "5.jpg",
-        "sizes": [
-            {
-                "type": "Único",
-                "price": 10.0
-            }
-        ]
-    },
-    {
-        "category": "sobremesas",
-        "name": "Mini Churros",
-        "description": "Essa deliciosa sobremesa de mini churros é uma porção com 10 mini churros deliciosos passados no açúcar e canela, prontos para acompanhar um doce de leite cremoso.",
-        "image": "2.jpg",
-        "sizes": [
-            {
-                "type": "Único",
-                "price": 20.0
-            }
-        ]
-    },
-    {
-        "category": "massas",
-        "name": "Nhoque à Bolonhesa",
-        "description": "Marmitex somente de nhoque à bolonhesa.",
-        "image": "2.jpg",
-        "sizes": [
-            {
-                "type": "Único",
-                "price": 30.0
-            }
-        ]
-    },
-    {
-        "category": "massas",
-        "name": "Nhoque com Queijo",
-        "description": "Marmitex somente de nhoque com queijo ao molho vermelho.",
-        "image": "2.jpg",
-        "sizes": [
-            {
-                "type": "Único",
-                "price": 28.0
-            }
-        ]
-    },
-    {
-        "category": "massas",
-        "name": "Macarrão Recheado",
-        "description": ".jpg",
-        "image": "5.jpg",
-        "sizes": [
-            {
-                "type": "Único",
-                "price": 28.0
-            }
-        ]
-    },
-    {
-        "category": "massas",
-        "name": "Nhoque com Queijo e Bacon - Copia",
-        "description": "Marmitex de nhoque com queijo e bacon ao molho vermelho.",
-        "image": "3.jpg",
-        "sizes": [
-            {
-                "type": "Único",
-                "price": 30.0
-            }
-        ]
-    },
-    {
-        "category": "massas",
-        "name": "Macarrão ao Molho Branco com Bacon",
-        "description": "Marmitex de macarrão ao molho branco com toque de catupiry com queijo e bacon.",
-        "image": "1.jpg",
-        "sizes": [
-            {
-                "type": "Mini",
-                "price": 23.0
-            },
-            {
-                "type": "Médio",
-                "price": 25.0
-            }
-        ]
+        "name": "porção de batata frita com bacon",
+        "description": "porção de batata frita com queijo e bacon. serve 3 pessoas.",
+        "image": "https://res.cloudinary.com/igorfonseca/image/upload/v1750342501/fritas_com_bacon_sbehto.jpg",
+        "sizes": [{ "type": "único", "price": 35.0 }]
     }
 ]
+
+
+
 
 for (const dados of produtos) {
     const doc = new MenuModel(dados)
