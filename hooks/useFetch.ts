@@ -43,7 +43,7 @@ export function useFetchData(url: string) {
                 if (error.name === "AbortError") {
                     // setError('Requisição abortada');
                 } else {
-                    setError(error.message)
+                    // setError(error.message)
                 }
             } finally {
                 setLoading(false)
