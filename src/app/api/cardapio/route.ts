@@ -9,22 +9,13 @@ import { MenuSchemaZod } from "@/lib/definitions";
 
 export async function GET(req: NextRequest) {
     try {
-
-        const origin = req.headers.get('origin') || '*'
-
         // Obtendo queryParams com um objeto
         const queryParamsObj = Object.fromEntries(req.nextUrl.searchParams.entries())
 
         await dbConnect()
         const pratos = await MenuModel.find(queryParamsObj)
 
-        const response = NextResponse.json(pratos)
-
-        response.headers.set('Access-Control-Allow-Origin', origin)
-        response.headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
-        response.headers.set('Access-Control-Allow-Headers', 'Content-Type')
-
-        return response
+        return NextResponse.json(pratos)
     } catch (error) {
         return NextResponse.json({ message: 'Erro ao obter dados da API' }, { status: 500 });
     }

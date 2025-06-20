@@ -54,7 +54,7 @@ body {
 
 /* SideMenu */
 .sidemenu {
-  @apply fixed h-full left-0 shadow hover:shadow-lg flex flex-col justify-between items-center bg-[var(--menu-color)] w-[340px] z-10 max-w-[340px] sm:w-[40vw] lg:w-16 hover:w-60 lg:items-center lg:max-w-[340px] overflow-hidden transition-all ease-in-out duration-500;
+  @apply fixed h-full left-0 shadow hover:shadow-lg flex flex-col justify-between items-center bg-[var(--menu-color)] w-[300px] z-10 max-w-[340px] sm:w-[40vw] lg:w-16 lg:hover:w-60 lg:items-center lg:max-w-[340px] overflow-hidden transition-all ease-in-out duration-500;
 }
 
 .sidemenu-item {

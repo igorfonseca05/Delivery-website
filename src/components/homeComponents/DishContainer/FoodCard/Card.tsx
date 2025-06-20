@@ -26,11 +26,17 @@ export function FoodCard({ _id, name, imageUrl, sizes, category, description }: 
 
     }, [sizes, sizeDishName])
 
+    console.log(imageUrl)
+
+    const img = process.env.NODE_ENV === 'development' ?
+        `http://localhost:4000/${imageUrl}` :
+        imageUrl
+
     return (
         <div className={`foodCardStyle gap-x-2 cardAnimate`}>
             <div className="relative w-55 h-35 flex justify-center order-2 rounded-lg">
                 <Image
-                    src={imageUrl}
+                    src={img}
                     alt={name}
                     fill
                     className="rounded-lg"

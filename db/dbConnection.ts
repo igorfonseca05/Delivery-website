@@ -11,7 +11,6 @@ if (!url) {
 
 let cached = (global as any).mongoose || { conn: null, promise: null };
 
-// let isConnected = false;
 
 export async function dbConnect() {
     if (cached.conn) return cached.conn;
@@ -19,7 +18,7 @@ export async function dbConnect() {
     if (!cached.promise) {
         await mongoose.connect(url, {
             bufferCommands: false,
-        }).then(m => console.log('conectado'));
+        }).then(m => m);
     }
 
     cached.conn = await cached.promise;

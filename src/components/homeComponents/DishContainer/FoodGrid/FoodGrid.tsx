@@ -34,8 +34,6 @@ export default function FoodGrid() {
     const [modalIsOpen, setModalIsOpen] = useState(false)
 
     function getAPI_URL() {
-        const url = verifyEnvironment()
-
         const baseUrl = category === 'Todos' ?
             `/api/cardapio`
             : `/api/cardapio?category=${category}`;
@@ -83,7 +81,7 @@ export default function FoodGrid() {
                     </a>
                 ))}
 
-                {!dishes &&
+                {!dishes || dishes.length === 0 &&
                     <NotFoundData
                         text='Nenhum prato encontrado.'
                         description="Volte mais tarde para ver se tem algo quentinho saindo da cozinha!" />}
