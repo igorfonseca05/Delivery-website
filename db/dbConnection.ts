@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 
 
-
 const url = process.env.NODE_ENV === "production" && process.env.DB_CONNECTION ||
     process.env.NODE_ENV === 'development' && process.env.LOCAL_DB_CONNECTION || ''
 
