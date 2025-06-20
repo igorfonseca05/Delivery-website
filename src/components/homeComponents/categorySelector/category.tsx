@@ -59,7 +59,7 @@ export function CategorySelector({ dishes }: { dishes: string }) {
 
 
     return (
-        <div className={` ${isAdmin && 'hidden'} flex space-x-4 items-center overflow-y-auto`}>
+        <div className={` ${isAdmin && 'hidden'} flex space-x-4 items-center overflow-y-auto category`}>
             {categorias?.map((category, id) => {
 
                 const isSelected = category.label === selected

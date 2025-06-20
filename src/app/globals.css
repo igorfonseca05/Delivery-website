@@ -90,8 +90,9 @@ body {
   display: block;
 }
 
-.categoryContainer::-webkit-scrollbar {
+.category::-webkit-scrollbar {
   display: none;
+  width: 1px;
 }
 
 /* CartScroll */
