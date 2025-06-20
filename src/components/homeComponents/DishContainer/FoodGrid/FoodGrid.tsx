@@ -28,16 +28,13 @@ export default function FoodGrid() {
 
     function getUrl() {
 
-        const base = process.env.NEXT_PUBLIC_MENU_API || process.env.NEXT_PUBLIC_API;
-        // const base = process.env.NEXT_PUBLIC_API;
-        // const base = process.env.NODE_ENV === 'production' ?
-        //     process.env.NEXT_PUBLIC_MENU_API :
-        //     process.env.NODE_ENV === 'development' && process.env.NEXT_PUBLIC_API;
+        const url = process.env.NODE_ENV === 'development' && process.env.NEXT_PUBLIC_API ||
+            process.env.NODE_ENV === 'production' && process.env.NEXT_PUBLIC_MENU_API || ''
 
 
         const baseUrl = category === 'Todos'
-            ? `${base}/api/cardapio`
-            : `${base}/api/cardapio?category=${category}`;
+            ? `${url}/api/cardapio`
+            : `${url}/api/cardapio?category=${category}`;
 
         setUrl(baseUrl);
     }

@@ -1,10 +1,14 @@
 import mongoose from "mongoose";
 
 
-const url = process.env.DB_CONNECTION || ''
+
+const url = process.env.NODE_ENV === 'development' && process.env.LOCAL_DB_CONNECTION ||
+    process.env.NODE_ENV === 'production' && process.env.DB_CONNECTION || ''
+
+console.log(url)
 
 if (!url) {
-    throw new Error('Por favor, defina a variável MONGODB_URI no .env.local');
+    throw new Error('Por favor, defina a variável MONGODB_URI no .env');
 }
 
 let cached = (global as any).mongoose || { conn: null, promise: null };
