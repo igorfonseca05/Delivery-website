@@ -122,7 +122,7 @@ export function FoodModal({ modalIsOpen, setModalIsOpen, clickedDish }: FoodModa
                             <p className="text-black/70  lg:mb-4 text-[clamp(1rem,0.8vw,2rem)]">{upperCaseText(clickedDish?.description)}</p>
                             {/* <span className='bg-gray-200 block text-end'>Selecione o tamanho</span> */}
                             <div className='flex justify-between items-center mb-2 mb:mb-0'>
-                                <p className="text-[clamp(1.2rem,1vw,2rem)] font-semibold TextColor">R$ {price?.toFixed(2)} </p>
+                                <p className="text-[clamp(1.4rem,1vw,2rem)] font-semibold TextColor">R$ {price?.toFixed(2)} </p>
                                 <SizeIndicator
                                     icon={Soup}
                                     sizes={clickedDish?.sizes}
