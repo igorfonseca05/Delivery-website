@@ -56,7 +56,7 @@ export default function FoodGrid() {
 
     return (
         <>
-            <div className={`grid grid-cols-1 min-h-[355px] md:grid-cols-[auto_auto] gap-5 relative animate`}>
+            <div className={`grid grid-cols-1 md:grid-cols-[auto_auto] gap-5 relative animate`}>
 
                 {/* Loading cards */}
                 {loading && [...Array(10)].map((_, i) => (<CardsLoading key={i} />))}
@@ -83,7 +83,7 @@ export default function FoodGrid() {
                     )
                 })}
 
-                {!dishes || dishes.length === 0 &&
+                {!dishes &&
                     <NotFoundData
                         text='Nenhum prato encontrado.'
                         description="Volte mais tarde para ver se tem algo quentinho saindo da cozinha!" />}

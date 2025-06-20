@@ -49,6 +49,7 @@ export function Middle_Icons() {
             ]
             : []),
         { href: '/about', icon: Users, text: 'Sobre nós' },
+        { href: '/promos', icon: Users, text: 'Promoções' },
         { href: '/deliveryArea', icon: MapPin, text: 'Área de entrega' },
         { href: '/about', icon: Clock, text: 'Horários' },
     ]

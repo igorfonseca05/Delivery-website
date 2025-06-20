@@ -21,7 +21,7 @@ body {
 }
 
 .alignAllContent {
-  @apply w-[98%] m-auto md:w-[100%] lg:ml-21;
+  @apply w-[99%] m-auto md:w-[100%] lg:ml-21;
 }
 
 .sizeContentet {

@@ -5,9 +5,9 @@ import Image from "next/image"
 export default function About() {
     return (
         <ContentContainer>
-            <div className="max-w-7xl mx-auto relative">
+            <div className="max-w-7xl mx-auto relative mt-3">
                 <figure className="relative h-60 rounded-lg overflow-hidden">
-                    <Image src='/aboutUs.jpg' fill alt="Capa página sobre nós" objectFit="cover" />
+                    <Image src='/aboutUs.jpg' className="rounded-2xl" fill alt="Capa página sobre nós" objectFit="cover" />
                     <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                         <Image
                             src={"/logo.svg"}
@@ -18,20 +18,17 @@ export default function About() {
                     </div>
                 </figure>
                 <section className="mb-16 mt-3">
-                    <h1 className="text-3xl font-bold mb-6 text-center flex justify-center items-center relative">Sobre Nós</h1>
+                    <h1 className="text-3xl font-bold mb-6 text-start flex justify-center items-center relative">Sobre Nós</h1>
                     <main className="flex gap-x-4">
                         <article>
-                            <p className="text-lg text-gray-700 mb-4">
-                                Bem-vindo ao Paraíso da Gastronomia, o seu local de confiança para saborear marmitex de qualidade em Cruzeiro, São Paulo.
-                                Fundado por Leandro Uchoa, nosso compromisso é proporcionar uma experiência gastronômica saborosa, prática e acessível
-                                para o seu dia a dia. Aqui, cada marmitex é preparado com ingredientes frescos e selecionados, com o carinho e a
-                                dedicação que você merece. Nosso cardápio é pensado para oferecer opções equilibradas, deliciosas e que atendem às suas
-                                necessidades, seja para o almoço no trabalho ou para a refeição em casa.
+                            <p className="text-lg text-start text-gray-700 mb-4">
+                                No Paraíso da Gastronomia, acreditamos que uma boa refeição transforma o dia. Fundado por Leandro Uchoa em Cruzeiro-SP, nosso propósito é oferecer marmitex saborosos, acessíveis e preparados com carinho. Utilizamos ingredientes frescos e receitas caseiras para garantir qualidade em cada pedido.
+                                Seja no trabalho ou em casa, leve mais sabor para sua rotina com a gente!
                             </p>
-                            <p className="text-lg text-gray-700">
+                            {/* <p className="text-lg text-gray-700">
                                 No Paraíso da Gastronomia, nossa missão é garantir a satisfação de nossos clientes com o melhor em qualidade, sabor e
                                 atendimento. Venha nos visitar e descubra o prazer de comer bem!
-                            </p>
+                            </p> */}
                         </article>
                     </main>
                 </section>

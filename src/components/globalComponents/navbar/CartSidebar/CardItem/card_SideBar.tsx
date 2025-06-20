@@ -54,7 +54,7 @@ export function CardItem({ id, name, imageUrl, price, quantity }: CartProps) {
     function TitleCard() {
         return (
             <div className="flex items-center justify-between">
-                <p className="font-bold text text-[clamp(1rem,0.7rem,2rem)]">{`${name[0].toUpperCase() + name.slice(1)}`}</p>
+                <p className="font-bold text text-[clamp(1rem,1em,2rem)]">{`${name[0].toUpperCase() + name.slice(1)}`}</p>
                 {/* <span className="mr-1">{quantity && `x${quantity}`}</span> */}
             </div>
         )
@@ -63,7 +63,7 @@ export function CardItem({ id, name, imageUrl, price, quantity }: CartProps) {
     function PriceCard() {
         return (
             <div className="flex items-center justify-between">
-                <span className="text-orange-400 font-semibold">R$ {price?.toFixed(2)} <span className="text-gray-800 font-normal"><span className="ml-2">{quantity && `x${quantity}`}</span></span> </span>
+                <span className="text-orange-400 font-semibold text-[clamp(1rem,1em,2rem)]">R$ {price?.toFixed(2)} <span className="text-gray-800 font-normal"><span className="ml-2">{quantity && `x${quantity}`}</span></span> </span>
                 <Trash2
                     size={22}
                     onClick={() => animateCard(id)} className="cursor-pointer mr-1" />
