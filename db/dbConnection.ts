@@ -2,10 +2,8 @@ import mongoose from "mongoose";
 
 
 
-const url = process.env.NODE_ENV === 'development' && process.env.LOCAL_DB_CONNECTION ||
-    process.env.NODE_ENV === 'production' && process.env.DB_CONNECTION || ''
-
-console.log(url)
+const url = process.env.NODE_ENV === "production" && process.env.DB_CONNECTION ||
+    process.env.NODE_ENV === 'development' && process.env.LOCAL_DB_CONNECTION || ''
 
 if (!url) {
     throw new Error('Por favor, defina a variável MONGODB_URI no .env');
@@ -21,7 +19,7 @@ export async function dbConnect() {
     if (!cached.promise) {
         await mongoose.connect(url, {
             bufferCommands: false,
-        }).then(m => m);
+        }).then(m => console.log('conectado'));
     }
 
     cached.conn = await cached.promise;
