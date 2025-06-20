@@ -14,7 +14,7 @@ import { SizeIndicator } from './sizeIndicator/SizeIndicator'
 import { useToggleCartContext } from '../../../../../context/toggleCartContext';
 
 import { useMessageContext } from '../../../../../context/messagesContext';
-import { upperCaseText } from '../../../../../utils/helperFunctions';
+import { getImageSourceType, upperCaseText } from '../../../../../utils/helperFunctions';
 
 interface FoodModalProps {
     modalIsOpen: boolean
@@ -37,7 +37,6 @@ export function FoodModal({ modalIsOpen, setModalIsOpen, clickedDish }: FoodModa
     const increase = () => setQuantity(q => q + 1)
     const decrease = () => setQuantity(q => (q > 1 ? q - 1 : 1))
 
-
     function handleFood(clickedDish: DishesProps) {
         if (!clickedDish) return
 
@@ -52,7 +51,7 @@ export function FoodModal({ modalIsOpen, setModalIsOpen, clickedDish }: FoodModa
         }
 
         addToCart(selectedDish)
-        setModalIsOpen(!modalIsOpen)
+        setModalIsOpen(false)
         setCartIsOpen(true)
 
     }
@@ -101,7 +100,7 @@ export function FoodModal({ modalIsOpen, setModalIsOpen, clickedDish }: FoodModa
                     <div className='h-50 md:h-full'>
                         {clickedDish?.image ? (
                             <Image
-                                src={clickedDish?.image}
+                                src={getImageSourceType(clickedDish?.image)}
                                 alt="Foto do prato"
                                 className="rounded-lg object-cover w-full h-full md:max-h-[400px]"
                                 width={800}

@@ -19,7 +19,7 @@ import { FoodModal } from "../modalFood/Modal";
 import { GuestCheckoutWarning } from "@/components/globalComponents/warningModal/WarningModal";
 import { CardsLoading } from "@/components/globalComponents/cardsLoading/CardsLoading";
 
-import { verifyEnvironment } from "../../../../../utils/helperFunctions";
+import { getImageSourceType, verifyEnvironment } from "../../../../../utils/helperFunctions";
 
 
 export default function FoodGrid() {
@@ -32,6 +32,7 @@ export default function FoodGrid() {
 
     const [clickedDish, setClickedDish] = useState<DishesProps>()
     const [modalIsOpen, setModalIsOpen] = useState(false)
+
 
     function getAPI_URL() {
         const baseUrl = category === 'Todos' ?
@@ -61,25 +62,26 @@ export default function FoodGrid() {
                 {loading && [...Array(10)].map((_, i) => (<CardsLoading key={i} />))}
 
                 {/* Rendering dishes cards on screen */}
-                {dishes?.map((item, index) => (
-
-                    <a key={item._id}
-                        className="cursor-pointer"
-                        onClick={() => {
-                            setModalIsOpen(!modalIsOpen)
-                            setClickedDish(item)
-                        }}>
-                        <FoodCard
-                            key={item._id}
-                            _id={item._id}
-                            name={item.name}
-                            imageUrl={item.image}
-                            sizes={item.sizes}
-                            category={item.category}
-                            description={item.description}
-                        />
-                    </a>
-                ))}
+                {dishes?.map((item, index) => {
+                    return (
+                        <a key={item._id}
+                            className="cursor-pointer"
+                            onClick={() => {
+                                setModalIsOpen(!modalIsOpen)
+                                setClickedDish(item)
+                            }}>
+                            <FoodCard
+                                key={item._id}
+                                _id={item._id}
+                                name={item.name}
+                                imageUrl={getImageSourceType(item.image)}
+                                sizes={item.sizes}
+                                category={item.category}
+                                description={item.description}
+                            />
+                        </a>
+                    )
+                })}
 
                 {!dishes || dishes.length === 0 &&
                     <NotFoundData

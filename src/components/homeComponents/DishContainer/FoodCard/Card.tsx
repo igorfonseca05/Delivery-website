@@ -2,7 +2,7 @@ import Image from "next/image";
 
 import { useEffect, useState } from "react";
 import { FoodCardProps } from "../../../../../utils/types/types";
-import { upperCaseText } from "../../../../../utils/helperFunctions";
+import { getImageSourceType, upperCaseText } from "../../../../../utils/helperFunctions";
 
 export function FoodCard({ _id, name, imageUrl, sizes, category, description }: FoodCardProps) {
 
@@ -26,17 +26,12 @@ export function FoodCard({ _id, name, imageUrl, sizes, category, description }: 
 
     }, [sizes, sizeDishName])
 
-    console.log(imageUrl)
-
-    const img = process.env.NODE_ENV === 'development' ?
-        `http://localhost:4000/${imageUrl}` :
-        imageUrl
 
     return (
         <div className={`foodCardStyle gap-x-2 cardAnimate`}>
             <div className="relative w-55 h-35 flex justify-center order-2 rounded-lg">
                 <Image
-                    src={img}
+                    src={imageUrl}
                     alt={name}
                     fill
                     className="rounded-lg"

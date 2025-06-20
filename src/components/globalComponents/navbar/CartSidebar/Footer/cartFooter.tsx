@@ -10,23 +10,28 @@ import Link from "next/link";
 
 export function PricesCart() {
 
+    const { setCartIsOpen } = useToggleCartContext()
+    const { user } = useAuthContext()
+    const { setIsOpen: setWarningModalIsOpen } = useWarningModalContext()
     const {
         cartItensArray,
         setTotal,
         total,
         setDeliveryFee,
         setTotalCartItens,
-        totalCartItens } = useCartContext()
-
-    const { cartIsOpen, setCartIsOpen } = useToggleCartContext()
-    const { user } = useAuthContext()
-    const { setIsOpen: setWarningModalIsOpen } = useWarningModalContext()
+        totalCartItens
+    } = useCartContext()
 
 
     // const [totalCartItens, setTotalCartItens] = useState<number>(0)
     const deliveryFee = 6
+    const subTotalFontSize = 'text-[clamp(1.1rem,1em,2rem)]'
 
-    useEffect(() => setDeliveryFee(deliveryFee), [])
+
+    // Adicionando taxa ao contexto
+    useEffect(() => {
+        setDeliveryFee(deliveryFee)
+    }, [])
 
     // Calculating the Total
     useEffect(() => {
@@ -47,17 +52,17 @@ export function PricesCart() {
         <div className="flex flex-col w-full items-center gap-y-2">
             <hr className="border-gray-200 h-2 w-full" />
             <div className="flex justify-between w-full">
-                <p>Sub-total</p>
-                <span>R$ {totalCartItens.toFixed(2)}</span>
+                <p className={subTotalFontSize}>Sub-total</p>
+                <span className={subTotalFontSize}>R$ {totalCartItens.toFixed(2)}</span>
             </div>
             <div className="flex justify-between w-full">
-                <p>Taxa de entrega</p>
-                <span>R$ {deliveryFee.toFixed(2)}</span>
+                <p className={subTotalFontSize}>Taxa de entrega</p>
+                <span className={subTotalFontSize}>R$ {deliveryFee.toFixed(2)}</span>
             </div>
             <hr className="border-gray-200 h-2 w-full" />
             <div className="flex justify-between w-full">
-                <p className="text-xl">Total</p>
-                <span>R$ {total.toFixed(2)}</span>
+                <p className="text-[clamp(1.5rem,1em,2rem)]">Total</p>
+                <span className="text-[clamp(1.5rem,1em,2rem)]">R$ {total.toFixed(2)}</span>
             </div>
 
             {/* Um botão redireciona e outro mostra modal antes de redirecionar */}

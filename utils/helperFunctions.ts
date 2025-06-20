@@ -15,3 +15,10 @@ export function verifyEnvironment() {
 export function upperCaseText(text: string) {
     return text[0].toUpperCase() + text.slice(1)
 }
+
+
+export function getImageSourceType(url: string) {
+    return process.env.NODE_ENV === 'development' ?
+        `http://localhost:4000/${url}` :
+        url
+}
