@@ -85,7 +85,7 @@ export default function FoodGrid() {
                     </a>
                 ))}
 
-                {!dishes || dishes.length === 0 &&
+                {!dishes &&
                     <NotFoundData
                         text='Nenhum prato encontrado.'
                         description="Volte mais tarde para ver se tem algo quentinho saindo da cozinha!" />}
