@@ -2,6 +2,7 @@ import Image from "next/image";
 
 import { useEffect, useState } from "react";
 import { FoodCardProps } from "../../../../../utils/types/types";
+import { upperCaseText } from "../../../../../utils/helperFunctions";
 
 export function FoodCard({ _id, name, imageUrl, sizes, category, description }: FoodCardProps) {
 
@@ -39,15 +40,13 @@ export function FoodCard({ _id, name, imageUrl, sizes, category, description }: 
                 />
             </div>
             <div className="flex flex-col justify-between grow text-start">
-                {category !== 'combos com Coca' && <h3 className={`text-[clamp(1rem,1.3vw,2rem)] capitalize font-semibold leading-5 break-words h-5 max-w-80 line-clamp-3`}>{name}</h3>}
+                <h3 className={`text-[clamp(1.1rem,1.3vw,2rem)] font-semibold text-[#212026] leading-5 break-words h-5 max-w-80 line-clamp-3`}>{upperCaseText(name)}</h3>
 
-                {category === 'combos com Coca' &&
-                    <h3 className={`text-[clamp(1rem,1.3vw,2rem)] font-semibold leading-5 break-words h-5 max-w-80 line-clamp-3 capitalize`}>{name} + Coca</h3>}
-                <p className="max-w-80 text-[clamp(0.8rem,1vw,2rem)] text-gray-500 h-15 line-clamp-3 capitalize">{description}</p>
+                <p className="max-w-80 text-[clamp(0.8rem,1vw,2rem)] text-gray-500 h-15 line-clamp-3">{upperCaseText(description)}</p>
 
                 <div className="flex justify-between items-center py-1">
                     <p className={`text-lg font-bold TextColor`}>
-                        R$ {price?.toFixed(2)}<span className="text-gray-400 text-[11px] ml-1 font-normal capitalize">{sizeDishName}</span>
+                        R$ {price?.toFixed(2)}<span className="text-gray-400 text-[11px] ml-1 font-normal hidden">{sizeDishName}</span>
                     </p>
                 </div>
             </div>

@@ -32,6 +32,10 @@ body {
   @apply bg-white rounded-lg;
 }
 
+.text {
+  @apply text-black/80;
+}
+
 .TextColor {
   @apply text-[var(--button-color)];
 }

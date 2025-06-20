@@ -14,6 +14,7 @@ import { SizeIndicator } from './sizeIndicator/SizeIndicator'
 import { useToggleCartContext } from '../../../../../context/toggleCartContext';
 
 import { useMessageContext } from '../../../../../context/messagesContext';
+import { upperCaseText } from '../../../../../utils/helperFunctions';
 
 interface FoodModalProps {
     modalIsOpen: boolean
@@ -89,9 +90,9 @@ export function FoodModal({ modalIsOpen, setModalIsOpen, clickedDish }: FoodModa
         <div className={`fixed inset-0 z-50 bg-black/30 backdrop-blur-xs flex items-center justify-center transition-opacity ease-in-out duration-400 ${modalIsOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"}`}>
 
             {/* Modal */}
-            <div className={`bg-white rounded-lg shadow-x m-1 md:max-w-5xl md:p-4 h-fit relative cardAnimate`}>
+            <div className={`bg-white rounded-lg shadow-x m-1 w-[90%] md:max-w-5xl md:p-4 h-fit relative cardAnimate`}>
 
-                <main className='p-2 grid grid-cols-1 md:grid-cols-2 max-w-100 md:max-w-full h-full'>
+                <main className='p-3 grid grid-cols-1 md:grid-cols-2 max-w-100 md:max-w-full h-full'>
                     {/* Botões de Fechar Modal */}
                     <div className="absolute top-4 right-4 p-1 flex gap-3 z-10 bg-gray-100 rounded-full">
                         <button onClick={() => setModalIsOpen(!modalIsOpen)} className="text-gray-600 hover:text-red-500"> <X size={20} /> </button>
@@ -117,11 +118,11 @@ export function FoodModal({ modalIsOpen, setModalIsOpen, clickedDish }: FoodModa
                     {/* Coluna de conteúdo 0 lado direito modal */}
                     <div className="flex flex-col justify-between lg:gap-y-4 mt-2 w-full min-w-auto md:w-[90%] mx-auto">
                         <div className=' flex flex-col justify-between h-full'>
-                            <h2 className="text-[clamp(1rem,1.7vw,2rem)] capitalize font-bold text-gray-800 mb-2 max-w-[90%]">{clickedDish?.name}</h2>
-                            <p className="text-gray-500 capitalize lg:mb-4 text- text-[clamp(0.8rem,0.8vw,2rem)]">{clickedDish?.description}</p>
+                            <h2 className="text-[clamp(1.5rem,1.7vw,2rem)] font-bold text mb-2 max-w-[90%]">{upperCaseText(clickedDish?.name)}</h2>
+                            <p className="text-black/70  lg:mb-4 text-[clamp(1rem,0.8vw,2rem)]">{upperCaseText(clickedDish?.description)}</p>
                             {/* <span className='bg-gray-200 block text-end'>Selecione o tamanho</span> */}
                             <div className='flex justify-between items-center mb-2 mb:mb-0'>
-                                <p className="text-[clamp(1rem,1vw,2rem)] font-semibold TextColor">R$ {price?.toFixed(2)} </p>
+                                <p className="text-[clamp(1.2rem,1vw,2rem)] font-semibold TextColor">R$ {price?.toFixed(2)} </p>
                                 <SizeIndicator
                                     icon={Soup}
                                     sizes={clickedDish?.sizes}

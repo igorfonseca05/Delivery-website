@@ -22,7 +22,6 @@ export function useFetchData(url: string) {
             setError(null)
 
             try {
-
                 // Analisando se dados então cacheados
                 if (cache[url]) {
                     setData(cache[url])
@@ -44,7 +43,7 @@ export function useFetchData(url: string) {
                 if (error.name === "AbortError") {
                     // setError('Requisição abortada');
                 } else {
-                    // setError(error.message)
+                    setError(error.message)
                 }
             } finally {
                 setLoading(false)

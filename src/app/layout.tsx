@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Open_Sans, Roboto } from "next/font/google";
+import { Geist, Geist_Mono, Open_Sans, Roboto, Baloo_2, Fredoka } from "next/font/google";
 import "./globals.css";
 
 
@@ -22,6 +22,10 @@ import { WarningModalProvider } from "../../context/warningModalContext";
 import { AdminContextProvider } from "../../context/isAdminContext";
 import Head from "next/head";
 
+
+const baloo = Baloo_2({ subsets: ['latin'], weight: '400' })
+
+const free = Fredoka({ subsets: ['latin'], weight: ['400'] })
 
 const roboto = Roboto({
   // variable: "--font-geist-mono",
@@ -49,7 +53,7 @@ export default function RootLayout({
         <link rel="icon" type="image/png" sizes="32x32" href="public/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="public/favicon-16x16.png" />
       </Head>
-      <body className={`${roboto.className} antialiased}`}>
+      <body className={`${baloo.className} antialiased}`}>
 
 
         <MessagesContextProvider>

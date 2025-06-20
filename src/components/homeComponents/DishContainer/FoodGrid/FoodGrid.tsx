@@ -1,23 +1,25 @@
 'use client'
 
+// Contexto
+import { useMessageContext } from "../../../../../context/messagesContext";
+import { useWarningModalContext } from "../../../../../context/warningModalContext";
+import { useFetchData } from "../../../../../hooks/useFetch";
+import { useCategoryContext } from "../../../../../context/categoryContext";
+
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+
+// Interface
 import { DishesProps } from "../../../../../utils/types/types";
 
-import { use } from "react";
-
+// Components
 import { NotFoundData } from "@/components/globalComponents/notFoundData/notFound"
 import { FoodCard } from "../FoodCard/Card";
 import { FoodModal } from "../modalFood/Modal";
 import { GuestCheckoutWarning } from "@/components/globalComponents/warningModal/WarningModal";
-
-import { useMessageContext } from "../../../../../context/messagesContext";
-import { useWarningModalContext } from "../../../../../context/warningModalContext";
-import { useAdminContext } from "../../../../../context/isAdminContext";
-import { useFetchData } from "../../../../../hooks/useFetch";
 import { CardsLoading } from "@/components/globalComponents/cardsLoading/CardsLoading";
 
-import { useCategoryContext } from "../../../../../context/categoryContext";
-import { toast } from "react-toastify";
+import { verifyEnvironment } from "../../../../../utils/helperFunctions";
 
 
 export default function FoodGrid() {
@@ -31,19 +33,6 @@ export default function FoodGrid() {
     const [clickedDish, setClickedDish] = useState<DishesProps>()
     const [modalIsOpen, setModalIsOpen] = useState(false)
 
-    console.log(dishes)
-
-    function verifyEnvironment() {
-        const isDevelopmentEnv = process.env.NODE_ENV === 'development'
-        const isProductionEnv = process.env.NODE_ENV === 'production'
-        const localAPI = process.env.NEXT_PUBLIC_API
-        const remoteAPI = process.env.NEXT_PUBLIC_MENU_API
-
-        const apiURL = isDevelopmentEnv && localAPI || isProductionEnv && remoteAPI
-
-        return apiURL
-    }
-
     function getAPI_URL() {
         const url = verifyEnvironment()
 
@@ -51,7 +40,7 @@ export default function FoodGrid() {
             `${url}/api/cardapio`
             : `${url}/api/cardapio?category=${category}`;
 
-        setUrl(`${process.env.NEXT_PUBLIC_MENU_API}`)
+        setUrl(baseUrl)
     }
 
     useEffect(() => {
@@ -68,7 +57,7 @@ export default function FoodGrid() {
 
     return (
         <>
-            <div className={`grid grid-cols-1 md:grid-cols-[auto_auto] gap-5 relative animate`}>
+            <div className={`grid grid-cols-1 min-h-[355px] md:grid-cols-[auto_auto] gap-5 relative animate`}>
 
                 {/* Loading cards */}
                 {loading && [...Array(10)].map((_, i) => (<CardsLoading key={i} />))}
@@ -93,9 +82,13 @@ export default function FoodGrid() {
                         />
                     </a>
                 ))}
-                {!dishes || dishes.length === 0 && <NotFoundData text='Dados não encontrados' />}
 
+                {!dishes || dishes.length === 0 &&
+                    <NotFoundData
+                        text='Nenhum prato encontrado.'
+                        description="Volte mais tarde para ver se tem algo quentinho saindo da cozinha!" />}
             </div>
+
             {modalIsOpen &&
                 clickedDish &&
                 <FoodModal
@@ -107,12 +100,4 @@ export default function FoodGrid() {
         </>
 
     );
-
-    function notFoundFood() {
-        return (
-            <div>
-
-            </div>
-        )
-    }
 };
