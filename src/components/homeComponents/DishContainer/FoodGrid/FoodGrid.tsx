@@ -36,11 +36,9 @@ export default function FoodGrid() {
     function getAPI_URL() {
         const url = verifyEnvironment()
 
-        console.log(url)
-
         const baseUrl = category === 'Todos' ?
-            `${url}/api/cardapio`
-            : `${url}/api/cardapio?category=${category}`;
+            `/api/cardapio`
+            : `/api/cardapio?category=${category}`;
 
         setUrl(baseUrl)
     }
