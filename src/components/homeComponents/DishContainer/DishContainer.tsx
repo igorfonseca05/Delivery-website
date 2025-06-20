@@ -8,6 +8,7 @@ import { DishesProps } from "../../../../utils/types/types"
 
 export async function DishesContainer() {
 
+
     return (
         <div className="min-h-150">
             <FoodGridTitle />

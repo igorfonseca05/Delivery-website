@@ -21,46 +21,48 @@ import { toast } from "react-toastify";
 
 
 export default function FoodGrid() {
-
     const { category } = useCategoryContext()
-
-    const [url, setUrl] = useState('')
-
-    function getUrl() {
-
-        const url = process.env.NODE_ENV === 'development' && process.env.NEXT_PUBLIC_API ||
-            process.env.NODE_ENV === 'production' && process.env.NEXT_PUBLIC_MENU_API || ''
-
-
-        const baseUrl = category === 'Todos'
-            ? `${url}/api/cardapio`
-            : `${url}/api/cardapio?category=${category}`;
-
-        setUrl(baseUrl);
-    }
-
-    useEffect(() => {
-        category && getUrl()
-    }, [category])
-
-
-    const { data: dishes, loading, error } = useFetchData(url)
-
-    console.log(dishes)
-
     const { error: msgFromMessageContext, setError } = useMessageContext()
     const { isOpen } = useWarningModalContext()
-    const { isAdmin } = useAdminContext()
+
+    const [url, setUrl] = useState('')
+    const { data: dishes, loading, error } = useFetchData(url)
 
     const [clickedDish, setClickedDish] = useState<DishesProps>()
     const [modalIsOpen, setModalIsOpen] = useState(false)
 
+    console.log(dishes)
+
+    function verifyEnvironment() {
+        const isDevelopmentEnv = process.env.NODE_ENV === 'development'
+        const isProductionEnv = process.env.NODE_ENV === 'production'
+        const localAPI = process.env.NEXT_PUBLIC_API
+        const remoteAPI = process.env.NEXT_PUBLIC_MENU_API
+
+        const apiURL = isDevelopmentEnv && localAPI || isProductionEnv && remoteAPI
+
+        return apiURL
+    }
+
+    function getAPI_URL() {
+        const url = verifyEnvironment()
+
+        const baseUrl = category === 'Todos' ?
+            `${url}/api/cardapio`
+            : `${url}/api/cardapio?category=${category}`;
+
+        setUrl(`${process.env.NEXT_PUBLIC_MENU_API}`)
+    }
+
+    useEffect(() => {
+        category && getAPI_URL()
+    }, [category])
+
+
     useEffect(() => {
         error && toast.error(error)
         msgFromMessageContext && toast.error(msgFromMessageContext)
-
         setError('')
-
     }, [error, msgFromMessageContext])
 
 
@@ -68,10 +70,10 @@ export default function FoodGrid() {
         <>
             <div className={`grid grid-cols-1 md:grid-cols-[auto_auto] gap-5 relative animate`}>
 
-                {/* Cards de loading */}
+                {/* Loading cards */}
                 {loading && [...Array(10)].map((_, i) => (<CardsLoading key={i} />))}
 
-                {/* Pratos disponiveis */}
+                {/* Rendering dishes cards on screen */}
                 {dishes?.map((item, index) => (
 
                     <a key={item._id}
@@ -91,7 +93,7 @@ export default function FoodGrid() {
                         />
                     </a>
                 ))}
-                {!dishes && <NotFoundData text='Dados não encontrados' />}
+                {!dishes || dishes.length === 0 && <NotFoundData text='Dados não encontrados' />}
 
             </div>
             {modalIsOpen &&
@@ -105,4 +107,12 @@ export default function FoodGrid() {
         </>
 
     );
+
+    function notFoundFood() {
+        return (
+            <div>
+
+            </div>
+        )
+    }
 };
