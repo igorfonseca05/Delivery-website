@@ -8,6 +8,7 @@ import { MenuContextProvider } from "../../context/MenuContext";
 import { ToggleCartContextProvider } from "../../context/toggleCartContext";
 import { AuthGlobalContext } from "@/components/SessionWrapper/sessionWrapper";
 import { CartContextProvider } from "../../context/cartContext";
+import { QuantityContextProvider } from "../../context/quantityContext";
 
 // Components
 import { Navbar } from "@/components/globalComponents/navbar/navBar";
@@ -62,15 +63,17 @@ export default function RootLayout({
               <AuthGlobalContext>
                 <ToastContainer />
                 <ToggleCartContextProvider>
-                  <MenuContextProvider>
-                    <CartContextProvider>
-                      <SideMenu />
-                      <Navbar />
-                      <CartSideBar />
-                      {children}
-                      <Footer />
-                    </CartContextProvider>
-                  </MenuContextProvider>
+                  <QuantityContextProvider>
+                    <MenuContextProvider>
+                      <CartContextProvider>
+                        <SideMenu />
+                        <Navbar />
+                        <CartSideBar />
+                        {children}
+                        <Footer />
+                      </CartContextProvider>
+                    </MenuContextProvider>
+                  </QuantityContextProvider>
                 </ToggleCartContextProvider>
               </AuthGlobalContext>
             </AdminContextProvider>

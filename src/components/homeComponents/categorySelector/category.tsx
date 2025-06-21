@@ -67,7 +67,7 @@ export function CategorySelector({ dishes }: { dishes: string }) {
                 const upperCaseTitle = category.label[0].toUpperCase() + category.label.slice(1)
 
                 return (
-                    <div key={id} className={`rounded-lg flex flex-col justify-center min-w-30 items-center w-fit p-6 shadow-sm grow transition-colors duration-75 ease-in-out ${isSelected ? 'bg-orange-300' : 'bg-white'}`}
+                    <div key={id} className={`rounded-lg flex flex-col cursor-pointer justify-center min-w-30 items-center w-fit p-6 shadow-sm grow transition-colors duration-75 ease-in-out ${isSelected ? 'bg-orange-300' : 'bg-white'}`}
                         onClick={() => {
                             setSelected(category.label)
                             setCategory(category.label)

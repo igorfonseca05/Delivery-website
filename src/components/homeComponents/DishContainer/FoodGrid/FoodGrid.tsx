@@ -32,6 +32,7 @@ export default function FoodGrid() {
 
     const [clickedDish, setClickedDish] = useState<DishesProps>()
     const [modalIsOpen, setModalIsOpen] = useState(false)
+    const [animate, setAnimate] = useState('')
 
 
     function getAPI_URL() {
@@ -44,6 +45,8 @@ export default function FoodGrid() {
 
     useEffect(() => {
         category && getAPI_URL()
+        setAnimate('animate')
+        setTimeout(() => setAnimate(''), 100)
     }, [category])
 
 
@@ -56,7 +59,7 @@ export default function FoodGrid() {
 
     return (
         <>
-            <div className={`grid grid-cols-1 md:grid-cols-[auto_auto] gap-5 relative animate`}>
+            <div className={`grid grid-cols-1 md:grid-cols-[auto_auto] gap-5 relative ${animate}`}>
 
                 {/* Loading cards */}
                 {loading && [...Array(10)].map((_, i) => (<CardsLoading key={i} />))}

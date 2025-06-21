@@ -5,6 +5,7 @@ import { Trash2 } from "lucide-react";
 import { useCartContext } from "../../../../../../context/cartContext";
 import { useState } from "react";
 import { getImageSourceType } from "../../../../../../utils/helperFunctions";
+import QuantityButton from "@/components/globalComponents/quantitySelector/QuantityButton";
 
 
 interface CartProps {
@@ -18,6 +19,7 @@ interface CartProps {
 export function CardItem({ id, name, imageUrl, price, quantity }: CartProps) {
 
     const { removeCartItem } = useCartContext()
+
 
     const [animation, setAddAnimation] = useState(false)
 
@@ -63,16 +65,10 @@ export function CardItem({ id, name, imageUrl, price, quantity }: CartProps) {
     function PriceCard() {
         return (
             <div className="flex items-center justify-between">
-                <span className="text-orange-400 font-semibold text-[clamp(1rem,1em,2rem)]">R$ {price?.toFixed(2)} <span className="text-gray-800 font-normal"><span className="ml-2">{quantity && `x${quantity}`}</span></span> </span>
+                <span className="text-orange-400 font-semibold text-[clamp(1rem,1em,2rem)]">R$ {price?.toFixed(2)} <span className="text-gray-800 font-normal ml-2">{quantity && `x${quantity}`}</span> </span>
                 <Trash2
                     size={22}
                     onClick={() => animateCard(id)} className="cursor-pointer mr-1" />
-                {/* {path !== '/payment' &&
-                        <Trash2
-                            size={22}
-                            onClick={() => removeCartItem(id)} className="cursor-pointer mr-1" />}
-                    {path === '/payment' &&
-                    } */}
             </div>
         )
     }

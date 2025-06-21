@@ -2,6 +2,7 @@
 
 import { useCartContext } from '../../../../../context/cartContext';
 import { useState, useEffect, use } from 'react'
+import { useQuantityContext } from '../../../../../context/quantityContext';
 import Image from 'next/image';
 
 import { DishesProps } from '../../../../../utils/types/types'
@@ -15,6 +16,7 @@ import { useToggleCartContext } from '../../../../../context/toggleCartContext';
 
 import { useMessageContext } from '../../../../../context/messagesContext';
 import { getImageSourceType, upperCaseText } from '../../../../../utils/helperFunctions';
+import QuantityButton from '@/components/globalComponents/quantitySelector/QuantityButton';
 
 interface FoodModalProps {
     modalIsOpen: boolean
@@ -28,14 +30,12 @@ export function FoodModal({ modalIsOpen, setModalIsOpen, clickedDish }: FoodModa
     const { addToCart } = useCartContext()
     const { cartIsOpen, setCartIsOpen } = useToggleCartContext()
     const { error } = useMessageContext()
+    const { quantity, increase, decrease, setQuantity } = useQuantityContext()
 
-    const [quantity, setQuantity] = useState(1)
     const [price, setPrice] = useState<number>(0)
     const [sizeDishName, setSizeDishName] = useState<string>('mini')
     const [orderNote, setOrderNote] = useState('')
 
-    const increase = () => setQuantity(q => q + 1)
-    const decrease = () => setQuantity(q => (q > 1 ? q - 1 : 1))
 
     function handleFood(clickedDish: DishesProps) {
         if (!clickedDish) return
@@ -53,7 +53,7 @@ export function FoodModal({ modalIsOpen, setModalIsOpen, clickedDish }: FoodModa
         addToCart(selectedDish)
         setModalIsOpen(false)
         setCartIsOpen(true)
-
+        setQuantity(1)
     }
 
     useEffect(() => {
@@ -136,16 +136,14 @@ export function FoodModal({ modalIsOpen, setModalIsOpen, clickedDish }: FoodModa
                                 onChange={(e) => setOrderNote(e.target.value)}></textarea>
                         </div>
                         <div className="flex sm:flex-row items-center justify-between gap-4 ">
+
                             {/* Seletor de quantidade */}
-                            <div className="flex items-center border border-gray-300 rounded-lg px-3 py-1 lg:py-2">
-                                <button onClick={decrease} className="text-lg px-2 TextColor hover:text-black">−</button>
-                                <span className="mx-3">{quantity}</span>
-                                <button onClick={increase} className="text-lg px-2 TextColor hover:text-black">+</button>
-                            </div>
+                            <QuantityButton />
+
                             {/* Botão adicionar */}
                             <button className="button_primary_large w-full flex justify-center items-center gap-2"
                                 onClick={() => handleFood(clickedDish as DishesProps)}>
-                                <span className='text-[clamp(0.8em,0.8em,1rem)] hidden sm:block'>Adicionar ao pedido</span>
+                                <span className='text-[clamp(1rem,0.8em,1rem)] hidden sm:block'>Adicionar ao pedido</span>
                                 <ShoppingCart size={24} />
                             </button>
                         </div>

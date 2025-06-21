@@ -21,7 +21,6 @@ export function SizeIndicator({
     category
 }: SizeProps) {
 
-    // console.log(sizeDishName)
 
     return (
         <div className="flex items-center">
@@ -34,9 +33,7 @@ export function SizeIndicator({
                     const sizesArrayLengthEqual2 = sizes.length === 2
 
                     // Não mostrar icon de tamanho para bebidas
-                    if (category === 'bebidas') return
-                    // if (sizes.length < 2) return
-
+                    // if (category === 'bebidas') return
 
                     return (
                         <button key={index} className={`flex flex-col items-center p-2 rounded-sm

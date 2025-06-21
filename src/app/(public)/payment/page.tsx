@@ -12,6 +12,8 @@ import QRcode from './components/QRcontainer/QRcode';
 import Failure from './components/Failure/Failure';
 import Link from 'next/link';
 
+import { userInitialState } from '../../../../constants/constantFile';
+
 import { useAuthContext } from '../../../../context/useAuthContext';
 
 import { randomBytes } from 'crypto';
@@ -30,6 +32,7 @@ import GetOrderContainer from './components/getOrderContainer/getOrderContainer'
 import Delivery from './components/deliverSection/Delivery';
 import PickupInstructions from './components/pickupSection/PickupInstructions';
 import PickupMap from './components/pickupSection/map/map';
+import CardForm from './components/paymentSection/paymentSection';
 
 
 export default function CheckoutForm() {
@@ -55,26 +58,14 @@ export default function CheckoutForm() {
     const [getOrder, setGetOrder] = useState('Entrega')
 
     // Estaso inicial do formulário
-    const [formData, setFormData] = useState({
-        nome: '',
-        sobrenome: '',
-        email: '',
-        telefone: '',
-        rua: '',
-        cidade: '',
-        bairro: '',
-        CEP: '',
-        numero: '',
-        complemento: '',
-    });
+    const [formData, setFormData] = useState(userInitialState);
 
     // Busco dados para adicionar ao form
     // caso o usuário já tenha digitado esses dados uma vez
-    const [userAddress, setUserAddress] = useState<UserData>(() => {
+    const [userAddress] = useState<UserData>(() => {
         const stored = localStorage.getItem('userData');
         return stored ? JSON.parse(stored) : formData
     });
-
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -82,17 +73,10 @@ export default function CheckoutForm() {
 
     async function verifyAddress() {
         try {
-            // Verificando se usuário adicionou endereço
-            // const storageAddress = localStorage.getItem('userData')
-            // const userAddress = storageAddress ? JSON.parse(storageAddress) : null
-
             // Se usuário está logado, verifica no Firebase
             if (user) {
                 const addressProfile = await getData('users')
 
-                // if (!addressProfile) {
-                //     throw new Error('Endereço não informado')
-                // }
                 setAddress(address)
 
                 if (!addressProfile || !addressProfile?.data) {
@@ -132,21 +116,20 @@ export default function CheckoutForm() {
     }
 
     async function createOrder() {
-        const random = randomBytes(6).toString('hex')
+        const orderId = randomBytes(6).toString('hex')
 
         if (!user) {
             const storageOrder = localStorage.getItem('order')
-            const order = storageOrder ? JSON.parse(storageOrder) : null
+            const localStorageOrder = storageOrder ? JSON.parse(storageOrder) : null
 
             const orderFinished = {
-                orderId: random,
-                ...order
+                orderId,
+                ...localStorageOrder
             }
 
         } else {
-
             const orderFinished = {
-                orderId: random,
+                orderId,
                 ...address,
                 cart: {
                     ...cartItensArray
@@ -154,21 +137,10 @@ export default function CheckoutForm() {
             }
         }
 
-        setOrderId(random)
+        setOrderId(orderId)
 
         setCartItensArray([])
-        setUserData({
-            nome: '',
-            sobrenome: '',
-            email: '',
-            telefone: '',
-            cidade: '',
-            complemento: '',
-            bairro: '',
-            numero: '',
-            CEP: '',
-            rua: '',
-        })
+        setUserData(userInitialState)
     }
 
     async function handlePayment() {
@@ -262,13 +234,11 @@ export default function CheckoutForm() {
         };
     }, [])
 
-    console.log(getOrder)
-
     return (
         <ContentContainer>
             <div className="mt-5 md:mt-0 w-full sm:p-4 relative">
                 <div className="flex flex-col md:flex-row min-h-130 gap-x-4">
-                    <div className="hidden md:w-1/3 md:block md:mb-0 rounded-lg">
+                    <div className="hidden md:w-1/3 md:block md:mb-0 rounded-lg order-2">
                         <OrderSummary />
                     </div>
 
@@ -293,7 +263,7 @@ export default function CheckoutForm() {
                                             <motion.div className='flex flex-col space-y-4' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                                                 <PickupInstructions />
                                                 <PickupMap />
-                                                <button type='submit' className=" button_primary_large w-full md:max-w-70 m-auto md:m-0" onClick={moveToTheNextForm}>Next</button>
+                                                <button type='submit' className=" button_primary_large w-full md:max-w-70 m-auto md:m-0" onClick={moveToTheNextForm}>Proximo</button>
                                             </motion.div>
                                         )
                                     }
@@ -303,16 +273,9 @@ export default function CheckoutForm() {
                         {IsValidAddress && (step === 2 && (
                             <motion.div className='basicStyle relative m-auto p-4 mb:p-0 h-full flex flex-col justify-between' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                                 <div>
-                                    <h1 className='text-[clamp(1.2rem,1em,2rem)] mb-2'>Pagamento</h1>
+                                    {/* <h1 className='text-[clamp(1.2rem,1em,2rem)] mb-2'>Pagamento</h1> */}
                                     {!orderId && cartItensArray.length !== 0 && (
-                                        <div className="rounded-lg text-gray-600 ">
-                                            <p className="mb-2">
-                                                Aponte a câmera do seu celular para o QR Code abaixo para realizar o pagamento via <strong>Pix</strong>.
-                                            </p>
-                                            <p>
-                                                Seu pedido será aprovado automaticamente assim que o pagamento for confirmado.
-                                            </p>
-                                        </div>
+                                        <CardForm />
                                     )}
                                     {
                                         !orderId && cartItensArray.length === 0 &&
@@ -323,15 +286,24 @@ export default function CheckoutForm() {
                                     }
                                 </div>
                                 <div className='flex flex-col justify-center items-center h-80'>
-                                    {!loading && !success && !orderId && cartItensArray.length !== 0 && <QRcode handlePayment={handlePayment} />}
+                                    {/* {!loading && !success && !orderId && cartItensArray.length !== 0 && <QRcode handlePayment={handlePayment} />} */}
                                     {loading && <Loading />}
                                     {success && <Success setSuccess={setSuccess} />}
                                     {orderId && <FinishedOrder orderId={orderId} />}
                                     {/* {success && <Failure />} */}
                                 </div>
-                                {!orderId && cartItensArray.length !== 0 && <PixCodeBox />}
-                                {!orderId && <button onClick={handlePrevious} className={`button_primary_large max-w-50 m-auto md:m-0 ${user && 'hidden'}`}>Previous</button>}
-                                {orderId && <Link href={'/'} className="button_primary_large text-center max-w-50 m-auto md:text-end">Página inicial</Link>}
+
+                                {/* {!orderId &&
+                                    cartItensArray.length !== 0 && <PixCodeBox />
+                                } */}
+
+                                {!orderId &&
+                                    <button onClick={handlePrevious} className={`button_primary_large max-w-50 m-auto md:m-0 ${user && 'hidden'}`}>Previous</button>
+                                }
+
+                                {orderId &&
+                                    <Link href={'/'} className="button_primary_large text-center w-full m-auto md:text-end">Página inicial</Link>
+                                }
                             </motion.div>
                         ))}
                     </div>

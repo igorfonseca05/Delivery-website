@@ -157,7 +157,7 @@ body {
 } */
 
 .input {
-  @apply w-full border border-gray-300 rounded-lg py-3 px-4 text-sm focus:outline-none focus:ring-1 focus:ring-[var(--button-color)];
+  @apply w-full border border-gray-200 rounded-lg py-3 px-4 text-sm focus:outline-none focus:ring-1 focus:ring-[var(--button-color)];
 }
 
 .red_input {
@@ -167,6 +167,10 @@ body {
 /* seção pagamento */
 
 .paymentFormInput {
+  @apply grid grid-cols-2 md:grid-cols-2 gap-4 mb-4;
+}
+
+.paymentInputFullLine {
   @apply grid grid-cols-1 md:grid-cols-2 gap-4 mb-4;
 }
 
@@ -200,6 +204,12 @@ body {
 
 .animate {
   @apply transition-all ease-in-out duration-400;
+}
+
+/* Pagamento */
+
+.inputDescriptionSize {
+  @apply text-[clamp(1rem,1em,2rem)] mb-2 text-black;
 }
 
 .cardAnimate {

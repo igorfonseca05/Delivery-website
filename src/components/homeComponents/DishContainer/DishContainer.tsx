@@ -8,7 +8,6 @@ import { DishesProps } from "../../../../utils/types/types"
 
 export async function DishesContainer() {
 
-
     return (
         <div>
             <FoodGridTitle />
