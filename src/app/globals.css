@@ -29,7 +29,7 @@ body {
 }
 
 .basicStyle {
-  @apply bg-white rounded-lg;
+  @apply bg-white rounded-lg h-fit;
 }
 
 .text {
@@ -137,7 +137,7 @@ body {
 }
 
 .button_neutral_large {
-  @apply py-4 px-4 rounded-lg text-start border-2 border-gray-200;
+  @apply py-3 px-4 rounded-lg border-2 border-gray-200;
 }
 
 .button_neutral_medium {
@@ -146,6 +146,9 @@ body {
 
 .button_primary_medium {
   @apply bg-[var(--button-color)] py-1.5 px-4 rounded-lg text-white hover:bg-[var(--button-color-hover)];
+}
+.button_neutral_medium {
+  @apply py-1.5 px-4 rounded-lg hover:bg-slate-100;
 }
 /* 
 .buttonStyle {
@@ -167,7 +170,7 @@ body {
 /* seção pagamento */
 
 .paymentFormInput {
-  @apply grid grid-cols-2 md:grid-cols-2 gap-4 mb-4;
+  @apply flex gap-4 mb-4;
 }
 
 .paymentInputFullLine {

@@ -24,9 +24,9 @@ export default function Delivery({ formData, setFormData, step, handleFormSubmit
         <motion.div className='basicStyle relative m-auto mb:p-0 flex flex-col justify-between' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             <h1 className='text-[clamp(1.2rem,1em,2rem)] mb-2 font-extrabold'>Adicione seu endereço de Entrega</h1>
             <p className='my-3 text-gray-500 text-[clamp(0.8rem,0.8em,2rem)]'>* Obrigatórios</p>
-            <form className='min-h-full flex flex-col justify-between' onSubmit={handleFormSubmit}>
+            <form className='min-h-full flex flex-col justify-between py-2' onSubmit={handleFormSubmit}>
                 <h3 className={`inputDescriptionSize`}>Dados pessoais *</h3>
-                <div className="paymentFormInput">
+                <div className="flex gap-4 mb-4">
                     <input
                         name="nome"
                         onChange={handleInputChange}
@@ -46,7 +46,7 @@ export default function Delivery({ formData, setFormData, step, handleFormSubmit
                 </div>
 
                 <h3 className={`inputDescriptionSize`}>Endereço *</h3>
-                <div className="paymentInputFullLine">
+                <div className="flex flex-col md:flex-row gap-4 mb-4">
                     <input
                         name="rua"
                         onChange={handleInputChange}
@@ -55,8 +55,6 @@ export default function Delivery({ formData, setFormData, step, handleFormSubmit
                         className='input'
                         autoComplete='on'
                         required />
-                </div>
-                <div className="paymentFormInput">
                     <input
                         name="bairro"
                         onChange={handleInputChange}
@@ -65,6 +63,9 @@ export default function Delivery({ formData, setFormData, step, handleFormSubmit
                         className='input'
                         autoComplete='on'
                         required />
+                </div>
+
+                <div className='paymentFormInput'>
                     <input
                         name="CEP"
                         type='number' onChange={handleInputChange}
@@ -81,6 +82,9 @@ export default function Delivery({ formData, setFormData, step, handleFormSubmit
                         className='input'
                         autoComplete='on'
                         required />
+                </div>
+
+                <div className='paymentFormInput'>
                     <input
                         name="numero"
                         onChange={handleInputChange}
@@ -89,8 +93,6 @@ export default function Delivery({ formData, setFormData, step, handleFormSubmit
                         className='input'
                         autoComplete='on'
                         required />
-                </div>
-                <div className="paymentInputFullLine">
                     <input
                         name="complemento"
                         onChange={handleInputChange}
@@ -100,7 +102,7 @@ export default function Delivery({ formData, setFormData, step, handleFormSubmit
                 </div>
 
                 <h3 className={`inputDescriptionSize`}>Contato *</h3>
-                <div className="paymentFormInput">
+                <div className="flex flex-col md:flex-row gap-4 mb-4">
                     <input
                         name="telefone"
                         type='number'
@@ -117,8 +119,10 @@ export default function Delivery({ formData, setFormData, step, handleFormSubmit
                         className={step === 1 ? 'red_input' : 'input'}
                         required />
                 </div>
-                <button type='submit' className=" button_primary_large w-full md:max-w-70 m-auto md:m-0">Proximo</button>
+                <div className='flex justify-end'>
+                    <button type='submit' className="button_primary_large w-full md:max-w-50 m-auto md:m-0">Proximo</button>
+                </div>
             </form>
-        </motion.div>
+        </motion.div >
     );
 };

@@ -36,14 +36,6 @@ import CardForm from './components/paymentSection/paymentSection';
 
 
 export default function CheckoutForm() {
-    const router = useRouter()
-    const timeoutIds = useRef<Array<number | NodeJS.Timeout>>([]);
-
-    enum Routes {
-        Profile = '/profile',
-        Payment = '/payment',
-    }
-
     const { setUserData, cartItensArray, setCartItensArray } = useCartContext()
     const { setError, error } = useMessageContext()
     const { user } = useAuthContext()
@@ -57,39 +49,50 @@ export default function CheckoutForm() {
     const [address, setAddress] = useState<UserProfileAddress>()
     const [getOrder, setGetOrder] = useState('Entrega')
 
-    // Estaso inicial do formulário
     const [formData, setFormData] = useState(userInitialState);
 
-    // Busco dados para adicionar ao form
-    // caso o usuário já tenha digitado esses dados uma vez
     const [userAddress] = useState<UserData>(() => {
         const stored = localStorage.getItem('userData');
         return stored ? JSON.parse(stored) : formData
     });
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
+    const router = useRouter()
+    const timeoutIds = useRef<Array<number | NodeJS.Timeout>>([]);
 
-    async function verifyAddress() {
+    enum Routes {
+        Profile = '/profile',
+        Payment = '/payment',
+    }
+
+
+    async function getUserAddressFromFirebase() {
+        if (!user) return
+
+        try {
+            const addressProfile = await getData('users')
+            const thereIsNotAddress = !addressProfile || !addressProfile?.data
+
+            if (thereIsNotAddress) {
+                setError('Precisamos do seu endereço para enviar seu pedido até você.')
+
+                const timer = setTimeout(() => {
+                    router?.push(Routes.Profile)
+                    setIsValidAddress(false)
+                }, 4000)
+
+                timeoutIds.current.push(timer);
+                return false
+            }
+        } catch (error) {
+
+        }
+    }
+
+
+    function verifyAddress() {
         try {
             // Se usuário está logado, verifica no Firebase
-            if (user) {
-                const addressProfile = await getData('users')
-
-                setAddress(address)
-
-                if (!addressProfile || !addressProfile?.data) {
-                    setError('Precisamos do seu endereço para enviar seu pedido até você.')
-                    const timer = setTimeout(() => {
-                        router?.push(Routes.Profile)
-                        setIsValidAddress(false)
-                    }, 4000)
-
-                    timeoutIds.current.push(timer);
-                    return false
-                }
-            }
+            getUserAddressFromFirebase()
 
             // Usuário não autenticado
             if (!userAddress) {
@@ -158,30 +161,30 @@ export default function CheckoutForm() {
     }
 
     const moveToTheNextForm = () => {
-        if (step === 1) setStep(2);
+        if (step <= 3) setStep(step + 1);
     };
 
     const handlePrevious = () => {
-        if (step === 2) setStep(1);
+        if (step > 1) setStep(step - 1);
     };
 
     // Verificando forms inputs
     function isEmptyAddressFormField() {
         return Object.entries(formData)
             .some(item => item[0] === 'complemento' ? null : item[1] === '')
-
     }
 
     // Formulário para o endeço de pagamento
     function handleFormSubmit(e: React.FormEvent) {
         e.preventDefault()
 
-        if (isEmptyAddressFormField()) return
+        if (isEmptyAddressFormField()) {
+            return setIsValidAddress(false)
+        }
 
         const userData = {
             ...formData
         }
-
         setUserData(userData)
         moveToTheNextForm()
     }
@@ -243,11 +246,19 @@ export default function CheckoutForm() {
                     </div>
 
                     <div className="md:w-2/3 p-2 sm:p-6 rounded-lg w-full min-h-full bg-white">
-                        <FormHeader step={step} />
+                        <FormHeader step={step}
+                            handlePrevious={handlePrevious}
+                            moveToTheNextForm={moveToTheNextForm}
+                            setStep={setStep}
+                            isValidAddress={IsValidAddress} />
+
                         {!user &&
                             step === 1 && (
                                 <>
-                                    <GetOrderContainer setGetOrder={setGetOrder} />
+                                    <GetOrderContainer
+                                        setGetOrder={setGetOrder}
+                                        type='address'
+                                        question='Como você gostaria que obter seu pedido?' />
                                     {
                                         getOrder === 'Entrega' ? (
                                             <>
@@ -263,7 +274,7 @@ export default function CheckoutForm() {
                                             <motion.div className='flex flex-col space-y-4' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                                                 <PickupInstructions />
                                                 <PickupMap />
-                                                <button type='submit' className=" button_primary_large w-full md:max-w-70 m-auto md:m-0" onClick={moveToTheNextForm}>Proximo</button>
+                                                <button type='submit' className="button_primary_large  w-full md:max-w-70 m-auto md:m-0" onClick={moveToTheNextForm}>Proximo</button>
                                             </motion.div>
                                         )
                                     }
@@ -271,11 +282,17 @@ export default function CheckoutForm() {
                             )}
 
                         {IsValidAddress && (step === 2 && (
-                            <motion.div className='basicStyle relative m-auto p-4 mb:p-0 h-full flex flex-col justify-between' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                            <motion.div className='basicStyle relative m-auto mb:p-0 h-fit flex flex-col ' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                                 <div>
                                     {/* <h1 className='text-[clamp(1.2rem,1em,2rem)] mb-2'>Pagamento</h1> */}
                                     {!orderId && cartItensArray.length !== 0 && (
-                                        <CardForm />
+                                        <>
+                                            <GetOrderContainer
+                                                setGetOrder={setGetOrder}
+                                                type='payment'
+                                                question='Escolha forma de pagamento' />
+                                            <CardForm />
+                                        </>
                                     )}
                                     {
                                         !orderId && cartItensArray.length === 0 &&
@@ -285,7 +302,42 @@ export default function CheckoutForm() {
                                         </div>
                                     }
                                 </div>
-                                <div className='flex flex-col justify-center items-center h-80'>
+                                {/* <div className=' flex-col hidden justify-center items-center h-80'>
+                                
+                                    {loading && <Loading />}
+                                    {success && <Success setSuccess={setSuccess} />}
+                                    {orderId && <FinishedOrder orderId={orderId} />}
+                                
+                                </div> */}
+
+                                <div className='flex justify-between gap-x-4'>
+                                    <button onClick={handlePrevious} className={`button_neutral_large w-full md:max-w-50 m-auto md:m-0 ${user && 'hidden'}`}>Voltar</button>
+                                    <button onClick={moveToTheNextForm} className={`button_primary_large w-full md:max-w-50 m-auto md:m-0 ${user && 'hidden'}`}>Próximo</button>
+                                </div>
+
+
+                                {orderId &&
+                                    <Link href={'/'} className="button_primary_large text-center w-full m-auto md:text-end">Página inicial</Link>
+                                }
+                            </motion.div>
+                        ))}
+
+                        {(step === 3 && (
+                            <motion.div className='basicStyle relative m-auto  mb:p-0 h-full flex flex-col justify-between' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                                <div>
+                                    {/* <h1 className='text-[clamp(1.2rem,1em,2rem)] mb-2'>Pagamento</h1> */}
+                                    {!orderId && cartItensArray.length !== 0 && (
+                                        <><p>pedido</p></>
+                                    )}
+                                    {
+                                        !orderId && cartItensArray.length === 0 &&
+                                        <div className='h-full flex flex-col items-center'>
+                                            <Image src={`/empty.svg`} alt="logo carrinho vazio" priority quality={50} width={300} height={300} className="opacity-40 mb-4" />
+                                            <p>Adicione itens no carrinho para prosseguir com pagamento</p>
+                                        </div>
+                                    }
+                                </div>
+                                <div className=' flex-col hidden justify-center items-center h-80'>
                                     {/* {!loading && !success && !orderId && cartItensArray.length !== 0 && <QRcode handlePayment={handlePayment} />} */}
                                     {loading && <Loading />}
                                     {success && <Success setSuccess={setSuccess} />}
@@ -298,7 +350,10 @@ export default function CheckoutForm() {
                                 } */}
 
                                 {!orderId &&
-                                    <button onClick={handlePrevious} className={`button_primary_large max-w-50 m-auto md:m-0 ${user && 'hidden'}`}>Previous</button>
+                                    <div className='flex gap-x-4'>
+                                        <button onClick={handlePrevious} className={`button_neutral_large text-center w-full md:max-w-20 m-auto md:m-0 ${user && 'hidden'}`}>Voltar</button>
+                                        <button onClick={handlePrevious} className={`button_primary_large w-full md:max-w-50 m-auto md:m-0 ${user && 'hidden'}`}>Próximo</button>
+                                    </div>
                                 }
 
                                 {orderId &&
