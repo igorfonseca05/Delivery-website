@@ -120,7 +120,7 @@ body {
 }
 
 .buttonColor {
-  @apply bg-[var(--button-color)];
+  @apply bg-[var(--button-color)] rounded-lg  text-white hover:bg-[var(--button-color-hover)];
 }
 .buttonColorHover {
   @apply hover:bg-[var(--button-color)];
@@ -133,19 +133,19 @@ body {
 /* Elementos */
 
 .button_primary_large {
-  @apply bg-[var(--button-color)] py-3 px-4 rounded-lg  text-white hover:bg-[var(--button-color-hover)]  disabled:bg-[#ffc877];
+  @apply bg-[var(--button-color)] cursor-pointer py-3 px-4 rounded-lg  text-white hover:bg-[var(--button-color-hover)]  disabled:bg-[#ffc877];
 }
 
 .button_neutral_large {
-  @apply py-3 px-4 rounded-lg border-2 border-gray-200;
+  @apply py-3 px-4 rounded-lg cursor-pointer border-2 border-gray-200;
 }
 
 .button_neutral_medium {
-  @apply py-1.5 px-4 rounded-lg hover:bg-slate-100;
+  @apply py-1.5 px-4 rounded-lg cursor-pointer hover:bg-slate-100;
 }
 
 .button_primary_medium {
-  @apply bg-[var(--button-color)] py-1.5 px-4 rounded-lg text-white hover:bg-[var(--button-color-hover)];
+  @apply bg-[var(--button-color)] cursor-pointer py-1.5 px-4 rounded-lg text-white hover:bg-[var(--button-color-hover)];
 }
 .button_neutral_medium {
   @apply py-1.5 px-4 rounded-lg hover:bg-slate-100;

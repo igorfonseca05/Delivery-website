@@ -9,12 +9,12 @@ interface DeliveryProps {
     formData: UserData,
     setFormData: (FormData: UserData) => void,
     handleFormSubmit: (e: React.FormEvent) => void,
-    getOrder: string
-    setGetOrder: (getOrder: string) => void
-    step: number
+    // getOrder: string
+    // setGetOrder: (getOrder: string) => void
+    // step: number
 }
 
-export default function Delivery({ formData, setFormData, step, handleFormSubmit, setGetOrder }: DeliveryProps) {
+export default function Delivery({ formData, setFormData, handleFormSubmit }: DeliveryProps) {
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -109,14 +109,14 @@ export default function Delivery({ formData, setFormData, step, handleFormSubmit
                         onChange={handleInputChange}
                         value={formData.telefone}
                         placeholder="Número para contato"
-                        className={step === 1 ? 'red_input' : 'input'}
+                        className='input'
                         required />
                     <input
                         name="email"
                         onChange={handleInputChange}
                         value={formData.email}
                         placeholder="Email"
-                        className={step === 1 ? 'red_input' : 'input'}
+                        className='input'
                         required />
                 </div>
                 <div className='flex justify-end'>

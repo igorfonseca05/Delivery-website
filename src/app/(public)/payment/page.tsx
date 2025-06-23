@@ -47,8 +47,8 @@ export default function CheckoutForm() {
     const [orderId, setOrderId] = useState<string>()
     const [IsValidAddress, setIsValidAddress] = useState(false)
     const [address, setAddress] = useState<UserProfileAddress>()
-    const [getOrder, setGetOrder] = useState('Entrega')
-
+    const [getOrder, setGetOrder] = useState(1)
+    const [paymentMethod, setPaymentMethod] = useState(3)
     const [formData, setFormData] = useState(userInitialState);
 
     const [userAddress] = useState<UserData>(() => {
@@ -237,6 +237,8 @@ export default function CheckoutForm() {
         };
     }, [])
 
+    console.log(paymentMethod)
+
     return (
         <ContentContainer>
             <div className="mt-5 md:mt-0 w-full sm:p-4 relative">
@@ -247,80 +249,73 @@ export default function CheckoutForm() {
 
                     <div className="md:w-2/3 p-2 sm:p-6 rounded-lg w-full min-h-full bg-white">
                         <FormHeader step={step}
-                            handlePrevious={handlePrevious}
-                            moveToTheNextForm={moveToTheNextForm}
                             setStep={setStep}
                             isValidAddress={IsValidAddress} />
 
-                        {!user &&
-                            step === 1 && (
-                                <>
-                                    <GetOrderContainer
-                                        setGetOrder={setGetOrder}
-                                        type='address'
-                                        question='Como você gostaria que obter seu pedido?' />
-                                    {
-                                        getOrder === 'Entrega' ? (
-                                            <>
-                                                <Delivery
-                                                    step={step}
-                                                    handleFormSubmit={handleFormSubmit}
-                                                    formData={formData}
-                                                    setFormData={setFormData}
-                                                    setGetOrder={setGetOrder}
-                                                    getOrder={getOrder} />
-                                            </>
-                                        ) : (
-                                            <motion.div className='flex flex-col space-y-4' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                                                <PickupInstructions />
-                                                <PickupMap />
-                                                <button type='submit' className="button_primary_large  w-full md:max-w-70 m-auto md:m-0" onClick={moveToTheNextForm}>Proximo</button>
-                                            </motion.div>
-                                        )
-                                    }
-                                </>
-                            )}
+                        {!user && step === 1 && (
+                            <>
+                                <GetOrderContainer
+                                    setGetOrder={setGetOrder}
+                                    type='address'
+                                    message='Como você gostaria que obter seu pedido?'
+                                    step={step}
+                                    order={getOrder}
+                                />
 
-                        {IsValidAddress && (step === 2 && (
-                            <motion.div className='basicStyle relative m-auto mb:p-0 h-fit flex flex-col ' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                                {
+                                    getOrder === 1 ? (
+                                        <Delivery
+                                            handleFormSubmit={handleFormSubmit}
+                                            formData={formData}
+                                            setFormData={setFormData} />
+
+                                    ) : (
+                                        <motion.div className='flex flex-col space-y-4' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                                            <PickupInstructions />
+                                            <PickupMap />
+                                            <button type='submit' className="button_primary_large  w-full md:max-w-70 m-auto md:m-0" onClick={moveToTheNextForm}>Proximo</button>
+                                        </motion.div>
+                                    )
+                                }
+                            </>
+                        )}
+
+                        {IsValidAddress && step === 2 && (
+                            <motion.div className='basicStyle relative m-auto mb:p-0 h-dvh flex flex-col ' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                                 <div>
-                                    {/* <h1 className='text-[clamp(1.2rem,1em,2rem)] mb-2'>Pagamento</h1> */}
                                     {!orderId && cartItensArray.length !== 0 && (
                                         <>
                                             <GetOrderContainer
-                                                setGetOrder={setGetOrder}
+                                                setPaymentMethod={setPaymentMethod}
                                                 type='payment'
-                                                question='Escolha forma de pagamento' />
-                                            <CardForm />
+                                                message='Escolha forma de pagamento'
+                                                step={step}
+                                                paymentMethod={paymentMethod} />
+
+                                            {
+                                                paymentMethod === 3 ? (
+                                                    <CardForm />
+                                                ) : (
+                                                    <motion.div className='flex flex-col space-y-4' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                                                        <QRcode handlePayment={handlePayment} />
+                                                        {!orderId && cartItensArray.length !== 0 && <PixCodeBox />}
+                                                    </motion.div>
+                                                )
+                                            }
+
                                         </>
                                     )}
-                                    {
-                                        !orderId && cartItensArray.length === 0 &&
-                                        <div className='h-full flex flex-col items-center'>
-                                            <Image src={`/empty.svg`} alt="logo carrinho vazio" priority quality={50} width={300} height={300} className="opacity-40 mb-4" />
-                                            <p>Adicione itens no carrinho para prosseguir com pagamento</p>
-                                        </div>
-                                    }
                                 </div>
-                                {/* <div className=' flex-col hidden justify-center items-center h-80'>
-                                
-                                    {loading && <Loading />}
-                                    {success && <Success setSuccess={setSuccess} />}
-                                    {orderId && <FinishedOrder orderId={orderId} />}
-                                
-                                </div> */}
-
                                 <div className='flex justify-between gap-x-4'>
                                     <button onClick={handlePrevious} className={`button_neutral_large w-full md:max-w-50 m-auto md:m-0 ${user && 'hidden'}`}>Voltar</button>
-                                    <button onClick={moveToTheNextForm} className={`button_primary_large w-full md:max-w-50 m-auto md:m-0 ${user && 'hidden'}`}>Próximo</button>
+                                    <button onClick={moveToTheNextForm} className={`buttonColor py-3 px-20 w-full md:max-w-50 m-auto md:m-0 ${user && 'hidden'}`}>Próximo</button>
                                 </div>
-
 
                                 {orderId &&
                                     <Link href={'/'} className="button_primary_large text-center w-full m-auto md:text-end">Página inicial</Link>
                                 }
                             </motion.div>
-                        ))}
+                        )}
 
                         {(step === 3 && (
                             <motion.div className='basicStyle relative m-auto  mb:p-0 h-full flex flex-col justify-between' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>

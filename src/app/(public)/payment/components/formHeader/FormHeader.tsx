@@ -2,8 +2,8 @@ import { toast } from "react-toastify"
 
 interface HeaderProps {
     step: number
-    handlePrevious: (step: number) => void
-    moveToTheNextForm: (step: number) => void
+    // handlePrevious: (step: number) => void
+    // moveToTheNextForm: (step: number) => void
     setStep: (step: number) => void
     isValidAddress: boolean
 }
@@ -33,9 +33,7 @@ export default function FormHeader({ step, setStep, isValidAddress }: HeaderProp
         <div className='flex justify-between mb-4 py-2'>
             {sections?.map(item => (
                 <h1 key={item.id}
-                    className={`paymentFormHeader 
-                        ${step === item.id ? 'border-b-2' :
-                            'opacity-50 border-b-2'}`}
+                    className={`paymentFormHeader cursor-pointer ${step === item.id ? 'border-b-2' : 'opacity-50 border-b-2'}`}
                     onClick={() => toMove(item.id)}
                 >
                     {`${item.id}. ${item.section}`}

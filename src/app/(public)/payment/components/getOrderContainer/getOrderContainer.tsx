@@ -3,15 +3,28 @@ import { FaPix } from "react-icons/fa6";
 import React, { useState } from "react";
 
 interface GetOrderProps {
-    getOrder?: string
-    setGetOrder: (getOrder: string) => void,
+    step: number,
+    order?: number
+    getOrder?: number
+    setGetOrder?: (getOrder: number) => void,
+    paymentMethod?: number
+    setPaymentMethod?: (paymentMethod: number) => void,
     type: string,
-    question: string
+    message: string
 }
 
-export default function GetOrderContainer({ setGetOrder, type, question }: GetOrderProps) {
+export default function GetOrderContainer({
+    step,
+    setGetOrder,
+    setPaymentMethod,
+    paymentMethod,
+    type,
+    message,
+    order }:
+    GetOrderProps) {
 
-    // const [buttonsInfo, setButtonsInfo] = useState<{ id: number, label: string, icon: React.ElementType }[]>([])
+    const [isGetOrderSelected, setIsGetOrderSelected] = useState(order)
+    const [isPaymentSelected, setIsPaymentSelected] = useState(paymentMethod)
 
     let buttons
 
@@ -24,23 +37,43 @@ export default function GetOrderContainer({ setGetOrder, type, question }: GetOr
 
     if (type === 'payment') {
         buttons = [
-            { id: 1, label: 'Cartão de crédito', icon: CreditCard },
-            { id: 2, label: 'Pix', icon: FaPix }
+            { id: 3, label: 'Cartão de crédito', icon: CreditCard },
+            { id: 4, label: 'Pix', icon: FaPix }
         ]
+    }
+
+    function handleButtonsForm(id: number) {
+        type === "address" && setGetOrder && setGetOrder(id)
+        type === "payment" && setPaymentMethod && setPaymentMethod(id)
+
+        setIsGetOrderSelected(id)
+        setIsPaymentSelected(id)
     }
 
     return (
         <div className='flex flex-col space-y-4 mb-4'>
-            <p className='text-[clamp(1rem,1em,2rem)] font-extrabold mb-4'>Como você gostaria que obter seu pedido?</p>
+            <p className='text-[clamp(1rem,1em,2rem)] font-extrabold mb-4'>{message}</p>
             <div className="flex flex-col gap-4 sm:flex-row">
                 {
-                    buttons?.map(({ id, label, icon: Icon }) => (
-                        <button key={id} className='button_neutral_large flex cursor-pointer gap-x-4 grow '
-                            onClick={() => setGetOrder(`${label}`)}>
-                            <Icon className="w-5 h-5 text-gray-600" />
-                            <span className="min-w-25 text-start">{label}</span>
-                        </button>
-                    ))
+                    buttons?.map(({ id, label, icon: Icon }) => {
+                        const getOrderSelected = isGetOrderSelected === id
+                        const paymentSelected = isPaymentSelected === id
+
+                        return (
+                            <button key={id}
+                                className={`flex button_neutral_large  gap-x-4 grow 
+                                ${getOrderSelected || paymentSelected ? 'opacity-100' : 'opacity-50'}`}
+                                onClick={() => { handleButtonsForm(id) }}>
+
+                                <Icon className="w-5 h-5 text-orange-400" />
+                                <span className="min-w-25 text-start">{label}
+                                    {id === 1 &&
+                                        <span className="text-[12px] ml-1 font-bold">- Grátis</span>
+                                    }
+                                </span>
+                            </button>
+                        )
+                    })
                 }
             </div>
         </div>

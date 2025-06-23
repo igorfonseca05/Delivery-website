@@ -10,9 +10,11 @@ export default function QRcode({ handlePayment }: { handlePayment: () => void })
 
     return (
         <div className="flex flex-col overflow-hidden">
+            <p className="font-semibold mb-2 text-[clamp(1.2rem,1em,2rem)]">Leia QR Code abaixo para realizar o pagamento via Pix</p>
+            <p className="font-light text">O pagamento será confirmado em poucos segundos após a leitura.</p>
             <div className=" rounded-lg p-6 flex items-center justify-center">
                 <span className="">
-                    <img src={qrCodeURL} alt="" className='rounded-lg' onClick={handlePayment} />
+                    <img src={qrCodeURL} alt="" width={"150px"} className='rounded-lg' onClick={handlePayment} />
                 </span>
             </div>
         </div>
