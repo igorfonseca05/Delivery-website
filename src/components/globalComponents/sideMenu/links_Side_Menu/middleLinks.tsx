@@ -97,7 +97,7 @@ export function Middle_Icons() {
                     <li className="group/lihover sidemenu-item md:hidden" onClick={() => setIsOpen(false)}>
                         <LoginButton style={'sidemenu-link'} innerText="Entrar" />
                     </li>
-                    <MenuLinks href="/config" icon={Settings} isSelected={isSelected} useSelected={useSelected} innerText="Configurações" />
+                    {/* <MenuLinks href="/config" icon={Settings} isSelected={isSelected} useSelected={useSelected} innerText="Configurações" /> */}
                 </>}
                 {user && <>
                     <li className="group/lihover sidemenu-item md:hidden button_primary_large" onClick={() => {
@@ -106,7 +106,7 @@ export function Middle_Icons() {
                     }}>
                         <LoginButton style={'sidemenu-link'} innerText="Sair" />
                     </li>
-                    <MenuLinks href="/config" icon={Settings} isSelected={isSelected} useSelected={useSelected} innerText="Configurações" />
+                    {/* <MenuLinks href="/config" icon={Settings} isSelected={isSelected} useSelected={useSelected} innerText="Configurações" /> */}
                 </>}
             </ul>
         </aside>
