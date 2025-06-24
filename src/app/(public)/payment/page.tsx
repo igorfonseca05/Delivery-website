@@ -274,7 +274,7 @@ export default function CheckoutForm() {
 
     return (
         <ContentContainer>
-            <div className="mt-5 md:mt-0 w-full sm:p-4 relative transition ">
+            <div className="mt-5 md:mt-4 w-full relative transition ">
                 <div className="flex flex-col md:flex-row min-h-130 gap-x-4 ">
                     {step !== 3 &&
                         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className='order-2 hidden md:w-1/2 md:block md:mb-0 rounded-lg'>
