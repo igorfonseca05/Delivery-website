@@ -13,7 +13,7 @@ interface GetOrderProps {
     message: string
 }
 
-export function GetOrderContainer({
+export default function GetOrderContainer({
     step,
     setGetOrder,
     setPaymentMethod,

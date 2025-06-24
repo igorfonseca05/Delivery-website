@@ -30,12 +30,12 @@ import { OrderWithotAuthProps, UserProfileAddress } from '../../../../utils/type
 import { UserData } from '../../../../utils/types/types';
 import { toast } from 'react-toastify';
 import FormHeader from './components/formHeader/FormHeader';
-import { GetOrderContainer as DeliverySelectorType } from './components/getOrderContainer/getOrderContainer';
+import GetOrderContainer from './components/getOrderContainer/getOrderContainer';
 import Delivery from './components/deliverSection/Delivery';
 import PickupInstructions from './components/pickupSection/PickupInstructions';
 import PickupMap from './components/pickupSection/map/map';
 import CardForm from './components/paymentSection/paymentSection';
-import { PaymentSeletor } from './components/paymentSelector/PaymentSelector';
+import PaymentSeletor from './components/paymentSelector/PaymentSelector';
 
 
 export default function CheckoutForm() {
@@ -257,8 +257,7 @@ export default function CheckoutForm() {
 
                         {!user && step === 1 && (
                             <>
-                                <DeliverySelectorType
-                                    setGetOrder={setGetOrder}
+                                <GetOrderContainer
                                     type='address'
                                     message='Como você gostaria que obter seu pedido?'
                                     step={step}
