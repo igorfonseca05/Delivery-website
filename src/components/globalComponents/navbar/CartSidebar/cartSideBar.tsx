@@ -15,9 +15,7 @@ import { useEffect } from "react"
 export function CartSideBar() {
 
     const { cartIsOpen } = useToggleCartContext()
-    const { cartItensArray } = useCartContext()
-
-    const emptyCart = cartItensArray.length === 0
+    const { order } = useCartContext()
 
     useEffect(() => {
         cartIsOpen ?
@@ -32,8 +30,8 @@ export function CartSideBar() {
 
                 <div className="flex flex-col h-full  justify-between">
                     <HeaderCart />
-                    {emptyCart && <ImageEmptyCart />}
-                    {!emptyCart &&
+                    {order.cartItens.length === 0 && <ImageEmptyCart />}
+                    {order.cartItens.length !== 0 &&
                         <>
                             <CardBody />
                             <Footer />

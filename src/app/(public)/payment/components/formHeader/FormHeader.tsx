@@ -5,7 +5,8 @@ interface HeaderProps {
     // handlePrevious: (step: number) => void
     // moveToTheNextForm: (step: number) => void
     setStep: (step: number) => void
-    isValidAddress: boolean
+    isValidAddress: boolean,
+    // handleFormSubmit: (e?: React.FormEvent, sectionId?: number) => void
 }
 
 export default function FormHeader({ step, setStep, isValidAddress }: HeaderProps) {
@@ -32,12 +33,12 @@ export default function FormHeader({ step, setStep, isValidAddress }: HeaderProp
     return (
         <div className='flex justify-between mb-4 py-2'>
             {sections?.map(item => (
-                <h1 key={item.id}
-                    className={`paymentFormHeader cursor-pointer ${step === item.id ? 'border-b-2' : 'opacity-50 border-b-2'}`}
-                    onClick={() => toMove(item.id)}
-                >
+                <button type="submit"
+                    key={item.id}
+                    className={`paymentFormHeader text-start cursor-pointer ${step === item.id ? 'border-b-2' : 'opacity-50 border-b-2'}`}
+                    onClick={() => toMove(item.id)}>
                     {`${item.id}. ${item.section}`}
-                </h1>
+                </button>
 
             ))}
         </div>

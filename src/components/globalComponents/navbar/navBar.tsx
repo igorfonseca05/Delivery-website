@@ -26,7 +26,7 @@ import { Search, Menu, X, ShoppingCart } from 'lucide-react';
 
 export function Navbar() {
     const { setIsOpen, isOpen } = useMenuContext()
-    const { cartItensArray, total } = useCartContext()
+    const { order, total } = useCartContext()
     const { cartIsOpen, setCartIsOpen } = useToggleCartContext()
     const { isAdmin } = useAdminContext()
     const { user } = useAuthContext()
@@ -94,7 +94,7 @@ export function Navbar() {
                                 (<li className={`cursor-pointer flex sm:p-2 sm:ml-2 ${path === '/payment' && 'opacity-50 pointer-events-none'}`} onClick={() => setCartIsOpen(!cartIsOpen)}>
 
                                     <div className='flex items-baseline gap-x-0.5 relative py-1'>
-                                        <span className={`absolute top-0 left-4 w-4 h-4 text-center bg-[#df4f4b] text-white rounded-full text-[11px] ${cartItensArray.length === 0 ? 'hidden' : 'block'}`}>{cartItensArray.length}</span>
+                                        <span className={`absolute top-0 left-4 w-4 h-4 text-center bg-[#df4f4b] text-white rounded-full text-[11px] ${order.cartItens.length === 0 ? 'hidden' : 'block'}`}>{order.cartItens.length}</span>
                                         <ShoppingCart className='text-gray-700 text-2xl' />
                                         <div className='flex flex-col'>
                                             <span className='text-[10px] text-gray-400 hidden'>R$ {total.toFixed(2)}</span>

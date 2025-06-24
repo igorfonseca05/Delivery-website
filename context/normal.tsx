@@ -7,22 +7,10 @@ import { useMessageContext } from "./messagesContext"
 import { useToggleCartContext } from "./toggleCartContext"
 import { UserData } from "../utils/types/types"
 
-interface OrderProps {
-    cartItens: DishConfig[],
-    orderDetails: {
-        subTotal: number,
-        totalCartItens: number,
-        deliveryFee: number,
-        total: number
-    },
-    userData: UserData,
-    deliveryAndPayment: {
-        deliveryType: string,
-        paymentMethod: string
-    }
-}
-
 interface DishCartContextProps {
+    cartItensArray: CartItemProps[],
+    setCartItensArray: (cartItensArray: CartItemProps[] | []) => void,
+    // warning: string,
     addToCart: (dishInfos: CartItemProps) => void,
     removeCartItem: (id: string) => void,
     setTotal: (total: number) => void,
@@ -32,8 +20,6 @@ interface DishCartContextProps {
     setDeliveryFee: (deliveryFee: number) => void,
     totalCartItens: number,
     setTotalCartItens: (totalCartItens: number) => void,
-    order: OrderProps,
-    setOrder: (order: OrderProps) => void
 }
 
 
@@ -52,71 +38,60 @@ export function CartContextProvider({ children }: { children: ReactNode }) {
     const [totalCartItens, setTotalCartItens] = useState<number>(0)
 
 
-    const [order, setOrder] = useState<OrderProps>(() => {
-        const storage = localStorage.getItem('order')
-        return storage ? JSON.parse(storage) : {
-            cartItens: [],
-            orderDetails: {},
-            userData: {},
-            deliveryAndPayment: {}
-        }
+    // usando os itens no localstage como padrão
+    const [cartItensArray, setCartItensArray] = useState<DishConfig[]>(() => {
+        const stored = localStorage.getItem('cartItens')
+        return stored ? JSON.parse(stored) : []
+
     })
 
     // Função responsavel por adicionar itens no carrinho
     function addToCart(dishInfos: CartItemProps) {
-        const alreadyExists = order.cartItens.some(item => item.name === dishInfos.name);
+        const alreadyExists = cartItensArray.some(item => item.name === dishInfos.name);
         if (alreadyExists) {
             setError('Dado já adicionado ao carrinho')
             setCartIsOpen(false)
         } else {
-            setOrder(prev => ({
-                ...prev,
-                cartItens: [...prev.cartItens, dishInfos]
-            }))
+            // setCartItensArray(prev => [...prev, dishInfos]);
+            setCartItensArray(prev => [...prev, dishInfos]);
         }
     }
 
     // Função responsável por remover item do carrinho
     function removeCartItem(id: string) {
-        const updatedCartArray = order.cartItens.filter(cartItem => cartItem._id !== id)
-
-        setOrder(prev => ({
-            ...prev,
-            cartItens: [...updatedCartArray]
-        }))
+        const updatedCartArray = cartItensArray.filter(cartItem => cartItem._id !== id)
+        setCartItensArray(updatedCartArray)
     }
 
     // Atualizar dados no localstorage
     useEffect(() => {
-        userData && setOrder(prev => ({
-            ...prev,
-            userData: { ...userData }
-        }))
+        const orderData = {
+            userData,
+            cartItens: [
+                ...cartItensArray
+            ],
+            orderDatails: {
+                total,
+                totalCartItens,
+                deliveryFee
+            }
+        }
+
+        localStorage.setItem('cartItens', JSON.stringify(cartItensArray))
+        userData && localStorage.setItem('userData', JSON.stringify(userData))
+        userData && localStorage.setItem('order', JSON.stringify(orderData))
+
 
         // Se carrinho vazio, total compra é zero
-        if (order.cartItens.length === 0) {
-            setTotal(0)
-            setOrder(prev => ({
-                ...prev,
-                orderDetails: {
-                    subTotal: 0,
-                    deliveryFee,
-                    totalCartItens: order.cartItens.length,
-                    total: 0 + deliveryFee
-                }
-            }))
-        }
-    }, [order.cartItens.length, userData])
-
-
-    useEffect(() => {
-        localStorage.setItem('order', JSON.stringify(order))
-    }, [order])
+        if (cartItensArray.length === 0) setTotal(0)
+        if (cartItensArray.length === 0) setTotalCartItens(0)
+    }, [cartItensArray.length, userData, total])
 
 
     return (
         <CartContext.Provider value={{
             addToCart,
+            cartItensArray,
             removeCartItem,
             total,
             setTotal,
@@ -125,8 +100,7 @@ export function CartContextProvider({ children }: { children: ReactNode }) {
             deliveryFee,
             totalCartItens,
             setTotalCartItens,
-            order,
-            setOrder
+            setCartItensArray,
         }
         }>
             {children}

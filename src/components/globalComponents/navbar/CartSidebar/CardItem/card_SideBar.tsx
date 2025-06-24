@@ -20,9 +20,7 @@ export function CardItem({ id, name, imageUrl, price, quantity }: CartProps) {
 
     const { removeCartItem } = useCartContext()
 
-
     const [animation, setAddAnimation] = useState(false)
-
 
     function animateCard(id: string) {
 

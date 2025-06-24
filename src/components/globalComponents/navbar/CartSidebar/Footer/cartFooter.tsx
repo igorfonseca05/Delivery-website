@@ -14,7 +14,8 @@ export function PricesCart() {
     const { user } = useAuthContext()
     const { setIsOpen: setWarningModalIsOpen } = useWarningModalContext()
     const {
-        cartItensArray,
+        order,
+        setOrder,
         setTotal,
         total,
         setDeliveryFee,
@@ -35,13 +36,21 @@ export function PricesCart() {
 
     // Calculating the Total
     useEffect(() => {
-        const cartItensSum = cartItensArray?.reduce((acc, item) => {
+        const cartItensSum = order.cartItens?.reduce((acc, item) => {
             if (!item.quantity) return acc
             return acc + item.price * item.quantity
         }, 0)
 
-        setTotalCartItens(cartItensSum)
-    }, [cartItensArray])
+        setOrder(({
+            ...order,
+            orderDetails: {
+                subTotal: cartItensSum,
+                deliveryFee,
+                totalCartItens: order.cartItens.length,
+                total: cartItensSum + deliveryFee
+            }
+        }))
+    }, [order.cartItens.length])
 
     useEffect(() => {
         setTotal(totalCartItens + deliveryFee)
@@ -53,16 +62,16 @@ export function PricesCart() {
             <hr className="border-gray-200 h-2 w-full" />
             <div className="flex justify-between w-full">
                 <p className={subTotalFontSize}>Sub-total</p>
-                <span className={subTotalFontSize}>R$ {totalCartItens.toFixed(2)}</span>
+                <span className={subTotalFontSize}>R$ {order.orderDetails.subTotal.toFixed(2)}</span>
             </div>
             <div className="flex justify-between w-full">
                 <p className={subTotalFontSize}>Taxa de entrega</p>
-                <span className={subTotalFontSize}>R$ {deliveryFee.toFixed(2)}</span>
+                <span className={subTotalFontSize}>R$ {order.orderDetails.deliveryFee.toFixed(2)}</span>
             </div>
             <hr className="border-gray-200 h-2 w-full" />
             <div className="flex justify-between w-full">
                 <p className="text-[clamp(1.5rem,1em,2rem)]">Total</p>
-                <span className="text-[clamp(1.5rem,1em,2rem)]">R$ {total.toFixed(2)}</span>
+                <span className="text-[clamp(1.5rem,1em,2rem)]">R$ {order.orderDetails.total.toFixed(2)}</span>
             </div>
 
             {/* Um botão redireciona e outro mostra modal antes de redirecionar */}
