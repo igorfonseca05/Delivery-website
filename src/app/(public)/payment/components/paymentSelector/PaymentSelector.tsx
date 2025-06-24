@@ -11,7 +11,7 @@ interface PaymentSeletorProps {
     message: string
 }
 
-export function PaymentSeletor({
+export default function PaymentSeletor({
     step,
     setPaymentMethod,
     paymentMethod,
