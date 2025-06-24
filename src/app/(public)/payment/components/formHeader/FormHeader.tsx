@@ -38,6 +38,7 @@ export default function FormHeader({ step, setStep, isValidAddress }: HeaderProp
                 >
                     {`${item.id}. ${item.section}`}
                 </h1>
+
             ))}
         </div>
     );

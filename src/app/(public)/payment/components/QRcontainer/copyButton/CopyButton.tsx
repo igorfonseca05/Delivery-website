@@ -19,15 +19,12 @@ export default function PixCodeBox() {
     return (
         <div className="bg-white rounded-lg mb-6">
             <p className="text-gray-800 font-medium text-sm mb-2">
-                Ou, se preferir, copie o código Pix abaixo:
+                Ou, se preferir, copie o código pix:
             </p>
             <div className="flex items-start flex-col justify-between gap-3">
-                <pre className="text-sm scrollStyle text-gray-700 font-mono bg-gray-100 p-3 rounded-lg w-full max-h-30 overflow-auto">
-                    {pixCode}
-                </pre>
                 <button
                     onClick={handleCopy}
-                    className="flex items-center w-full gap-2 button_neutral_large text text-sm rounded-lg transition"
+                    className="flex items-center justify-center w-full gap-2 py-3 bg-orange-300 text text-sm rounded-lg transition"
                 >
                     {copied ? (
                         <>
@@ -37,7 +34,7 @@ export default function PixCodeBox() {
                     ) : (
                         <>
                             <Copy size={16} />
-                            Copiar
+                            Código pix
                         </>
                     )}
                 </button>

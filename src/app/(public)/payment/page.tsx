@@ -12,6 +12,8 @@ import QRcode from './components/QRcontainer/QRcode';
 import Failure from './components/Failure/Failure';
 import Link from 'next/link';
 
+import { ArrowLeft, ArrowRight } from 'lucide-react';
+
 import { userInitialState } from '../../../../constants/constantFile';
 
 import { useAuthContext } from '../../../../context/useAuthContext';
@@ -28,11 +30,12 @@ import { OrderWithotAuthProps, UserProfileAddress } from '../../../../utils/type
 import { UserData } from '../../../../utils/types/types';
 import { toast } from 'react-toastify';
 import FormHeader from './components/formHeader/FormHeader';
-import GetOrderContainer from './components/getOrderContainer/getOrderContainer';
+import { GetOrderContainer as DeliverySelectorType } from './components/getOrderContainer/getOrderContainer';
 import Delivery from './components/deliverSection/Delivery';
 import PickupInstructions from './components/pickupSection/PickupInstructions';
 import PickupMap from './components/pickupSection/map/map';
 import CardForm from './components/paymentSection/paymentSection';
+import { PaymentSeletor } from './components/paymentSelector/PaymentSelector';
 
 
 export default function CheckoutForm() {
@@ -241,20 +244,20 @@ export default function CheckoutForm() {
 
     return (
         <ContentContainer>
-            <div className="mt-5 md:mt-0 w-full sm:p-4 relative">
+            <div className="mt-5 md:mt-0 w-full sm:p-4 relative transition">
                 <div className="flex flex-col md:flex-row min-h-130 gap-x-4">
-                    <div className="hidden md:w-1/3 md:block md:mb-0 rounded-lg order-2">
+                    <div className={`hidden md:w-1/2 md:block md:mb-0 rounded-lg order-2`}>
                         <OrderSummary />
                     </div>
 
-                    <div className="md:w-2/3 p-2 sm:p-6 rounded-lg w-full min-h-full bg-white">
+                    <div className="p-2 sm:p-6 rounded-lg w-full bg-white">
                         <FormHeader step={step}
                             setStep={setStep}
                             isValidAddress={IsValidAddress} />
 
                         {!user && step === 1 && (
                             <>
-                                <GetOrderContainer
+                                <DeliverySelectorType
                                     setGetOrder={setGetOrder}
                                     type='address'
                                     message='Como você gostaria que obter seu pedido?'
@@ -273,7 +276,7 @@ export default function CheckoutForm() {
                                         <motion.div className='flex flex-col space-y-4' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                                             <PickupInstructions />
                                             <PickupMap />
-                                            <button type='submit' className="button_primary_large  w-full md:max-w-70 m-auto md:m-0" onClick={moveToTheNextForm}>Proximo</button>
+                                            <button type='submit' className="button_primary_large w-full md:max-w-70 m-auto md:m-0" onClick={moveToTheNextForm}>Proximo <ArrowRight size={18} /></button>
                                         </motion.div>
                                     )
                                 }
@@ -285,8 +288,7 @@ export default function CheckoutForm() {
                                 <div>
                                     {!orderId && cartItensArray.length !== 0 && (
                                         <>
-                                            <GetOrderContainer
-                                                setPaymentMethod={setPaymentMethod}
+                                            <PaymentSeletor setPaymentMethod={setPaymentMethod}
                                                 type='payment'
                                                 message='Escolha forma de pagamento'
                                                 step={step}
@@ -307,8 +309,8 @@ export default function CheckoutForm() {
                                     )}
                                 </div>
                                 <div className='flex justify-between gap-x-4'>
-                                    <button onClick={handlePrevious} className={`button_neutral_large w-full md:max-w-50 m-auto md:m-0 ${user && 'hidden'}`}>Voltar</button>
-                                    <button onClick={moveToTheNextForm} className={`buttonColor py-3 px-20 w-full md:max-w-50 m-auto md:m-0 ${user && 'hidden'}`}>Próximo</button>
+                                    <button onClick={handlePrevious} className={`button_neutral_large flex items-center gap-x-2 w-full md:max-w-50 m-auto md:m-0 ${user && 'hidden'}`}><ArrowLeft size={18} /> Voltar</button>
+                                    <button onClick={moveToTheNextForm} className={`buttonColor flex items-center gap-x-2 py-3 px-20 w-full md:max-w-50 m-auto md:m-0 ${user && 'hidden'}`}>Próximo <ArrowRight size={18} /> </button>
                                 </div>
 
                                 {orderId &&
@@ -318,39 +320,28 @@ export default function CheckoutForm() {
                         )}
 
                         {(step === 3 && (
-                            <motion.div className='basicStyle relative m-auto  mb:p-0 h-full flex flex-col justify-between' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                            <motion.div className='basicStyle relative m-auto mb:p-0 h-dvh py-2 gap-y-4 flex flex-col justify-between' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                                 <div>
-                                    {/* <h1 className='text-[clamp(1.2rem,1em,2rem)] mb-2'>Pagamento</h1> */}
-                                    {!orderId && cartItensArray.length !== 0 && (
-                                        <><p>pedido</p></>
-                                    )}
-                                    {
-                                        !orderId && cartItensArray.length === 0 &&
-                                        <div className='h-full flex flex-col items-center'>
-                                            <Image src={`/empty.svg`} alt="logo carrinho vazio" priority quality={50} width={300} height={300} className="opacity-40 mb-4" />
-                                            <p>Adicione itens no carrinho para prosseguir com pagamento</p>
+                                    {cartItensArray.length !== 0 ? (
+                                        <p>oi</p>
+                                    ) : (
+                                        <div className='h-80 opacity-50'>
+                                            <Image src={'/empty.svg'} fill alt='' />
+                                            {/* <p className='text-center text-2xl'>Ops, seu carrinho está vazio!</p> */}
                                         </div>
-                                    }
+                                    )}
+
                                 </div>
                                 <div className=' flex-col hidden justify-center items-center h-80'>
-                                    {/* {!loading && !success && !orderId && cartItensArray.length !== 0 && <QRcode handlePayment={handlePayment} />} */}
                                     {loading && <Loading />}
                                     {success && <Success setSuccess={setSuccess} />}
                                     {orderId && <FinishedOrder orderId={orderId} />}
                                     {/* {success && <Failure />} */}
                                 </div>
 
-                                {/* {!orderId &&
-                                    cartItensArray.length !== 0 && <PixCodeBox />
-                                } */}
-
-                                {!orderId &&
-                                    <div className='flex gap-x-4'>
-                                        <button onClick={handlePrevious} className={`button_neutral_large text-center w-full md:max-w-20 m-auto md:m-0 ${user && 'hidden'}`}>Voltar</button>
-                                        <button onClick={handlePrevious} className={`button_primary_large w-full md:max-w-50 m-auto md:m-0 ${user && 'hidden'}`}>Próximo</button>
-                                    </div>
-                                }
-
+                                <div className='flex justify-end'>
+                                    <button onClick={handlePrevious} className={`button_primary_large text-center w-full md:max-w-50 m-auto md:m-0 ${cartItensArray.length === 0 && 'hidden'}`}>Finalizar Pedido</button>
+                                </div>
                                 {orderId &&
                                     <Link href={'/'} className="button_primary_large text-center w-full m-auto md:text-end">Página inicial</Link>
                                 }

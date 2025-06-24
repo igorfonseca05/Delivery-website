@@ -34,6 +34,7 @@ export default function Delivery({ formData, setFormData, handleFormSubmit }: De
                         placeholder="Nome"
                         className='input'
                         autoComplete='on'
+                        required
                     />
                     <input
                         name="sobrenome"
