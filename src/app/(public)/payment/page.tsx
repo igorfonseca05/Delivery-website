@@ -276,9 +276,11 @@ export default function CheckoutForm() {
         <ContentContainer>
             <div className="mt-5 md:mt-0 w-full sm:p-4 relative transition ">
                 <div className="flex flex-col md:flex-row min-h-130 gap-x-4 ">
-                    <div className={`hidden md:w-1/2 md:block md:mb-0 rounded-lg order-2`}>
-                        <OrderSummary />
-                    </div>
+                    {step !== 3 &&
+                        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className='order-2 hidden md:w-1/2 md:block md:mb-0 rounded-lg'>
+                            <OrderSummary />
+                        </motion.div>
+                    }
 
                     <div className="p-2 sm:p-6 rounded-lg w-full bg-white shadow-sm">
                         <FormHeader step={step}
@@ -328,8 +330,8 @@ export default function CheckoutForm() {
                                                     <CardForm />
                                                 ) : (
                                                     <motion.div className='flex flex-col space-y-4' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                                                        <QRcode handlePayment={handlePayment} />
-                                                        {!orderId && order.cartItens.length !== 0 && <PixCodeBox />}
+                                                        {/* <QRcode handlePayment={handlePayment} /> */}
+                                                        {/* {!orderId && order.cartItens.length !== 0 && <PixCodeBox />} */}
                                                     </motion.div>
                                                 )
                                             }
@@ -352,7 +354,15 @@ export default function CheckoutForm() {
                             <motion.div className='basicStyle relative m-auto mb:p-0 h-dvh py-2 gap-y-4 flex flex-col justify-between' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                                 <div>
                                     {order.cartItens.length !== 0 ? (
-                                        <OrderSection userAddress={formData} />
+                                        <>
+                                            {/* <OrderSummary /> */}
+                                            <OrderSection
+                                                cartItens={order.cartItens}
+                                                orderDetails={order.orderDetails}
+                                                userData={order.userData}
+                                                deliveryAndPayment={order.deliveryAndPayment}
+                                            /></>
+
                                     ) : (
                                         <div className='h-80 opacity-50'>
                                             <Image src={'/empty.svg'} fill alt='' />
@@ -367,7 +377,7 @@ export default function CheckoutForm() {
                                 </div>
 
                                 <div className='flex justify-between'>
-                                    <button onClick={handlePrevious} className={`button_neutral_large flex items-center justify-center gap-x-2 w-full md:max-w-50 m-auto md:m-0 ${user && 'hidden'}`}><ArrowLeft size={18} /> Voltar</button>
+                                    <button onClick={handlePrevious} className={`button_neutral_large flex items-center justify-center gap-x-2 w-full md:max-w-50 m-auto md:m-0 ${user || order.cartItens.length === 0 && 'hidden'}`}><ArrowLeft size={18} /> Voltar</button>
                                     <button onClick={handlePrevious} className={`button_primary_large text-center w-full md:max-w-50 m-auto md:m-0 ${order.cartItens.length === 0 && 'hidden'}`}>Finalizar Pedido</button>
                                 </div>
                                 {orderId &&

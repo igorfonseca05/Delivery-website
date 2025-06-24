@@ -6,21 +6,7 @@ import { CartItemProps, DishConfig } from "../utils/types/types"
 import { useMessageContext } from "./messagesContext"
 import { useToggleCartContext } from "./toggleCartContext"
 import { UserData } from "../utils/types/types"
-
-interface OrderProps {
-    cartItens: DishConfig[],
-    orderDetails: {
-        subTotal: number,
-        totalCartItens: number,
-        deliveryFee: number,
-        total: number
-    },
-    userData: UserData,
-    deliveryAndPayment: {
-        deliveryType: string,
-        paymentMethod: string
-    }
-}
+import { OrderProps } from "../utils/types/types"
 
 interface DishCartContextProps {
     addToCart: (dishInfos: CartItemProps) => void,
@@ -112,7 +98,6 @@ export function CartContextProvider({ children }: { children: ReactNode }) {
     useEffect(() => {
         localStorage.setItem('order', JSON.stringify(order))
     }, [order])
-
 
     return (
         <CartContext.Provider value={{

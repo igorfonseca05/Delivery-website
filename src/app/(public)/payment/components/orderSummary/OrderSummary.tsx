@@ -13,10 +13,10 @@ export default function OrderSummary({ removeButton }: { removeButton?: boolean 
     const { order } = useCartContext()
 
     return (
-        <div className="mx-auto w-full md:p-6 bg-white rounded-lg space-y-4 overflow-hidden overflow-y-hidden shadow-sm">
+        <div className="mx-auto w-full md:p-6 bg-white rounded-lg space-y-4 overflow-hidden overflow-y-hidden md:shadow-sm">
             <h2 className="text-[clamp(1.5rem,1em,2rem)] text-center font-semibold">Resumo do Pedido</h2>
             <div className="flex flex-col flex-1 justify-between h-[90%] max-h-120 space-y-4">
-                <div className="flex flex-col gap-y-2 overflow-auto overflow-x-hidden">
+                <div className="flex flex-col gap-y-2 overflow-auto overflow-x-hidden cartScroll">
                     {order.cartItens && order.cartItens?.map(({ _id, name, price, imageUrl, quantity }) => (
                         <CardItem
                             key={_id}

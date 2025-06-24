@@ -152,3 +152,18 @@ export interface OrderWithotAuthProps {
         deliveryFee: number
     }
 }
+
+export interface OrderProps {
+    cartItens: DishConfig[],
+    orderDetails: {
+        subTotal: number,
+        totalCartItens: number,
+        deliveryFee: number,
+        total: number
+    },
+    userData: UserData,
+    deliveryAndPayment: {
+        deliveryType: string,
+        paymentMethod: string
+    }
+}

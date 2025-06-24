@@ -13,7 +13,7 @@ export function verifyEnvironment() {
 
 
 export function upperCaseText(text: string) {
-    return text[0].toUpperCase() + text.slice(1)
+    return text[0].toUpperCase() + text.slice(1).toLocaleLowerCase()
 }
 
 

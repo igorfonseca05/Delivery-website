@@ -14,9 +14,10 @@ interface CartProps {
     imageUrl: string,
     price: number,
     quantity?: number
+    hideIcon?: boolean
 }
 
-export function CardItem({ id, name, imageUrl, price, quantity }: CartProps) {
+export function CardItem({ id, name, imageUrl, price, quantity, hideIcon }: CartProps) {
 
     const { removeCartItem } = useCartContext()
 
@@ -38,8 +39,8 @@ export function CardItem({ id, name, imageUrl, price, quantity }: CartProps) {
             <Image
                 src={getImageSourceType(imageUrl)}
                 alt="food"
-                width={120}
-                height={120}
+                width={90}
+                height={90}
                 className="rounded-lg"
                 style={{ objectFit: 'cover' }}
             />
@@ -66,7 +67,7 @@ export function CardItem({ id, name, imageUrl, price, quantity }: CartProps) {
                 <span className="text-orange-400 font-semibold text-[clamp(1rem,1em,2rem)]">R$ {price?.toFixed(2)} <span className="text-gray-800 font-normal ml-2">{quantity && `x${quantity}`}</span> </span>
                 <Trash2
                     size={22}
-                    onClick={() => animateCard(id)} className="cursor-pointer mr-1" />
+                    onClick={() => animateCard(id)} className={`cursor-pointer mr-1 ${hideIcon && 'hidden'}`} />
             </div>
         )
     }
