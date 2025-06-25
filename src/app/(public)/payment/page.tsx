@@ -359,7 +359,7 @@ export default function CheckoutForm() {
                                         </>
                                     )}
                                 </div>
-                                <div className='flex justify-between gap-x-4'>
+                                <div className='grid grid-cols-[100px_1fr]  justify-between gap-x-4'>
                                     <button onClick={handlePrevious} className={`button_neutral_large flex items-center justify-center gap-x-2 w-full md:max-w-50 m-auto md:m-0 ${user && 'hidden'}`}><ArrowLeft size={18} /> Voltar</button>
                                     <button onClick={moveToTheNextForm} className={`buttonColor flex items-center justify-center gap-x-2 py-3 w-full md:max-w-50 m-auto md:m-0 ${user && 'hidden'}`}>Próximo <ArrowRight size={18} /> </button>
                                 </div>
@@ -393,9 +393,9 @@ export default function CheckoutForm() {
                                     {/* {success && <Failure />} */}
                                 </div>
 
-                                <div className='flex justify-between'>
+                                <div className='grid grid-cols-[100px_1fr] justify-between gap-x-4'>
                                     <button onClick={handlePrevious} className={`button_neutral_large flex items-center justify-center gap-x-2 w-full md:max-w-50 m-auto md:m-0 ${user || order.cartItens.length === 0 && 'hidden'}`}><ArrowLeft size={18} /> Voltar</button>
-                                    <button onClick={handlePrevious} className={`button_primary_large text-center w-full md:max-w-50 m-auto md:m-0 ${order.cartItens.length === 0 && 'hidden'}`}>Finalizar Pedido</button>
+                                    <button onClick={handlePrevious} className={`buttonColor gap-x-2 py-3 px-10 w-full md:max-w-50 m-auto md:m-0 ${order.cartItens.length === 0 && 'hidden'}`}>Finalizar Pedido</button>
                                 </div>
                                 {orderId &&
                                     <Link href={'/'} className="button_primary_large text-center w-full m-auto md:text-end">Página inicial</Link>

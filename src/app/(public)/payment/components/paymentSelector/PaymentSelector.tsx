@@ -25,8 +25,8 @@ export default function PaymentSeletor({
     const [isPaymentSelected, setIsPaymentSelected] = useState(paymentMethod)
 
     const [buttons, setButtons] = useState([
-        { id: 3, label: 'Cartão de crédito', icon: CreditCard },
-        { id: 4, label: 'Pix', icon: FaPix }
+        { id: 3, label: 'Cartão de crédito', icon: `cartao.svg` },
+        { id: 4, label: 'Pix', icon: 'pix.svg' }
     ])
 
     function handleButtonsForm(id: number) {
@@ -39,18 +39,20 @@ export default function PaymentSeletor({
     return (
         <div className='flex flex-col space-y-4 mb-4'>
             <p className='text-[clamp(1rem,1em,2rem)] font-extrabold mb-4'>{message}</p>
-            <div className="flex flex-col gap-4 sm:flex-row">
+            <div className="flex gap-4 sm:flex-row">
                 {
-                    buttons?.map(({ id, label, icon: Icon }) => {
+                    buttons?.map(({ id, label, icon }) => {
                         const paymentSelected = isPaymentSelected === id
 
                         return (
                             <button key={id}
-                                className={`flex button_neutral_large  gap-x-4 grow 
+                                className={`flex border border-gray-200 p-2 rounded-lg items-center justify-center gap-x-4 grow 
                                 ${paymentSelected ? 'opacity-100' : 'opacity-50'}`}
                                 onClick={() => { handleButtonsForm(id) }}>
 
-                                <Icon className="w-5 h-5 text-orange-400" />
+                                <figure className="w-10 h-10 flex justify-center items-center">
+                                    <img src={`/${icon}`} className="w-full" alt="" />
+                                </figure>
                                 <span className="min-w-25 text-start">{label}
                                     {id === 1 &&
                                         <span className="text-[12px] ml-1 font-bold">- Grátis</span>
@@ -62,5 +64,30 @@ export default function PaymentSeletor({
                 }
             </div>
         </div>
+        // <div className='flex flex-col space-y-4 mb-4'>
+        //     <p className='text-[clamp(1rem,1em,2rem)] font-extrabold mb-4'>{message}</p>
+        //     <div className="flex flex-col gap-4 sm:flex-row">
+        //         {
+        //             buttons?.map(({ id, label, icon: Icon }) => {
+        //                 const paymentSelected = isPaymentSelected === id
+
+        //                 return (
+        //                     <button key={id}
+        //                         className={`flex button_neutral_large  gap-x-4 grow 
+        //                         ${paymentSelected ? 'opacity-100' : 'opacity-50'}`}
+        //                         onClick={() => { handleButtonsForm(id) }}>
+
+        //                         <Icon className="w-5 h-5 text-orange-400" />
+        //                         <span className="min-w-25 text-start">{label}
+        //                             {id === 1 &&
+        //                                 <span className="text-[12px] ml-1 font-bold">- Grátis</span>
+        //                             }
+        //                         </span>
+        //                     </button>
+        //                 )
+        //             })
+        //         }
+        //     </div>
+        // </div>
     );
 };
