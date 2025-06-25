@@ -34,7 +34,7 @@ export function CardItem({ id, name, imageUrl, price, quantity, hideIcon }: Cart
 
 
     return (
-        <div className={`flex p-2 gap-x-2 border-1 border-gray-300 h-25 rounded-lg transition-transform 
+        <div className={`flex p-2 gap-x-2 border-2 border-gray-300 h-25 rounded-lg transition-transform 
             duration-200 ease-in-out ${animation && 'translate-x-[100%]'}`}>
             <Image
                 src={getImageSourceType(imageUrl)}

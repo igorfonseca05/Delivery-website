@@ -276,7 +276,7 @@ export default function CheckoutForm() {
         <ContentContainer>
             <div className="mt-5 md:mt-4 w-full relative transition ">
                 <div className="flex flex-col md:flex-row min-h-130 gap-x-4 ">
-                    {step !== 3 &&
+                    {
                         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className='order-2 hidden md:w-1/2 md:block md:mb-0 rounded-lg'>
                             <OrderSummary />
                         </motion.div>
@@ -307,7 +307,9 @@ export default function CheckoutForm() {
                                         <motion.div className='flex flex-col space-y-4' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                                             <PickupInstructions />
                                             <PickupMap />
-                                            <button type='submit' className="button_primary_large w-full md:max-w-70 m-auto md:m-0" onClick={moveToTheNextForm}>Proximo <ArrowRight size={18} /></button>
+                                            <div className='flex justify-end'>
+                                                <button type='submit' className="button_primary_large w-full md:max-w-50 m-auto md:m-0 flex items-center justify-center gap-x-3" onClick={moveToTheNextForm}>Proximo <ArrowRight size={18} /></button>
+                                            </div>
                                         </motion.div>
                                     )
                                 }
@@ -323,15 +325,28 @@ export default function CheckoutForm() {
                                                 type='payment'
                                                 message='Escolha forma de pagamento'
                                                 step={step}
+                                                setStep={setStep}
                                                 paymentMethod={paymentMethod} />
 
                                             {
                                                 paymentMethod === 3 ? (
                                                     <CardForm />
                                                 ) : (
-                                                    <motion.div className='flex flex-col space-y-4' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                                                        {/* <QRcode handlePayment={handlePayment} /> */}
-                                                        {/* {!orderId && order.cartItens.length !== 0 && <PixCodeBox />} */}
+                                                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className=' relative m-auto mb:p-0 flex h-75 flex-col overflow-hidden'>
+                                                        <div className="mb-4 bg-amber-50 border-l-4 border-amber-400 p-3 rounded">
+                                                            <p className="text-sm text-amber-800">
+                                                                💡 Você selecionou <strong>Pix</strong> como forma de pagamento. Você pode alterá-la acima.
+                                                            </p>
+                                                        </div>
+                                                        <Image
+                                                            src="/pix.png" // ajuste o caminho conforme seu projeto
+                                                            alt="Ilustração de pagamento com Pix"
+                                                            width={190} // você pode ajustar conforme o espaço horizontal
+                                                            height={190} // altura exata do seu espaço: 75*4
+                                                            className="mx-auto"
+                                                            priority // para carregar rápido se estiver visível ao abrir a tela
+                                                        />
+
                                                     </motion.div>
                                                 )
                                             }
@@ -354,15 +369,12 @@ export default function CheckoutForm() {
                             <motion.div className='basicStyle relative m-auto mb:p-0 h-dvh py-2 gap-y-4 flex flex-col justify-between' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                                 <div>
                                     {order.cartItens.length !== 0 ? (
-                                        <>
-                                            {/* <OrderSummary /> */}
-                                            <OrderSection
-                                                cartItens={order.cartItens}
-                                                orderDetails={order.orderDetails}
-                                                userData={order.userData}
-                                                deliveryAndPayment={order.deliveryAndPayment}
-                                            /></>
-
+                                        <OrderSection
+                                            cartItens={order.cartItens}
+                                            orderDetails={order.orderDetails}
+                                            userData={order.userData}
+                                            deliveryAndPayment={order.deliveryAndPayment}
+                                        />
                                     ) : (
                                         <div className='h-80 opacity-50'>
                                             <Image src={'/empty.svg'} fill alt='' />

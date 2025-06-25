@@ -24,7 +24,7 @@ export default function Delivery({ formData, setFormData, handleFormSubmit }: De
     return (
         <motion.div className='basicStyle relative m-auto mb:p-0 flex flex-col justify-between' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             <h1 className='text-[clamp(1.2rem,1em,2rem)] mb-2 font-extrabold'>Adicione seu endereço de Entrega</h1>
-            <p className='my-3 text-gray-500 text-[clamp(0.8rem,0.8em,2rem)]'>* Obrigatórios</p>
+            {/* <p className='my-3 text-gray-500 text-[clamp(0.8rem,0.8em,2rem)]'>* Obrigatórios</p> */}
             <form className='min-h-full flex flex-col justify-between py-2' onSubmit={handleFormSubmit}>
                 <h3 className={`text-sm font-medium text-gray-700 mb-2`}>Dados pessoais *</h3>
                 <div className="flex gap-4 mb-4">

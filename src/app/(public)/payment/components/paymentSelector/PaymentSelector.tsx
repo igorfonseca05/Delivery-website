@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 
 interface PaymentSeletorProps {
     step: number,
+    setStep: (step: number) => void
     order?: number
     paymentMethod?: number
     setPaymentMethod: (paymentMethod: number) => void,
@@ -13,6 +14,7 @@ interface PaymentSeletorProps {
 
 export default function PaymentSeletor({
     step,
+    setStep,
     setPaymentMethod,
     paymentMethod,
     type,
@@ -29,8 +31,9 @@ export default function PaymentSeletor({
 
     function handleButtonsForm(id: number) {
         setPaymentMethod(id)
-
         setIsPaymentSelected(id)
+
+        id === 4 && setStep(3)
     }
 
     return (
