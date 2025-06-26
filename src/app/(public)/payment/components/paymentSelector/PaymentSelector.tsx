@@ -46,11 +46,11 @@ export default function PaymentSeletor({
 
                         return (
                             <button key={id}
-                                className={`flex border border-gray-200 p-2 rounded-lg items-center justify-center gap-x-4 grow 
+                                className={`flex border border-gray-200 p-2 rounded-lg items-center justify-center gap-x-2 grow 
                                 ${paymentSelected ? 'opacity-100' : 'opacity-50'}`}
                                 onClick={() => { handleButtonsForm(id) }}>
 
-                                <figure className="w-10 h-10 flex justify-center items-center">
+                                <figure className="w-8 h-8 flex justify-center items-center">
                                     <img src={`/${icon}`} className="w-full" alt="" />
                                 </figure>
                                 <span className="min-w-25 text-start">{label}

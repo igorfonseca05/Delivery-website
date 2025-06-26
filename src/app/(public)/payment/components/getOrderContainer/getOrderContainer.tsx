@@ -39,7 +39,7 @@ export default function GetOrderContainer({
 
                         return (
                             <button key={id}
-                                className={` flex justify-center items-center py-2 border border-gray-300 rounded-lg gap-x-3 grow 
+                                className={` flex justify-center items-center py-2 border border-gray-300 rounded-lg gap-x-2 grow 
                                 ${getOrderSelected ? 'opacity-100 bg-orange-100' : 'opacity-50'}`}
                                 onClick={() => { handleButtonsForm(id) }}>
 
