@@ -25,7 +25,7 @@ export default function OrderSection({
                 <div className='flex flex-col mb-2 md:hidden md:flex-row '>
                     <div className='grow md:mb-0'>
                         <h3 className={`mb-2 font-semibold ${sizeText}`}>Itens do pedido:<span className='ml-2'>{orderDetails.totalCartItens}</span></h3>
-                        <div className="space-y-2 max-h-60 md:max-h-82 overflow-y-auto overflow-x-hidden category">
+                        <div className="space-y-2 max-h-60 md:max-h-82 overflow-y-auto overflow-x-hidden cartScroll">
                             {cartItens?.map(item => (
                                 <CardItem
                                     key={item._id}
