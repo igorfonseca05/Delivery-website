@@ -33,7 +33,7 @@ export default function PaymentSeletor({
         setPaymentMethod(id)
         setIsPaymentSelected(id)
 
-        id === 4 && setStep(3)
+        // id === 4 && setStep(3)
     }
 
     return (

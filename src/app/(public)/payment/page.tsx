@@ -371,7 +371,7 @@ export default function CheckoutForm() {
                         )}
 
                         {(step === 3 && (
-                            <motion.div className='basicStyle relative m-auto mb:p-0 h-dvh py-2 gap-y-4 flex flex-col justify-between' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                            <motion.div className='basicStyle relative m-auto mb:py-0 h-dvh gap-y-4 flex flex-col justify-between' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                                 <div>
                                     {order.cartItens.length !== 0 ? (
                                         <OrderSection

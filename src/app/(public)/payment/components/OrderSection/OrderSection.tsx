@@ -16,16 +16,16 @@ export default function OrderSection({
     deliveryAndPayment,
 }: OrderProps) {
 
-    const sizeText = 'text-[clamp(1.2rem,1em,2rem)]'
+    const sizeText = 'text-[clamp(1rem,1em,2rem)]'
 
     return (
         <>
-            <h2 className="text-xl p-2 font-bold text-[clamp(1rem,1em,2rem)] md:hidden">Resumo do Pedido</h2>
+            <h2 className="text-xl px-2 font-bold text-[clamp(1rem,1em,2rem)] md:hidden">Resumo do Pedido</h2>
             <section className="mx-auto bg-white rounded-2xl p-2 space-y-6 text-gray-800">
-                <div className='flex flex-col md:hidden md:flex-row '>
+                <div className='flex flex-col mb-2 md:hidden md:flex-row '>
                     <div className='grow md:mb-0'>
-                        <h3 className={`font-normal mb-2 ${sizeText}`}>Itens do pedido:<span className='ml-2'>{orderDetails.totalCartItens}</span></h3>
-                        <div className="space-y-2 max-h-60 md:max-h-82 overflow-y-auto overflow-x-hidden transition cartScroll">
+                        <h3 className={`mb-2 font-semibold ${sizeText}`}>Itens do pedido:<span className='ml-2'>{orderDetails.totalCartItens}</span></h3>
+                        <div className="space-y-2 max-h-60 md:max-h-82 overflow-y-auto overflow-x-hidden cartScroll">
                             {cartItens?.map(item => (
                                 <CardItem
                                     key={item._id}
@@ -39,7 +39,7 @@ export default function OrderSection({
                     </div>
                 </div>
 
-                <div className='md:pr-8 grow-0'>
+                <div className='md:pr-8'>
                     <div className='mb-3'>
                         <h3 className={`font-semibold mb-2 ${sizeText}`}>Informações do cliente:</h3>
                         <p>
