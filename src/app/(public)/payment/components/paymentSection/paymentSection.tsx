@@ -1,66 +1,52 @@
+import { motion } from 'framer-motion'
+import PaymentSeletor from "./components/paymentSelector/PaymentSelector";
+import CardForm from './components/cardForm/paymentSection';
+import Pix from './components/PixPayment/Pix';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 
-import { Lock, CreditCard } from "lucide-react";
-import { motion } from 'framer-motion';
+import { useCartContext } from '../../../../../../context/cartContext';
 
-export default function CardForm() {
+interface PaymentSeletorProps {
+    paymentMethod?: number
+    setPaymentMethod: (paymentMethod: number) => void,
+    handlePrevious: () => void,
+    moveToTheNextForm: () => void
+}
+
+export default function PaymentSection({
+    paymentMethod,
+    setPaymentMethod,
+    handlePrevious,
+    moveToTheNextForm
+}: PaymentSeletorProps) {
+
+    const { order } = useCartContext()
+
     return (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <form className=" w-full mx-auto space-y-6">
-                <div>
-                    <h2 className="text-lg font-semibold">Informações do cartão</h2>
-                </div>
+        <motion.div className='basicStyle relative m-auto mb:p-0 h-dvh flex flex-col ' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+            <div>
 
-                <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700">
-                        Nome no cartão
-                    </label>
-                    <input
-                        type="text"
-                        placeholder="Marcelo Santos"
-                        className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                </div>
+                {order.cartItens.length !== 0 && (
+                    <>
+                        <PaymentSeletor setPaymentMethod={setPaymentMethod}
+                            message='Escolha forma de pagamento'
+                            paymentMethod={paymentMethod} />
 
-                <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700">
-                        Número do cartão
-                    </label>
-                    <div className="flex items-center border border-gray-300 rounded px-3 py-2">
-                        {/* Cartão de crédito logo */}
-                        <CreditCard className="text-black/30" />
-                        <input
-                            type="text"
-                            placeholder="Nº cartão"
-                            className="flex-1 pl-2 text-sm bg-transparent  outline-none"
-                        />
-                        {/* Cadeado */}
-                        {/* <Lock size={20} className="text-black/30" /> */}
-                    </div>
-                </div>
+                        {
+                            paymentMethod === 3 ? (
+                                <CardForm />
+                            ) : (
+                                <Pix />
+                            )
+                        }
 
-                <div className="flex gap-4 paymentFormInput ">
-                    <div className="flex-1 space-y-2">
-                        <label className="block text-sm font-medium text-gray-700">
-                            Data de expiração
-                        </label>
-                        <input
-                            type="text"
-                            placeholder="MM/AA"
-                            className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                    </div>
-                    <div className="flex-1 space-y-2">
-                        <label className="block text-sm font-medium text-gray-700">
-                            Código de segurança
-                        </label>
-                        <input
-                            type="text"
-                            placeholder="CVV"
-                            className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                    </div>
-                </div>
-            </form>
+                    </>
+                )}
+            </div>
+            <div className='flex justify-between gap-x-4'>
+                <button onClick={handlePrevious} className={`button_neutral_large flex items-center justify-center gap-x-2 w-full md:max-w-50 m-auto md:m-0`}><ArrowLeft size={18} /> Voltar</button>
+                <button onClick={moveToTheNextForm} className={`buttonColor flex items-center justify-center gap-x-2 px-20 py-3 w-full md:max-w-70 m-auto md:m-0`}>Próximo <ArrowRight size={18} /> </button>
+            </div>
         </motion.div>
     );
-}
+};

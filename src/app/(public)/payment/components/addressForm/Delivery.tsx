@@ -122,7 +122,7 @@ export default function Delivery({ formData, setFormData, handleFormSubmit }: De
                         required />
                 </div>
                 <div className='flex justify-end'>
-                    <button type='submit' id='formButton' className="button_primary_large flex justify-center gap-x-4 items-center w-full md:max-w-50 m-auto md:m-0">Proximo <ArrowRight size={18} /> </button>
+                    <button type='submit' id='formButton' className="buttonColor flex items-center justify-center gap-x-2 px-20 py-3 w-full md:max-w-70 m-auto md:m-0">Proximo <ArrowRight size={18} /> </button>
                 </div>
             </form>
         </motion.div >

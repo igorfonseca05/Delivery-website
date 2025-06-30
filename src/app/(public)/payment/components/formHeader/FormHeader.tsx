@@ -9,7 +9,7 @@ interface HeaderProps {
     // handleFormSubmit: (e?: React.FormEvent, sectionId?: number) => void
 }
 
-export default function FormHeader({ step, setStep, isValidAddress }: HeaderProps) {
+export default function Stepper({ step, setStep, isValidAddress }: HeaderProps) {
 
     const sections = [
         { id: 1, section: 'Endereço' },

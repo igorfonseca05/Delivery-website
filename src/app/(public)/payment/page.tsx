@@ -12,7 +12,7 @@ import QRcode from './components/QRcontainer/QRcode';
 import Failure from './components/Failure/Failure';
 import Link from 'next/link';
 
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Pi } from 'lucide-react';
 
 import { userInitialState } from '../../../../constants/constantFile';
 
@@ -23,20 +23,17 @@ import OrderSummary from './components/orderSummary/OrderSummary';
 import { FinishedOrder } from './components/FinishedOrder/FinishesOrder';
 import { useFirebase } from '../../../../hooks/useFirebase';
 
-import PixCodeBox from './components/QRcontainer/copyButton/CopyButton';
-
 import { useMessageContext } from '../../../../context/messagesContext';
 import { OrderWithotAuthProps, UserProfileAddress } from '../../../../utils/types/types';
 import { UserData } from '../../../../utils/types/types';
 import { toast } from 'react-toastify';
-import FormHeader from './components/formHeader/FormHeader';
 import GetOrderContainer from './components/getOrderContainer/getOrderContainer';
-import Delivery from './components/deliverSection/Delivery';
-import PickupInstructions from './components/pickupSection/PickupInstructions';
-import PickupMap from './components/pickupSection/map/map';
-import CardForm from './components/paymentSection/paymentSection';
-import PaymentSeletor from './components/paymentSelector/PaymentSelector';
-import OrderSection from './components/OrderSection/OrderSection';
+import Delivery from './components/addressForm/Delivery';
+import Stepper from './components/formHeader/FormHeader';
+import PickUpSection from './components/pickUpInStoreSection/PickUpSection';
+import OrderResume from './OrderResumeSection/OrderResume';
+import PaymentSection from './components/PaymentSection/PaymentSection';
+import DeliverySection from './components/DeliverySection/DeliverySection';
 
 
 export default function CheckoutForm() {
@@ -60,11 +57,6 @@ export default function CheckoutForm() {
     // estado inicial do form
     const [formData, setFormData] = useState(userInitialState);
 
-    // const [userAddress] = useState<UserData>(() => {
-    //     const stored = localStorage.getItem('userData');
-    //     return stored ? JSON.parse(stored) : formData
-    // });
-
     const router = useRouter()
     const timeoutIds = useRef<Array<number | NodeJS.Timeout>>([]);
 
@@ -75,7 +67,9 @@ export default function CheckoutForm() {
 
 
     function get_Non_Authenticated_User_Address() {
-        if (!order.userData) {
+        const userAddress = order.userData
+
+        if (!userAddress) {
             setError('Precisamos do seu endereço para enviar seu pedido até você.')
 
             const timer = setTimeout(() => {
@@ -84,7 +78,6 @@ export default function CheckoutForm() {
             }, 4000);
 
             timeoutIds.current.push(timer);
-            return false
         }
     }
 
@@ -107,13 +100,14 @@ export default function CheckoutForm() {
                 return false
             }
         } catch (error) {
-
+            setError('Erro ao obter endereço de usuário')
         }
     }
 
 
     function verifyAddress() {
         try {
+
             // Se usuário está logado, verifica no Firebase
             get_Authenticated_User_Address()
 
@@ -121,14 +115,10 @@ export default function CheckoutForm() {
             get_Non_Authenticated_User_Address()
 
             setIsValidAddress(true)
-            return true
-
         } catch (error) {
-            console.error('Erro ao verificar endereço:', error);
             setError('Ocorreu um erro ao verificar seu endereço. Tente novamente.');
             return false;
         }
-
     }
 
     async function createOrder() {
@@ -276,131 +266,42 @@ export default function CheckoutForm() {
         <ContentContainer>
             <div className="mt-5 md:mt-4 w-full relative transition ">
                 <div className="flex flex-col md:flex-row min-h-130 gap-x-4 ">
-                    {
-                        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className='order-2 hidden md:w-1/2 md:block md:mb-0 rounded-lg'>
-                            <OrderSummary />
-                        </motion.div>
-                    }
+                    {/* Resumo Pedido Container */}
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className='order-2 hidden md:w-1/2 md:block md:mb-0 rounded-lg'>
+                        <OrderSummary />
+                    </motion.div>
 
                     <div className="p-2 sm:p-6 rounded-lg w-full bg-white shadow-sm">
-                        <FormHeader step={step}
+                        <Stepper
+                            step={step}
                             setStep={setStep}
                             isValidAddress={IsValidAddress}
                         />
 
-                        {!user && step === 1 && (
-                            <>
-                                <GetOrderContainer
-                                    setGetOrder={setGetOrder}
-                                    message='Como você gostaria que obter seu pedido?'
-                                    order={getOrder}
-                                />
-
-                                {
-                                    getOrder === 1 ? (
-                                        <Delivery
-                                            handleFormSubmit={handleFormSubmit}
-                                            formData={formData}
-                                            setFormData={setFormData} />
-
-                                    ) : (
-                                        <motion.div className='flex flex-col space-y-4' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                                            <PickupInstructions />
-                                            <PickupMap />
-                                            <div className='flex justify-end'>
-                                                <button type='submit' className="button_primary_large w-full md:max-w-50 m-auto md:m-0 flex items-center justify-center gap-x-3" onClick={moveToTheNextForm}>Proximo <ArrowRight size={18} /></button>
-                                            </div>
-                                        </motion.div>
-                                    )
-                                }
-                            </>
+                        {/* Tela 1 - Endereço ou retirar na loja */}
+                        {step === 1 && (
+                            <DeliverySection
+                                getOrder={getOrder}
+                                setGetOrder={setGetOrder}
+                                message='Como você gostaria que obter seu pedido?'
+                                handleFormSubmit={handleFormSubmit}
+                                formData={formData}
+                                setFormData={setFormData}
+                                moveToTheNextForm={moveToTheNextForm}
+                            />
                         )}
 
+                        {/* Tela 2 - Pagamento cartão ou pix */}
                         {IsValidAddress && step === 2 && (
-                            <motion.div className='basicStyle relative m-auto mb:p-0 h-dvh flex flex-col ' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                                <div>
-                                    {!orderId && order.cartItens.length !== 0 && (
-                                        <>
-                                            <PaymentSeletor setPaymentMethod={setPaymentMethod}
-                                                type='payment'
-                                                message='Escolha forma de pagamento'
-                                                step={step}
-                                                setStep={setStep}
-                                                paymentMethod={paymentMethod} />
-
-                                            {
-                                                paymentMethod === 3 ? (
-                                                    <CardForm />
-                                                ) : (
-                                                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className=' relative m-auto mb:p-0 flexflex-col overflow-hidden'>
-                                                        <div className="mb-4 bg-amber-50 border-l-4 border-amber-400 p-3 rounded">
-                                                            <p className="text-sm text-amber-800">
-                                                                💡 Você selecionou <strong>Pix</strong> como forma de pagamento.
-                                                            </p>
-                                                        </div>
-                                                        <div className=" rounded-lg p-2 text-sm text-gray-700 leading-relaxed mb-2">
-                                                            <p className="font-medium mb-2">💸 Pagar com Pix é simples:</p>
-                                                            <ol className="list-decimal list-inside space-y-1">
-                                                                <li>Clique no botão <strong>"Próximo"</strong></li>
-                                                                <li>Verifique os itens do seu pedido</li>
-                                                                <li>Clique em <strong>“Finalizar Pedido”</strong> para gerar o QR Code.</li>
-                                                                <li>Escaneie o QR Code com o app do seu banco.</li>
-                                                                <li>Após o pagamento, seu pedido será confirmado automaticamente.</li>
-                                                            </ol>
-                                                            <p className="mt-3 text-xs text-gray-500">
-                                                                Você poderá voltar para ajustar o endereço ou a forma de pagamento a qualquer momento.
-                                                            </p>
-                                                        </div>
-
-                                                    </motion.div>
-                                                )
-                                            }
-
-                                        </>
-                                    )}
-                                </div>
-                                <div className='grid grid-cols-[100px_1fr]  justify-between gap-x-4'>
-                                    <button onClick={handlePrevious} className={`button_neutral_large flex items-center justify-center gap-x-2 w-full md:max-w-50 m-auto md:m-0 ${user && 'hidden'}`}><ArrowLeft size={18} /> Voltar</button>
-                                    <button onClick={moveToTheNextForm} className={`buttonColor flex items-center justify-center gap-x-2 py-3 w-full md:max-w-50 m-auto md:m-0 ${user && 'hidden'}`}>Próximo <ArrowRight size={18} /> </button>
-                                </div>
-
-                                {orderId &&
-                                    <Link href={'/'} className="button_primary_large text-center w-full m-auto md:text-end">Página inicial</Link>
-                                }
-                            </motion.div>
+                            <PaymentSection paymentMethod={paymentMethod}
+                                setPaymentMethod={setPaymentMethod}
+                                handlePrevious={handlePrevious}
+                                moveToTheNextForm={moveToTheNextForm} />
                         )}
 
+                        {/* Tela revisar Pedido */}
                         {(step === 3 && (
-                            <motion.div className='basicStyle relative m-auto mb:py-0 h-dvh gap-y-4 flex flex-col justify-between' initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                                <div>
-                                    {order.cartItens.length !== 0 ? (
-                                        <OrderSection
-                                            cartItens={order.cartItens}
-                                            orderDetails={order.orderDetails}
-                                            userData={order.userData}
-                                            deliveryAndPayment={order.deliveryAndPayment}
-                                        />
-                                    ) : (
-                                        <div className='h-80 opacity-50'>
-                                            <Image src={'/empty.svg'} fill alt='' />
-                                        </div>
-                                    )}
-                                </div>
-                                <div className=' flex-col hidden justify-center items-center h-80'>
-                                    {loading && <Loading />}
-                                    {success && <Success setSuccess={setSuccess} />}
-                                    {orderId && <FinishedOrder orderId={orderId} />}
-                                    {/* {success && <Failure />} */}
-                                </div>
-
-                                <div className='grid grid-cols-[100px_1fr] justify-between gap-x-4'>
-                                    <button onClick={handlePrevious} className={`button_neutral_large flex items-center justify-center gap-x-2 w-full md:max-w-50 m-auto md:m-0 ${user || order.cartItens.length === 0 && 'hidden'}`}><ArrowLeft size={18} /> Voltar</button>
-                                    <button onClick={handlePrevious} className={`buttonColor gap-x-2 py-3 px-10 w-full md:max-w-50 m-auto md:m-0 ${order.cartItens.length === 0 && 'hidden'}`}>Finalizar Pedido</button>
-                                </div>
-                                {orderId &&
-                                    <Link href={'/'} className="button_primary_large text-center w-full m-auto md:text-end">Página inicial</Link>
-                                }
-                            </motion.div>
+                            <OrderResume handlePrevious={handlePrevious} />
                         ))}
                     </div>
                 </div>

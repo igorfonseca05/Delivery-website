@@ -2,10 +2,10 @@
 
 import Image from 'next/image';
 import { FC } from 'react';
-import { OrderProps } from '../../../../../../utils/types/types';
-import { getImageSourceType, upperCaseText } from '../../../../../../utils/helperFunctions';
+import { OrderProps } from '../../../../../../../utils/types/types';
+import { getImageSourceType, upperCaseText } from '../../../../../../../utils/helperFunctions';
 import { CardItem } from '@/components/globalComponents/navbar/CartSidebar/CardItem/card_SideBar';
-import { PriceIndicator } from '../orderSummary/priceIndicator/priceIndicator';
+import { PriceIndicator } from '../../../components/orderSummary/priceIndicator/priceIndicator';
 import { Info } from 'lucide-react';
 
 
@@ -43,20 +43,20 @@ export default function OrderSection({
                     <div className='mb-3'>
                         <h3 className={`font-semibold mb-2 ${sizeText}`}>Informações do cliente:</h3>
                         <p>
-                            <span className='font-semibold'>Nome: </span>
+
                             {`${upperCaseText(userData.nome)} ${userData.sobrenome}`}
                         </p>
 
                         {userData.telefone.length === 11 &&
                             <p>
-                                <span className='font-semibold'>Telefone: </span>
+
                                 {`(${userData.telefone.slice(0, 2)}) ${userData.telefone.slice(3)}`}
                             </p>
                         }
 
                         {userData.telefone.length === 9 &&
                             <p>
-                                <span className='font-semibold'>Telefone:</span>
+
                                 {`(${userData.telefone.slice(0, 4)}) ${userData.telefone.slice(3)}`}
                             </p>
                         }
@@ -64,10 +64,10 @@ export default function OrderSection({
                         {deliveryAndPayment.deliveryType === 'entrega'
                             ?
                             <>
-                                <p><span className='font-semibold'>Endereço:</span> {upperCaseText(userData.rua)}, {userData.numero}</p>
-                                <p><span className='font-semibold'>Bairro :</span> {userData.bairro}</p>
-                                <p><span className='font-semibold'>Bairro :</span> {userData.cidade}</p>
-                                <p><span className='font-semibold'>CEP:</span> {userData.CEP.slice(0, 5)}-{userData.CEP.slice(5)}</p>
+                                <p>{upperCaseText(userData.rua)}, {userData.numero}</p>
+                                <p>{userData.bairro}</p>
+                                <p>{userData.cidade}</p>
+                                <p> {userData.CEP.slice(0, 5)}-{userData.CEP.slice(5)}</p>
                             </> : 'Retirada no local'
                         }
                     </div>
