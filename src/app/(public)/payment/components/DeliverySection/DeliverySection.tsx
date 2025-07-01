@@ -1,8 +1,8 @@
 import { FormEvent } from "react";
 import { UserData } from "../../../../../../utils/types/types";
-import Delivery from "../addressForm/Delivery";
-import GetOrderContainer from "../getOrderContainer/getOrderContainer";
-import PickUpSection from "../pickUpInStoreSection/PickUpSection";
+import Delivery from "./components/addressForm/Delivery";
+import GetOrderContainer from "./components/getOrderContainer/getOrderContainer";
+import PickUpSection from "./components/pickUpInStoreSection/PickUpSection";
 
 interface DeliverySectionProps {
     order?: number

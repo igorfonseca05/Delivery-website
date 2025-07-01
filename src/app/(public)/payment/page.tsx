@@ -6,10 +6,10 @@ import { motion } from 'framer-motion';
 import { ContentContainer } from '@/components/globalComponents/Container/container';
 import Image from 'next/image';
 import { useCartContext } from '../../../../context/cartContext';
-import { Success } from './components/sucessLogo/Success';
-import { Loading } from './components/loading/Loading';
-import QRcode from './components/QRcontainer/QRcode';
-import Failure from './components/Failure/Failure';
+import { Success } from './components/PaymentSection/components/sucessLogo/Success';
+import { Loading } from './components/PaymentSection/components/loading/Loading';
+import QRcode from './components/PaymentSection/components/QRcontainer/QRcode';
+import Failure from './components/PaymentSection/components/Failure/Failure';
 import Link from 'next/link';
 
 import { ArrowLeft, ArrowRight, Pi } from 'lucide-react';
@@ -20,18 +20,18 @@ import { useAuthContext } from '../../../../context/useAuthContext';
 
 import { randomBytes } from 'crypto';
 import OrderSummary from './components/orderSummary/OrderSummary';
-import { FinishedOrder } from './components/FinishedOrder/FinishesOrder';
+import { FinishedOrder } from './components/PaymentSection/components/FinishedOrder/FinishesOrder';
 import { useFirebase } from '../../../../hooks/useFirebase';
 
 import { useMessageContext } from '../../../../context/messagesContext';
 import { OrderWithotAuthProps, UserProfileAddress } from '../../../../utils/types/types';
 import { UserData } from '../../../../utils/types/types';
 import { toast } from 'react-toastify';
-import GetOrderContainer from './components/getOrderContainer/getOrderContainer';
-import Delivery from './components/addressForm/Delivery';
-import Stepper from './components/formHeader/FormHeader';
-import PickUpSection from './components/pickUpInStoreSection/PickUpSection';
-import OrderResume from './OrderResumeSection/OrderResume';
+import GetOrderContainer from './components/DeliverySection/components/getOrderContainer/getOrderContainer';
+import Delivery from './components/DeliverySection/components/addressForm/Delivery';
+import Stepper from './components/Stepper/FormHeader';
+import PickUpSection from './components/DeliverySection/components/pickUpInStoreSection/PickUpSection';
+import OrderResume from './components/OrderResumeSection/OrderResume';
 import PaymentSection from './components/PaymentSection/PaymentSection';
 import DeliverySection from './components/DeliverySection/DeliverySection';
 

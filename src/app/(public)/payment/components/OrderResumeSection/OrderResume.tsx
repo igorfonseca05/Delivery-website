@@ -3,7 +3,7 @@ import OrderSection from './components/OrderSection/OrderSection';
 import Image from 'next/image';
 import { ArrowLeft } from 'lucide-react';
 
-import { useCartContext } from '../../../../../context/cartContext';
+import { useCartContext } from '../../../../../../context/cartContext';
 
 interface OrderResumeProps {
     handlePrevious: () => void,

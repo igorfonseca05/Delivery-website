@@ -2,10 +2,10 @@
 
 import Image from 'next/image';
 import { FC } from 'react';
-import { OrderProps } from '../../../../../../../utils/types/types';
-import { getImageSourceType, upperCaseText } from '../../../../../../../utils/helperFunctions';
+import { OrderProps } from '../../../../../../../../utils/types/types';
+import { getImageSourceType, upperCaseText } from '../../../../../../../../utils/helperFunctions';
 import { CardItem } from '@/components/globalComponents/navbar/CartSidebar/CardItem/card_SideBar';
-import { PriceIndicator } from '../../../components/orderSummary/priceIndicator/priceIndicator';
+import { PriceIndicator } from '../../../orderSummary/priceIndicator/priceIndicator';
 import { Info } from 'lucide-react';
 
 

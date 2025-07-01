@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 
 import { useState } from 'react';
-import { UserData } from '../../../../../../utils/types/types';
+import { UserData } from '../../../../../../../../utils/types/types';
 
 import GetOrderContainer from '../getOrderContainer/getOrderContainer';
 import { ArrowRight } from 'lucide-react';
