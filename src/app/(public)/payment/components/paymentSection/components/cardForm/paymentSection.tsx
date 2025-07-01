@@ -21,16 +21,30 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
     const [expirationMonth, setExpirationMonth] = useState('')
     const [securityCode, setSecurityCode] = useState('')
 
+    const [expirationData, setExpirationData] = useState('')
+
     const [isValid, setIsValid] = useState<boolean | string>('')
     const [isValidDate, setIsValidDate] = useState<boolean | string>('')
-    const [CardBrand, setCardBrand] = useState<string | null>(null);
+    const [CardBrands, setCardBrands] = useState<string | null>(null);
+
+    let [count, setCount] = useState(4)
 
 
     function validateExperationData(data: string) {
+
+        setExpirationData(() => {
+            if (data.length === 2) {
+                return `${data}/`
+            }
+            return data
+        })
+
         if (data.length === 0) return setIsValidDate('')
-        if (!data || data.length < 6) return setIsValidDate(false)
+        if (!data || data.length < 7) return setIsValidDate(false)
 
         const cleanData = data.replace(/\D/g, '');
+
+        console.log(cleanData)
 
         const inputMonth = cleanData.slice(0, 2)
         const inputYear = cleanData.slice(2)
@@ -69,15 +83,12 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
 
         const isValid = soma % 10 === 0
 
-        isValid && setCardNumber(card)
+        // isValid && setCardNumber(card)
         setIsValid(isValid)
     }
 
 
     function detectarBandeira(cleanCardNumber: string): string | null {
-        // const clean = numero.replace(/\D/g, '');
-
-        console.log(cleanCardNumber)
 
         if (/^4\d{12}(\d{3})?$/.test(cleanCardNumber)) return 'visa';
         if (/^5[1-5]\d{14}$/.test(cleanCardNumber)) return 'mastercard';
@@ -91,22 +102,18 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
     }
 
 
-
     function validateCreditCardNumber(creditCardNumber: string) {
+        setCardNumber(creditCardNumber)
 
         const cardbNumberOnlyNumbers = creditCardNumber.replace(/\D/g, '');
-
         const CardBrand = detectarBandeira(cardbNumberOnlyNumbers)
 
-        console.log(CardBrand)
-
         const lengthCardNumber = /^.{13,19}$/g.test(cardbNumberOnlyNumbers)
-
         cardbNumberOnlyNumbers.length === 0 ? setIsValid('') : setIsValid(lengthCardNumber)
-
         lengthCardNumber && luhnAlgorithem(cardbNumberOnlyNumbers)
 
     }
+
 
     function handleCreditCardForm(e: FormEvent) {
         e.preventDefault()
@@ -124,17 +131,36 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
     }
 
     useEffect(() => {
+
+        cardNumber.length === 0 && setCount(4)
+
+        if (cardNumber.length === count) {
+            setCardNumber(`${cardNumber} `)
+            setCount(count += 5)
+        }
+    }, [cardNumber.length])
+
+    useEffect(() => {
         async function getCardBrand() {
+            const cached = localStorage.getItem('cardBrands')
+            if (cached) {
+                setCardBrands(JSON.parse(cached))
+                return
+            }
+
             try {
-
-                // const res = await fetch('http://localhost:3000/api/')
-
-            } catch (error) {
-
+                const res = await fetch('/api/payment/cardbrand')
+                const data = await res.json()
+                localStorage.setItem('cardBrands', JSON.stringify(data))
+                setCardBrands(data)
+            } catch (err) {
+                console.error(err)
             }
         }
 
+        getCardBrand()
     }, [])
+
 
 
     return (
@@ -167,12 +193,13 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
                         {/* Cartão de crédito logo */}
                         <CreditCard className="text-black/30" />
                         <input
-                            onChange={(e) => validateCreditCardNumber(e.target.value)}
+                            value={cardNumber}
                             type="text"
                             name='cardNumber'
                             required
                             placeholder="Nº cartão"
                             className="flex-1 pl-2 text-sm bg-transparent outline-none"
+                            onChange={(e) => validateCreditCardNumber(e.target.value)}
                         />
                         {isValid && <Check className="w-5 h-5 text-green-500" />}
                     </div>
@@ -187,8 +214,9 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
                                 ${isValidDate === '' ? `border-gray-300` :
                                 `${isValidDate ? 'border-green-500' : 'border-red-500'}`} outline-none`}>
                             <input
-                                onChange={(e) => validateExperationData(e.target.value)}
                                 type="text"
+                                value={expirationData}
+                                onChange={(e) => validateExperationData(e.target.value)}
                                 name='expirationData'
                                 required
                                 placeholder="MM/AAAAA"
