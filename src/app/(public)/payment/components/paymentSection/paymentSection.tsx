@@ -34,7 +34,10 @@ export default function PaymentSection({
 
                         {
                             paymentMethod === 3 ? (
-                                <CardForm />
+                                <CardForm
+                                    paymentMethod={paymentMethod}
+                                    handlePrevious={handlePrevious}
+                                    moveToTheNextForm={moveToTheNextForm} />
                             ) : (
                                 <Pix />
                             )
@@ -43,7 +46,7 @@ export default function PaymentSection({
                     </>
                 )}
             </div>
-            <div className='flex justify-between gap-x-4'>
+            <div className={`flex justify-between gap-x-4 ${paymentMethod === 3 && 'hidden'}`}>
                 <button onClick={handlePrevious} className={`button_neutral_large flex items-center justify-center gap-x-2 w-full md:max-w-50 m-auto md:m-0`}><ArrowLeft size={18} /> Voltar</button>
                 <button onClick={moveToTheNextForm} className={`buttonColor flex items-center justify-center gap-x-2 px-20 py-3 w-full md:max-w-70 m-auto md:m-0`}>Próximo <ArrowRight size={18} /> </button>
             </div>

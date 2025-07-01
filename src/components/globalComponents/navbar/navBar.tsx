@@ -38,7 +38,7 @@ export function Navbar() {
         <div className={`${path === '/login' || path === '/signup' ? 'hidden' : ''}`}>
             <header className={`navContainer bg-white w-full z-2 shadow`}>
                 {/* Menu */}
-                <nav className='w-full m-auto sizeContentet alignAllContent px-3 md:px-2'>
+                <nav className='w-full m-auto sizeContent alignAllContent px-3 md:px-2'>
                     {/* container dos items do menu */}
                     <ul className='flex justify-between items-center'>
 

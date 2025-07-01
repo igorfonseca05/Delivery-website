@@ -17,14 +17,15 @@ html {
 body {
   background: var(--bg);
   position: relative;
+  overflow-x: hidden;
   /* overflow: hidden; */
 }
 
 .alignAllContent {
-  @apply w-[99%] m-auto md:w-[100%] lg:ml-21;
+  @apply w-[99%] m-auto md:w-[93%] lg:w-[100%] lg:ml-21;
 }
 
-.sizeContentet {
+.sizeContent {
   @apply max-w-305;
 }
 
@@ -231,9 +232,7 @@ body {
 }
 
 .loader {
-  width: 48px;
-  height: 48px;
-  border: 5px solid #ffd579;
+  /* border: 5px solid #ffd579; */
   border-bottom-color: transparent;
   border-radius: 50%;
   display: inline-block;

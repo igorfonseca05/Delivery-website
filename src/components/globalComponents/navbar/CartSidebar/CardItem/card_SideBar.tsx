@@ -55,7 +55,7 @@ export function CardItem({ id, name, imageUrl, price, quantity, hideIcon }: Cart
     function TitleCard() {
         return (
             <div className="flex items-center justify-between">
-                <p className="font-bold text text-[clamp(1rem,1em,2rem)]">{`${name[0].toUpperCase() + name.slice(1)}`}</p>
+                <p className="font-bold text text-start text-[clamp(0.5rem,1em,2rem)]">{`${name[0].toUpperCase() + name.slice(1)}`}</p>
                 {/* <span className="mr-1">{quantity && `x${quantity}`}</span> */}
             </div>
         )

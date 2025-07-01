@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { FaPix, FaCreditCard } from "react-icons/fa6";
 
 interface PaymentSeletorProps {
     paymentMethod?: number
@@ -16,8 +17,8 @@ export default function PaymentSeletor({
     const [isPaymentSelected, setIsPaymentSelected] = useState(paymentMethod)
 
     const [buttons, setButtons] = useState([
-        { id: 3, label: 'Cartão de crédito', icon: `cartao.svg` },
-        { id: 4, label: 'Pix', icon: 'pix.svg' }
+        { id: 3, label: 'Cartão de crédito', icon: FaCreditCard },
+        { id: 4, label: 'Pix', icon: FaPix }
     ])
 
     function handleButtonsForm(id: number) {
@@ -32,7 +33,7 @@ export default function PaymentSeletor({
             <p className='text-[clamp(1rem,1em,2rem)] font-extrabold mb-4'>{message}</p>
             <div className="flex gap-4 sm:flex-row">
                 {
-                    buttons?.map(({ id, label, icon }) => {
+                    buttons?.map(({ id, label, icon: Icon }) => {
                         const paymentSelected = isPaymentSelected === id
 
                         return (
@@ -41,9 +42,7 @@ export default function PaymentSeletor({
                                 ${paymentSelected ? 'opacity-100' : 'opacity-50'}`}
                                 onClick={() => { handleButtonsForm(id) }}>
 
-                                <figure className="w-8 h-8 flex justify-center items-center">
-                                    <img src={`/${icon}`} className="w-full" alt="" />
-                                </figure>
+                                <Icon size={20} className="text-orange-400" />
                                 <span className="min-w-25 text-start">{label}
                                     {id === 1 &&
                                         <span className="text-[12px] ml-1 font-bold">- Grátis</span>
