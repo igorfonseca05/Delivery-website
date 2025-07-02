@@ -6,10 +6,6 @@ import { motion } from 'framer-motion';
 import { ContentContainer } from '@/components/globalComponents/Container/container';
 import Image from 'next/image';
 import { useCartContext } from '../../../../context/cartContext';
-import { Success } from './components/PaymentSection/components/sucessLogo/Success';
-import { Loading } from './components/PaymentSection/components/loading/Loading';
-import QRcode from './components/PaymentSection/components/QRcontainer/QRcode';
-import Failure from './components/PaymentSection/components/Failure/Failure';
 import Link from 'next/link';
 
 import { ArrowLeft, ArrowRight, Pi } from 'lucide-react';
@@ -20,7 +16,6 @@ import { useAuthContext } from '../../../../context/useAuthContext';
 
 import { randomBytes } from 'crypto';
 import OrderSummary from './components/orderSummary/OrderSummary';
-import { FinishedOrder } from './components/PaymentSection/components/FinishedOrder/FinishesOrder';
 import { useFirebase } from '../../../../hooks/useFirebase';
 
 import { useMessageContext } from '../../../../context/messagesContext';
