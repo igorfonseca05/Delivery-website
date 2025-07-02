@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "server": "json-server db/db.json --port 5000"
+    "server": "json-server db/db.json --port 5000",
+    "check": "tsc --noEmit && next build"
   },
   "dependencies": {
     "crypto": "^1.0.1",

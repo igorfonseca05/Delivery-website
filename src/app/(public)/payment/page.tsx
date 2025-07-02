@@ -32,8 +32,9 @@ import Delivery from './components/DeliverySection/components/addressForm/Delive
 import Stepper from './components/Stepper/FormHeader';
 import PickUpSection from './components/DeliverySection/components/pickUpInStoreSection/PickUpSection';
 import OrderResume from './components/OrderResumeSection/OrderResume';
-import { PaymentSection } from './components/PaymentSection/PaymentSection';
+// import PaymentSection from './components/PaymentSection/PaymentSection';
 import DeliverySection from './components/DeliverySection/DeliverySection';
+import PaymentSection from './components/PaymentSection/PaymentSection';
 
 
 export default function CheckoutForm() {

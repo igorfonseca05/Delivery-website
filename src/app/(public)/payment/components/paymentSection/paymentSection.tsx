@@ -13,7 +13,7 @@ interface PaymentSeletorProps {
     moveToTheNextForm: () => void
 }
 
-export function PaymentSection({
+export default function PaymentSection({
     paymentMethod,
     setPaymentMethod,
     handlePrevious,
