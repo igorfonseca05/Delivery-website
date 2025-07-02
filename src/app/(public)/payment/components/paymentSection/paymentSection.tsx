@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import PaymentSeletor from "./components/paymentSelector/PaymentSelector";
-import CardForm from './components/cardForm/paymentSection';
+import CardForm from './components/cardForm/paymentForm';
 import Pix from './components/PixPayment/Pix';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 
@@ -13,7 +13,7 @@ interface PaymentSeletorProps {
     moveToTheNextForm: () => void
 }
 
-export default function PaymentSection({
+export function PaymentSection({
     paymentMethod,
     setPaymentMethod,
     handlePrevious,
