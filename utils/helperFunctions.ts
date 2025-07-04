@@ -22,3 +22,20 @@ export function getImageSourceType(url: string) {
         `http://localhost:4000/${url}` :
         url
 }
+
+
+export function selectEnvironment(path: string): string {
+    const env = process.env.NODE_ENV;
+
+    if (env === 'development') {
+        return path; // normalmente usado com fetch localmente
+    }
+
+    if (env === 'production') {
+        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://seuapp.vercel.app';
+        return `${baseUrl}${path}`;
+    }
+
+    // Fallback para evitar erro se NODE_ENV for algo inesperado
+    throw new Error(`Unrecognized environment: ${env}`);
+}

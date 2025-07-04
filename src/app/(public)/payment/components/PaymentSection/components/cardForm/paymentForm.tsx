@@ -6,6 +6,8 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { boolean } from "zod/v4";
 import { PiSpinner } from "react-icons/pi";
 import { useFetchData } from "../../../../../../../../hooks/useFetch";
+import { selectEnvironment } from "../../../../../../../../utils/helperFunctions";
+
 
 interface CardFormProps {
     paymentMethod: number,
@@ -22,6 +24,8 @@ interface CardBrandPros {
 }
 
 export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextForm }: CardFormProps) {
+
+
 
     const [cardName, setCardName] = useState('')
     const [cardNumber, setCardNumber] = useState('')
@@ -159,13 +163,15 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
         }
     }, [expirationData])
 
-
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState('')
 
     useEffect(() => {
         async function getCardBrand() {
             const cached = localStorage.getItem('cardBrands')
             if (cached) {
                 setCardBrands(JSON.parse(cached))
+                setLoading(false)
                 return
             }
 
@@ -174,8 +180,11 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
                 const data = await res.json()
                 localStorage.setItem('cardBrands', JSON.stringify(data))
                 setCardBrands(data)
-            } catch (err) {
+            } catch (err: any) {
                 console.error(err)
+                setError(err.message)
+            } finally {
+                setLoading(false)
             }
         }
         getCardBrand()
@@ -196,30 +205,37 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
                         Nome escrito no cartão
                     </label>
                     <input
-                        onChange={(e) => setCardName(e.target.value)}
                         name="cardName"
                         type="text"
                         required
                         placeholder="Marcelo Santos"
                         className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        onChange={(e) => setCardName(e.target.value)}
                     />
                 </div>
-
 
                 <div className="space-y-2">
                     <label className="flex gap-x-2 text-sm font-medium text-gray-700">
                         <span>Número do cartão</span>
                         <span className="flex grow gap-x-2">
-                            {Array.isArray(cardBrands) ? cardBrands.map(brand => (
-                                <img
-                                    key={brand.id}
-                                    src={brand.thumbnail}
-                                    alt={brand.name}
-                                    title={brand.name}
-                                    className="h-5"
-                                />
-                            )) :
-                                <p>Bandeiras não encontradas</p>}
+                            {loading ? (
+                                <p className="animate-pulse">Carregando bandeiras...</p>
+                            ) : error || !Array.isArray(cardBrands) ? (
+                                <p>Falha ao obter bandeiras</p>
+                            ) : (
+                                <div className="flex gap-x-2">
+                                    {cardBrands.map(brand => (
+                                        <img
+                                            key={brand.id}
+                                            src={brand.thumbnail}
+                                            alt={brand.name}
+                                            title={brand.name}
+                                            className="h-5"
+                                        />
+                                    ))}
+                                </div>
+                            )}
+
                         </span>
                     </label>
                     <div className={`flex items-center border-2 rounded px-3 py-2 ${isValid === '' ? 'border-gray-300' : `${isValid ? `border-green-500` : 'border-red-500'}`}`}>
