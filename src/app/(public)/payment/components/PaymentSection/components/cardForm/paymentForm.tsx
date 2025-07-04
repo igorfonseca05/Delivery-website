@@ -22,6 +22,13 @@ interface CardBrandPros {
     status: string
     thumbnail: string
 }
+interface BrandPros {
+    id: string
+    name: string
+    payment_type_id: string
+    status: string
+    thumbnail: string
+}
 
 export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextForm }: CardFormProps) {
 
@@ -39,8 +46,13 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
     const [inputBorder, setInputBorder] = useState<string>('grayBorder')
     const [cardBrands, setCardBrands] = useState<CardBrandPros[]>();
     const [dataCount, setDataCount] = useState<number>(2)
-
     let [count, setCount] = useState(4)
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState('')
+
+    const [userCardBrand, setUserCardBrand] = useState('')
+
+
 
 
     function validateExpirationData(data: string) {
@@ -97,7 +109,6 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
 
 
     function detectarBandeira(cleanCardNumber: string): string | null {
-
         if (/^4\d{12}(\d{3})?$/.test(cleanCardNumber)) return 'visa';
         if (/^5[1-5]\d{14}$/.test(cleanCardNumber)) return 'mastercard';
         if (/^3[47]\d{13}$/.test(cleanCardNumber)) return 'amex';
@@ -113,12 +124,15 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
     function validateCreditCardNumber(creditCardNumber: string) {
         setCardNumber(creditCardNumber)
 
-        const cardbNumberOnlyNumbers = creditCardNumber.replace(/\D/g, '');
-        const CardBrand = detectarBandeira(cardbNumberOnlyNumbers)
+        const cleanCardNumber = creditCardNumber.replace(/\D/g, '');
 
-        const lengthCardNumber = /^.{13,19}$/g.test(cardbNumberOnlyNumbers)
-        cardbNumberOnlyNumbers.length === 0 ? setIsValid('') : setIsValid(lengthCardNumber)
-        lengthCardNumber && luhnAlgorithem(cardbNumberOnlyNumbers)
+        const CardBrand = detectarBandeira(cleanCardNumber)
+
+        // console.log(CardBrand, cleanCardNumber)
+
+        const lengthCardNumber = /^.{13,19}$/g.test(cleanCardNumber)
+        cleanCardNumber.length === 0 ? setIsValid('') : setIsValid(lengthCardNumber)
+        lengthCardNumber && luhnAlgorithem(cleanCardNumber)
 
     }
 
@@ -135,7 +149,6 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
         }
 
         console.log(cardInfos)
-
     }
 
     useEffect(() => {
@@ -163,8 +176,6 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
         }
     }, [expirationData])
 
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState('')
 
     useEffect(() => {
         async function getCardBrand() {
@@ -189,6 +200,29 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
         }
         getCardBrand()
     }, [])
+
+    useEffect(() => {
+        async function getCardBin() {
+            const cleanNumber = cardNumber.replace(/\D/g, '')
+
+            if (cleanNumber.length !== 6) return setUserCardBrand('')
+
+            try {
+                const res = await fetch(`/api/payment/bin?bin=${cleanNumber}`)
+
+                if (!res.ok) {
+                    throw new Error('erro')
+                }
+
+                const brand: BrandPros = await res.json()
+                console.log(brand)
+                setUserCardBrand(brand.id)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        getCardBin()
+    }, [cardNumber])
 
 
 
@@ -230,7 +264,7 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
                                             src={brand.thumbnail}
                                             alt={brand.name}
                                             title={brand.name}
-                                            className="h-5"
+                                            className={`h-5 ${cardNumber && userCardBrand !== brand.id ? 'animate-pulse' : 'animate-none'} ${userCardBrand === '' ? 'opacity-100' : `${userCardBrand === brand.id ? 'opacity-100' : 'opacity-20 animate-none'}`}`}
                                         />
                                     ))}
                                 </div>
@@ -246,6 +280,7 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
                             type="text"
                             name='cardNumber'
                             required
+                            maxLength={23}
                             placeholder="Nº cartão"
                             className="flex-1 pl-2 text-sm bg-transparent outline-none"
                             onChange={(e) => validateCreditCardNumber(e.target.value)}
