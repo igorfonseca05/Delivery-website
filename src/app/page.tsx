@@ -17,10 +17,20 @@ import { Providers } from "./providers";
 
 import foodModel from "../../model/foodModel";
 import { dbConnect } from "../../db/dbConnection";
+import { unstable_cache } from "next/cache";
 
 export default async function Home() {
   await dbConnect()
-  const data = await foodModel.find();
+
+  const getData = unstable_cache(
+    async () => {
+      return await foodModel.find()
+    }, ['category'], {
+    tags: ['category']
+  })
+
+  const data = await getData()
+  // const data = await foodModel.find();
   const data2 = JSON.stringify(data);
 
   return (

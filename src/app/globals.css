@@ -12,6 +12,7 @@
 
 html {
   max-width: 1400px;
+  overflow-x: hidden;
 }
 
 body {
@@ -22,7 +23,7 @@ body {
 }
 
 .alignAllContent {
-  @apply w-[99%] m-auto md:w-[93%] lg:w-[100%] lg:ml-21;
+  @apply w-[99%] m-auto md:w-screen lg:w-[100%] lg:ml-21;
 }
 
 .sizeContent {

@@ -1,7 +1,7 @@
 "use client";
 
 
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { MdOutlineFastfood, MdOutlineDinnerDining } from "react-icons/md";
 import { IconType } from "react-icons";
 
@@ -40,6 +40,7 @@ export function CategorySelector({ dishes }: { dishes: string }) {
         'porcoes.svg'
     ])
 
+
     const { setCategory } = useCategoryContext()
 
     // obtendo categorias dos itens da base de dados
@@ -47,6 +48,7 @@ export function CategorySelector({ dishes }: { dishes: string }) {
     categories?.map(({ category }) => {
         categorySet.add(category)
     })
+
 
     // Aqui inclui a categoria "Todos"
     const allCategoryItems = Array('Todos', ...categorySet)

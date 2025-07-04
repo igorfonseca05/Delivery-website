@@ -13,6 +13,14 @@ interface CardFormProps {
     moveToTheNextForm: () => void
 }
 
+interface CardBrandPros {
+    id: string
+    name: string
+    payment_type_id: string
+    status: string
+    thumbnail: string
+}
+
 export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextForm }: CardFormProps) {
 
     const [cardName, setCardName] = useState('')
@@ -24,27 +32,24 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
     const [expirationData, setExpirationData] = useState('')
 
     const [isValid, setIsValid] = useState<boolean | string>('')
-    const [isValidDate, setIsValidDate] = useState<boolean | string>('')
-    const [CardBrands, setCardBrands] = useState<string | null>(null);
+    const [inputBorder, setInputBorder] = useState<string>('grayBorder')
+    const [cardBrands, setCardBrands] = useState<CardBrandPros[]>();
+    const [dataCount, setDataCount] = useState<number>(2)
 
     let [count, setCount] = useState(4)
 
 
-    function validateExperationData(data: string) {
+    function validateExpirationData(data: string) {
 
-        setExpirationData(() => {
-            if (data.length === 2) {
-                return `${data}/`
-            }
-            return data
-        })
+        setExpirationData(data)
 
-        if (data.length === 0) return setIsValidDate('')
-        if (!data || data.length < 7) return setIsValidDate(false)
+        const isEmptyDataInput = data.length === 0
+        const isInvalidSizeData = data.length < 7
+
+        if (isEmptyDataInput) return setInputBorder('grayBorder')
+        if (isInvalidSizeData) return setInputBorder('redBorder')
 
         const cleanData = data.replace(/\D/g, '');
-
-        console.log(cleanData)
 
         const inputMonth = cleanData.slice(0, 2)
         const inputYear = cleanData.slice(2)
@@ -56,9 +61,9 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
 
         month = month <= 9 ? `0${month}` : month
 
-
-        if ((inputMonth >= month && inputMonth <= '12' && inputYear === year) || (inputMonth <= '12' && inputYear > year)) {
-            setIsValidDate(true)
+        if ((inputMonth >= month && inputMonth <= '12' && inputYear === year) ||
+            (inputMonth <= '12' && inputYear > year)) {
+            setInputBorder('greenBorder')
             setExpirationMonth(inputMonth)
             setExpirationYear(inputYear)
             return
@@ -83,7 +88,6 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
 
         const isValid = soma % 10 === 0
 
-        // isValid && setCardNumber(card)
         setIsValid(isValid)
     }
 
@@ -140,6 +144,23 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
         }
     }, [cardNumber.length])
 
+
+    // Altera string expirationData adicionando /
+    useEffect(() => {
+        const length = expirationData.length
+
+        if (length === 1) {
+            setDataCount(2)
+        }
+
+        if (length === dataCount) {
+            setExpirationData(`${expirationData}/`)
+            setDataCount(0)
+        }
+    }, [expirationData])
+
+
+
     useEffect(() => {
         async function getCardBrand() {
             const cached = localStorage.getItem('cardBrands')
@@ -157,9 +178,9 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
                 console.error(err)
             }
         }
-
         getCardBrand()
     }, [])
+
 
 
 
@@ -186,8 +207,20 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
 
 
                 <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700">
-                        Número do cartão
+                    <label className="flex gap-x-2 text-sm font-medium text-gray-700">
+                        <span>Número do cartão</span>
+                        <span className="flex grow gap-x-2">
+                            {Array.isArray(cardBrands) ? cardBrands.map(brand => (
+                                <img
+                                    key={brand.id}
+                                    src={brand.thumbnail}
+                                    alt={brand.name}
+                                    title={brand.name}
+                                    className="h-5"
+                                />
+                            )) :
+                                <p>Bandeiras não encontradas</p>}
+                        </span>
                     </label>
                     <div className={`flex items-center border-2 rounded px-3 py-2 ${isValid === '' ? 'border-gray-300' : `${isValid ? `border-green-500` : 'border-red-500'}`}`}>
                         {/* Cartão de crédito logo */}
@@ -211,18 +244,19 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
                             Data de expiração
                         </label>
                         <div className={` flex items-center w-full border-2 rounded pr-3 py-2 text-sm 
-                                ${isValidDate === '' ? `border-gray-300` :
-                                `${isValidDate ? 'border-green-500' : 'border-red-500'}`} outline-none`}>
+                                ${inputBorder === 'grayBorder' ? `border-gray-300` :
+                                `${inputBorder === 'greenBorder' ? 'border-green-500' : 'border-red-500'}`} outline-none`}>
                             <input
                                 type="text"
                                 value={expirationData}
-                                onChange={(e) => validateExperationData(e.target.value)}
                                 name='expirationData'
+                                maxLength={7}
                                 required
                                 placeholder="MM/AAAAA"
                                 className={`flex-1 pl-2 text-sm bg-transparent outline-none`}
+                                onChange={(e) => validateExpirationData(e.target.value)}
                             />
-                            {isValidDate && <Check className="w-5 h-5 text-green-500" />}
+                            {inputBorder === 'greenBorder' && <Check className="w-5 h-5 text-green-500" />}
                         </div>
                     </div>
                     <div className="flex-1 space-y-2">

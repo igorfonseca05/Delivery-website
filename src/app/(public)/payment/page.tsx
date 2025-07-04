@@ -261,9 +261,9 @@ export default function CheckoutForm() {
     return (
         <ContentContainer>
             <div className="mt-5 md:mt-4 w-full relative transition ">
-                <div className="flex flex-col md:flex-row min-h-130 gap-x-4 ">
+                <div className="flex flex-col lg:flex-row min-h-130 max-w-screen gap-x-4">
                     {/* Resumo Pedido Container */}
-                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className='order-2 hidden md:w-1/2 md:block md:mb-0 rounded-lg md:translate-x-90 lg:translate-x-0 transition-all duration-500 ease-in-out '>
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className='order-2 hidden md:w-1/2 md:block md:mb-0 rounded-lg '>
                         <OrderSummary />
                     </motion.div>
 

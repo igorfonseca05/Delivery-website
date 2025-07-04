@@ -27,12 +27,12 @@ export default function FoodGrid() {
     const { error: msgFromMessageContext, setError } = useMessageContext()
     const { isOpen } = useWarningModalContext()
 
-    const [url, setUrl] = useState('')
-    const { data: dishes, loading, error } = useFetchData(url)
-
     const [clickedDish, setClickedDish] = useState<DishesProps>()
     const [modalIsOpen, setModalIsOpen] = useState(false)
     const [animate, setAnimate] = useState('')
+    const [url, setUrl] = useState('')
+
+    const { data: dishes, loading, error } = useFetchData(url)
 
 
     function getAPI_URL() {
