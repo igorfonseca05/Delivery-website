@@ -22,18 +22,24 @@ interface CardBrandPros {
     status: string
     thumbnail: string
 }
-interface BrandPros {
-    id: string
-    name: string
-    payment_type_id: string
-    status: string
-    thumbnail: string
+
+interface CardBinExternalAPI {
+    schema: string
+}
+
+// interface BrandPros {
+//     id: string
+//     name: string
+//     payment_type_id: string
+//     status: string
+//     thumbnail: string
+// }
+
+function getType(obj: CardBrandPros): obj is CardBrandPros {
+    return (obj as CardBrandPros).id !== undefined
 }
 
 export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextForm }: CardFormProps) {
-
-
-
     const [cardName, setCardName] = useState('')
     const [cardNumber, setCardNumber] = useState('')
     const [expirationYear, setExpirationYear] = useState('')
@@ -52,7 +58,6 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
 
     const [userCardBrand, setUserCardBrand] = useState<string | null>('')
 
-    useEffect(() => console.log(userCardBrand), [userCardBrand])
 
     function validateExpirationData(data: string) {
 
@@ -96,27 +101,15 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
                 digito *= 2;
                 if (digito > 9) digito -= 9
             }
-
             soma += digito
             deveDobrar = !deveDobrar
         }
 
         const isValid = soma % 10 === 0
 
+        console.log(isValid, card)
+
         setIsValid(isValid)
-    }
-
-
-    function detectarBandeira(cleanCardNumber: string): string | null {
-        if (/^4\d{12}(\d{3})?$/.test(cleanCardNumber)) return 'visa';
-        if (/^5[1-5]\d{14}$/.test(cleanCardNumber)) return 'mastercard';
-        if (/^3[47]\d{13}$/.test(cleanCardNumber)) return 'amex';
-        if (/^3(0[0-5]|[68])\d{11}$/.test(cleanCardNumber)) return 'diners';
-        if (/^6(?:011|5\d{2})\d{12}$/.test(cleanCardNumber)) return 'discover';
-        if (/^(636368|438935|504175|451416|636297|5067|4576|4011)\d*/.test(cleanCardNumber)) return 'elo';
-        if (/^(606282|3841)\d*/.test(cleanCardNumber)) return 'hipercard';
-
-        return null;
     }
 
 
@@ -124,17 +117,6 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
         setCardNumber(creditCardNumber)
 
         const cleanCardNumber = creditCardNumber.replace(/\D/g, '');
-
-        const cardBrand = detectarBandeira(cleanCardNumber)
-
-        // console.log(cardBrand, 1)
-        if (cleanCardNumber.length > 6 && userCardBrand === '' && cardBrand) {
-            setUserCardBrand(cardBrand)
-        }
-
-
-        // if (cleanCardNumber.length > 6) {
-        // }
 
         const lengthCardNumber = /^.{13,19}$/g.test(cleanCardNumber)
         cleanCardNumber.length === 0 ? setIsValid('') : setIsValid(lengthCardNumber)
@@ -158,7 +140,6 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
     }
 
     useEffect(() => {
-
         cardNumber.length === 0 && setCount(4)
 
         if (cardNumber.length === count) {
@@ -212,12 +193,12 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
         async function getCardBin() {
             const cleanNumber = cardNumber.replace(/\D/g, '')
 
-            if (cleanNumber.length !== 6) return setUserCardBrand('')
+            if (cleanNumber.length < 6) return setUserCardBrand('')
 
             const storageBin = localStorage.getItem('cardBinUser')
             const parsedBin: { id: string, bin: string } = storageBin ? JSON.parse(storageBin) : ''
 
-            if (parsedBin.bin === cleanNumber) return setUserCardBrand(parsedBin.id)
+            if (parsedBin.bin === cleanNumber || cleanNumber.length > 6) return setUserCardBrand(parsedBin.id)
 
             try {
                 const res = await fetch(`/api/payment/bin?bin=${cleanNumber}`)
@@ -226,9 +207,16 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
                     throw new Error('erro')
                 }
 
-                const brand: BrandPros = await res.json()
-                setUserCardBrand(brand.id)
-                localStorage.setItem('cardBinUser', JSON.stringify({ bin: cleanNumber, id: brand.id }))
+                const brand = await res.json()
+
+                if (getType(brand)) {
+                    setUserCardBrand(brand.id)
+                    localStorage.setItem('cardBinUser', JSON.stringify({ bin: cleanNumber, id: brand.id }))
+                } else {
+                    setUserCardBrand(brand.scheme)
+                    localStorage.setItem('cardBinUser', JSON.stringify({ bin: cleanNumber, id: brand.scheme }))
+                }
+
                 console.log('dado remoto')
 
             } catch (error) {

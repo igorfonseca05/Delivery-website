@@ -9,7 +9,7 @@ interface PaymentMethod {
 };
 
 
-interface MercadoPagoPaymentMethodsResponse {
+interface MercadoPago_Bin {
     paging: {
         total: number;
         limit: number;
@@ -18,9 +18,45 @@ interface MercadoPagoPaymentMethodsResponse {
     results: PaymentMethod[];
 };
 
+
+interface CardBinData {
+    number: {} // vazio conforme seu exemplo
+
+    scheme: string // ex: "visa"
+    type: string   // ex: "credit"
+    brand: string  // ex: "Visa Classic"
+
+    country: {
+        numeric: string  // "76"
+        alpha2: string   // "BR"
+        name: string     // "Brazil"
+        emoji: string    // "🇧🇷"
+        currency: string // "BRL"
+        latitude: number // -10
+        longitude: number // -55
+    }
+
+    bank: {
+        name: string // "Banco Do Brasil S.A."
+    }
+}
+
+
+async function fetchCardBinData(bin: string): Promise<CardBinData> {
+    const response = await fetch(`https://lookup.binlist.net/${bin}`)
+
+    if (!response.ok) {
+        throw new Error('Erro na requisição externa')
+    }
+
+    const data: CardBinData = await response.json()
+    return data
+}
+
+
 async function getBin(bin: string, offset = 0) {
 
-    const response = await fetch(`https://api.mercadopago.com/v1/payment_methods/search?bin=${bin}&site_id=MLB&offset=${offset}`,
+    let response = await fetch(`https://api.mercadopago.com/v1/payment_methods/search?bin=${bin}&site_id=MLB&offset=${offset}`,
         {
             headers: {
                 Authorization: `Bearer ${process.env.MP_ACCESS_TOKEN}`,
@@ -29,21 +65,24 @@ async function getBin(bin: string, offset = 0) {
             cache: 'no-store', // opcional, evita cache do fetch em dev
         })
 
-    const data: MercadoPagoPaymentMethodsResponse = await response.json()
+    const data: MercadoPago_Bin = await response.json()
 
     if (!response.ok) {
         console.error('Erro Mercado Pago:', data)
-        return NextResponse.json({ message: 'Erro ao obter BIN', error: data }, { status: response.status })
+        return NextResponse.json({ message: 'Erro ao obter BIN' }, { status: response.status })
     }
 
     const bins = data.results.find(item => item.status === 'active' && item.bins.includes(Number(bin)))
 
     if (!bins) {
-        if (data.paging.offset === data.paging.limit) {
+        const secondPage = data.paging.offset + data.paging.limit
+
+        if (secondPage >= data.paging.total) {
+            let response = await fetchCardBinData(bin)
+            if (response) return response
             return null
         }
 
-        const secondPage = data.paging.offset + data.paging.limit
         return await getBin(bin, secondPage)
     }
 
@@ -66,7 +105,11 @@ export async function GET(req: NextRequest) {
             return NextResponse.json({ message: 'Bin não encontrado' }, { status: 404 });
         }
 
-        return NextResponse.json(found)
+        return NextResponse.json(found, {
+            headers: {
+                'Cache-Control': 'no-store'
+            }
+        })
 
     } catch (error) {
         return NextResponse.json({ message: 'Erro interno ao buscar BIN' }, { status: 500 })
