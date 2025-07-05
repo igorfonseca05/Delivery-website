@@ -50,10 +50,9 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState('')
 
-    const [userCardBrand, setUserCardBrand] = useState('')
+    const [userCardBrand, setUserCardBrand] = useState<string | null>('')
 
-
-
+    useEffect(() => console.log(userCardBrand), [userCardBrand])
 
     function validateExpirationData(data: string) {
 
@@ -126,9 +125,16 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
 
         const cleanCardNumber = creditCardNumber.replace(/\D/g, '');
 
-        const CardBrand = detectarBandeira(cleanCardNumber)
+        const cardBrand = detectarBandeira(cleanCardNumber)
 
-        // console.log(CardBrand, cleanCardNumber)
+        // console.log(cardBrand, 1)
+        if (cleanCardNumber.length > 6 && userCardBrand === '' && cardBrand) {
+            setUserCardBrand(cardBrand)
+        }
+
+
+        // if (cleanCardNumber.length > 6) {
+        // }
 
         const lengthCardNumber = /^.{13,19}$/g.test(cleanCardNumber)
         cleanCardNumber.length === 0 ? setIsValid('') : setIsValid(lengthCardNumber)
@@ -201,11 +207,17 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
         getCardBrand()
     }, [])
 
+
     useEffect(() => {
         async function getCardBin() {
             const cleanNumber = cardNumber.replace(/\D/g, '')
 
             if (cleanNumber.length !== 6) return setUserCardBrand('')
+
+            const storageBin = localStorage.getItem('cardBinUser')
+            const parsedBin: { id: string, bin: string } = storageBin ? JSON.parse(storageBin) : ''
+
+            if (parsedBin.bin === cleanNumber) return setUserCardBrand(parsedBin.id)
 
             try {
                 const res = await fetch(`/api/payment/bin?bin=${cleanNumber}`)
@@ -215,16 +227,17 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
                 }
 
                 const brand: BrandPros = await res.json()
-                console.log(brand)
                 setUserCardBrand(brand.id)
+                localStorage.setItem('cardBinUser', JSON.stringify({ bin: cleanNumber, id: brand.id }))
+                console.log('dado remoto')
+
             } catch (error) {
                 console.log(error)
             }
+
         }
         getCardBin()
     }, [cardNumber])
-
-
 
 
     return (
@@ -249,9 +262,9 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
                 </div>
 
                 <div className="space-y-2">
-                    <label className="flex gap-x-2 text-sm font-medium text-gray-700">
+                    <label className="flex gap-x-2 text-sm w-full  justify-between font-medium text-gray-700">
                         <span>Número do cartão</span>
-                        <span className="flex grow gap-x-2">
+                        <span className="flex gap-x-2">
                             {loading ? (
                                 <p className="animate-pulse">Carregando bandeiras...</p>
                             ) : error || !Array.isArray(cardBrands) ? (
@@ -264,7 +277,8 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
                                             src={brand.thumbnail}
                                             alt={brand.name}
                                             title={brand.name}
-                                            className={`h-5 ${cardNumber && userCardBrand !== brand.id ? 'animate-pulse' : 'animate-none'} ${userCardBrand === '' ? 'opacity-100' : `${userCardBrand === brand.id ? 'opacity-100' : 'opacity-20 animate-none'}`}`}
+                                            className={`h-5 ${userCardBrand === '' ? 'opacity-100' :
+                                                `${userCardBrand === brand.id ? 'opacity-100' : 'opacity-0 hidden transition'}`}`}
                                         />
                                     ))}
                                 </div>

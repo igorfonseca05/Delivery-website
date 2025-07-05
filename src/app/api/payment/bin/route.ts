@@ -18,11 +18,36 @@ interface MercadoPagoPaymentMethodsResponse {
     results: PaymentMethod[];
 };
 
-interface BinProps {
-    bandeira: string,
-    id: string
-    logo: string
+async function getBin(bin: string, offset = 0) {
 
+    const response = await fetch(`https://api.mercadopago.com/v1/payment_methods/search?bin=${bin}&site_id=MLB&offset=${offset}`,
+        {
+            headers: {
+                Authorization: `Bearer ${process.env.MP_ACCESS_TOKEN}`,
+                'Content-Type': 'application/json', // boa prática
+            },
+            cache: 'no-store', // opcional, evita cache do fetch em dev
+        })
+
+    const data: MercadoPagoPaymentMethodsResponse = await response.json()
+
+    if (!response.ok) {
+        console.error('Erro Mercado Pago:', data)
+        return NextResponse.json({ message: 'Erro ao obter BIN', error: data }, { status: response.status })
+    }
+
+    const bins = data.results.find(item => item.status === 'active' && item.bins.includes(Number(bin)))
+
+    if (!bins) {
+        if (data.paging.offset === data.paging.limit) {
+            return null
+        }
+
+        const secondPage = data.paging.offset + data.paging.limit
+        return await getBin(bin, secondPage)
+    }
+
+    return bins
 }
 
 
@@ -34,31 +59,16 @@ export async function GET(req: NextRequest) {
     }
 
     try {
-        const response = await fetch(`https://api.mercadopago.com/v1/payment_methods/search?bin=${bin}&site_id=MLB`,
-            {
-                headers: {
-                    Authorization: `Bearer ${process.env.MP_ACCESS_TOKEN}`,
-                    'Content-Type': 'application/json', // boa prática
-                },
-                cache: 'no-store', // opcional, evita cache do fetch em dev
-            })
 
-        const data: MercadoPagoPaymentMethodsResponse = await response.json()
+        const found = await getBin(bin)
 
-        if (!response.ok) {
-            console.error('Erro Mercado Pago:', data)
-            return NextResponse.json({ message: 'Erro ao obter BIN', error: data }, { status: response.status })
+        if (!found) {
+            return NextResponse.json({ message: 'Bin não encontrado' }, { status: 404 });
         }
 
-        const bins = data.results.find(item => item.status === 'active' && item.bins.includes(Number(bin)))
+        return NextResponse.json(found)
 
-        if (!bins) {
-            return NextResponse.json({ message: 'Bin não encontrado', error: data }, { status: response.status })
-        }
-
-        return NextResponse.json(bins)
     } catch (error) {
-        console.error('Erro geral:', error)
         return NextResponse.json({ message: 'Erro interno ao buscar BIN' }, { status: 500 })
     }
 }
