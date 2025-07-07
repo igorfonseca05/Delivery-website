@@ -2,7 +2,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import { Lock, CreditCard, Check } from "lucide-react";
 import { motion } from 'framer-motion';
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Info } from "lucide-react";
 import { boolean } from "zod/v4";
 import { PiSpinner } from "react-icons/pi";
 import { useFetchData } from "../../../../../../../../hooks/useFetch";
@@ -20,7 +20,13 @@ interface CardBrandPros {
     name: string
     payment_type_id: string
     status: string
-    thumbnail: string
+    thumbnail: string,
+    settings: [{
+        security_code: {
+            length: number
+        }
+    }
+    ]
 }
 
 interface CardBinExternalAPI {
@@ -55,12 +61,28 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
     let [count, setCount] = useState(4)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState('')
+    const [securityCodeLength, setSecurityCodeLength] = useState(0)
+
 
     const [userCardBrand, setUserCardBrand] = useState<string | null>('')
 
 
-    function validateExpirationData(data: string) {
+    // function securityCodeValidation(code: string) {
 
+    //     setSecurityCode(code)
+
+    //     const cleanSecurityCode = code.replace(/\D/g, '')
+
+    //     if (cleanSecurityCode.length === 0) return setInputBorder('grayBorder')
+
+    //     if (cleanSecurityCode.length !== securityCodeLength) {
+    //         setInputBorder('greenBorder')
+    //     }
+
+    // }
+
+
+    function validateExpirationData(data: string) {
         setExpirationData(data)
 
         const isEmptyDataInput = data.length === 0
@@ -190,6 +212,18 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
 
 
     useEffect(() => {
+        if (securityCodeLength !== 0) return
+        if (!userCardBrand) return
+
+        if (userCardBrand.toLowerCase() === 'amex' || userCardBrand.toLowerCase() === 'american express') {
+            setSecurityCodeLength(4);
+        }
+
+        setSecurityCodeLength(3)
+    }, [userCardBrand])
+
+
+    useEffect(() => {
         async function getCardBin() {
             const cleanNumber = cardNumber.replace(/\D/g, '')
 
@@ -211,6 +245,7 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
 
                 if (getType(brand)) {
                     setUserCardBrand(brand.id)
+                    setSecurityCodeLength(brand.settings[0].security_code.length)
                     localStorage.setItem('cardBinUser', JSON.stringify({ bin: cleanNumber, id: brand.id }))
                 } else {
                     setUserCardBrand(brand.scheme)
@@ -274,7 +309,7 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
 
                         </span>
                     </label>
-                    <div className={`flex items-center border-2 rounded px-3 py-2 ${isValid === '' ? 'border-gray-300' : `${isValid ? `border-green-500` : 'border-red-500'}`}`}>
+                    <div className={`flex items-center border rounded px-3 py-2 ${isValid === '' ? 'border-gray-300' : `${isValid ? `border-green-500` : 'border-red-500'}`}`}>
                         {/* Cartão de crédito logo */}
                         <CreditCard className="text-black/30" />
                         <input
@@ -296,7 +331,7 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
                         <label className="block text-sm font-medium text-gray-700">
                             Data de expiração
                         </label>
-                        <div className={` flex items-center w-full border-2 rounded pr-3 py-2 text-sm 
+                        <div className={`flex items-center w-full border rounded pr-3 py-2 text-sm 
                                 ${inputBorder === 'grayBorder' ? `border-gray-300` :
                                 `${inputBorder === 'greenBorder' ? 'border-green-500' : 'border-red-500'}`} outline-none`}>
                             <input
@@ -312,7 +347,7 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
                             {inputBorder === 'greenBorder' && <Check className="w-5 h-5 text-green-500" />}
                         </div>
                     </div>
-                    <div className="flex-1 space-y-2">
+                    <div className="flex-1 space-y-2 relative">
                         <label className="block text-sm font-medium text-gray-700">
                             Código de segurança
                         </label>
@@ -321,10 +356,13 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
                             type="text"
                             name='securityCode'
                             required
+                            maxLength={securityCodeLength}
                             placeholder="CVV"
-                            className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className={`w-full border rounded px-3 py-2 text-sm 
+                            ${securityCode.length === 0 ? `border-gray-300` :
+                                    `${securityCode.length === securityCodeLength ? 'border-green-500' : 'border-red-500'}`} outline-none`}
                         />
-
+                        <Info size={16} className="absolute right-0 top-0" />
                     </div>
                 </div>
                 <div className={`flex justify-between gap-x-4 ${paymentMethod !== 3 && 'hidden'}`}>
