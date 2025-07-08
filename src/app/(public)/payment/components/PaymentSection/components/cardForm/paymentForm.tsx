@@ -1,5 +1,5 @@
 
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { Lock, CreditCard, Check } from "lucide-react";
 import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, Info } from "lucide-react";
@@ -33,24 +33,21 @@ interface CardBinExternalAPI {
     schema: string
 }
 
-// interface BrandPros {
-//     id: string
-//     name: string
-//     payment_type_id: string
-//     status: string
-//     thumbnail: string
-// }
-
-function getType(obj: CardBrandPros): obj is CardBrandPros {
-    return (obj as CardBrandPros).id !== undefined
-}
 
 export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextForm }: CardFormProps) {
+
+    // const binCache = new Map<string, string>()
+    const binCache = useRef(new Map<string, string>())
+
+
     const [cardName, setCardName] = useState('')
     const [cardNumber, setCardNumber] = useState('')
     const [expirationYear, setExpirationYear] = useState('')
     const [expirationMonth, setExpirationMonth] = useState('')
     const [securityCode, setSecurityCode] = useState('')
+    const [email, setEmail] = useState('');
+    const [documentNumber, setDocumentNumber] = useState('');
+
 
     const [expirationData, setExpirationData] = useState('')
 
@@ -62,25 +59,13 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState('')
     const [securityCodeLength, setSecurityCodeLength] = useState(0)
-
-
     const [userCardBrand, setUserCardBrand] = useState<string | null>('')
 
 
-    // function securityCodeValidation(code: string) {
 
-    //     setSecurityCode(code)
-
-    //     const cleanSecurityCode = code.replace(/\D/g, '')
-
-    //     if (cleanSecurityCode.length === 0) return setInputBorder('grayBorder')
-
-    //     if (cleanSecurityCode.length !== securityCodeLength) {
-    //         setInputBorder('greenBorder')
-    //     }
-
-    // }
-
+    function getType(obj: CardBrandPros): obj is CardBrandPros {
+        return (obj as CardBrandPros).id !== undefined
+    }
 
     function validateExpirationData(data: string) {
         setExpirationData(data)
@@ -128,16 +113,13 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
         }
 
         const isValid = soma % 10 === 0
-
-        console.log(isValid, card)
-
         setIsValid(isValid)
+        setCardNumber(card)
     }
 
 
     function validateCreditCardNumber(creditCardNumber: string) {
         setCardNumber(creditCardNumber)
-
         const cleanCardNumber = creditCardNumber.replace(/\D/g, '');
 
         const lengthCardNumber = /^.{13,19}$/g.test(cleanCardNumber)
@@ -151,24 +133,27 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
         e.preventDefault()
 
         const cardInfos = {
-            cardName,
+            cardholder: {
+                name: cardName
+            },
             cardNumber,
             expirationMonth,
             expirationYear,
-            securityCode
+            securityCode,
+            userCardBrand
         }
 
         console.log(cardInfos)
     }
 
-    useEffect(() => {
-        cardNumber.length === 0 && setCount(4)
+    // useEffect(() => {
+    //     cardNumber.length === 0 && setCount(4)
 
-        if (cardNumber.length === count) {
-            setCardNumber(`${cardNumber} `)
-            setCount(count += 5)
-        }
-    }, [cardNumber.length])
+    //     if (cardNumber.length === count) {
+    //         setCardNumber(`${cardNumber} `)
+    //         setCount(count += 5)
+    //     }
+    // }, [cardNumber.length])
 
 
     // Altera string expirationData adicionando /
@@ -223,6 +208,17 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
     }, [userCardBrand])
 
 
+    // function getBin(brand: string) {
+    //     if (binCache.current.has(brand)) {
+    //         const cachedBrand = binCache.current.get(brand)
+
+    //         if (!cachedBrand) return
+
+    //         setUserCardBrand(cachedBrand)
+    //     }
+    // }
+
+
     useEffect(() => {
         async function getCardBin() {
             const cleanNumber = cardNumber.replace(/\D/g, '')
@@ -263,13 +259,38 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
     }, [cardNumber])
 
 
+    useEffect(() => {
+        function cleanPrivateData() {
+            localStorage.removeItem('cardBinUser')
+        }
+
+        return () => cleanPrivateData()
+
+    }, [])
+
+
+
+
     return (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <form className=" w-full mx-auto space-y-6" onSubmit={handleCreditCardForm}>
+            <form className="w-full mx-auto space-y-4" onSubmit={handleCreditCardForm}>
                 <div>
-                    <h2 className="text-lg font-semibold">Informações do cartão</h2>
+                    <h2 className="text-[clamp(1rem,1em,2rem)] font-semibold text mb-0">Informações do cartão</h2>
                 </div>
 
+                <div className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-700">
+                        CPF
+                    </label>
+                    <input
+                        type="text"
+                        required
+                        className="w-full border border-gray-300 rounded px-3 py-2 text-sm outline-none"
+                        value={documentNumber}
+                        onChange={(e) => setDocumentNumber(e.target.value)}
+                        placeholder="CPF"
+                    />
+                </div>
                 <div className="space-y-2">
                     <label className="block text-sm font-medium text-gray-700">
                         Nome escrito no cartão
@@ -279,7 +300,8 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
                         type="text"
                         required
                         placeholder="Marcelo Santos"
-                        className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full border border-gray-300 rounded px-3 py-2 text-sm outline-none"
+                        value={cardName}
                         onChange={(e) => setCardName(e.target.value)}
                     />
                 </div>
@@ -309,6 +331,7 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
 
                         </span>
                     </label>
+
                     <div className={`flex items-center border rounded px-3 py-2 ${isValid === '' ? 'border-gray-300' : `${isValid ? `border-green-500` : 'border-red-500'}`}`}>
                         {/* Cartão de crédito logo */}
                         <CreditCard className="text-black/30" />
@@ -357,6 +380,7 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
                             name='securityCode'
                             required
                             maxLength={securityCodeLength}
+                            value={securityCode}
                             placeholder="CVV"
                             className={`w-full border rounded px-3 py-2 text-sm 
                             ${securityCode.length === 0 ? `border-gray-300` :
@@ -367,7 +391,7 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
                 </div>
                 <div className={`flex justify-between gap-x-4 ${paymentMethod !== 3 && 'hidden'}`}>
                     <button onClick={handlePrevious} className={`button_neutral_large flex items-center justify-center gap-x-2 w-full md:max-w-50 m-auto md:m-0`}><ArrowLeft size={18} /> Voltar</button>
-                    <button type="submit" className={`buttonColor flex items-center justify-center gap-x-2 px-20 py-3 w-full md:max-w-70 m-auto md:m-0`}>Próximo <ArrowRight size={18} /> </button>
+                    <button type="submit" onClick={moveToTheNextForm} className={`buttonColor flex items-center justify-center gap-x-2 px-20 py-3 w-full md:max-w-70 m-auto md:m-0`}>Próximo <ArrowRight size={18} /> </button>
                 </div>
             </form>
         </motion.div>
