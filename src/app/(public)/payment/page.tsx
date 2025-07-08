@@ -103,7 +103,6 @@ export default function CheckoutForm() {
 
     function verifyAddress() {
         try {
-
             // Se usuário está logado, verifica no Firebase
             get_Authenticated_User_Address()
 

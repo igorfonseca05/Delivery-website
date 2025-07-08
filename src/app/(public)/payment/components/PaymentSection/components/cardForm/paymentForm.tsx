@@ -3,7 +3,7 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 import { Lock, CreditCard, Check } from "lucide-react";
 import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, Info } from "lucide-react";
-import { boolean } from "zod/v4";
+import { boolean, number } from "zod/v4";
 import { PiSpinner } from "react-icons/pi";
 import { useFetchData } from "../../../../../../../../hooks/useFetch";
 import { selectEnvironment } from "../../../../../../../../utils/helperFunctions";
@@ -133,17 +133,22 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
         e.preventDefault()
 
         const cardInfos = {
-            cardholder: {
-                name: cardName
+            cardholder: cardName,
+            identification: {
+                type: 'CPF',
+                number: documentNumber
             },
             cardNumber,
             expirationMonth,
             expirationYear,
             securityCode,
-            userCardBrand
+            userCardBrand,
+
         }
 
         console.log(cardInfos)
+
+        moveToTheNextForm()
     }
 
     // useEffect(() => {
@@ -287,7 +292,10 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
                         required
                         className="w-full border border-gray-300 rounded px-3 py-2 text-sm outline-none"
                         value={documentNumber}
-                        onChange={(e) => setDocumentNumber(e.target.value)}
+                        onChange={(e) => {
+                            const cleanCPF = e.target.value.replace(/\D/g, '')
+                            setDocumentNumber(cleanCPF)
+                        }}
                         placeholder="CPF"
                     />
                 </div>
@@ -391,7 +399,7 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
                 </div>
                 <div className={`flex justify-between gap-x-4 ${paymentMethod !== 3 && 'hidden'}`}>
                     <button onClick={handlePrevious} className={`button_neutral_large flex items-center justify-center gap-x-2 w-full md:max-w-50 m-auto md:m-0`}><ArrowLeft size={18} /> Voltar</button>
-                    <button type="submit" onClick={moveToTheNextForm} className={`buttonColor flex items-center justify-center gap-x-2 px-20 py-3 w-full md:max-w-70 m-auto md:m-0`}>Próximo <ArrowRight size={18} /> </button>
+                    <button type="submit" className={`buttonColor flex items-center justify-center gap-x-2 px-20 py-3 w-full md:max-w-70 m-auto md:m-0`}>Próximo <ArrowRight size={18} /> </button>
                 </div>
             </form>
         </motion.div>
