@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-
 const url = process.env.NODE_ENV === 'development' && process.env.LOCAL_DB_CONNECTION ||
     process.env.NODE_ENV === 'production' && process.env.DB_CONNECTION || ''
 
@@ -16,9 +15,7 @@ export async function dbConnect() {
     if (cached.conn) return cached.conn;
 
     if (!cached.promise) {
-        await mongoose.connect(url, {
-            bufferCommands: false,
-        }).then(m => m);
+        await mongoose.connect(url).then(m => m);
     }
 
     cached.conn = await cached.promise;

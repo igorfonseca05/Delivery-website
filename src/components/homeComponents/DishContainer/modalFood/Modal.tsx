@@ -105,8 +105,9 @@ export function FoodModal({ modalIsOpen, setModalIsOpen, clickedDish }: FoodModa
                                 className="rounded-lg object-cover w-full h-full md:max-h-[400px]"
                                 width={800}
                                 height={400}
+                                quality={70}
                                 style={{ objectFit: 'cover' }}
-                                sizes="(max-width: 768px) 100vw, 800px"
+                                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 800px"
                                 priority
                             />
                         ) : (

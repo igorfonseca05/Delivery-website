@@ -1,5 +1,5 @@
 ###
-GET http://localhost:3000/api/cardapio?category=do dia
+GET http://localhost:3000/api/cardapio
 Content-Type: 'application/json'
 ###
 
