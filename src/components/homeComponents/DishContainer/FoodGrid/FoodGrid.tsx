@@ -66,9 +66,6 @@ export default function FoodGrid() {
 
                 {/* Rendering dishes cards on screen */}
                 {dishes?.map((item, index) => {
-
-                    console.log(item.image)
-
                     return (
                         <a key={item._id}
                             className="cursor-pointer"
