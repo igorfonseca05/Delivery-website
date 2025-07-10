@@ -31,7 +31,7 @@ export default function OrderResume({ handlePrevious }: OrderResumeProps) {
             </div>
             <div className='flex justify-between gap-x-4'>
                 <button onClick={handlePrevious} className={`button_neutral_large flex items-center justify-center gap-x-2 w-full md:max-w-50 m-auto md:m-0 ${order.cartItens.length === 0 && 'hidden'}`}><ArrowLeft size={18} /> Voltar</button>
-                <button onClick={handlePrevious} className={`buttonColor gap-x-2 py-3 px-15 text-nowrap w-full md:max-w-70 m-auto md:m-0 ${order.cartItens.length === 0 && 'hidden'}`}>Finalizar Pedido</button>
+                <button className={`buttonColor gap-x-2 py-3 px-15 text-nowrap w-full md:max-w-70 m-auto md:m-0 ${order.cartItens.length === 0 && 'hidden'}`}>Finalizar Pedido</button>
             </div>
         </motion.div>
     );

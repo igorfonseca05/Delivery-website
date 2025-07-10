@@ -42,23 +42,14 @@ export default function OrderSection({
                 <div className='md:pr-8'>
                     <div className='mb-3'>
                         <h3 className={`font-semibold mb-2 ${sizeText}`}>Informações do cliente:</h3>
-                        <p>
-
-                            {`${upperCaseText(userData.nome)} ${userData.sobrenome}`}
-                        </p>
+                        <p>{`${upperCaseText(userData.nome)} ${userData.sobrenome}`}</p>
 
                         {userData.telefone.length === 11 &&
-                            <p>
-
-                                {`(${userData.telefone.slice(0, 2)}) ${userData.telefone.slice(3)}`}
-                            </p>
+                            <p>{`(${userData.telefone.slice(0, 2)}) ${userData.telefone.slice(3)}`}</p>
                         }
 
                         {userData.telefone.length === 9 &&
-                            <p>
-
-                                {`(${userData.telefone.slice(0, 4)}) ${userData.telefone.slice(3)}`}
-                            </p>
+                            <p>{`(${userData.telefone.slice(0, 4)}) ${userData.telefone.slice(3)}`}</p>
                         }
 
                         {deliveryAndPayment.deliveryType === 'entrega'

@@ -1,13 +1,7 @@
-
-import { FormEvent, useEffect, useRef, useState } from "react";
-import { Lock, CreditCard, Check } from "lucide-react";
+import { FormEvent, useEffect, useState } from "react";
+import { CreditCard, Check } from "lucide-react";
 import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, Info } from "lucide-react";
-import { boolean, number } from "zod/v4";
-import { PiSpinner } from "react-icons/pi";
-import { useFetchData } from "../../../../../../../../hooks/useFetch";
-import { selectEnvironment } from "../../../../../../../../utils/helperFunctions";
-
 
 interface CardFormProps {
     paymentMethod: number,
@@ -22,6 +16,9 @@ interface CardBrandPros {
     status: string
     thumbnail: string,
     settings: [{
+        cardNumber: {
+            length: number | undefined
+        },
         security_code: {
             length: number
         }
@@ -29,15 +26,14 @@ interface CardBrandPros {
     ]
 }
 
-interface CardBinExternalAPI {
-    schema: string
+// types/mercadoPago.d.ts
+
+interface Window {
+    MercadoPago: any;
 }
 
 
 export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextForm }: CardFormProps) {
-
-    // const binCache = new Map<string, string>()
-    const binCache = useRef(new Map<string, string>())
 
 
     const [cardName, setCardName] = useState('')
@@ -45,26 +41,45 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
     const [expirationYear, setExpirationYear] = useState('')
     const [expirationMonth, setExpirationMonth] = useState('')
     const [securityCode, setSecurityCode] = useState('')
-    const [email, setEmail] = useState('');
     const [documentNumber, setDocumentNumber] = useState('');
-
-
     const [expirationData, setExpirationData] = useState('')
 
     const [isValid, setIsValid] = useState<boolean | string>('')
     const [inputBorder, setInputBorder] = useState<string>('grayBorder')
-    const [cardBrands, setCardBrands] = useState<CardBrandPros[]>();
+    const [availablePaymentMethods, setAvaliblePaymentMethods] = useState<CardBrandPros[]>();
     const [dataCount, setDataCount] = useState<number>(2)
     let [count, setCount] = useState(4)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState('')
     const [securityCodeLength, setSecurityCodeLength] = useState(0)
-    const [userCardBrand, setUserCardBrand] = useState<string | null>('')
+    const [CardNumberLength, setCardNumberLength] = useState<number | undefined>(undefined)
+    const [cardBrand, setCardBrand] = useState<string | null>('')
+    const [isInvalidBrand, setIsInvalidBrand] = useState(false)
+
+    const [mp, setMp] = useState<any>(null)
+
+
+    useEffect(() => {
+        if (typeof window !== 'undefined' && (window as any).MercadoPago) {
+            const mp = new (window as any).MercadoPago(process.env.MP_PUBLIC_KEY_TEST);
+            setMp(mp)
+        }
+    }, []);
 
 
 
     function getType(obj: CardBrandPros): obj is CardBrandPros {
         return (obj as CardBrandPros).id !== undefined
+    }
+
+    function getBinValueFromLocalStorage(cleanNumber: string) {
+        const storageBin = localStorage.getItem('cardBinUser')
+        const parsedBin: { id: string, bin: string } = storageBin ? JSON.parse(storageBin) : ''
+
+        const binTypedOnce = parsedBin.bin === cleanNumber
+        const fullCardNumber = cleanNumber.length > 6
+
+        if (binTypedOnce || fullCardNumber) return setCardBrand(parsedBin.id)
     }
 
     function validateExpirationData(data: string) {
@@ -122,10 +137,10 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
         setCardNumber(creditCardNumber)
         const cleanCardNumber = creditCardNumber.replace(/\D/g, '');
 
-        const lengthCardNumber = /^.{13,19}$/g.test(cleanCardNumber)
-        cleanCardNumber.length === 0 ? setIsValid('') : setIsValid(lengthCardNumber)
+        const lengthCardNumber = /^.{15,19}$/g.test(cleanCardNumber)
         lengthCardNumber && luhnAlgorithem(cleanCardNumber)
 
+        cleanCardNumber.length === 0 ? setIsValid('') : setIsValid(lengthCardNumber)
     }
 
 
@@ -142,8 +157,7 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
             expirationMonth,
             expirationYear,
             securityCode,
-            userCardBrand,
-
+            cardBrand,
         }
 
         console.log(cardInfos)
@@ -151,17 +165,7 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
         moveToTheNextForm()
     }
 
-    // useEffect(() => {
-    //     cardNumber.length === 0 && setCount(4)
 
-    //     if (cardNumber.length === count) {
-    //         setCardNumber(`${cardNumber} `)
-    //         setCount(count += 5)
-    //     }
-    // }, [cardNumber.length])
-
-
-    // Altera string expirationData adicionando /
     useEffect(() => {
         const length = expirationData.length
 
@@ -175,21 +179,24 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
         }
     }, [expirationData])
 
+    function brandCache() {
+        const cached = localStorage.getItem('availablePaymentMethods')
+        if (cached) {
+            setAvaliblePaymentMethods(JSON.parse(cached))
+            setLoading(false)
+            return
+        }
+    }
 
     useEffect(() => {
         async function getCardBrand() {
-            const cached = localStorage.getItem('cardBrands')
-            if (cached) {
-                setCardBrands(JSON.parse(cached))
-                setLoading(false)
-                return
-            }
+            brandCache()
 
             try {
                 const res = await fetch('/api/payment/cardbrand')
                 const data = await res.json()
-                localStorage.setItem('cardBrands', JSON.stringify(data))
-                setCardBrands(data)
+                setAvaliblePaymentMethods(data)
+                localStorage.setItem('availablePaymentMethods', JSON.stringify(data))
             } catch (err: any) {
                 console.error(err)
                 setError(err.message)
@@ -203,37 +210,24 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
 
     useEffect(() => {
         if (securityCodeLength !== 0) return
-        if (!userCardBrand) return
+        if (!cardBrand) return
 
-        if (userCardBrand.toLowerCase() === 'amex' || userCardBrand.toLowerCase() === 'american express') {
+        if (cardBrand.toLowerCase() === 'amex' || cardBrand.toLowerCase() === 'american express') {
             setSecurityCodeLength(4);
         }
 
         setSecurityCodeLength(3)
-    }, [userCardBrand])
-
-
-    // function getBin(brand: string) {
-    //     if (binCache.current.has(brand)) {
-    //         const cachedBrand = binCache.current.get(brand)
-
-    //         if (!cachedBrand) return
-
-    //         setUserCardBrand(cachedBrand)
-    //     }
-    // }
+    }, [cardBrand])
 
 
     useEffect(() => {
+        if (!cardNumber) return
+
         async function getCardBin() {
             const cleanNumber = cardNumber.replace(/\D/g, '')
+            if (cleanNumber.length !== 6) return
 
-            if (cleanNumber.length < 6) return setUserCardBrand('')
-
-            const storageBin = localStorage.getItem('cardBinUser')
-            const parsedBin: { id: string, bin: string } = storageBin ? JSON.parse(storageBin) : ''
-
-            if (parsedBin.bin === cleanNumber || cleanNumber.length > 6) return setUserCardBrand(parsedBin.id)
+            getBinValueFromLocalStorage(cleanNumber)
 
             try {
                 const res = await fetch(`/api/payment/bin?bin=${cleanNumber}`)
@@ -245,12 +239,31 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
                 const brand = await res.json()
 
                 if (getType(brand)) {
-                    setUserCardBrand(brand.id)
+                    setCardBrand(brand.id)
                     setSecurityCodeLength(brand.settings[0].security_code.length)
+                    setCardNumberLength(brand.settings[0].cardNumber.length)
                     localStorage.setItem('cardBinUser', JSON.stringify({ bin: cleanNumber, id: brand.id }))
                 } else {
-                    setUserCardBrand(brand.scheme)
-                    localStorage.setItem('cardBinUser', JSON.stringify({ bin: cleanNumber, id: brand.scheme }))
+                    const allowedSchemes = ['visa', 'mastercard', 'amex', 'elo', 'hipercard'];
+                    const isAllowBrand = allowedSchemes.includes(`${brand.schema}`)
+
+                    if (isAllowBrand) {
+                        const cardNumberLengthsByBrand = {
+                            visa: 16,
+                            master: 19,
+                            amex: 15,
+                            elo: 16,
+                            hipercard: 16,
+                        }[`${brand.scheme as string}`]
+
+                        setCardBrand(brand.scheme)
+                        setCardNumberLength(cardNumberLengthsByBrand)
+                        localStorage.setItem('cardBinUser', JSON.stringify({ bin: cleanNumber, id: brand.scheme }))
+                    } else {
+                        setIsInvalidBrand(true)
+                        localStorage.setItem('cardBinUser', JSON.stringify({ bin: cleanNumber, id: brand.scheme }))
+                    }
+
                 }
 
                 console.log('dado remoto')
@@ -260,19 +273,16 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
             }
 
         }
+        setIsInvalidBrand(false)
         getCardBin()
+
+
     }, [cardNumber])
 
 
     useEffect(() => {
-        function cleanPrivateData() {
-            localStorage.removeItem('cardBinUser')
-        }
-
-        return () => cleanPrivateData()
-
+        return () => localStorage.removeItem('cardBinUser')
     }, [])
-
 
 
 
@@ -320,18 +330,18 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
                         <span className="flex gap-x-2">
                             {loading ? (
                                 <p className="animate-pulse">Carregando bandeiras...</p>
-                            ) : error || !Array.isArray(cardBrands) ? (
+                            ) : error || !Array.isArray(availablePaymentMethods) ? (
                                 <p>Falha ao obter bandeiras</p>
                             ) : (
                                 <div className="flex gap-x-2">
-                                    {cardBrands.map(brand => (
+                                    {availablePaymentMethods.map(brand => (
                                         <img
                                             key={brand.id}
                                             src={brand.thumbnail}
                                             alt={brand.name}
                                             title={brand.name}
-                                            className={`h-5 ${userCardBrand === '' ? 'opacity-100' :
-                                                `${userCardBrand === brand.id ? 'opacity-100' : 'opacity-0 hidden transition'}`}`}
+                                            className={`h-5 ${cardBrand === '' ? 'opacity-100' :
+                                                `${cardBrand === brand.id ? 'opacity-100' : 'opacity-0 hidden transition'}`}`}
                                         />
                                     ))}
                                 </div>
@@ -348,13 +358,18 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
                             type="text"
                             name='cardNumber'
                             required
-                            maxLength={23}
+                            maxLength={CardNumberLength}
                             placeholder="Nº cartão"
                             className="flex-1 pl-2 text-sm bg-transparent outline-none"
                             onChange={(e) => validateCreditCardNumber(e.target.value)}
                         />
                         {isValid && <Check className="w-5 h-5 text-green-500" />}
                     </div>
+                    <p className={`text-sm bg-red-100 p-2 border-l-3 rounded-lg border-red-600 ${!isInvalidBrand && 'hidden'}`}>
+                        <span className="font-bold text-red-950">Bandeira do cartão não aceita.</span>
+                        <br></br>
+                        <span className="opacity-85">Por favor, utilize um cartão das bandeiras Visa, Mastercard, Elo, Hipercard ou Amex.</span>
+                    </p>
                 </div>
 
                 <div className="flex gap-4 paymentFormInput ">

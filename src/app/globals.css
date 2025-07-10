@@ -309,6 +309,18 @@ body {
   }
 }
 
+.error-container {
+  overflow: hidden;
+  max-height: 0px;
+  opacity: 0;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+}
+
+.error-container.show {
+  max-height: 200px; /* suficiente para a mensagem */
+  opacity: 1;
+}
+
 /* Error animation */
 
 .errormark {

@@ -1,8 +1,11 @@
+
 import { motion } from 'framer-motion'
 import PaymentSeletor from './components/paymentSelector/PaymentSelector';
 import CardForm from './components/cardForm/paymentForm';
 import Pix from './components/PixPayment/Pix';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { useEffect, useState } from 'react';
+
 
 import { useCartContext } from '../../../../../../context/cartContext';
 

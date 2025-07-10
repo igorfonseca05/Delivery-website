@@ -15,7 +15,10 @@ export async function dbConnect() {
     if (cached.conn) return cached.conn;
 
     if (!cached.promise) {
-        await mongoose.connect(url).then(m => m);
+        await mongoose.connect(url, {
+            bufferCommands: false,
+            dbName: 'next'
+        }).then(m => m);
     }
 
     cached.conn = await cached.promise;

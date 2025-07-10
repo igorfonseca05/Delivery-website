@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 export default function Pix() {
     return (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className=' relative m-auto mb:p-0 flexflex-col overflow-hidden'>
-            <div className="mb-4 bg-amber-50 border-l-4 border-amber-400 p-3 rounded">
+            <div className="mb-4 bg-amber-50 border-l-4 border-amber-400 p-3 py-4 rounded">
                 <p className="text-sm text-amber-800">
                     💡 Você selecionou <strong>Pix</strong> como forma de pagamento.
                 </p>

@@ -42,16 +42,27 @@ interface CardBinData {
 }
 
 
-async function fetchCardBinData(bin: string): Promise<CardBinData> {
-    const response = await fetch(`https://lookup.binlist.net/${bin}`)
+async function fetchCardBinData(bin: string): Promise<CardBinData | null> {
+    try {
+        const response = await fetch(`https://lookup.binlist.net/${bin}`);
 
-    if (!response.ok) {
-        throw new Error('Erro na requisição externa')
+        if (response.status === 429) {
+            throw new Error('Limite de requisições excedido para o serviço BIN.');
+        }
+
+        if (!response.ok) {
+            throw new Error(`Erro ao buscar dados do cartão:${response.statusText}`)
+        }
+
+        const data: CardBinData = await response.json();
+        return data;
+
+    } catch (error) {
+        console.error('Erro inesperado ao buscar BIN:', error);
+        return null;
     }
-
-    const data: CardBinData = await response.json()
-    return data
 }
+
 
 
 async function getBin(bin: string, offset = 0) {
@@ -101,6 +112,8 @@ export async function GET(req: NextRequest) {
 
         const found = await getBin(bin)
 
+        console.log(found)
+
         if (!found) {
             return NextResponse.json({ message: 'Bin não encontrado' }, { status: 404 });
         }
@@ -112,6 +125,9 @@ export async function GET(req: NextRequest) {
         })
 
     } catch (error) {
+
+        console.log(error, 'oiooioi')
+
         return NextResponse.json({ message: 'Erro interno ao buscar BIN' }, { status: 500 })
     }
 }
