@@ -64,7 +64,7 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
             const mp = new (window as any).MercadoPago(process.env.MP_PUBLIC_KEY_TEST);
             setMp(mp)
         }
-    }, []);
+    }, [])
 
 
 
