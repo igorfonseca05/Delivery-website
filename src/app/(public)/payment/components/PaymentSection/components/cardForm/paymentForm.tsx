@@ -42,6 +42,7 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
     const [expirationMonth, setExpirationMonth] = useState('')
     const [securityCode, setSecurityCode] = useState('')
     const [documentNumber, setDocumentNumber] = useState('');
+    const [isValidDocumentNumber, setIsValidDocumentNumber] = useState<boolean | string>('');
     const [expirationData, setExpirationData] = useState('')
 
     const [isValid, setIsValid] = useState<boolean | string>('')
@@ -65,6 +66,43 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
             setMp(mp)
         }
     }, [])
+
+
+    function ValidateDocNumber(value: string) {
+        const cpf = value.replace(/[^\d]+/g, '');
+
+        setDocumentNumber(cpf)
+
+        if (cpf.length === 0) {
+            return setIsValidDocumentNumber('')
+        }
+
+        setIsValidDocumentNumber(false)
+
+        if (cpf.length !== 11) return false;
+        if (/^(\d)\1{10}$/.test(cpf)) return false;
+
+        let sum = 0;
+        for (let i = 0; i < 9; i++) {
+            sum += Number(cpf[i]) * (10 - i);
+        }
+        let rest = (sum * 10) % 11;
+        if (rest === 10 || rest === 11) rest = 0;
+        if (rest !== Number(cpf[9])) return false;
+
+
+        sum = 0;
+        for (let i = 0; i < 10; i++) {
+            sum += Number(cpf[i]) * (11 - i);
+        }
+        rest = (sum * 10) % 11;
+        if (rest === 10 || rest === 11) rest = 0;
+        if (rest !== Number(cpf[10])) return false;
+
+        console.log('oi')
+
+        setIsValidDocumentNumber(true)
+    }
 
 
 
@@ -132,6 +170,15 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
         setCardNumber(card)
     }
 
+    function brandCache() {
+        const cached = localStorage.getItem('availablePaymentMethods')
+        if (cached) {
+            setAvaliblePaymentMethods(JSON.parse(cached))
+            setLoading(false)
+            return
+        }
+    }
+
 
     function validateCreditCardNumber(creditCardNumber: string) {
         setCardNumber(creditCardNumber)
@@ -179,14 +226,7 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
         }
     }, [expirationData])
 
-    function brandCache() {
-        const cached = localStorage.getItem('availablePaymentMethods')
-        if (cached) {
-            setAvaliblePaymentMethods(JSON.parse(cached))
-            setLoading(false)
-            return
-        }
-    }
+
 
     useEffect(() => {
         async function getCardBrand() {
@@ -270,11 +310,12 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
 
             } catch (error) {
                 console.log(error)
+                setError('Falha ao obter dados')
             }
 
         }
         setIsInvalidBrand(false)
-        getCardBin()
+        brandCache()
 
 
     }, [cardNumber])
@@ -297,17 +338,17 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
                     <label className="block text-sm font-medium text-gray-700">
                         CPF
                     </label>
-                    <input
-                        type="text"
-                        required
-                        className="w-full border border-gray-300 rounded px-3 py-2 text-sm outline-none"
-                        value={documentNumber}
-                        onChange={(e) => {
-                            const cleanCPF = e.target.value.replace(/\D/g, '')
-                            setDocumentNumber(cleanCPF)
-                        }}
-                        placeholder="CPF"
-                    />
+                    <div className={`flex items-center border rounded px-3 py-2 justify-between ${isValidDocumentNumber === '' ? 'border-gray-300' : `${isValidDocumentNumber ? `border-green-500` : 'border-red-500'}`}`}>
+                        <input
+                            type="text"
+                            required
+                            onChange={(e) => { ValidateDocNumber(e.target.value) }}
+                            value={documentNumber}
+                            className="w-full outline-none"
+                            placeholder="CPF"
+                        />
+                        {isValidDocumentNumber && <Check className="w-5 h-5 text-green-500" />}
+                    </div>
                 </div>
                 <div className="space-y-2">
                     <label className="block text-sm font-medium text-gray-700">
@@ -345,8 +386,8 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
                                         />
                                     ))}
                                 </div>
-                            )}
 
+                            )}
                         </span>
                     </label>
 
@@ -365,6 +406,7 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
                         />
                         {isValid && <Check className="w-5 h-5 text-green-500" />}
                     </div>
+
                     <p className={`text-sm bg-red-100 p-2 border-l-3 rounded-lg border-red-600 ${!isInvalidBrand && 'hidden'}`}>
                         <span className="font-bold text-red-950">Bandeira do cartão não aceita.</span>
                         <br></br>
