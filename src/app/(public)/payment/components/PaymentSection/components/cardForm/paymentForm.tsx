@@ -322,7 +322,7 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
 
 
     useEffect(() => {
-        return () => localStorage.removeItem('cardBinUser')
+        return () => { localStorage.removeItem('cardBinUser') }
     }, [])
 
 
