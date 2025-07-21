@@ -2,6 +2,7 @@ import { FormEvent, useEffect, useState } from "react";
 import { CreditCard, Check } from "lucide-react";
 import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, Info } from "lucide-react";
+import { cardSchema } from "@/lib/definitions";
 
 interface CardFormProps {
     paymentMethod: number,
@@ -35,7 +36,6 @@ interface Window {
 
 export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextForm }: CardFormProps) {
 
-
     const [cardName, setCardName] = useState('')
     const [cardNumber, setCardNumber] = useState('')
     const [expirationYear, setExpirationYear] = useState('')
@@ -52,12 +52,12 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState('')
     const [securityCodeLength, setSecurityCodeLength] = useState(0)
+    const [expirationDataLength, setExpirationDataLength] = useState(5)
     const [CardNumberLength, setCardNumberLength] = useState<number | undefined>(undefined)
     const [cardBrand, setCardBrand] = useState<string | null>('')
     const [isInvalidBrand, setIsInvalidBrand] = useState(false)
 
     const [mp, setMp] = useState<any>(null)
-
 
     useEffect(() => {
         if (typeof window !== 'undefined' && (window as any).MercadoPago) {
@@ -67,12 +67,13 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
     }, [])
 
 
+
     function ValidateDocNumber(value: string) {
         const cpf = value.replace(/[^\d]+/g, '');
 
         setDocumentNumber(cpf)
 
-        if (cpf.length === 0) {
+        if (!cpf.length) {
             return setIsValidDocumentNumber('')
         }
 
@@ -98,12 +99,8 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
         if (rest === 10 || rest === 11) rest = 0;
         if (rest !== Number(cpf[10])) return false;
 
-        console.log('oi')
-
         setIsValidDocumentNumber(true)
     }
-
-
 
     function getType(obj: CardBrandPros): obj is CardBrandPros {
         return (obj as CardBrandPros).id !== undefined
@@ -123,7 +120,7 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
         setExpirationData(data)
 
         const isEmptyDataInput = data.length === 0
-        const isInvalidSizeData = data.length < 7
+        const isInvalidSizeData = data.length < expirationDataLength
 
         if (isEmptyDataInput) return setInputBorder('grayBorder')
         if (isInvalidSizeData) return setInputBorder('redBorder')
@@ -333,7 +330,7 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
             <form className="w-full mx-auto space-y-4" onSubmit={handleCreditCardForm}>
                 <div>
                     <h2 className="text-[clamp(1rem,1em,2rem)] font-semibold text mb-0">Informações do cartão</h2>
-                    <p className="text text-sm">"Próximo" apaga os dados do cartão por segurança. Preencha de novo se precisar.</p>
+                    <p className="text text-sm">Os dados do formulário <strong>não</strong> são armazenados por segurança</p>
                 </div>
 
                 <div className="space-y-2">
@@ -346,8 +343,10 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
                             required
                             onChange={(e) => { ValidateDocNumber(e.target.value) }}
                             value={documentNumber}
-                            className="w-full outline-none"
+                            className="flex-1 text-sm bg-transparent outline-none"
                             placeholder="CPF"
+                            autoComplete="on"
+                            minLength={11}
                         />
                         {isValidDocumentNumber && <Check className="w-5 h-5 text-green-500" />}
                     </div>
@@ -361,7 +360,8 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
                         type="text"
                         required
                         placeholder="Marcelo Santos"
-                        className="w-full border border-gray-300 rounded px-3 py-2 text-sm outline-none"
+                        className="w-full border border-gray-300 rounded px-3 py-2 text-sm  focus-visible:outline-orange-300"
+                        autoComplete=" on"
                         value={cardName}
                         onChange={(e) => setCardName(e.target.value)}
                     />
@@ -428,9 +428,9 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
                                 type="text"
                                 value={expirationData}
                                 name='expirationData'
-                                maxLength={7}
+                                maxLength={expirationDataLength}
                                 required
-                                placeholder="MM/AAAAA"
+                                placeholder="MM/AA"
                                 className={`flex-1 pl-2 text-sm bg-transparent outline-none`}
                                 onChange={(e) => validateExpirationData(e.target.value)}
                             />

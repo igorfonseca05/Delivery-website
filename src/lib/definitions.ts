@@ -1,4 +1,5 @@
 
+import { X } from 'lucide-react'
 import z from 'zod'
 
 export const MenuSchemaZod = z.object({
@@ -32,4 +33,28 @@ export const MenuSchemaZod = z.object({
             }),
         })
     ).min(1, { message: "Pelo menos um tamanho deve ser incluído" })
+})
+
+
+//   const cardInfos = {
+//             cardholder: cardName,
+//             identification: {
+//                 type: 'CPF',
+//                 number: documentNumber
+//             },
+//             cardNumber,
+//             expirationMonth,
+//             expirationYear,
+//             securityCode,
+//             cardBrand,
+// }
+
+export const cardSchema = z.object({
+    cpf: z.string().regex(/^\d{11}$/, "CPF deve conter exatamente 11 dígitos"),
+    cardholder: z.string().min(3, {message: 'Nome muito curto'}),
+    cardNumber: z.string(),
+    expirationMonth: z.string(),
+    expirationYear: z.string(),
+    securityCode: z.string().regex(/^\d{3,4}$/, "CVV deve ter 3 ou 4 dígitos"),
+    cardBrand: z.string()
 })
