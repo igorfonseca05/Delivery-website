@@ -49,7 +49,6 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
     const [inputBorder, setInputBorder] = useState<string>('grayBorder')
     const [availablePaymentMethods, setAvaliblePaymentMethods] = useState<CardBrandPros[]>();
     const [dataCount, setDataCount] = useState<number>(2)
-    let [count, setCount] = useState(4)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState('')
     const [securityCodeLength, setSecurityCodeLength] = useState(0)
@@ -261,7 +260,7 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
 
 
     useEffect(() => {
-        if (!cardNumber) return
+        if (!cardNumber || cardNumber.length === 0) return setCardBrand('')
 
         async function getCardBin() {
             const cleanNumber = cardNumber.replace(/\D/g, '')
@@ -273,7 +272,8 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
                 const res = await fetch(`/api/payment/bin?bin=${cleanNumber}`)
 
                 if (!res.ok) {
-                    throw new Error('erro')
+                    const error = await res.json()
+                    throw new Error(error.message || 'Erro ao buscar dados do cartão')
                 }
 
                 const brand = await res.json()
@@ -285,7 +285,7 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
                     localStorage.setItem('cardBinUser', JSON.stringify({ bin: cleanNumber, id: brand.id }))
                 } else {
                     const allowedSchemes = ['visa', 'mastercard', 'amex', 'elo', 'hipercard'];
-                    const isAllowBrand = allowedSchemes.includes(`${brand.schema}`)
+                    const isAllowBrand = allowedSchemes.includes(`${brand.scheme}`)
 
                     if (isAllowBrand) {
                         const cardNumberLengthsByBrand = {
@@ -308,9 +308,9 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
 
                 console.log('dado remoto')
 
-            } catch (error) {
+            } catch (error: any) {
                 console.log(error)
-                setError('Falha ao obter dados')
+                setError(error.message)
             }
 
         }
@@ -408,11 +408,11 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
                         {isValid && <Check className="w-5 h-5 text-green-500" />}
                     </div>
 
-                    <p className={`text-sm bg-red-100 p-2 border-l-3 rounded-lg border-red-600 ${!isInvalidBrand && 'hidden'}`}>
+                    {/* <p className={`text-sm bg-red-100 p-2 border-l-3 rounded-lg border-red-600 ${!isInvalidBrand && 'hidden'}`}>
                         <span className="font-bold text-red-950">Bandeira do cartão não aceita.</span>
                         <br></br>
                         <span className="opacity-85">Por favor, utilize um cartão das bandeiras Visa, Mastercard, Elo, Hipercard ou Amex.</span>
-                    </p>
+                    </p> */}
                 </div>
 
                 <div className="flex gap-4 paymentFormInput ">
