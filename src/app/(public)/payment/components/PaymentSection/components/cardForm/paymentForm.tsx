@@ -316,6 +316,7 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
         }
         setIsInvalidBrand(false)
         brandCache()
+        getCardBin()
 
 
     }, [cardNumber])
