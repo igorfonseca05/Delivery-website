@@ -333,6 +333,7 @@ export default function CardForm({ paymentMethod, handlePrevious, moveToTheNextF
             <form className="w-full mx-auto space-y-4" onSubmit={handleCreditCardForm}>
                 <div>
                     <h2 className="text-[clamp(1rem,1em,2rem)] font-semibold text mb-0">Informações do cartão</h2>
+                    <p className="text text-sm">"Próximo" apaga os dados do cartão por segurança. Preencha de novo se precisar.</p>
                 </div>
 
                 <div className="space-y-2">

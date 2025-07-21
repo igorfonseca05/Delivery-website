@@ -1,4 +1,6 @@
 
+import crypyto from 'crypto';
+
 export function verifyEnvironment() {
 
     const isDevelopmentEnv = process.env.NODE_ENV === 'development'
@@ -38,4 +40,20 @@ export function selectEnvironment(path: string): string {
 
     // Fallback para evitar erro se NODE_ENV for algo inesperado
     throw new Error(`Unrecognized environment: ${env}`);
+}
+
+const secretkey = crypyto.randomBytes(32)
+const iv = crypyto.randomBytes(16)
+
+export function cipherText(text: string) {
+    const cipher = crypyto.createCipheriv('aes-256-ccm', secretkey, iv)
+
+    let encryptText = cipher.update(text, 'utf8', 'hex')
+    encryptText += cipher.final('hex')
+
+    return {
+        encryptText: encryptText,
+        iv: iv.toString('hex'),
+        key: secretkey.toString('hex')
+    }
 }
