@@ -1,10 +1,11 @@
 import { ContentContainer } from "@/components/globalComponents/Container/container";
 import { AdmName } from "./components/AdmName";
+import { CardCloseOpen } from "./components/CardCloseOpen";
 
 export default function Page() {
   return (
     <ContentContainer>
-      <div className="p-4 md:pt-6 min-h-screen">
+      <div className="pt-6 min-h-screen">
         {/* Título Principal */}
         <header className="mb-8">
           <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-2">
@@ -220,37 +221,7 @@ export default function Page() {
           {/* Coluna Lateral (Cards de Configuração) - 3/12 colunas no desktop */}
           <div className="lg:col-span-3 space-y-6">
             {/* 3. Card Status do Estabelecimento (Aberto/Fechado) */}
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-lg font-bold text-gray-900 mb-4">
-                Status do Estabelecimento
-              </h3>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-500">Fechado</span>
-
-                {/* Toggle Switch (Simulação pura) */}
-                <label
-                  htmlFor="toggle"
-                  className="flex items-center cursor-pointer"
-                >
-                  <div className="relative">
-                    {/* Note que o input é essencial para o estado, mesmo que `sr-only` (screen-reader only) */}
-                    <input
-                      type="checkbox"
-                      id="toggle"
-                      className="sr-only"
-                      defaultChecked
-                    />
-                    {/* Linha/Trilha do switch (Cor "ligada" padrão) */}
-                    <div className="block bg-red-600 w-10 h-5 rounded-full"></div>
-                    {/* Círculo/Botão do switch (Posição "ligada" padrão) */}
-                    <div className="absolute left-0.5 top-0.5 bg-white w-4 h-4 rounded-full transition transform translate-x-5"></div>
-                  </div>
-                </label>
-                <span className="text-sm font-semibold text-green-600 ml-2">
-                  Aberto
-                </span>
-              </div>
-            </div>
+            <CardCloseOpen/>
 
             {/* 4. Card Horário de Funcionamento */}
             <div className="bg-white p-6 rounded-lg shadow-md">
