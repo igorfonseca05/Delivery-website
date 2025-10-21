@@ -4,9 +4,10 @@ import { useAuth } from "../../../../../hooks/useAuth"
 import { useState, useEffect } from "react"
 import { toast } from "react-toastify"
 import { FcGoogle } from "react-icons/fc"
+import { useRouter } from "next/navigation"
 
 export default function Form() {
-
+    const router = useRouter()
     const { signIn, error, loading } = useAuth()
 
     const [email, setEmail] = useState('')
@@ -20,7 +21,7 @@ export default function Form() {
             email,
             password
         }
-        signIn(userCredentials)
+       await signIn(userCredentials)
     }
 
     // Handle errors
@@ -54,7 +55,6 @@ export default function Form() {
                 <p>Entrar com Google</p>
                 <FcGoogle size={24} />
             </button>
-
         </form>
     );
 };

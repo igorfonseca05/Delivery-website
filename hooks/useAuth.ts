@@ -90,10 +90,6 @@ export function useAuth() {
 
             return user
         } catch (error: any) {
-
-
-            console.log(error)
-
             if (error instanceof FirebaseError) {
                 let errorMessage = "";
 

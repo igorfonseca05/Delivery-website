@@ -27,7 +27,6 @@ export default function UserDropdown() {
                         <p className={`text-md font-medium text-gray-900 capitalize`}>
                             {user?.displayName}
                         </p>
-                        {/* <p className="text-xs text-gray-500">Admin</p> */}
                     </div>
                     <img
                         src={user?.photoURL ? `${user.photoURL}` : '/placeholder.png'}

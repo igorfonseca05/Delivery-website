@@ -29,6 +29,7 @@ export default function SignUp_Form() {
 
     const handleSignUpForm = async (e: FormEvent) => {
         e.preventDefault()
+        
         const user = { name, email, password }
         createUser(user)
     }

@@ -34,6 +34,8 @@ export function Navbar() {
 
     const [searchBarIsOpen, setSearchBarIsOpen] = useState<boolean>(false)
 
+    console.log(isAdmin)
+
     return (
         <div className={`${path === '/login' || path === '/signup' ? 'hidden' : ''}`}>
             <header className={`navContainer bg-white w-full z-2 shadow`}>
@@ -88,7 +90,7 @@ export function Navbar() {
                             {user && <UserDropdown />}
 
                             {/* Shopping Cart */}
-
+                                
 
                             {!isAdmin &&
                                 (<li className={`cursor-pointer flex sm:p-2 sm:ml-2 ${path === '/payment' && 'opacity-50 pointer-events-none'}`} onClick={() => setCartIsOpen(!cartIsOpen)}>

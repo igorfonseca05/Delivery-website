@@ -4,8 +4,6 @@ import { dbConnect } from "../../../../db/dbConnection";
 import MenuModel from "../../../../model/foodModel";
 
 import { MenuSchemaZod } from "@/lib/definitions";
-// import foodModel from "../../../../model/foodModel";
-
 
 export async function GET(req: NextRequest) {
     try {
