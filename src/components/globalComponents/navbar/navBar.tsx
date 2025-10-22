@@ -50,11 +50,11 @@ export function Navbar() {
 
  useEffect(() => {
 
-    const now = new Date()
+    const storagedTime = new Date(status.time)
+    const date = new Date()
+    const time = new Date(`${date.getFullYear()}-${date.getMonth()+1}-${ date.getDate() + 1}`)
 
-    const date = new Date(`${now.getFullYear()}-${now.getMonth()+1}-${now.getDate() + 1}`)
-
-    if(now.toDateString() === date.toDateString()) {
+    if(storagedTime.toDateString() === time.toDateString()) {
         setText('hoje')
     } else {
         setText('ontem')
@@ -82,7 +82,7 @@ export function Navbar() {
               </span>
             </li>
 
-            <li className={`hidden lg:block min-w-37`}>{`${status.status? `🟢 Abriu ${text}` : `🔴 Fechou ${text}`} as ${status.time}`}</li>
+            <li className={`hidden lg:block min-w-42`}>{`${status.status? `🟢 Abriu ${text}` : `🔴 Fechou ${text}`} as ${new Date(status.time).toLocaleTimeString('pt-br', {hour: '2-digit', minute: '2-digit'})}`}</li>
 
             {/* logo Mobile */}
             <li className="md:hidden relative w-20 h-10 lg:opacity-0">

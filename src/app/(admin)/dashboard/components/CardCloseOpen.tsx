@@ -6,10 +6,9 @@ export function CardCloseOpen() {
   const [status, setStatus] = useState(() => JSON.parse(localStorage.getItem('status') || '').status);
  
   const date = new Date()
-  const time = `${date.getHours()}:${date.getMinutes() < 10 ? `0${date.getMinutes()}` : `${date.getMinutes()}`}`
 
   useEffect(() => {
-   localStorage.setItem('status', JSON.stringify({status, time}))
+   localStorage.setItem('status', JSON.stringify({status, time: date}))
     window.dispatchEvent(new Event('statusChange'))
   }, [status])
   
