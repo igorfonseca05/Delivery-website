@@ -33,35 +33,36 @@ export function Navbar() {
 
   const [searchBarIsOpen, setSearchBarIsOpen] = useState<boolean>(false);
 
-  const [status, setStatus] = useState<{status: boolean, time: string}>({status: false, time: ''});
+  const [status, setStatus] = useState(
+    () => JSON.parse(localStorage.getItem("status") || "{}")|| false
+  );
   const [text, setText] = useState("");
 
   useEffect(() => {
-      function getStatus() {
-        const storage = JSON.parse(localStorage.getItem("status") || '');
-        setStatus(storage)
+    function getStatus() {
+      const storage = JSON.parse(localStorage.getItem("status") || "{}");
+
+      setStatus(storage);
     }
 
-    window.addEventListener('statusChange', getStatus)
+    window.addEventListener("statusChange", getStatus);
 
-    return () => window.removeEventListener('statusChange', getStatus)
+    return () => window.removeEventListener("statusChange", getStatus);
   }, []);
 
+  useEffect(() => {
+    const storagedTime = new Date(status.time);
+    const date = new Date();
+    const time = new Date(
+      `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate() + 1}`
+    );
 
- useEffect(() => {
-
-    const storagedTime = new Date(status.time)
-    const date = new Date()
-    const time = new Date(`${date.getFullYear()}-${date.getMonth()+1}-${ date.getDate() + 1}`)
-
-    if(storagedTime.toDateString() === time.toDateString()) {
-        setText('hoje')
+    if (storagedTime.toDateString() === time.toDateString()) {
+      setText("hoje");
     } else {
-        setText('ontem')
+      setText("ontem");
     }
-
- }, [])
-
+  }, []);
 
   return (
     <div
@@ -82,7 +83,19 @@ export function Navbar() {
               </span>
             </li>
 
-            <li className={`hidden lg:block min-w-42`}>{`${status.status? `🟢 Abriu ${text}` : `🔴 Fechou ${text}`} as ${new Date(status.time).toLocaleTimeString('pt-br', {hour: '2-digit', minute: '2-digit'})}`}</li>
+            {isAdmin && (
+              <li className={`hidden lg:block pl-1 min-w-42`}>{`${
+                status.status ? `🟢 Abriu ${text}` : `🔴 Fechou ${text}`
+              } as ${new Date(status.time).toLocaleTimeString("pt-br", {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}`}</li>
+            )}
+            {!isAdmin && (
+              <li className={`hidden lg:block pl-1 min-w-42`}>{`${
+                status.status ? "🟢 Aberto" : "🔴 Fechado"
+              }`}</li>
+            )}
 
             {/* logo Mobile */}
             <li className="md:hidden relative w-20 h-10 lg:opacity-0">
@@ -112,7 +125,13 @@ export function Navbar() {
                 />
               </li>
             ) : (
-              <p>Logo</p>
+               <Image
+                src="/logo.svg"
+                alt="logo"
+                width={130}
+                height={130}
+                style={{ objectFit: "contain" }}
+              />
             )}
 
             {/* Buttons */}

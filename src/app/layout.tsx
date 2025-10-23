@@ -1,7 +1,13 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Open_Sans, Roboto, Baloo_2, Fredoka } from "next/font/google";
+import {
+  Geist,
+  Geist_Mono,
+  Open_Sans,
+  Roboto,
+  Baloo_2,
+  Fredoka,
+} from "next/font/google";
 import "./globals.css";
-
 
 // Context
 import { MenuContextProvider } from "../../context/MenuContext";
@@ -16,23 +22,22 @@ import { CartSideBar } from "@/components/globalComponents/navbar/CartSidebar/ca
 import { SideMenu } from "@/components/globalComponents/sideMenu/SideMenuContainer";
 import { Footer } from "@/components/globalComponents/footer/footer";
 
-
 import { ToastContainer } from "react-toastify";
 import { MessagesContextProvider } from "../../context/messagesContext";
 import { WarningModalProvider } from "../../context/warningModalContext";
 import { AdminContextProvider } from "../../context/isAdminContext";
 import Head from "next/head";
+import { ModalProvider } from "../../context/DashModal";
 
+const baloo = Baloo_2({ subsets: ["latin"], weight: "400" });
 
-const baloo = Baloo_2({ subsets: ['latin'], weight: '400' })
-
-const free = Fredoka({ subsets: ['latin'], weight: ['400'] })
+const free = Fredoka({ subsets: ["latin"], weight: ["400"] });
 
 const roboto = Roboto({
   // variable: "--font-geist-mono",
   subsets: ["latin"],
-  weight: ['400', '600']
-})
+  weight: ["400", "600"],
+});
 
 export const metadata: Metadata = {
   title: "Paraíso da gastronomia",
@@ -44,45 +49,55 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
-
   return (
     <html lang="pt-BR">
       <Head>
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico" />
-        <link rel="apple-touch-icon" sizes="180x180" href="public/apple-touch-icon.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="public/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="public/favicon-16x16.png" />
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="public/apple-touch-icon.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="public/favicon-32x32.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="public/favicon-16x16.png"
+        />
         <script src="https://sdk.mercadopago.com/js/v2"></script>
-
       </Head>
       <body className={`${baloo.className} antialiased}`}>
-
-
         <MessagesContextProvider>
-          <WarningModalProvider>
-            <AdminContextProvider>
-              <AuthGlobalContext>
-                <ToastContainer />
-                <ToggleCartContextProvider>
-                  <QuantityContextProvider>
-                    <MenuContextProvider>
-                      <CartContextProvider>
-                        <SideMenu />
-                        <Navbar />
-                        <CartSideBar />
-                        {children}
-                        <Footer />
-                      </CartContextProvider>
-                    </MenuContextProvider>
-                  </QuantityContextProvider>
-                </ToggleCartContextProvider>
-              </AuthGlobalContext>
-            </AdminContextProvider>
-          </WarningModalProvider>
+          <ModalProvider>
+            <WarningModalProvider>
+              <AdminContextProvider>
+                <AuthGlobalContext>
+                  <ToastContainer />
+                  <ToggleCartContextProvider>
+                    <QuantityContextProvider>
+                      <MenuContextProvider>
+                        <CartContextProvider>
+                          <SideMenu />
+                          <Navbar />
+                          <CartSideBar />
+                          {children}
+                          <Footer />
+                        </CartContextProvider>
+                      </MenuContextProvider>
+                    </QuantityContextProvider>
+                  </ToggleCartContextProvider>
+                </AuthGlobalContext>
+              </AdminContextProvider>
+            </WarningModalProvider>
+          </ModalProvider>
         </MessagesContextProvider>
       </body>
     </html>
   );
 }
-

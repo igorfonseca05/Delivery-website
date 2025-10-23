@@ -34,6 +34,8 @@ export default function FoodGrid() {
 
     const { data: dishes, loading, error } = useFetchData(url)
 
+    console.log(dishes)
+
 
     function getAPI_URL() {
         const baseUrl = category === 'Todos' ?

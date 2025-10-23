@@ -11,7 +11,7 @@ export function Footer() {
 
     return (
         <footer className={`bg-white p-2 text-gray-600 py-4 max-w-full mt-3 ${path === '/login' || path === '/signup' ? 'hidden' : ''}`}>
-            <div className=" flex flex-wrap justify-between sizeContentet alignAllContent text-[clamp(0.6rem,1vw,1rem)]">
+            <div className=" flex flex-wrap justify-between sizeContentet m-auto md:ml-22 w-[90%] text-[clamp(0.6rem,1vw,1rem)]">
                 {/* Coluna 1: Endereço */}
                 <div>
                     <h4 className="font-semibold mb-2">Endereço</h4>
