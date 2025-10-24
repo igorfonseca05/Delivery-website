@@ -34,14 +34,13 @@ export function Navbar() {
   const [searchBarIsOpen, setSearchBarIsOpen] = useState<boolean>(false);
 
   const [status, setStatus] = useState(
-    () => JSON.parse(localStorage.getItem("status") || "{}")|| false
+    () => JSON.parse(localStorage.getItem("status") || "{}") || false
   );
   const [text, setText] = useState("");
 
   useEffect(() => {
     function getStatus() {
       const storage = JSON.parse(localStorage.getItem("status") || "{}");
-
       setStatus(storage);
     }
 
@@ -62,7 +61,7 @@ export function Navbar() {
     } else {
       setText("ontem");
     }
-  }, []);
+  }, [status.status]);
 
   return (
     <div
@@ -83,13 +82,20 @@ export function Navbar() {
               </span>
             </li>
 
-            {isAdmin && (
-              <li className={`hidden lg:block pl-1 min-w-42`}>{`${
-                status.status ? `🟢 Abriu ${text}` : `🔴 Fechou ${text}`
-              } as ${new Date(status.time).toLocaleTimeString("pt-br", {
+            {isAdmin && status.status ? (
+              <li className={`hidden lg:flex items-center pl-1 min-w-42 gap-x-2`}>
+                <div className="w-4 h-4 bg-green-500 rounded-full animate-pulse"></div>
+                <p>abriu {text} as {new Date(status.time).toLocaleTimeString("pt-br", {
                 hour: "2-digit",
-                minute: "2-digit",
-              })}`}</li>
+                minute: "2-digit"})}</p>
+              </li>
+            ) : (
+              <li className={`hidden lg:flex items-center pl-1 min-w-42 gap-x-2`}>
+                <div className="w-4 h-4 bg-red-500 rounded-full animate-pulse"></div>
+                <p>Fechou {text} as {new Date(status.time).toLocaleTimeString("pt-br", {
+                hour: "2-digit",
+                minute: "2-digit"})}</p>
+              </li>
             )}
             {!isAdmin && (
               <li className={`hidden lg:block pl-1 min-w-42`}>{`${
@@ -125,7 +131,7 @@ export function Navbar() {
                 />
               </li>
             ) : (
-               <Image
+              <Image
                 src="/logo.svg"
                 alt="logo"
                 width={130}

@@ -2,28 +2,20 @@
 
 import { Modal } from "@/components/globalComponents/modal/Modal";
 import { useModal } from "../../../../../context/DashModal";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { CirclePlus, Trash, Upload } from "lucide-react";
 
 export function OrdersTable() {
   const [isOpen, setIsOpen] = useState(false);
   const [inputAmount, setInputAmount] = useState(1);
-
-  function addInput() {
-    if(inputAmount >= 3) return
-    setInputAmount(inputAmount + 1);
-  }
-
-  
-
-  function closeModal() {
-    setIsOpen(false);
-  }
-
-  function openModal() {
-    setIsOpen(true);
-  }
+  const [formInput, setFormInput] = useState({
+    name: "",
+    category: "",
+    description: "",
+    sizes: [{ type: "", price: "" }],
+    image: "",
+  });
 
   useEffect(() => {
     if (isOpen) {
@@ -32,6 +24,32 @@ export function OrdersTable() {
       document.documentElement.style.overflowY = "auto";
     }
   }, [isOpen]);
+
+  function addInput() {
+    if (inputAmount >= 3) return;
+    setInputAmount(inputAmount + 1);
+  }
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) {
+    setFormInput({
+      ...formInput,
+      [e.target.name]: e.target.value
+    })
+  }
+
+  function handleForm(e: React.FormEvent) {
+    e.preventDefault();
+
+    console.log(formInput)
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
 
   return (
     <>
@@ -49,11 +67,13 @@ export function OrdersTable() {
           </div>
 
           {/* Form */}
-          <form className="space-y-4">
+          <form onSubmit={handleForm} className="space-y-4">
             {/* Nome do item */}
             <div className="flex gap-3">
               <div className="flex-1">
                 <input
+                  onChange={handleChange}
+                  name="name"
                   placeholder="Nome do Item (Ex: Pizza Margherita)"
                   className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 p-3 h-12 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-orange-300"
                 />
@@ -62,6 +82,8 @@ export function OrdersTable() {
               {/* Categoria */}
               <div className="w-32">
                 <select
+                  onChange={handleChange}
+                  name="category"
                   className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 p-3 h-12 focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-orange-300"
                   defaultValue="default"
                 >
@@ -79,6 +101,8 @@ export function OrdersTable() {
             {/* Descrição */}
             <div>
               <textarea
+                onChange={handleChange}
+                name="description"
                 placeholder="Descrição (Ex: Molho de tomate, mussarela e manjericão)"
                 className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 p-3 min-h-[70px] placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-orange-300 resize-none"
               ></textarea>
@@ -87,33 +111,44 @@ export function OrdersTable() {
             {/* Tamanhos e preços */}
             <div className="space-y-2">
               {/* Exemplo de um tamanho */}
-              {inputAmount === 3 && <p className="text-xs text-red-600">Você atingiu o número máximo de tamanhos permitidos {inputAmount}.</p>}
-              {Array(inputAmount).fill(null).map((item, i) => (
-                <div key={i} className="flex items-center gap-2">
-                <div className="flex-1">
-                  <input
-                    name={`size-${i}`}
-                    placeholder="Tamanho (Ex: P)"
-                    className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 p-3 h-10 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-orange-300"
-                  />
-                </div>
-                <div className="w-24">
-                  <input
-                    name={`price-${i}`}
-                    placeholder="29,90"
-                    type="number"
-                    className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 p-3 h-10 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-orange-300"
-                  />
-                </div>
-                <button
-                onClick={() => inputAmount > 1 && setInputAmount(inputAmount - 1)}
-                  className="p-2 rounded-full text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-gray-300"
-                  type="button"
-                >
-                  <Trash size={22} />
-                </button>
-              </div>
-              ))}
+              {inputAmount === 3 && (
+                <p className="text-xs text-red-600">
+                  Você atingiu o número máximo de tamanhos permitidos{" "}
+                  {inputAmount}.
+                </p>
+              )}
+              {Array(inputAmount)
+                .fill(null)
+                .map((item, i) => (
+                  <div key={i} className="flex items-center gap-2">
+                    <div className="flex-1">
+                      <input
+                        onChange={handleChange}
+                        name={`size-${i}`}
+                        placeholder="Tamanho (Ex: P)"
+                        className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 p-3 h-10 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-orange-300"
+                      />
+                    </div>
+                    <div className="w-24">
+                      <input
+                      onChange={handleChange}
+                        name={`price-${i}`}
+                        placeholder="29,90"
+                        type="number"
+                        className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 p-3 h-10 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-orange-300"
+                      />
+                    </div>
+                    <button
+                      onClick={() =>
+                        inputAmount > 1 && setInputAmount(inputAmount - 1)
+                      }
+                      className="p-2 rounded-full text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-gray-300"
+                      type="button"
+                    >
+                      <Trash size={22} />
+                    </button>
+                  </div>
+                ))}
             </div>
 
             <button
@@ -144,7 +179,7 @@ export function OrdersTable() {
                       clique para selecionar arquivo
                     </span>
                   </p>
-                  <input id="fileInput" type="file" className="hidden" />
+                  <input onChange={handleChange} name="image" id="fileInput" type="file" className="hidden" />
                 </div>
               </div>
             </div>
